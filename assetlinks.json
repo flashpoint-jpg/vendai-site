@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "app.vercel.vendai_site.twa",
+        "sha256_cert_fingerprints": ["DA:2B:52:AF:77:D5:61:44:48:5E:8C:92:44:18:B2:29:B3:BB:04:48:23:9E:6A:49:C5:0F:2D:49:72:3E:95:58"]
+      }
+    }]

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#1EA35A">
+<meta name="theme-color" content="#0F6B3D">
 <meta name="description" content="Vendaí — marketplace local para vender, comprar, negociar e trocar produtos com pessoas da sua região.">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -12,9 +12,8 @@
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
 <link rel="apple-touch-icon" href="/icon-192.png">
+<link rel="preload" href="/icon-192.png" as="image">
 <title>Vendaí — compre, venda e negocie</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root{
@@ -821,6 +820,207 @@
     .lightboxArrow{ width:40px; height:40px; font-size:24px; }
   }
 
+
+
+  /* ===== Vendaí Premium Mobile — versão final ===== */
+  :root{
+    --bg:#F4F7F5;
+    --card:#FFFFFF;
+    --ink:#112219;
+    --ink-soft:#66766E;
+    --green:#18A35B;
+    --green-dark:#0D693A;
+    --green-soft:#E9F7EF;
+    --yellow:#FFD24A;
+    --line:#E6ECE8;
+    --radius:20px;
+    --shadow:0 10px 30px rgba(18,52,34,.08);
+    --shadow-sm:0 4px 16px rgba(18,52,34,.06);
+  }
+  html{scroll-behavior:smooth;background:#E9EEEB;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overscroll-behavior-y:none;
+  }
+  .logo,.heroTitle,.cardPrice,.detailPrice,.detailTitle,.feedTitle,.moneyTag strong{
+    font-family:ui-rounded,"SF Pro Rounded","Segoe UI",Roboto,Arial,sans-serif !important;
+  }
+  #app{box-shadow:0 0 60px rgba(18,52,34,.06);}
+
+  header{
+    padding:calc(12px + env(safe-area-inset-top)) 16px 12px;
+    background:rgba(255,255,255,.96);
+    border-bottom:1px solid rgba(20,70,43,.07);
+    box-shadow:0 3px 18px rgba(18,52,34,.05);
+    backdrop-filter:saturate(140%) blur(10px);
+  }
+  .topRow{margin-bottom:10px;gap:10px;}
+  .logoGroup{gap:8px;min-width:0;}
+  .logoMark{width:32px;height:32px;filter:drop-shadow(0 5px 8px rgba(24,163,91,.16));}
+  .logo{font-size:22px;font-weight:800;letter-spacing:-.6px;}
+  .location{
+    max-width:48%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+    padding:7px 10px;font-size:11.5px;font-weight:700;background:#F1F7F3;color:var(--green-dark);
+    border:1px solid #E2ECE6;
+  }
+  .searchBar{
+    background:#F4F7F5;border:1px solid #E3EAE6;padding:10px 14px;border-radius:14px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+  }
+  .searchBar input{font-size:14px;}
+
+  .installHero{
+    margin:12px 16px 0;
+    display:flex;align-items:center;gap:11px;
+    padding:11px 11px 11px 12px;
+    border-radius:18px;
+    background:linear-gradient(135deg,#102C20 0%,#0F6B3D 68%,#179553 100%);
+    color:#fff;
+    box-shadow:0 12px 28px rgba(12,82,45,.20);
+    position:relative;overflow:hidden;
+  }
+  .installHero::after{
+    content:'';position:absolute;right:-22px;top:-34px;width:110px;height:110px;
+    border-radius:50%;background:rgba(255,210,74,.16);pointer-events:none;
+  }
+  .installAppIcon{
+    flex:0 0 auto;width:46px;height:46px;border-radius:14px;background:#fff;
+    display:grid;place-items:center;box-shadow:0 7px 16px rgba(0,0,0,.14);overflow:hidden;
+  }
+  .installAppIcon img{width:100%;height:100%;object-fit:cover;display:block;}
+  .installCopy{flex:1;min-width:0;position:relative;z-index:1;}
+  .installTitle{font-size:13.5px;font-weight:850;letter-spacing:-.2px;margin-bottom:2px;}
+  .installSub{font-size:10.5px;color:rgba(255,255,255,.72);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .installBtn{
+    flex:0 0 auto;position:relative;z-index:1;border:0;border-radius:12px;padding:10px 13px;
+    background:var(--yellow);color:#233018;font-weight:900;font-size:11.5px;cursor:pointer;
+    box-shadow:0 7px 16px rgba(0,0,0,.14);
+  }
+  .installBtn:active{transform:scale(.97);}
+
+  .heroTop{
+    margin:10px 16px 8px;border-radius:24px;min-height:0;
+    background:
+      radial-gradient(circle at 88% 12%,rgba(255,210,74,.28),transparent 26%),
+      linear-gradient(145deg,#0B6036 0%,#159152 58%,#23AB66 100%);
+    box-shadow:0 14px 34px rgba(15,96,54,.16);
+  }
+  .heroInner{padding:17px;grid-template-columns:1.16fr .84fr;gap:11px;min-height:186px;}
+  .heroEyebrow{font-size:9.5px;padding:5px 8px;margin-bottom:8px;background:rgba(255,255,255,.12);}
+  .heroTitle{font-size:24px;line-height:1.02;letter-spacing:-.8px;margin-bottom:8px;}
+  .heroText{font-size:11.3px;line-height:1.38;max-width:230px;margin-bottom:12px;color:rgba(255,255,255,.82);}
+  .heroActions{margin-bottom:0;gap:7px;}
+  .heroPrimary,.heroSecondary{min-height:36px;padding:0 12px;font-size:10.8px;}
+  .heroTags{display:none;}
+  .heroVisual{min-height:150px;align-items:center;}
+  .heroMosaic{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:62px;gap:8px;padding:0;}
+  .heroTile{border-radius:14px;border:2px solid rgba(255,255,255,.9);box-shadow:0 7px 16px rgba(8,62,34,.18);}
+  .heroTile:nth-child(n+5){display:none;}
+  .heroTile span{left:4px;right:4px;bottom:4px;min-height:18px;font-size:8px;padding:2px 4px;}
+  .heroTile img{filter:saturate(.92) contrast(1.02);}
+  .moneyTag{display:none;}
+
+  .chipRow{padding:9px 16px 7px;gap:7px;}
+  .chip{font-size:11.5px;padding:7px 12px;border-width:1px;box-shadow:0 2px 8px rgba(18,52,34,.03);}
+  .chip.active{box-shadow:0 6px 14px rgba(24,163,91,.16);}
+
+  main{padding:10px 16px calc(94px + env(safe-area-inset-bottom));}
+  .supportHome{
+    border:1px solid #E9E4C8;background:linear-gradient(135deg,#FFFDF4,#FFF8D9);
+    box-shadow:none;border-radius:16px;padding:10px 12px;margin-bottom:10px;
+  }
+  .supportHomeIcon{width:34px;height:34px;border-radius:11px;font-size:16px;background:#fff;box-shadow:0 4px 12px rgba(104,83,0,.06);}
+  .supportHomeTitle{font-size:12.5px;color:#5C4B06;}
+  .supportHomeSub{font-size:10.5px;color:#8A7A42;}
+  .supportHomeArrow{color:#A48810;}
+
+  .infoBanner{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:6px;
+    background:transparent;padding:0;margin:0 0 16px;border-radius:0;
+  }
+  .infoClose,.infoTitle,.infoNote{display:none;}
+  .infoStep{
+    margin:0;display:flex;flex-direction:column;gap:4px;align-items:flex-start;
+    min-height:62px;padding:10px 9px;background:#fff;border:1px solid var(--line);
+    border-radius:14px;font-size:9.8px;line-height:1.25;color:#53635B;box-shadow:0 3px 12px rgba(18,52,34,.035);
+  }
+  .stepNum{width:20px;height:20px;margin:0;background:var(--green-soft);color:var(--green-dark);font-size:10px;}
+
+  .feedTitle{font-size:18px;font-weight:800;letter-spacing:-.4px;margin:0 0 10px;}
+  .grid{gap:10px;}
+  .card{
+    border-radius:18px;border:1px solid #E8EDE9;box-shadow:0 6px 18px rgba(18,52,34,.055);
+    background:#fff;
+  }
+  .thumb{height:auto;aspect-ratio:1.22/1;font-size:34px;background:#EFF4F1 !important;}
+  .thumb img{transition:transform .2s ease;}
+  .card:active .thumb img{transform:scale(1.02);}
+  .cardBody{padding:10px 10px 12px;}
+  .cardTitle{font-size:12.5px;font-weight:720;line-height:1.25;margin-bottom:5px;}
+  .cardPrice{font-size:16px;font-weight:850;letter-spacing:-.3px;margin-bottom:4px;}
+  .cardMeta{font-size:9.8px;color:#7B8A82;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+  .fab{display:none !important;}
+  nav{
+    left:max(0px,calc((100vw - var(--app-width))/2));right:max(0px,calc((100vw - var(--app-width))/2));
+    padding:7px 9px calc(7px + env(safe-area-inset-bottom));
+    border-top:1px solid rgba(20,70,43,.07);
+    box-shadow:0 -8px 30px rgba(18,52,34,.08);
+    border-radius:20px 20px 0 0;
+    background:rgba(255,255,255,.97);
+    backdrop-filter:saturate(150%) blur(12px);
+  }
+  nav button{padding:5px 4px 3px;min-height:49px;font-size:9.5px;font-weight:650;gap:2px;border-radius:14px;position:relative;}
+  nav button .ic{font-size:19px;line-height:1;}
+  nav button.active{color:var(--green-dark);background:var(--green-soft);}
+  nav button:nth-child(3){
+    margin-top:-22px;min-height:62px;max-width:74px;background:var(--green);color:#fff !important;
+    border:5px solid #fff;border-radius:22px;box-shadow:0 9px 20px rgba(24,163,91,.26);font-weight:800;
+  }
+  nav button:nth-child(3) .ic{font-size:24px;}
+  .msgBadge{top:1px !important;right:18% !important;}
+
+  .sheet{border-radius:26px 26px 0 0;padding:16px 17px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -20px 50px rgba(8,35,22,.12);}
+  .sheetHandle{background:#D8E2DC;width:44px;height:5px;border-radius:99px;}
+  input[type=text],input[type=number],input[type=password],select,textarea{border-radius:14px !important;border:1px solid #DDE6E0 !important;background:#fff !important;}
+  .publishBtn{border-radius:14px;box-shadow:0 8px 18px rgba(232,168,0,.18);}
+
+  .apkNote{
+    display:none;margin:0 16px 10px;padding:10px 12px;border-radius:14px;
+    background:#EEF8F2;color:#356149;font-size:10.5px;line-height:1.35;border:1px solid #DCEEE4;
+  }
+  .apkNote.show{display:block;}
+
+  @media (max-width:380px){
+    .installHero{margin-left:12px;margin-right:12px;gap:8px;padding:9px;}
+    .installAppIcon{width:42px;height:42px;border-radius:12px;}
+    .installTitle{font-size:12px;}.installSub{font-size:9.5px;}.installBtn{padding:9px 10px;font-size:10.5px;}
+    .heroTop{margin-left:12px;margin-right:12px;}
+    .heroInner{padding:14px;grid-template-columns:1.18fr .82fr;min-height:172px;}
+    .heroTitle{font-size:21px;}.heroText{font-size:10.4px;}.heroMosaic{grid-auto-rows:55px;gap:6px;}
+    .chipRow{padding-left:12px;padding-right:12px;} main{padding-left:12px;padding-right:12px;}
+  }
+  @media (min-width:760px){
+    header{padding-left:40px;padding-right:40px;}
+    .installHero{margin-left:40px;margin-right:40px;padding:13px 15px;}
+    .heroTop{margin-left:40px;margin-right:40px;}
+    .heroInner{min-height:220px;padding:24px 28px;grid-template-columns:1fr .64fr;}
+    .heroTitle{font-size:38px;max-width:460px;}.heroText{font-size:14px;max-width:450px;}
+    .heroVisual{max-width:330px;margin-left:auto;width:100%;}.heroMosaic{grid-auto-rows:88px;gap:10px;}
+    .chipRow{padding-left:40px;padding-right:40px;}main{padding-left:40px;padding-right:40px;}
+    .grid{grid-template-columns:repeat(auto-fill,minmax(190px,1fr)) !important;}
+  }
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto !important;transition:none !important;animation:none !important;}}
+
+  .heroTile::before{
+    content:attr(data-icon);position:absolute;inset:0;display:grid;place-items:center;
+    font-size:28px;background:linear-gradient(145deg,#F4F8F5,#E8F1EB);z-index:0;
+  }
+  .heroTile img{position:relative;z-index:1;background:#EEF4F0;}
+  .heroTile span{z-index:2;}
+
 </style>
 </head>
 <body>
@@ -829,7 +1029,7 @@
   <header>
     <div class="topRow">
       <div class="logoGroup">
-        <svg class="logoMark" width="34" height="34" viewBox="0 0 40 40">
+        <svg class="logoMark" width="34" height="34" viewBox="0 0 40 40" aria-label="Vendaí">
           <rect x="2" y="2" width="36" height="36" rx="12" fill="var(--green)"/>
           <path d="M13 16 L20 27 L27 16" stroke="var(--yellow)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
           <circle cx="27" cy="13" r="3" fill="var(--yellow)"/>
@@ -839,38 +1039,39 @@
       <button class="location" onclick="openLocationSheet()" id="locationBtn">📍 Toda a região ▾</button>
     </div>
     <div class="searchBar">
-      <span>🔍</span>
-      <input id="searchInput" type="text" placeholder="Buscar sofá, bicicleta, celular...">
+      <span>⌕</span>
+      <input id="searchInput" type="text" placeholder="Buscar celular, carro, móveis..." autocomplete="off">
     </div>
   </header>
 
-  <section class="heroTop" aria-label="Venda, troca e renda extra">
+  <section class="installHero" id="installHero" aria-label="Instalar aplicativo Vendaí">
+    <div class="installAppIcon"><img src="/icon-192.png" alt="Ícone do Vendaí" width="46" height="46"></div>
+    <div class="installCopy">
+      <div class="installTitle">Leve o Vendaí no celular</div>
+      <div class="installSub">Android • app leve • acesso rápido</div>
+    </div>
+    <button class="installBtn" type="button" onclick="instalarVendaI()">⬇ Instalar app</button>
+  </section>
+  <div class="apkNote" id="apkNote">Se o Android pedir autorização, permita instalar apps deste navegador para concluir a instalação.</div>
+
+  <section class="heroTop" aria-label="Comprar, vender e negociar">
     <div class="heroInner">
       <div class="heroCopy">
-        <div class="heroEyebrow">✨ Celular, relógio, carro, casa e mais</div>
-        <h1 class="heroTitle">Venda, troque e faça uma <em>renda extra.</em></h1>
-        <div class="heroText">Anuncie celular, relógio, eletrônicos, carro, itens de casa e até máquinas. Tudo em um só lugar, negociando direto com quem quer comprar.</div>
+        <div class="heroEyebrow">✨ Marketplace perto de você</div>
+        <h1 class="heroTitle">Compre bem.<br><em>Venda rápido.</em></h1>
+        <div class="heroText">Celular, carro, casa, eletrônicos e muito mais. Anuncie grátis e negocie direto pelo chat.</div>
         <div class="heroActions">
-          <button class="heroPrimary" onclick="openPostSheet()">＋ Quero vender</button>
-          <button class="heroSecondary" onclick="document.getElementById('grid').scrollIntoView({behavior:'smooth'})">Ver ofertas</button>
-        </div>
-        <div class="heroTags">
-          <span>📱 Eletrônicos</span>
-          <span>🚗 Carros</span>
-          <span>🏠 Casa</span>
-          <span>🛠️ Máquinas</span>
+          <button class="heroPrimary" onclick="openPostSheet()">＋ Anunciar grátis</button>
+          <button class="heroSecondary" onclick="document.getElementById('grid').scrollIntoView({behavior:'smooth'})">Explorar</button>
         </div>
       </div>
       <div class="heroVisual" aria-hidden="true">
         <div class="heroMosaic">
-          <div class="heroTile t1"><img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=500&q=80" alt=""><span>Celular</span></div>
-          <div class="heroTile t2"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=500&q=80" alt=""><span>Relógio</span></div>
-          <div class="heroTile t3"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=500&q=80" alt=""><span>Carro</span></div>
-          <div class="heroTile t4"><img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=500&q=80" alt=""><span>Casa</span></div>
-          <div class="heroTile t5"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=500&q=80" alt=""><span>Eletrônicos</span></div>
-          <div class="heroTile t6"><img src="https://images.unsplash.com/photo-1581092335397-9583eb92d232?auto=format&fit=crop&w=500&q=80" alt=""><span>Máquinas</span></div>
+          <div class="heroTile t1" data-icon="📱"><img loading="eager" fetchpriority="low" decoding="async" src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=280&q=58" alt="" onerror="this.style.display='none'"><span>Celular</span></div>
+          <div class="heroTile t2" data-icon="⌚"><img loading="eager" fetchpriority="low" decoding="async" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=280&q=58" alt="" onerror="this.style.display='none'"><span>Relógio</span></div>
+          <div class="heroTile t3" data-icon="🚗"><img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=280&q=58" alt="" onerror="this.style.display='none'"><span>Carro</span></div>
+          <div class="heroTile t4" data-icon="🏠"><img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=280&q=58" alt="" onerror="this.style.display='none'"><span>Casa</span></div>
         </div>
-        <div class="moneyTag">Anuncie de tudo<strong>em um só lugar</strong></div>
       </div>
     </div>
   </section>
@@ -881,8 +1082,8 @@
     <div class="supportHome" onclick="openSupportSheet()">
       <div class="supportHomeIcon">🧪</div>
       <div class="supportHomeText">
-        <div class="supportHomeTitle">Suporte e sugestões</div>
-        <div class="supportHomeSub">Achou defeito, algo estranho ou tem uma ideia? Avise a gente durante o teste.</div>
+        <div class="supportHomeTitle">Ajude a melhorar o Vendaí</div>
+        <div class="supportHomeSub">Encontrou um erro ou tem uma sugestão? Fale com a gente.</div>
       </div>
       <div class="supportHomeArrow">›</div>
     </div>
@@ -890,9 +1091,9 @@
     <div class="infoBanner" id="infoBanner">
       <button class="infoClose" onclick="document.getElementById('infoBanner').style.display='none'">✕</button>
       <div class="infoTitle">Como funciona o Vendaí</div>
-      <div class="infoStep"><span class="stepNum">1</span> Anuncie grátis, sem mensalidade e sem taxa pra vender</div>
-      <div class="infoStep"><span class="stepNum">2</span> Quem tiver interesse te chama direto pelo chat</div>
-      <div class="infoStep"><span class="stepNum">3</span> Quer vender mais rápido? Destaque o anúncio por uma taxinha (opcional)</div>
+      <div class="infoStep"><span class="stepNum">1</span> Anuncie grátis</div>
+      <div class="infoStep"><span class="stepNum">2</span> Converse pelo chat</div>
+      <div class="infoStep"><span class="stepNum">3</span> Receba e faça ofertas</div>
       <div class="infoNote">🌱 Estamos testando a versão gratuita por enquanto</div>
     </div>
 
@@ -908,7 +1109,7 @@
   <nav>
     <button class="active"><span class="ic">🏠</span>Início</button>
     <button onclick="alert('Só a tela de início está funcionando neste teste.')"><span class="ic">🗂️</span>Categorias</button>
-    <button onclick="openPostSheet()"><span class="ic">➕</span>Anunciar</button>
+    <button onclick="openPostSheet()" aria-label="Anunciar"><span class="ic">＋</span>Anunciar</button>
     <button class="navMsgBtn" onclick="abrirConversas()"><span class="ic">💬</span><span class="msgBadge" id="msgBadge">0</span>Conversas</button>
     <button onclick="openProfileSheet()"><span class="ic">👤</span>Perfil</button>
   </nav>
@@ -1783,6 +1984,45 @@ async function enviarSuporte(){
   showToast('Relato enviado ao suporte ✓');
 }
 
+
+let deferredInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', (event) => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+});
+
+async function instalarVendaI(){
+  prepararSom();
+  // Se o navegador oferecer instalação PWA nativa, ela é a experiência mais limpa.
+  if(deferredInstallPrompt){
+    try{
+      deferredInstallPrompt.prompt();
+      const choice = await deferredInstallPrompt.userChoice;
+      if(choice && choice.outcome === 'accepted'){
+        deferredInstallPrompt = null;
+        showToast('Vendaí instalado ✓');
+        return;
+      }
+    }catch(e){}
+  }
+  // APK oficial de teste incluído no pacote.
+  const note = document.getElementById('apkNote');
+  if(note) note.classList.add('show');
+  showToast('Baixando o app Vendaí…');
+  const a=document.createElement('a');
+  a.href='/vendai.apk?v=final-20260909';
+  a.download='vendai.apk';
+  a.rel='noopener';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+window.addEventListener('appinstalled', ()=>{
+  const box=document.getElementById('installHero');
+  if(box) box.style.display='none';
+});
+
 function showToast(msg){
   const toast = document.getElementById('toast');
   document.getElementById('toastMsg').textContent = msg;
@@ -1808,6 +2048,14 @@ document.addEventListener('keydown', (e)=>{
 restaurarSessao();
 renderChips();
 carregarAnuncios();
+
+// Atalhos do ícone instalado.
+try{
+  const acao = new URLSearchParams(location.search).get('action');
+  if(acao==='anunciar') setTimeout(()=>openPostSheet(), 350);
+  if(acao==='conversas') setTimeout(()=>abrirConversas(), 350);
+}catch(e){}
+
 </script>
 
 <script>

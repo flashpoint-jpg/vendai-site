@@ -1,16 +1,9 @@
-VENDAÍ PWA - PACOTE CORRIGIDO PARA PWABUILDER
+Vendaí — versão premium final
 
-Suba TODOS estes arquivos na RAIZ do projeto Vercel.
-Não coloque os ícones dentro de outra pasta.
+PUBLICAÇÃO NO VERCEL
+1. Envie todos os arquivos desta pasta para a raiz do projeto.
+2. O botão “Instalar app” usa a instalação PWA quando disponível e, como alternativa, baixa /vendai.apk.
+3. O APK está incluído como vendai.apk.
+4. O pacote público NÃO inclui chave de assinatura nem arquivos de segredo. Guarde suas chaves de assinatura fora do site.
 
-Arquivos principais:
-- index.html
-- manifest.webmanifest
-- manifest.json
-- sw.js
-- offline.html
-- vercel.json
-- icon-*.png
-- shortcut-*.png
-
-Depois de publicar, abra o site uma vez e faça um novo teste no PWABuilder.
+Esta versão mantém chat, ofertas, galeria, suporte, conta e anúncios da versão anterior.

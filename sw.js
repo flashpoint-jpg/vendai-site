@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vendai-pwa-v2-20260909';
+const CACHE_NAME = 'vendai-pwa-premium-final-20260909';
 const APP_SHELL = [
   '/',
   '/index.html',
@@ -27,6 +27,7 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const req = event.request;
   if (req.method !== 'GET') return;
+  if (new URL(req.url).pathname.endsWith('.apk')) return;
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
 

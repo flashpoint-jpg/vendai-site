@@ -1,0 +1,16 @@
+VENDAÍ PWA - PACOTE CORRIGIDO PARA PWABUILDER
+
+Suba TODOS estes arquivos na RAIZ do projeto Vercel.
+Não coloque os ícones dentro de outra pasta.
+
+Arquivos principais:
+- index.html
+- manifest.webmanifest
+- manifest.json
+- sw.js
+- offline.html
+- vercel.json
+- icon-*.png
+- shortcut-*.png
+
+Depois de publicar, abra o site uma vez e faça um novo teste no PWABuilder.

@@ -23,6 +23,14 @@
     --radius-sm: 12px;
     --shadow: 0 6px 20px rgba(18,40,28,0.08);
     --shadow-sm: 0 2px 8px rgba(18,40,28,0.06);
+    --app-width: 430px;
+  }
+  @media (min-width: 760px){
+    :root{ --app-width: 1100px; }
+    .grid{ grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)) !important; }
+    .fab{ padding: 0 40px; }
+    nav{ justify-content:center; }
+    nav button{ flex:0 0 auto; padding-left:26px; padding-right:26px; }
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -35,7 +43,7 @@
   }
   #app{
     width:100%;
-    max-width:430px;
+    max-width:var(--app-width);
     min-height:100vh;
     background: var(--bg);
     position:relative;
@@ -215,7 +223,7 @@
   /* FAB */
   .fab{
     position:fixed;
-    max-width:430px;
+    max-width:var(--app-width);
     margin:0 auto;
     left:0; right:0;
     bottom:82px;
@@ -243,7 +251,7 @@
   /* Bottom nav */
   nav{
     position:fixed;
-    max-width:430px;
+    max-width:var(--app-width);
     margin:0 auto;
     left:0; right:0;
     bottom:0;
@@ -269,7 +277,7 @@
   /* Overlays */
   .overlay{
     position:fixed; inset:0;
-    max-width:430px; margin:0 auto;
+    max-width:var(--app-width); margin:0 auto;
     background: rgba(18,32,24,0.45);
     z-index:50;
     display:none;
@@ -380,7 +388,7 @@
 
   .toast{
     position:fixed;
-    max-width:430px; margin:0 auto; left:0; right:0;
+    max-width:var(--app-width); margin:0 auto; left:0; right:0;
     bottom:104px;
     display:flex; justify-content:center;
     z-index:60;
@@ -411,6 +419,31 @@
   .cityOption.active{ color: var(--green-dark); font-weight:700; }
   .cityCheck{ color: var(--green); font-size:16px; visibility:hidden; }
   .cityOption.active .cityCheck{ visibility:visible; }
+
+  .msgBubble{
+    max-width:78%;
+    padding:9px 13px;
+    border-radius:14px;
+    font-size:13.5px;
+    line-height:1.4;
+  }
+  .msgBubble.mine{
+    align-self:flex-end;
+    background: var(--green);
+    color:#fff;
+    border-bottom-right-radius:4px;
+  }
+  .msgBubble.theirs{
+    align-self:flex-start;
+    background: var(--card);
+    color: var(--ink);
+    box-shadow: var(--shadow-sm);
+    border-bottom-left-radius:4px;
+  }
+  .fotoThumbPreview{
+    width:56px; height:56px; border-radius:10px; object-fit:cover;
+    border:1.5px solid #E2E9E3;
+  }
 </style>
 </head>
 <body>
@@ -459,9 +492,33 @@
     <button class="active"><span class="ic">🏠</span>Início</button>
     <button onclick="alert('Só a tela de início está funcionando neste teste.')"><span class="ic">🗂️</span>Categorias</button>
     <button onclick="openPostSheet()"><span class="ic">➕</span>Anunciar</button>
-    <button onclick="alert('Só a tela de início está funcionando neste teste.')"><span class="ic">💬</span>Conversas</button>
+    <button onclick="abrirConversas()"><span class="ic">💬</span>Conversas</button>
     <button onclick="openProfileSheet()"><span class="ic">👤</span>Perfil</button>
   </nav>
+
+  <!-- Chat sheet -->
+  <div class="overlay" id="chatOverlay" onclick="closeOverlayBg(event,'chatOverlay')">
+    <div class="sheet" style="position:relative; height:75vh; display:flex; flex-direction:column; padding-bottom:12px;" onclick="event.stopPropagation()">
+      <button class="closeBtn" onclick="fecharChat()">✕</button>
+      <div class="sheetHandle"></div>
+      <div id="chatHeader" style="font-weight:600; font-size:14.5px; margin-bottom:10px; padding-right:30px;"></div>
+      <div id="chatMensagens" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:8px; padding:4px 2px 10px;"></div>
+      <div style="display:flex; gap:8px;">
+        <input type="text" id="chatInput" placeholder="Escreva sua mensagem..." style="flex:1;" onkeydown="if(event.key==='Enter') enviarMensagem()">
+        <button style="background:var(--green); color:#fff; border:none; border-radius:12px; padding:0 16px; font-weight:700; cursor:pointer;" onclick="enviarMensagem()">Enviar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conversas sheet -->
+  <div class="overlay" id="conversasOverlay" onclick="closeOverlayBg(event,'conversasOverlay')">
+    <div class="sheet" style="position:relative;" onclick="event.stopPropagation()">
+      <button class="closeBtn" onclick="closeSheet('conversasOverlay')">✕</button>
+      <div class="sheetHandle"></div>
+      <div class="detailTitle" style="margin-bottom:12px;">Conversas</div>
+      <div id="listaConversas"></div>
+    </div>
+  </div>
 
   <!-- Location sheet -->
   <div class="overlay" id="locationOverlay" onclick="closeOverlayBg(event,'locationOverlay')">
@@ -538,9 +595,11 @@
       <label>Descrição</label>
       <textarea id="fDesc" placeholder="Conte o estado do item, tempo de uso, motivo da venda..."></textarea>
 
-      <div class="photoBox" onclick="alert('Neste teste o upload de foto é só ilustrativo.')">📷 Toque pra adicionar fotos</div>
+      <div class="photoBox" id="photoBox" onclick="document.getElementById('fFoto').click()">📷 Toque pra adicionar fotos</div>
+      <input type="file" id="fFoto" accept="image/*" multiple style="display:none;" onchange="previewFotos()">
+      <div id="fotoPreview" style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;"></div>
 
-      <button class="publishBtn" onclick="publishAd()">Publicar anúncio</button>
+      <button class="publishBtn" id="btnPublicar" onclick="publishAd()">Publicar anúncio</button>
     </div>
   </div>
 
@@ -582,6 +641,10 @@ let activeCategory = 'todos';
 let searchTerm = '';
 let currentUser = null;
 let pendingAction = null;
+let pendingChat = null;
+let currentChat = null;
+let chatPollingInterval = null;
+let selectedFotos = [];
 
 function openLoginSheet(){
   document.getElementById('loginOverlay').classList.add('show');
@@ -626,6 +689,14 @@ async function entrar(){
   } else if(pendingAction === 'profile'){
     pendingAction = null;
     openProfileSheet();
+  } else if(pendingAction === 'conversas'){
+    pendingAction = null;
+    abrirConversas();
+  } else if(pendingAction === 'chat' && pendingChat){
+    pendingAction = null;
+    const c = pendingChat;
+    pendingChat = null;
+    iniciarChat(c.anuncioId, c.titulo, c.outroTelefone, c.outroNome);
   }
 }
 
@@ -795,9 +866,11 @@ function renderGrid(){
     card.className = 'card';
     card.onclick = () => openDetail(ad.id);
     card.innerHTML = `
-      <div class="thumb" style="background:${CATEGORY_COLOR[ad.categoria]}; position:relative;">
+      <div class="thumb" style="background:${CATEGORY_COLOR[ad.categoria]}; position:relative; padding:0; overflow:hidden;">
+        ${ad.fotos && ad.fotos.length>0
+          ? `<img src="${ad.fotos[0]}" style="width:100%;height:100%;object-fit:cover;">`
+          : CATEGORY_ICON[ad.categoria]}
         ${ad.destaque ? '<div style="position:absolute; top:8px; left:8px; background:var(--yellow); border-radius:8px; font-size:9.5px; font-weight:700; padding:3px 7px; color:var(--ink);">🔥 Destaque</div>' : ''}
-        ${CATEGORY_ICON[ad.categoria]}
       </div>
       <div class="cardBody">
         <div class="cardTitle">${ad.titulo}</div>
@@ -813,7 +886,11 @@ function openDetail(id){
   const ad = ads.find(a=>a.id===id);
   const content = document.getElementById('detailContent');
   content.innerHTML = `
-    <div class="detailThumb" style="background:${CATEGORY_COLOR[ad.categoria]}">${CATEGORY_ICON[ad.categoria]}</div>
+    <div class="detailThumb" style="background:${CATEGORY_COLOR[ad.categoria]}; padding:0; overflow:hidden;">
+      ${ad.fotos && ad.fotos.length>0
+        ? `<img src="${ad.fotos[0]}" style="width:100%;height:100%;object-fit:cover;">`
+        : CATEGORY_ICON[ad.categoria]}
+    </div>
     <div class="detailTitle">${ad.titulo}</div>
     <div class="detailPrice">${formatPrice(ad.preco)}</div>
     <div class="detailMeta">${ad.cidade} · publicado ${tempoDecorrido(ad.criado_em)}</div>
@@ -826,7 +903,7 @@ function openDetail(id){
       </div>
     </div>
     <div class="btnRow">
-      <div class="btnPrimary" onclick="showToast('Chat ainda não existe neste teste 🙂')">💬 Chamar no chat</div>
+      <div class="btnPrimary" onclick="iniciarChat('${ad.id}','${ad.titulo.replace(/'/g,"\\'")}','${ad.vendedor_telefone||''}','${(ad.vendedor_nome||'Anônimo').replace(/'/g,"\\'")}')">💬 Chamar no chat</div>
       <div class="btnGhost" onclick="showToast('Denúncia registrada (simulação)')">🚩 Denunciar</div>
     </div>
     ${(!ad.destaque && currentUser && currentUser.telefone===ad.vendedor_telefone) ? `<div class="publishBtn" style="margin-top:12px; background:var(--card); border:1.5px solid #E2E9E3; box-shadow:none; color:var(--green-dark);" onclick="destacarAnuncio('${ad.id}')">🏷️ Destacar este anúncio — ${formatPrice(PRECO_DESTAQUE)}</div>` : ''}
@@ -880,13 +957,34 @@ async function publishAd(){
     return;
   }
 
+  const btn = document.getElementById('btnPublicar');
+  btn.textContent = 'Publicando...';
+  btn.style.opacity = '0.65';
+  btn.style.pointerEvents = 'none';
+
+  let fotosUrls = [];
+  for(const file of selectedFotos){
+    const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+    const path = `${Date.now()}-${Math.random().toString(36).slice(2,8)}.${ext}`;
+    const { error: upErr } = await sb.storage.from('vendai-fotos').upload(path, file);
+    if(!upErr){
+      const { data: pub } = sb.storage.from('vendai-fotos').getPublicUrl(path);
+      fotosUrls.push(pub.publicUrl);
+    }
+  }
+
   const { error } = await sb.from('vendai_anuncios').insert({
     titulo, preco, categoria,
     descricao: descricao || null,
     cidade: 'Muzambinho, MG',
     vendedor_nome: currentUser.nome,
-    vendedor_telefone: currentUser.telefone
+    vendedor_telefone: currentUser.telefone,
+    fotos: fotosUrls
   });
+
+  btn.textContent = 'Publicar anúncio';
+  btn.style.opacity = '1';
+  btn.style.pointerEvents = 'auto';
 
   if(error){
     console.error(error);
@@ -897,12 +995,158 @@ async function publishAd(){
   document.getElementById('fTitle').value='';
   document.getElementById('fPrice').value='';
   document.getElementById('fDesc').value='';
+  document.getElementById('fFoto').value='';
+  document.getElementById('fotoPreview').innerHTML='';
+  document.getElementById('photoBox').textContent='📷 Toque pra adicionar fotos';
+  selectedFotos = [];
 
   closeSheet('postOverlay');
   activeCategory = 'todos';
   renderChips();
   await carregarAnuncios();
   showToast('Anúncio publicado ✓');
+}
+
+function previewFotos(){
+  selectedFotos = Array.from(document.getElementById('fFoto').files);
+  const preview = document.getElementById('fotoPreview');
+  preview.innerHTML = '';
+  selectedFotos.forEach(file=>{
+    const img = document.createElement('img');
+    img.src = URL.createObjectURL(file);
+    img.className = 'fotoThumbPreview';
+    preview.appendChild(img);
+  });
+  document.getElementById('photoBox').textContent = selectedFotos.length>0
+    ? `📷 ${selectedFotos.length} foto(s) selecionada(s) — toque pra trocar`
+    : '📷 Toque pra adicionar fotos';
+}
+
+async function iniciarChat(anuncioId, titulo, outroTelefone, outroNome){
+  if(!currentUser){
+    pendingChat = { anuncioId, titulo, outroTelefone, outroNome };
+    pendingAction = 'chat';
+    openLoginSheet();
+    return;
+  }
+  if(!outroTelefone){
+    showToast('Esse anúncio não tem telefone de contato cadastrado');
+    return;
+  }
+  if(outroTelefone === currentUser.telefone){
+    showToast('Esse é o seu próprio anúncio 🙂');
+    return;
+  }
+
+  currentChat = { anuncioId, titulo, outroTelefone, outroNome };
+  document.getElementById('chatHeader').textContent = outroNome + ' · ' + titulo;
+  closeSheet('detailOverlay');
+  closeSheet('conversasOverlay');
+  document.getElementById('chatOverlay').classList.add('show');
+  await carregarMensagens();
+  if(chatPollingInterval) clearInterval(chatPollingInterval);
+  chatPollingInterval = setInterval(carregarMensagens, 4000);
+}
+
+function fecharChat(){
+  closeSheet('chatOverlay');
+  if(chatPollingInterval){ clearInterval(chatPollingInterval); chatPollingInterval = null; }
+  currentChat = null;
+}
+
+async function carregarMensagens(){
+  if(!currentChat) return;
+  const { data, error } = await sb.from('vendai_mensagens')
+    .select('*')
+    .eq('anuncio_id', currentChat.anuncioId)
+    .or(`and(remetente_telefone.eq.${currentUser.telefone},destinatario_telefone.eq.${currentChat.outroTelefone}),and(remetente_telefone.eq.${currentChat.outroTelefone},destinatario_telefone.eq.${currentUser.telefone})`)
+    .order('criado_em', { ascending: true });
+
+  if(error) return;
+  const box = document.getElementById('chatMensagens');
+  box.innerHTML = '';
+  if(data.length===0){
+    box.innerHTML = '<div style="text-align:center; color:var(--ink-soft); font-size:12.5px; margin-top:20px;">Envie a primeira mensagem</div>';
+    return;
+  }
+  data.forEach(m=>{
+    const bubble = document.createElement('div');
+    bubble.className = 'msgBubble ' + (m.remetente_telefone===currentUser.telefone ? 'mine' : 'theirs');
+    bubble.textContent = m.texto;
+    box.appendChild(bubble);
+  });
+  box.scrollTop = box.scrollHeight;
+}
+
+async function enviarMensagem(){
+  const input = document.getElementById('chatInput');
+  const texto = input.value.trim();
+  if(!texto || !currentChat) return;
+  input.value = '';
+  await sb.from('vendai_mensagens').insert({
+    anuncio_id: currentChat.anuncioId,
+    anuncio_titulo: currentChat.titulo,
+    remetente_telefone: currentUser.telefone,
+    remetente_nome: currentUser.nome,
+    destinatario_telefone: currentChat.outroTelefone,
+    texto
+  });
+  await carregarMensagens();
+}
+
+async function abrirConversas(){
+  if(!currentUser){
+    pendingAction = 'conversas';
+    openLoginSheet();
+    return;
+  }
+
+  const box = document.getElementById('listaConversas');
+  const { data, error } = await sb.from('vendai_mensagens')
+    .select('*')
+    .or(`remetente_telefone.eq.${currentUser.telefone},destinatario_telefone.eq.${currentUser.telefone}`)
+    .order('criado_em', { ascending: true });
+
+  if(error){
+    box.innerHTML = '<div class="emptyMsg">Não consegui carregar as conversas.</div>';
+    document.getElementById('conversasOverlay').classList.add('show');
+    return;
+  }
+  if(!data || data.length===0){
+    box.innerHTML = '<div style="text-align:center; color:var(--ink-soft); padding:30px 10px; font-size:13.5px;">Nenhuma conversa ainda. Chame alguém pelo chat de um anúncio.</div>';
+    document.getElementById('conversasOverlay').classList.add('show');
+    return;
+  }
+
+  const nomePorTelefone = {};
+  data.forEach(m=>{ if(m.remetente_nome) nomePorTelefone[m.remetente_telefone] = m.remetente_nome; });
+
+  const ultimaPorConversa = {};
+  data.forEach(m=>{
+    const outro = m.remetente_telefone===currentUser.telefone ? m.destinatario_telefone : m.remetente_telefone;
+    ultimaPorConversa[m.anuncio_id + '|' + outro] = { ...m, outro };
+  });
+
+  const lista = Object.values(ultimaPorConversa).sort((a,b)=> new Date(b.criado_em) - new Date(a.criado_em));
+
+  box.innerHTML = '';
+  lista.forEach(m=>{
+    const nome = nomePorTelefone[m.outro] || 'Usuário';
+    const row = document.createElement('div');
+    row.className = 'sellerRow';
+    row.style.cursor = 'pointer';
+    row.style.marginBottom = '10px';
+    row.onclick = () => iniciarChat(m.anuncio_id, m.anuncio_titulo || 'Anúncio', m.outro, nome);
+    row.innerHTML = `
+      <div class="sellerAvatar">🙂</div>
+      <div style="flex:1; min-width:0;">
+        <div class="sellerName">${nome} · ${m.anuncio_titulo||''}</div>
+        <div class="sellerLoc" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${m.texto}</div>
+      </div>
+    `;
+    box.appendChild(row);
+  });
+  document.getElementById('conversasOverlay').classList.add('show');
 }
 
 function showToast(msg){

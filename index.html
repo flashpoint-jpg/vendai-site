@@ -179,6 +179,25 @@
     display:flex;
     flex-wrap:wrap;
     gap:8px;
+    margin-bottom:12px;
+  }
+  .heroTags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+  }
+  .heroTags span{
+    display:inline-flex;
+    align-items:center;
+    min-height:26px;
+    padding:0 10px;
+    border-radius:999px;
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.16);
+    color:#F4FFF7;
+    font-size:10.5px;
+    font-weight:700;
+    white-space:nowrap;
   }
   .heroPrimary, .heroSecondary{
     border:none;
@@ -202,16 +221,17 @@
   }
   .heroVisual{
     position:relative;
-    min-height:174px;
+    min-height:176px;
     display:flex;
-    align-items:flex-end;
+    align-items:center;
   }
   .heroMosaic{
     width:100%;
     display:grid;
     grid-template-columns:repeat(2, minmax(0,1fr));
-    gap:9px;
-    padding:0 0 28px 0;
+    grid-auto-rows:70px;
+    gap:10px;
+    padding:0 0 18px 0;
   }
   .heroTile{
     position:relative;
@@ -220,12 +240,12 @@
     border:2px solid rgba(255,255,255,.88);
     box-shadow:0 10px 24px rgba(7,51,28,.24);
     background:#fff;
-    min-height:60px;
   }
   .heroTile img{
     width:100%;
     height:100%;
     object-fit:cover;
+    object-position:center;
     display:block;
   }
   .heroTile span{
@@ -238,7 +258,7 @@
     align-items:center;
     min-height:20px;
     border-radius:999px;
-    background:rgba(255,255,255,.92);
+    background:rgba(255,255,255,.94);
     color:var(--ink);
     font-size:9.5px;
     font-weight:800;
@@ -247,16 +267,16 @@
     line-height:1.1;
     box-shadow:0 4px 10px rgba(0,0,0,.08);
   }
-  .heroTile.t1{ transform:rotate(-4deg) translateY(10px); }
-  .heroTile.t2{ transform:rotate(5deg); }
+  .heroTile.t1{ transform:rotate(-4deg) translateY(4px); }
+  .heroTile.t2{ transform:rotate(4deg) translateY(-2px); }
   .heroTile.t3{ transform:rotate(-2deg); }
-  .heroTile.t4{ transform:rotate(4deg) translateY(-4px); }
-  .heroTile.t5{ transform:rotate(3deg) translateY(4px); }
-  .heroTile.t6{ transform:rotate(-4deg) translateY(-6px); }
+  .heroTile.t4{ transform:rotate(3deg) translateY(-4px); }
+  .heroTile.t5{ transform:rotate(2deg) translateY(2px); }
+  .heroTile.t6{ transform:rotate(-3deg) translateY(-4px); }
   .moneyTag{
     position:absolute;
-    left:-2px;
-    bottom:0;
+    left:4px;
+    bottom:-2px;
     z-index:3;
     background:#fff;
     color:var(--green-dark);
@@ -275,23 +295,25 @@
     margin-top:2px;
   }
   @media (max-width:380px){
-    .heroInner{ padding:17px; grid-template-columns:1.08fr .92fr; }
-    .heroTitle{ font-size:22px; }
-    .heroText{ font-size:11.5px; }
-    .heroMosaic{ gap:7px; padding-bottom:24px; }
-    .heroTile{ min-height:54px; }
-    .heroTile span{ font-size:8.5px; left:4px; right:4px; bottom:4px; }
+    .heroTop{ min-height:198px; }
+    .heroInner{ padding:16px; grid-template-columns:1.08fr .92fr; gap:10px; }
+    .heroTitle{ font-size:21px; }
+    .heroText{ font-size:11.2px; margin-bottom:12px; }
+    .heroTags span{ font-size:9px; min-height:24px; padding:0 8px; }
+    .heroMosaic{ gap:7px; grid-auto-rows:58px; padding-bottom:18px; }
+    .heroTile span{ font-size:8.3px; left:4px; right:4px; bottom:4px; }
   }
   @media (min-width:760px){
-    .heroTop{ margin:18px 40px 10px; min-height:250px; }
-    .heroInner{ padding:28px 34px; grid-template-columns:1fr .8fr; }
+    .heroTop{ margin:18px 40px 10px; min-height:220px; }
+    .heroInner{ padding:24px 30px; grid-template-columns:1fr .86fr; }
     .heroTitle{ font-size:38px; max-width:440px; }
-    .heroText{ font-size:14px; max-width:430px; }
-    .heroVisual{ min-height:190px; max-width:330px; margin-left:auto; width:100%; }
-    .heroMosaic{ gap:12px; padding-bottom:34px; }
-    .heroTile{ min-height:86px; border-radius:18px; }
+    .heroText{ font-size:14px; max-width:460px; margin-bottom:14px; }
+    .heroTags span{ font-size:11px; min-height:30px; padding:0 12px; }
+    .heroVisual{ min-height:176px; max-width:360px; margin-left:auto; width:100%; }
+    .heroMosaic{ gap:12px; grid-auto-rows:88px; padding-bottom:22px; }
+    .heroTile{ border-radius:18px; }
     .heroTile span{ font-size:11px; min-height:24px; }
-    .moneyTag{ left:8px; bottom:4px; font-size:12px; }
+    .moneyTag{ left:10px; bottom:-4px; font-size:12px; }
     .moneyTag strong{ font-size:18px; }
   }
 
@@ -641,6 +663,115 @@
     color: var(--ink) !important;
     font-weight:700;
   }
+
+
+  /* Suporte de teste */
+  .supportHome{
+    margin: 4px 0 16px;
+    border:1.5px solid #DDE9DF;
+    background:linear-gradient(135deg,#fff,#F1FAF4);
+    border-radius:16px;
+    padding:13px 14px;
+    display:flex;
+    align-items:center;
+    gap:11px;
+    cursor:pointer;
+    box-shadow:var(--shadow-sm);
+  }
+  .supportHomeIcon{
+    width:38px;height:38px;border-radius:12px;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--green-soft);font-size:19px;flex:0 0 auto;
+  }
+  .supportHomeText{flex:1;min-width:0;}
+  .supportHomeTitle{font-size:13.5px;font-weight:800;color:var(--green-dark);margin-bottom:2px;}
+  .supportHomeSub{font-size:11.5px;color:var(--ink-soft);line-height:1.35;}
+  .supportHomeArrow{font-size:20px;color:var(--green);font-weight:700;}
+  .supportStatus{
+    margin-top:10px;padding:10px 12px;border-radius:12px;background:var(--green-soft);
+    color:var(--green-dark);font-size:12px;font-weight:700;display:none;
+  }
+
+  /* Chat / alertas */
+  .navMsgBtn{ position:relative; }
+  .msgBadge{
+    position:absolute; top:5px; left:calc(50% + 8px);
+    min-width:17px; height:17px; padding:0 5px;
+    border-radius:999px; background:var(--danger); color:#fff;
+    font-size:9px; font-weight:800; line-height:17px; text-align:center;
+    display:none; box-shadow:0 2px 6px rgba(229,72,77,.35);
+  }
+  .msgBadge.show{ display:block; }
+  .securityHint{
+    margin-top:10px; padding:10px 12px; border-radius:12px;
+    background:#FFF8DD; color:#705A16; font-size:11.5px; line-height:1.4;
+    border:1px solid #F2E1A5;
+  }
+  .sessionChip{
+    display:inline-flex; align-items:center; gap:6px; margin-top:8px;
+    padding:6px 9px; border-radius:999px; background:var(--green-soft);
+    color:var(--green-dark); font-size:11px; font-weight:700;
+  }
+
+  /* Galeria de fotos */
+  .detailGallery{
+    position:relative; margin-bottom:12px; border-radius:18px; overflow:hidden;
+    background:#EEF3EF; box-shadow:var(--shadow-sm);
+  }
+  .detailGalleryMain{
+    width:100%; height:270px; object-fit:contain; display:block; background:#F5F7F5;
+    cursor:zoom-in;
+  }
+  .galleryArrow{
+    position:absolute; top:50%; transform:translateY(-50%);
+    width:38px; height:38px; border:none; border-radius:50%;
+    background:rgba(255,255,255,.92); color:var(--ink); font-size:21px; font-weight:800;
+    cursor:pointer; box-shadow:0 5px 14px rgba(0,0,0,.16); z-index:2;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .galleryArrow.prev{ left:10px; }
+  .galleryArrow.next{ right:10px; }
+  .galleryCounter{
+    position:absolute; right:10px; bottom:10px; z-index:2;
+    background:rgba(18,40,28,.78); color:#fff; border-radius:999px;
+    padding:5px 9px; font-size:10.5px; font-weight:700;
+  }
+  .galleryThumbs{
+    display:flex; gap:8px; overflow-x:auto; padding:2px 1px 8px; scrollbar-width:none;
+  }
+  .galleryThumbs::-webkit-scrollbar{ display:none; }
+  .galleryThumb{
+    width:62px; height:62px; object-fit:cover; flex:0 0 auto;
+    border-radius:11px; border:2px solid transparent; cursor:pointer;
+    background:#fff; opacity:.72;
+  }
+  .galleryThumb.active{ border-color:var(--green); opacity:1; }
+  .lightboxStage{
+    position:relative; width:100%; height:100%; display:flex; align-items:center; justify-content:center;
+    padding:68px 54px 72px;
+  }
+  .lightboxStage img{
+    max-width:100%; max-height:100%; object-fit:contain; border-radius:14px; display:block;
+  }
+  .lightboxArrow{
+    position:fixed; top:50%; transform:translateY(-50%); z-index:3;
+    width:46px; height:46px; border:none; border-radius:50%;
+    background:rgba(255,255,255,.16); color:#fff; font-size:28px; cursor:pointer;
+    backdrop-filter:blur(6px);
+  }
+  .lightboxArrow.prev{ left:14px; }
+  .lightboxArrow.next{ right:14px; }
+  .lightboxCount{
+    position:fixed; left:50%; bottom:22px; transform:translateX(-50%);
+    color:#fff; background:rgba(0,0,0,.45); padding:7px 12px; border-radius:999px;
+    font-size:12px; font-weight:700;
+  }
+  @media (max-width:480px){
+    .detailGalleryMain{ height:230px; }
+    .lightboxStage{ padding:62px 45px 66px; }
+    .lightboxArrow{ width:40px; height:40px; font-size:24px; }
+  }
+
 </style>
 </head>
 <body>
@@ -674,15 +805,21 @@
           <button class="heroPrimary" onclick="openPostSheet()">＋ Quero vender</button>
           <button class="heroSecondary" onclick="document.getElementById('grid').scrollIntoView({behavior:'smooth'})">Ver ofertas</button>
         </div>
+        <div class="heroTags">
+          <span>📱 Eletrônicos</span>
+          <span>🚗 Carros</span>
+          <span>🏠 Casa</span>
+          <span>🛠️ Máquinas</span>
+        </div>
       </div>
       <div class="heroVisual" aria-hidden="true">
         <div class="heroMosaic">
           <div class="heroTile t1"><img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=500&q=80" alt=""><span>Celular</span></div>
           <div class="heroTile t2"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=500&q=80" alt=""><span>Relógio</span></div>
-          <div class="heroTile t3"><img src="https://images.unsplash.com/photo-1494976688153-cf97fdd9d7b6?auto=format&fit=crop&w=500&q=80" alt=""><span>Carro</span></div>
-          <div class="heroTile t4"><img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=500&q=80" alt=""><span>Casa</span></div>
-          <div class="heroTile t5"><img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=500&q=80" alt=""><span>Eletrônicos</span></div>
-          <div class="heroTile t6"><img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=500&q=80" alt=""><span>Máquinas</span></div>
+          <div class="heroTile t3"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=500&q=80" alt=""><span>Carro</span></div>
+          <div class="heroTile t4"><img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=500&q=80" alt=""><span>Casa</span></div>
+          <div class="heroTile t5"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=500&q=80" alt=""><span>Eletrônicos</span></div>
+          <div class="heroTile t6"><img src="https://images.unsplash.com/photo-1581092335397-9583eb92d232?auto=format&fit=crop&w=500&q=80" alt=""><span>Máquinas</span></div>
         </div>
         <div class="moneyTag">Anuncie de tudo<strong>em um só lugar</strong></div>
       </div>
@@ -692,6 +829,15 @@
   <div class="chipRow" id="chipRow"></div>
 
   <main>
+    <div class="supportHome" onclick="openSupportSheet()">
+      <div class="supportHomeIcon">🧪</div>
+      <div class="supportHomeText">
+        <div class="supportHomeTitle">Suporte e sugestões</div>
+        <div class="supportHomeSub">Achou defeito, algo estranho ou tem uma ideia? Avise a gente durante o teste.</div>
+      </div>
+      <div class="supportHomeArrow">›</div>
+    </div>
+
     <div class="infoBanner" id="infoBanner">
       <button class="infoClose" onclick="document.getElementById('infoBanner').style.display='none'">✕</button>
       <div class="infoTitle">Como funciona o Vendaí</div>
@@ -714,14 +860,19 @@
     <button class="active"><span class="ic">🏠</span>Início</button>
     <button onclick="alert('Só a tela de início está funcionando neste teste.')"><span class="ic">🗂️</span>Categorias</button>
     <button onclick="openPostSheet()"><span class="ic">➕</span>Anunciar</button>
-    <button onclick="abrirConversas()"><span class="ic">💬</span>Conversas</button>
+    <button class="navMsgBtn" onclick="abrirConversas()"><span class="ic">💬</span><span class="msgBadge" id="msgBadge">0</span>Conversas</button>
     <button onclick="openProfileSheet()"><span class="ic">👤</span>Perfil</button>
   </nav>
 
   <!-- Lightbox de fotos -->
-  <div class="overlay" id="lightboxOverlay" onclick="closeSheet('lightboxOverlay')" style="align-items:center; justify-content:center; background:rgba(10,18,13,0.92);">
-    <button class="closeBtn" style="position:fixed; top:20px; right:20px; background:rgba(255,255,255,0.15); color:#fff;" onclick="closeSheet('lightboxOverlay')">✕</button>
-    <img id="lightboxImg" style="max-width:90%; max-height:80vh; border-radius:14px; object-fit:contain;">
+  <div class="overlay" id="lightboxOverlay" onclick="closeSheet('lightboxOverlay')" style="align-items:center; justify-content:center; background:rgba(10,18,13,0.94);">
+    <button class="closeBtn" style="position:fixed; top:20px; right:20px; background:rgba(255,255,255,0.15); color:#fff; z-index:5;" onclick="event.stopPropagation(); closeSheet('lightboxOverlay')">✕</button>
+    <div class="lightboxStage" onclick="event.stopPropagation()">
+      <button class="lightboxArrow prev" id="lightboxPrev" onclick="mudarFotoLightbox(-1)">‹</button>
+      <img id="lightboxImg" alt="Foto do anúncio">
+      <button class="lightboxArrow next" id="lightboxNext" onclick="mudarFotoLightbox(1)">›</button>
+      <div class="lightboxCount" id="lightboxCount">1 / 1</div>
+    </div>
   </div>
 
   <!-- Chat sheet -->
@@ -760,21 +911,49 @@
     </div>
   </div>
 
+  <!-- Suporte / sugestões -->
+  <div class="overlay" id="supportOverlay" onclick="closeOverlayBg(event,'supportOverlay')">
+    <div class="sheet" style="position:relative;" onclick="event.stopPropagation()">
+      <button class="closeBtn" onclick="closeSheet('supportOverlay')">✕</button>
+      <div class="sheetHandle"></div>
+      <div class="detailTitle" style="margin-bottom:3px;">Suporte e sugestões</div>
+      <div style="font-size:12.5px;color:var(--ink-soft);line-height:1.45;margin-bottom:10px;">Esta versão está em teste. Conte o que aconteceu ou o que poderia ficar melhor.</div>
+      <label>O que você quer enviar?</label>
+      <select id="supportTipo">
+        <option value="problema">🐞 Encontrei um problema</option>
+        <option value="sugestao">💡 Tenho uma sugestão</option>
+        <option value="elogio">⭐ Gostei de algo</option>
+        <option value="outro">💬 Outro assunto</option>
+      </select>
+      <label>Mensagem</label>
+      <textarea id="supportMensagem" maxlength="2000" placeholder="Ex: cliquei em Conversas e não abriu; a foto ficou pequena; seria melhor se..."></textarea>
+      <div style="font-size:11px;color:var(--ink-soft);margin-top:7px;">Se você estiver conectado, sua conta fica vinculada ao relato para facilitar o teste.</div>
+      <button class="publishBtn" id="supportEnviarBtn" onclick="enviarSuporte()">Enviar para o suporte</button>
+      <div class="supportStatus" id="supportStatus"></div>
+    </div>
+  </div>
+
   <!-- Login sheet -->
   <div class="overlay" id="loginOverlay" onclick="closeOverlayBg(event,'loginOverlay')">
     <div class="sheet" style="position:relative;" onclick="event.stopPropagation()">
       <button class="closeBtn" onclick="closeSheet('loginOverlay')">✕</button>
       <div class="sheetHandle"></div>
-      <div class="detailTitle" style="margin-bottom:2px;">Entrar no Vendaí</div>
-      <div style="font-size:12.5px; color:var(--ink-soft); margin-bottom:6px;">Só pra saber quem é o dono de cada anúncio</div>
+      <div class="detailTitle" style="margin-bottom:2px;">Entrar ou criar conta</div>
+      <div style="font-size:12.5px; color:var(--ink-soft); margin-bottom:6px;">Se é sua primeira vez, a conta é criada na hora. Se já tem conta, use o mesmo telefone e PIN.</div>
+      <div class="securityHint">Use o telefone completo com DDD e escolha um PIN de 4 a 6 números. Ele protege seus anúncios e conversas.</div>
 
       <label>Seu telefone (WhatsApp)</label>
-      <input type="text" id="lTelefone" placeholder="Ex: 35 99999-0000">
+      <input type="text" id="lTelefone" placeholder="Ex: 35 99999-0000 (DDD + número)">
 
       <label>Seu nome</label>
       <input type="text" id="lNome" placeholder="Ex: Cida">
 
-      <button class="publishBtn" onclick="entrar()">Entrar</button>
+      <label>PIN de acesso</label>
+      <input type="password" inputmode="numeric" maxlength="6" id="lPin" placeholder="4 a 6 números">
+      <div style="font-size:11px;color:var(--ink-soft);margin-top:6px;line-height:1.35;">No primeiro acesso de uma conta antiga, este PIN passa a proteger a conta. Nos próximos acessos, ele será obrigatório.</div>
+
+      <button class="publishBtn" onclick="entrar()">Entrar / Criar conta</button>
+      <div id="loginStatus" style="display:none;margin-top:10px;padding:10px 12px;border-radius:10px;background:#FFF7D9;color:#6C5200;font-size:11.5px;line-height:1.4;"></div>
     </div>
   </div>
 
@@ -838,7 +1017,7 @@
 
 <script>
 const SUPABASE_URL = 'https://rgcclordmqjmwuzrrfbd.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJnY2Nsb3JkbXFqbXd1enJyZmJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUzMzU5NjgsImV4cCI6MjEwMDkxMTk2OH0.08MeNbE_Tr5sf7APOP9gsSr5KwDjDbdacaXXzDOyqXA';
+const SUPABASE_KEY = 'sb_publishable_g5Tcimge2aiMX8JE3ml1dg_6zbR3uXi';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const CATEGORIES = [
@@ -874,63 +1053,206 @@ let pendingChat = null;
 let currentChat = null;
 let chatPollingInterval = null;
 let selectedFotos = [];
+let inboxPollingInterval = null;
+let inboxUltimoId = null;
+let inboxPrimeiraLeitura = true;
+let audioCtx = null;
+let lightboxIndex = 0;
+let currentSessionToken = null;
+
+function normalizarTelefone(valor){
+  return String(valor || '').replace(/\D/g,'');
+}
+
+function telefoneValido(valor){
+  const n = normalizarTelefone(valor);
+  return n.length === 10 || n.length === 11;
+}
+
+function formatarTelefone(valor){
+  const n = normalizarTelefone(valor);
+  if(n.length===11) return `(${n.slice(0,2)}) ${n.slice(2,7)}-${n.slice(7)}`;
+  if(n.length===10) return `(${n.slice(0,2)}) ${n.slice(2,6)}-${n.slice(6)}`;
+  return n;
+}
+
+function salvarSessao(){
+  if(!currentUser || !currentSessionToken) return;
+  localStorage.setItem('vendai_sessao', JSON.stringify({
+    token: currentSessionToken,
+    id: currentUser.id,
+    telefone: normalizarTelefone(currentUser.telefone),
+    nome: currentUser.nome
+  }));
+}
+
+async function restaurarSessao(){
+  try{
+    const raw = localStorage.getItem('vendai_sessao');
+    if(!raw) return;
+    const s = JSON.parse(raw);
+    if(!s || !s.token){ localStorage.removeItem('vendai_sessao'); return; }
+    const { data, error } = await sb.rpc('vendai_validar_sessao', { p_token: s.token });
+    if(error || !data || !data.length){ localStorage.removeItem('vendai_sessao'); return; }
+    currentSessionToken = s.token;
+    currentUser = data[0];
+    iniciarMonitorMensagens();
+  }catch(e){
+    console.warn('Sessão inválida', e);
+    localStorage.removeItem('vendai_sessao');
+  }
+}
+
+async function sairConta(){
+  const token = currentSessionToken;
+  currentUser = null;
+  currentSessionToken = null;
+  localStorage.removeItem('vendai_sessao');
+  if(token){ try{ await sb.rpc('vendai_logout', { p_token: token }); }catch(e){} }
+  if(inboxPollingInterval){ clearInterval(inboxPollingInterval); inboxPollingInterval = null; }
+  inboxUltimoId = null;
+  inboxPrimeiraLeitura = true;
+  atualizarBadgeMensagens(0);
+  closeSheet('profileOverlay');
+  showToast('Você saiu da conta');
+}
+
+function prepararSom(){
+  try{
+    if(!audioCtx){ audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+    if(audioCtx.state === 'suspended') audioCtx.resume();
+  }catch(e){}
+}
+
+function tocarSomMensagem(){
+  try{
+    prepararSom();
+    if(!audioCtx) return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type='sine';
+    osc.frequency.setValueAtTime(740, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.16, audioCtx.currentTime + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.26);
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.28);
+  }catch(e){}
+}
+
+function atualizarBadgeMensagens(qtd){
+  const badge = document.getElementById('msgBadge');
+  if(!badge) return;
+  if(qtd>0){
+    badge.textContent = qtd>99 ? '99+' : String(qtd);
+    badge.classList.add('show');
+  }else{
+    badge.classList.remove('show');
+    badge.textContent='0';
+  }
+}
+
+async function checarMensagensNovas(){
+  if(!currentUser || !currentSessionToken) return;
+  const { data, error } = await sb.rpc('vendai_inbox_segura', { p_token: currentSessionToken });
+  if(error || !data) return;
+  const naoLidas = data.filter(m => !m.lida_em).length;
+  atualizarBadgeMensagens(naoLidas);
+  if(data.length===0) return;
+  const maisNova = data[0];
+  if(inboxPrimeiraLeitura){
+    inboxUltimoId = maisNova.id;
+    inboxPrimeiraLeitura = false;
+    return;
+  }
+  if(inboxUltimoId && maisNova.id !== inboxUltimoId){
+    const chatAbertoMesmoRemetente = currentChat && currentChat.outroId === maisNova.remetente_id && document.getElementById('chatOverlay').classList.contains('show');
+    if(!chatAbertoMesmoRemetente){
+      tocarSomMensagem();
+      showToast(`💬 Nova mensagem de ${maisNova.remetente_nome || 'alguém'}`);
+      if('Notification' in window && Notification.permission === 'granted'){
+        try{ new Notification('Vendaí • Nova mensagem', { body: `${maisNova.remetente_nome || 'Alguém'}: ${maisNova.texto}` }); }catch(e){}
+      }
+    }
+    inboxUltimoId = maisNova.id;
+  }
+}
+
+function iniciarMonitorMensagens(){
+  if(!currentUser) return;
+  if(inboxPollingInterval) clearInterval(inboxPollingInterval);
+  inboxPrimeiraLeitura = true;
+  checarMensagensNovas();
+  inboxPollingInterval = setInterval(checarMensagensNovas, 3500);
+}
+
+async function ativarNotificacoes(){
+  prepararSom();
+  if('Notification' in window && Notification.permission === 'default'){
+    try{ await Notification.requestPermission(); }catch(e){}
+  }
+  showToast('Alertas de mensagem ativados 🔔');
+}
 
 function openLoginSheet(){
   document.getElementById('loginOverlay').classList.add('show');
 }
 
 async function entrar(){
-  const telefone = document.getElementById('lTelefone').value.trim();
+  prepararSom();
+  const telefone = normalizarTelefone(document.getElementById('lTelefone').value);
   const nome = document.getElementById('lNome').value.trim();
+  const pin = String(document.getElementById('lPin').value || '').replace(/\D/g,'');
+  const status = document.getElementById('loginStatus');
+  if(status){ status.style.display='none'; status.textContent=''; }
 
-  if(!telefone || !nome){
-    showToast('Preencha telefone e nome');
+  if(!nome || !telefone || !pin){ showToast('Preencha telefone, nome e PIN'); return; }
+  if(!telefoneValido(telefone)){ showToast('Digite o telefone completo com DDD'); return; }
+  if(!/^\d{4,6}$/.test(pin)){ showToast('O PIN deve ter de 4 a 6 números'); return; }
+
+  const btn = document.querySelector('#loginOverlay .publishBtn');
+  if(btn){ btn.textContent='Aguarde...'; btn.disabled=true; }
+  let data=null, error=null;
+  try{
+    const resp = await sb.rpc('vendai_login_seguro', { p_telefone: telefone, p_nome: nome, p_pin: pin });
+    data = resp.data; error = resp.error;
+  }catch(e){ error=e; }
+  if(btn){ btn.textContent='Entrar / Criar conta'; btn.disabled=false; }
+
+  if(error || !data || !data.length){
+    const msg = String(error?.message || '');
+    let aviso = 'Não consegui entrar ou criar a conta agora. Tente novamente.';
+    if(msg.includes('pin_incorreto')) aviso='PIN incorreto para esse telefone.';
+    else if(msg.includes('conta_ja_existe')) aviso='Esse telefone já tem uma conta antiga. Digite o mesmo nome cadastrado e escolha o PIN para protegê-la.';
+    else if(msg.includes('telefone_invalido')) aviso='Digite o telefone completo com DDD.';
+    else if(msg.includes('pin_invalido')) aviso='Use um PIN de 4 a 6 números.';
+    if(status){ status.textContent=aviso; status.style.display='block'; }
+    showToast(aviso);
+    console.error('Falha no acesso Vendaí', error);
     return;
   }
 
-  const { data: existente } = await sb
-    .from('vendai_usuarios')
-    .select('*')
-    .eq('telefone', telefone)
-    .maybeSingle();
-
-  if(existente){
-    currentUser = existente;
-  } else {
-    const { data: novo, error } = await sb
-      .from('vendai_usuarios')
-      .insert({ telefone, nome })
-      .select()
-      .single();
-    if(error){
-      showToast('Não consegui entrar agora');
-      return;
-    }
-    currentUser = novo;
-  }
-
+  const u = data[0];
+  currentUser = { id:u.id, telefone:u.telefone, nome:u.nome };
+  currentSessionToken = u.sessao_token;
+  salvarSessao();
+  iniciarMonitorMensagens();
+  document.getElementById('lPin').value='';
   closeSheet('loginOverlay');
-  showToast(`Bem-vindo(a), ${currentUser.nome} 👋`);
+  await carregarAnuncios();
+  showToast(u.primeiro_acesso ? 'Conta criada/protegida e acesso liberado ✓' : `Bem-vindo(a), ${currentUser.nome} 👋`);
 
-  if(pendingAction === 'post'){
-    pendingAction = null;
-    openPostSheet();
-  } else if(pendingAction === 'profile'){
-    pendingAction = null;
-    openProfileSheet();
-  } else if(pendingAction === 'conversas'){
-    pendingAction = null;
-    abrirConversas();
-  } else if(pendingAction === 'chat' && pendingChat){
-    pendingAction = null;
-    const c = pendingChat;
-    pendingChat = null;
-    iniciarChat(c.anuncioId, c.titulo, c.outroTelefone, c.outroNome);
+  if(pendingAction === 'post'){ pendingAction=null; openPostSheet(); }
+  else if(pendingAction === 'profile'){ pendingAction=null; openProfileSheet(); }
+  else if(pendingAction === 'conversas'){ pendingAction=null; abrirConversas(); }
+  else if(pendingAction === 'chat' && pendingChat){
+    pendingAction=null; const c=pendingChat; pendingChat=null;
+    iniciarChat(c.anuncioId,c.titulo,c.outroId,c.outroNome);
   }
 }
 
 function openProfileSheet(){
-  if(!currentUser){
+  if(!currentUser || !currentSessionToken){
     pendingAction = 'profile';
     openLoginSheet();
     return;
@@ -944,64 +1266,40 @@ async function renderProfile(){
   content.innerHTML = `
     <div class="sellerRow" style="margin-bottom:16px;">
       <div class="sellerAvatar">🙂</div>
-      <div>
-        <div class="sellerName">${currentUser.nome}</div>
-        <div class="sellerLoc">${currentUser.telefone}</div>
-      </div>
+      <div><div class="sellerName">${currentUser.nome}</div><div class="sellerLoc">${formatarTelefone(currentUser.telefone)}</div></div>
     </div>
-    <div class="detailTitle" style="font-size:15px; margin-bottom:10px;">Meus anúncios</div>
-    <div id="meusAnunciosList" style="font-size:13px; color:var(--ink-soft);">Carregando...</div>
-  `;
+    <div style="display:flex; gap:8px; margin:0 0 14px; flex-wrap:wrap;">
+      <button onclick="ativarNotificacoes()" style="border:none;border-radius:999px;background:var(--green-soft);color:var(--green-dark);padding:8px 12px;font-weight:700;cursor:pointer;">🔔 Ativar alertas</button>
+      <button onclick="openSupportSheet()" style="border:none;border-radius:999px;background:#FFF7D9;color:#8A6500;padding:8px 12px;font-weight:700;cursor:pointer;">🧪 Suporte</button>
+      <button onclick="sairConta()" style="border:none;border-radius:999px;background:#FBE9E9;color:var(--danger);padding:8px 12px;font-weight:700;cursor:pointer;">Sair</button>
+    </div>
+    <div class="detailTitle" style="font-size:15px;margin-bottom:10px;">Meus anúncios</div>
+    <div id="meusAnunciosList" style="font-size:13px;color:var(--ink-soft);">Carregando...</div>`;
 
-  const { data, error } = await sb
-    .from('vendai_anuncios')
-    .select('*')
-    .eq('vendedor_telefone', currentUser.telefone)
-    .order('criado_em', { ascending: false });
-
+  const { data, error } = await sb.rpc('vendai_meus_anuncios', { p_token: currentSessionToken });
   const list = document.getElementById('meusAnunciosList');
-  if(error){
-    list.textContent = 'Não consegui carregar seus anúncios.';
-    return;
-  }
-  if(data.length === 0){
-    list.textContent = 'Você ainda não publicou nenhum anúncio.';
-    return;
-  }
-
-  list.innerHTML = '';
+  if(error){ list.textContent='Não consegui carregar seus anúncios.'; return; }
+  if(!data || data.length===0){ list.textContent='Você ainda não publicou nenhum anúncio.'; return; }
+  list.innerHTML='';
   data.forEach(ad=>{
-    const row = document.createElement('div');
-    row.className = 'sellerRow';
-    row.style.marginBottom = '10px';
-    row.style.alignItems = 'flex-start';
-    row.innerHTML = `
-      <div style="width:34px; height:34px; border-radius:10px; background:${CATEGORY_COLOR[ad.categoria]}; display:flex; align-items:center; justify-content:center; font-size:16px; flex:0 0 auto;">${CATEGORY_ICON[ad.categoria]}</div>
-      <div style="flex:1;">
-        <div class="sellerName">${ad.titulo}</div>
-        <div class="sellerLoc">${formatPrice(ad.preco)} · ${ad.status === 'vendido' ? 'Vendido' : (ad.destaque ? '🔥 Destacado' : 'Ativo')}</div>
-      </div>
-      <div style="display:flex; flex-direction:column; gap:6px;">
-        ${ad.status==='vendido' ? '' : `<button style="font-size:11px; border:none; background:var(--green-soft); color:var(--green-dark); border-radius:8px; padding:5px 8px; font-weight:700; cursor:pointer;" onclick="marcarVendido('${ad.id}')">Marcar vendido</button>`}
-        <button style="font-size:11px; border:none; background:#FBE9E9; color:var(--danger); border-radius:8px; padding:5px 8px; font-weight:700; cursor:pointer;" onclick="excluirAnuncio('${ad.id}')">Excluir</button>
-      </div>
-    `;
+    const row=document.createElement('div'); row.className='sellerRow'; row.style.marginBottom='10px'; row.style.alignItems='flex-start';
+    row.innerHTML=`<div style="width:34px;height:34px;border-radius:10px;background:${CATEGORY_COLOR[ad.categoria]};display:flex;align-items:center;justify-content:center;font-size:16px;flex:0 0 auto;">${CATEGORY_ICON[ad.categoria]}</div>
+      <div style="flex:1;"><div class="sellerName">${ad.titulo}</div><div class="sellerLoc">${formatPrice(ad.preco)} · ${ad.status==='vendido'?'Vendido':(ad.destaque?'🔥 Destacado':'Ativo')}</div></div>
+      <div style="display:flex;flex-direction:column;gap:6px;">${ad.status==='vendido'?'':`<button style="font-size:11px;border:none;background:var(--green-soft);color:var(--green-dark);border-radius:8px;padding:5px 8px;font-weight:700;cursor:pointer;" onclick="marcarVendido('${ad.id}')">Marcar vendido</button>`}<button style="font-size:11px;border:none;background:#FBE9E9;color:var(--danger);border-radius:8px;padding:5px 8px;font-weight:700;cursor:pointer;" onclick="excluirAnuncio('${ad.id}')">Excluir</button></div>`;
     list.appendChild(row);
   });
 }
 
 async function marcarVendido(id){
-  await sb.from('vendai_anuncios').update({ status: 'vendido' }).eq('id', id);
-  await renderProfile();
-  await carregarAnuncios();
-  showToast('Anúncio marcado como vendido ✓');
+  const { error } = await sb.rpc('vendai_atualizar_status_anuncio', { p_token:currentSessionToken, p_id:id, p_status:'vendido' });
+  if(error){ showToast('Não consegui alterar o anúncio'); return; }
+  await renderProfile(); await carregarAnuncios(); showToast('Anúncio marcado como vendido ✓');
 }
 
 async function excluirAnuncio(id){
-  await sb.from('vendai_anuncios').update({ status: 'removido' }).eq('id', id);
-  await renderProfile();
-  await carregarAnuncios();
-  showToast('Anúncio removido ✓');
+  const { error } = await sb.rpc('vendai_atualizar_status_anuncio', { p_token:currentSessionToken, p_id:id, p_status:'removido' });
+  if(error){ showToast('Não consegui remover o anúncio'); return; }
+  await renderProfile(); await carregarAnuncios(); showToast('Anúncio removido ✓');
 }
 
 function renderCityList(){
@@ -1029,19 +1327,32 @@ function selecionarCidade(id, label){
 }
 
 async function carregarAnuncios(){
-  const { data, error } = await sb
-    .from('vendai_anuncios')
-    .select('*')
-    .eq('status', 'ativo')
-    .order('destaque', { ascending: false })
-    .order('criado_em', { ascending: false });
+  let data=null, error=null;
+  try{
+    const resp = await sb.rpc('vendai_listar_anuncios');
+    data=resp.data; error=resp.error;
+  }catch(e){ error=e; }
+
+  // Fallback de leitura pública: evita o feed vazio em navegador com cache/versão anterior.
+  if(error){
+    console.warn('RPC do feed falhou, tentando leitura pública', error);
+    try{
+      const direto = await sb.from('vendai_anuncios')
+        .select('id,titulo,preco,categoria,cidade,descricao,vendedor_nome,vendedor_id,fotos,destaque,destaque_expira_em,status,criado_em')
+        .eq('status','ativo')
+        .order('destaque',{ascending:false})
+        .order('criado_em',{ascending:false});
+      data=direto.data; error=direto.error;
+    }catch(e){ error=e; }
+  }
 
   if(error){
     console.error(error);
+    ads=[]; renderGrid();
     showToast('Não consegui carregar os anúncios agora');
     return;
   }
-  ads = data;
+  ads = data || [];
   renderGrid();
 }
 
@@ -1113,21 +1424,24 @@ function renderGrid(){
 
 function openDetail(id){
   const ad = ads.find(a=>a.id===id);
+  if(!ad) return;
   window._anuncioAtual = ad;
+  window._fotoAtual = 0;
   const content = document.getElementById('detailContent');
   const temFotos = ad.fotos && ad.fotos.length>0;
+  const qtdFotos = temFotos ? ad.fotos.length : 0;
+
+  const galeria = temFotos ? `
+    <div class="detailGallery">
+      <img id="detailMainPhoto" class="detailGalleryMain" src="${ad.fotos[0]}" onclick="abrirLightbox(window._fotoAtual || 0)" alt="${ad.titulo}">
+      ${qtdFotos>1 ? `<button class="galleryArrow prev" onclick="event.stopPropagation(); mudarFotoDetalhe(-1)">‹</button><button class="galleryArrow next" onclick="event.stopPropagation(); mudarFotoDetalhe(1)">›</button>` : ''}
+      <div class="galleryCounter" id="detailGalleryCounter">1 / ${qtdFotos}</div>
+    </div>
+    ${qtdFotos>1 ? `<div class="galleryThumbs" id="detailThumbs">${ad.fotos.map((f,i)=>`<img class="galleryThumb ${i===0?'active':''}" data-index="${i}" src="${f}" onclick="selecionarFotoDetalhe(${i})" alt="Foto ${i+1}">`).join('')}</div>` : ''}
+  ` : `<div class="detailThumb" style="background:${CATEGORY_COLOR[ad.categoria]};">${CATEGORY_ICON[ad.categoria]}</div>`;
 
   content.innerHTML = `
-    <div class="detailThumb" style="background:${CATEGORY_COLOR[ad.categoria]}; padding:0; overflow:hidden; cursor:${temFotos?'zoom-in':'default'};" ${temFotos ? `onclick="abrirLightbox(0)"` : ''}>
-      ${temFotos
-        ? `<img src="${ad.fotos[0]}" style="width:100%;height:100%;object-fit:cover;">`
-        : CATEGORY_ICON[ad.categoria]}
-    </div>
-    ${temFotos && ad.fotos.length>1 ? `
-      <div style="display:flex; gap:8px; margin:10px 0 4px; overflow-x:auto;">
-        ${ad.fotos.map((f,i)=>`<img src="${f}" onclick="abrirLightbox(${i})" style="width:54px;height:54px;object-fit:cover;border-radius:8px;flex:0 0 auto;cursor:zoom-in;border:1.5px solid #E2E9E3;">`).join('')}
-      </div>
-    ` : ''}
+    ${galeria}
     <div class="detailTitle" style="margin-top:14px;">${ad.titulo}</div>
     <div class="detailPrice">${formatPrice(ad.preco)}</div>
     <div class="detailMeta">${ad.cidade} · publicado ${tempoDecorrido(ad.criado_em)}</div>
@@ -1143,7 +1457,7 @@ function openDetail(id){
       <div class="btnPrimary" onclick="iniciarChatFromDetail()">💬 Chamar no chat</div>
       <div class="btnGhost" onclick="showToast('Denúncia registrada (simulação)')">🚩 Denunciar</div>
     </div>
-    ${(!ad.destaque && currentUser && currentUser.telefone===ad.vendedor_telefone) ? `<div class="publishBtn" style="margin-top:12px; background:var(--card); border:1.5px solid #E2E9E3; box-shadow:none; color:var(--green-dark);" onclick="destacarAnuncio('${ad.id}')">🏷️ Destacar este anúncio — ${formatPrice(PRECO_DESTAQUE)}</div>` : ''}
+    ${(!ad.destaque && currentUser && currentUser.id===ad.vendedor_id) ? `<div class="publishBtn" style="margin-top:12px; background:var(--card); border:1.5px solid #E2E9E3; box-shadow:none; color:var(--green-dark);" onclick="destacarAnuncio('${ad.id}')">🏷️ Destacar este anúncio — ${formatPrice(PRECO_DESTAQUE)}</div>` : ''}
   `;
   document.getElementById('detailOverlay').classList.add('show');
 }
@@ -1151,36 +1465,62 @@ function openDetail(id){
 function iniciarChatFromDetail(){
   const ad = window._anuncioAtual;
   if(!ad) return;
-  iniciarChat(ad.id, ad.titulo, ad.vendedor_telefone || '', ad.vendedor_nome || 'Anônimo');
+  iniciarChat(ad.id, ad.titulo, ad.vendedor_id || '', ad.vendedor_nome || 'Anônimo');
+}
+
+function selecionarFotoDetalhe(index){
+  const ad = window._anuncioAtual;
+  if(!ad || !ad.fotos || !ad.fotos[index]) return;
+  window._fotoAtual = index;
+  const img = document.getElementById('detailMainPhoto');
+  if(img) img.src = ad.fotos[index];
+  const counter = document.getElementById('detailGalleryCounter');
+  if(counter) counter.textContent = `${index+1} / ${ad.fotos.length}`;
+  document.querySelectorAll('#detailThumbs .galleryThumb').forEach(el=>el.classList.toggle('active', Number(el.dataset.index)===index));
+}
+
+function mudarFotoDetalhe(delta){
+  const ad = window._anuncioAtual;
+  if(!ad || !ad.fotos || ad.fotos.length<2) return;
+  const atual = Number(window._fotoAtual || 0);
+  selecionarFotoDetalhe((atual + delta + ad.fotos.length) % ad.fotos.length);
 }
 
 function abrirLightbox(index){
   const ad = window._anuncioAtual;
   if(!ad || !ad.fotos || ad.fotos.length===0) return;
-  document.getElementById('lightboxImg').src = ad.fotos[index];
+  lightboxIndex = Math.max(0, Math.min(index, ad.fotos.length-1));
+  atualizarLightbox();
   document.getElementById('lightboxOverlay').classList.add('show');
 }
 
-async function destacarAnuncio(id){
-  // Passo de teste: aqui ainda não cobra de verdade. O próximo passo é
-  // trocar isso por uma cobrança Pix real (igual ao Entrega Flash) que,
-  // ao confirmar o pagamento via webhook, marca destaque=true sozinho.
-  const { error } = await sb
-    .from('vendai_anuncios')
-    .update({ destaque: true, destaque_expira_em: new Date(Date.now()+7*24*60*60*1000).toISOString() })
-    .eq('id', id);
+function atualizarLightbox(){
+  const ad = window._anuncioAtual;
+  if(!ad || !ad.fotos || ad.fotos.length===0) return;
+  document.getElementById('lightboxImg').src = ad.fotos[lightboxIndex];
+  document.getElementById('lightboxCount').textContent = `${lightboxIndex+1} / ${ad.fotos.length}`;
+  const showArrows = ad.fotos.length>1;
+  document.getElementById('lightboxPrev').style.display = showArrows ? 'block' : 'none';
+  document.getElementById('lightboxNext').style.display = showArrows ? 'block' : 'none';
+}
 
-  if(error){
-    showToast('Não consegui destacar agora');
-    return;
-  }
-  closeSheet('detailOverlay');
-  await carregarAnuncios();
-  showToast('Anúncio destacado por 7 dias (simulação, sem cobrança ainda) ✓');
+function mudarFotoLightbox(delta){
+  const ad = window._anuncioAtual;
+  if(!ad || !ad.fotos || ad.fotos.length<2) return;
+  lightboxIndex = (lightboxIndex + delta + ad.fotos.length) % ad.fotos.length;
+  window._fotoAtual = lightboxIndex;
+  atualizarLightbox();
+  selecionarFotoDetalhe(lightboxIndex);
+}
+
+async function destacarAnuncio(id){
+  const { error } = await sb.rpc('vendai_destacar_anuncio_seguro', { p_token:currentSessionToken, p_id:id });
+  if(error){ showToast('Não consegui destacar agora'); return; }
+  closeSheet('detailOverlay'); await carregarAnuncios(); showToast('Anúncio destacado por 7 dias (teste) ✓');
 }
 
 function openPostSheet(){
-  if(!currentUser){
+  if(!currentUser || !currentSessionToken){
     pendingAction = 'post';
     openLoginSheet();
     return;
@@ -1197,64 +1537,43 @@ function closeOverlayBg(e, id){
 }
 
 async function publishAd(){
-  const titulo = document.getElementById('fTitle').value.trim();
-  const preco = parseFloat(document.getElementById('fPrice').value);
-  const categoria = document.getElementById('fCategory').value;
-  const descricao = document.getElementById('fDesc').value.trim();
-
-  if(!titulo || !preco){
-    showToast('Preencha pelo menos título e preço');
-    return;
-  }
-
-  const btn = document.getElementById('btnPublicar');
-  btn.textContent = 'Publicando...';
-  btn.style.opacity = '0.65';
-  btn.style.pointerEvents = 'none';
-
-  let fotosUrls = [];
+  if(!currentUser || !currentSessionToken){ pendingAction='post'; openLoginSheet(); return; }
+  const titulo=document.getElementById('fTitle').value.trim();
+  const preco=parseFloat(document.getElementById('fPrice').value);
+  const categoria=document.getElementById('fCategory').value;
+  const descricao=document.getElementById('fDesc').value.trim();
+  if(!titulo || !preco){ showToast('Preencha pelo menos título e preço'); return; }
+  const btn=document.getElementById('btnPublicar'); btn.textContent='Publicando...'; btn.style.opacity='.65'; btn.style.pointerEvents='none';
+  let fotosUrls=[];
   for(const file of selectedFotos){
-    const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
-    const path = `${Date.now()}-${Math.random().toString(36).slice(2,8)}.${ext}`;
-    const { error: upErr } = await sb.storage.from('vendai-fotos').upload(path, file);
-    if(!upErr){
-      const { data: pub } = sb.storage.from('vendai-fotos').getPublicUrl(path);
-      fotosUrls.push(pub.publicUrl);
-    }
+    try{
+      const form=new FormData();
+      form.append('token',currentSessionToken);
+      form.append('file',file,file.name);
+      const resp=await fetch(`${SUPABASE_URL}/functions/v1/vendai-upload`,{method:'POST',headers:{apikey:SUPABASE_KEY},body:form});
+      const up=await resp.json();
+      if(resp.ok && up.publicUrl) fotosUrls.push(up.publicUrl);
+      else console.warn('Falha ao enviar foto',up);
+    }catch(e){ console.warn('Falha ao enviar foto',e); }
   }
-
-  const { error } = await sb.from('vendai_anuncios').insert({
-    titulo, preco, categoria,
-    descricao: descricao || null,
-    cidade: 'Muzambinho, MG',
-    vendedor_nome: currentUser.nome,
-    vendedor_telefone: currentUser.telefone,
-    fotos: fotosUrls
-  });
-
-  btn.textContent = 'Publicar anúncio';
-  btn.style.opacity = '1';
-  btn.style.pointerEvents = 'auto';
-
+  if(selectedFotos.length && fotosUrls.length===0){
+    btn.textContent='Publicar anúncio'; btn.style.opacity='1'; btn.style.pointerEvents='auto';
+    showToast('Não consegui enviar as fotos. Tente novamente.'); return;
+  }
+  const { error }=await sb.rpc('vendai_publicar_anuncio',{p_token:currentSessionToken,p_titulo:titulo,p_preco:preco,p_categoria:categoria,p_descricao:descricao||'',p_cidade:'Muzambinho, MG',p_fotos:fotosUrls});
+  btn.textContent='Publicar anúncio'; btn.style.opacity='1'; btn.style.pointerEvents='auto';
   if(error){
     console.error(error);
-    showToast('Não consegui publicar agora');
+    const msg=String(error.message||'');
+    if(msg.includes('sessao_invalida')){
+      currentUser=null; currentSessionToken=null; localStorage.removeItem('vendai_sessao');
+      closeSheet('postOverlay'); pendingAction='post'; openLoginSheet();
+      showToast('Sua sessão venceu. Entre novamente para publicar.');
+    }else showToast('Não consegui publicar agora. Tente novamente.');
     return;
   }
-
-  document.getElementById('fTitle').value='';
-  document.getElementById('fPrice').value='';
-  document.getElementById('fDesc').value='';
-  document.getElementById('fFoto').value='';
-  document.getElementById('fotoPreview').innerHTML='';
-  document.getElementById('photoBox').textContent='📷 Toque pra adicionar fotos';
-  selectedFotos = [];
-
-  closeSheet('postOverlay');
-  activeCategory = 'todos';
-  renderChips();
-  await carregarAnuncios();
-  showToast('Anúncio publicado ✓');
+  document.getElementById('fTitle').value=''; document.getElementById('fPrice').value=''; document.getElementById('fDesc').value=''; document.getElementById('fFoto').value=''; document.getElementById('fotoPreview').innerHTML=''; document.getElementById('photoBox').textContent='📷 Toque pra adicionar fotos'; selectedFotos=[];
+  closeSheet('postOverlay'); activeCategory='todos'; renderChips(); await carregarAnuncios(); showToast('Anúncio publicado ✓');
 }
 
 function previewFotos(){
@@ -1276,30 +1595,16 @@ function previewFotos(){
     : '📷 Toque pra adicionar fotos (até 4 no plano grátis)';
 }
 
-async function iniciarChat(anuncioId, titulo, outroTelefone, outroNome){
-  if(!currentUser){
-    pendingChat = { anuncioId, titulo, outroTelefone, outroNome };
-    pendingAction = 'chat';
-    openLoginSheet();
-    return;
+async function iniciarChat(anuncioId, titulo, outroId, outroNome){
+  if(!currentUser || !currentSessionToken){
+    pendingChat={anuncioId,titulo,outroId,outroNome}; pendingAction='chat'; openLoginSheet(); return;
   }
-  if(!outroTelefone){
-    showToast('Esse anúncio não tem telefone de contato cadastrado');
-    return;
-  }
-  if(outroTelefone === currentUser.telefone){
-    showToast('Esse é o seu próprio anúncio 🙂');
-    return;
-  }
-
-  currentChat = { anuncioId, titulo, outroTelefone, outroNome };
-  document.getElementById('chatHeader').textContent = outroNome + ' · ' + titulo;
-  closeSheet('detailOverlay');
-  closeSheet('conversasOverlay');
-  document.getElementById('chatOverlay').classList.add('show');
-  await carregarMensagens();
-  if(chatPollingInterval) clearInterval(chatPollingInterval);
-  chatPollingInterval = setInterval(carregarMensagens, 4000);
+  if(!outroId){ showToast('Não consegui identificar o vendedor deste anúncio'); return; }
+  if(outroId===currentUser.id){ showToast('Esse é o seu próprio anúncio 🙂'); return; }
+  currentChat={anuncioId,titulo,outroId,outroNome};
+  document.getElementById('chatHeader').textContent=outroNome+' · '+titulo;
+  closeSheet('detailOverlay'); closeSheet('conversasOverlay'); document.getElementById('chatOverlay').classList.add('show');
+  await carregarMensagens(); if(chatPollingInterval) clearInterval(chatPollingInterval); chatPollingInterval=setInterval(carregarMensagens,3000);
 }
 
 function fecharChat(){
@@ -1309,120 +1614,66 @@ function fecharChat(){
 }
 
 async function carregarMensagens(){
-  if(!currentChat) return;
-  const { data, error } = await sb.from('vendai_mensagens')
-    .select('*')
-    .eq('anuncio_id', currentChat.anuncioId)
-    .or(`and(remetente_telefone.eq.${currentUser.telefone},destinatario_telefone.eq.${currentChat.outroTelefone}),and(remetente_telefone.eq.${currentChat.outroTelefone},destinatario_telefone.eq.${currentUser.telefone})`)
-    .order('criado_em', { ascending: true });
-
+  if(!currentChat || !currentUser || !currentSessionToken) return;
+  const { data, error } = await sb.rpc('vendai_chat_seguro',{p_token:currentSessionToken,p_anuncio_id:currentChat.anuncioId,p_outro_id:currentChat.outroId});
   if(error) return;
-  const box = document.getElementById('chatMensagens');
-  box.innerHTML = '';
-  if(data.length===0){
-    box.innerHTML = '<div style="text-align:center; color:var(--ink-soft); font-size:12.5px; margin-top:20px;">Envie a primeira mensagem</div>';
-    return;
-  }
-  data.forEach(m=>{
-    const bubble = document.createElement('div');
-    const ehMinha = m.remetente_telefone===currentUser.telefone;
-    const ehOferta = m.texto.startsWith('💰');
-    bubble.className = 'msgBubble ' + (ehMinha ? 'mine' : 'theirs') + (ehOferta ? ' oferta' : '');
-    bubble.textContent = m.texto;
-    box.appendChild(bubble);
-  });
-  box.scrollTop = box.scrollHeight;
+  const mensagens=data||[]; const box=document.getElementById('chatMensagens'); box.innerHTML='';
+  if(mensagens.length===0){ box.innerHTML='<div style="text-align:center;color:var(--ink-soft);font-size:12.5px;margin-top:20px;">Envie a primeira mensagem</div>'; return; }
+  mensagens.forEach(m=>{ const bubble=document.createElement('div'); const ehMinha=m.remetente_id===currentUser.id; const ehOferta=String(m.texto||'').startsWith('💰'); bubble.className='msgBubble '+(ehMinha?'mine':'theirs')+(ehOferta?' oferta':''); bubble.textContent=m.texto; box.appendChild(bubble); });
+  box.scrollTop=box.scrollHeight; checarMensagensNovas();
 }
 
 async function fazerOferta(){
-  if(!currentChat) return;
-  const valor = prompt('Qual valor você quer oferecer? (só números, ex: 400)');
-  if(!valor) return;
-  const num = parseFloat(valor.replace(',','.'));
-  if(isNaN(num) || num<=0){
-    showToast('Valor inválido');
-    return;
-  }
-  await sb.from('vendai_mensagens').insert({
-    anuncio_id: currentChat.anuncioId,
-    anuncio_titulo: currentChat.titulo,
-    remetente_telefone: currentUser.telefone,
-    remetente_nome: currentUser.nome,
-    destinatario_telefone: currentChat.outroTelefone,
-    texto: `💰 Oferta: ${formatPrice(num)}`
-  });
-  await carregarMensagens();
+  if(!currentChat || !currentSessionToken) return;
+  const valor=prompt('Qual valor você quer oferecer? (só números, ex: 400)'); if(!valor) return;
+  const num=parseFloat(valor.replace(',','.')); if(isNaN(num)||num<=0){ showToast('Valor inválido'); return; }
+  const { error }=await sb.rpc('vendai_enviar_mensagem_segura',{p_token:currentSessionToken,p_anuncio_id:currentChat.anuncioId,p_destinatario_id:currentChat.outroId,p_texto:`💰 Oferta: ${formatPrice(num)}`});
+  if(error){ showToast('Não consegui enviar a oferta'); return; } await carregarMensagens();
 }
 
 async function enviarMensagem(){
-  const input = document.getElementById('chatInput');
-  const texto = input.value.trim();
-  if(!texto || !currentChat) return;
-  input.value = '';
-  await sb.from('vendai_mensagens').insert({
-    anuncio_id: currentChat.anuncioId,
-    anuncio_titulo: currentChat.titulo,
-    remetente_telefone: currentUser.telefone,
-    remetente_nome: currentUser.nome,
-    destinatario_telefone: currentChat.outroTelefone,
-    texto
-  });
+  const input=document.getElementById('chatInput'); const texto=input.value.trim(); if(!texto||!currentChat||!currentSessionToken) return;
+  input.value='';
+  const { error }=await sb.rpc('vendai_enviar_mensagem_segura',{p_token:currentSessionToken,p_anuncio_id:currentChat.anuncioId,p_destinatario_id:currentChat.outroId,p_texto:texto});
+  if(error){ showToast('Mensagem não enviada'); input.value=texto; return; }
   await carregarMensagens();
 }
 
 async function abrirConversas(){
-  if(!currentUser){
-    pendingAction = 'conversas';
-    openLoginSheet();
-    return;
-  }
-
-  const box = document.getElementById('listaConversas');
-  const { data, error } = await sb.from('vendai_mensagens')
-    .select('*')
-    .or(`remetente_telefone.eq.${currentUser.telefone},destinatario_telefone.eq.${currentUser.telefone}`)
-    .order('criado_em', { ascending: true });
-
-  if(error){
-    box.innerHTML = '<div class="emptyMsg">Não consegui carregar as conversas.</div>';
-    document.getElementById('conversasOverlay').classList.add('show');
-    return;
-  }
-  if(!data || data.length===0){
-    box.innerHTML = '<div style="text-align:center; color:var(--ink-soft); padding:30px 10px; font-size:13.5px;">Nenhuma conversa ainda. Chame alguém pelo chat de um anúncio.</div>';
-    document.getElementById('conversasOverlay').classList.add('show');
-    return;
-  }
-
-  const nomePorTelefone = {};
-  data.forEach(m=>{ if(m.remetente_nome) nomePorTelefone[m.remetente_telefone] = m.remetente_nome; });
-
-  const ultimaPorConversa = {};
+  if(!currentUser || !currentSessionToken){ pendingAction='conversas'; openLoginSheet(); return; }
+  const box=document.getElementById('listaConversas');
+  const { data, error }=await sb.rpc('vendai_conversas_seguras',{p_token:currentSessionToken});
+  if(error){ box.innerHTML='<div class="emptyMsg">Não consegui carregar as conversas.</div>'; document.getElementById('conversasOverlay').classList.add('show'); return; }
+  if(!data || data.length===0){ box.innerHTML='<div style="text-align:center;color:var(--ink-soft);padding:30px 10px;font-size:13.5px;">Nenhuma conversa ainda. Chame alguém pelo chat de um anúncio.</div>'; document.getElementById('conversasOverlay').classList.add('show'); return; }
+  const ultimaPorConversa={};
   data.forEach(m=>{
-    const outro = m.remetente_telefone===currentUser.telefone ? m.destinatario_telefone : m.remetente_telefone;
-    ultimaPorConversa[m.anuncio_id + '|' + outro] = { ...m, outro };
+    const outro=m.remetente_id===currentUser.id ? m.destinatario_id : m.remetente_id;
+    const nome=m.remetente_id===currentUser.id ? (m.destinatario_nome||'Usuário') : (m.remetente_nome||'Usuário');
+    ultimaPorConversa[m.anuncio_id+'|'+outro]={...m,outro,nome};
   });
-
-  const lista = Object.values(ultimaPorConversa).sort((a,b)=> new Date(b.criado_em) - new Date(a.criado_em));
-
-  box.innerHTML = '';
-  lista.forEach(m=>{
-    const nome = nomePorTelefone[m.outro] || 'Usuário';
-    const row = document.createElement('div');
-    row.className = 'sellerRow';
-    row.style.cursor = 'pointer';
-    row.style.marginBottom = '10px';
-    row.onclick = () => iniciarChat(m.anuncio_id, m.anuncio_titulo || 'Anúncio', m.outro, nome);
-    row.innerHTML = `
-      <div class="sellerAvatar">🙂</div>
-      <div style="flex:1; min-width:0;">
-        <div class="sellerName">${nome} · ${m.anuncio_titulo||''}</div>
-        <div class="sellerLoc" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${m.texto}</div>
-      </div>
-    `;
-    box.appendChild(row);
-  });
+  const lista=Object.values(ultimaPorConversa).sort((a,b)=>new Date(b.criado_em)-new Date(a.criado_em));
+  box.innerHTML='';
+  lista.forEach(m=>{ const row=document.createElement('div'); row.className='sellerRow'; row.style.cursor='pointer'; row.style.marginBottom='10px'; row.onclick=()=>iniciarChat(m.anuncio_id,m.anuncio_titulo||'Anúncio',m.outro,m.nome); row.innerHTML=`<div class="sellerAvatar">🙂</div><div style="flex:1;min-width:0;"><div class="sellerName">${m.nome} · ${m.anuncio_titulo||''}</div><div class="sellerLoc" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${m.texto}</div></div>`; box.appendChild(row); });
   document.getElementById('conversasOverlay').classList.add('show');
+  await checarMensagensNovas();
+}
+
+function openSupportSheet(){
+  document.getElementById('supportStatus').style.display='none';
+  document.getElementById('supportOverlay').classList.add('show');
+}
+
+async function enviarSuporte(){
+  const tipo=document.getElementById('supportTipo').value;
+  const mensagem=document.getElementById('supportMensagem').value.trim();
+  if(mensagem.length<5){ showToast('Conte um pouco mais sobre o problema ou sugestão'); return; }
+  const btn=document.getElementById('supportEnviarBtn'); btn.textContent='Enviando...'; btn.disabled=true;
+  const { data, error }=await sb.rpc('vendai_enviar_suporte',{p_token:currentSessionToken||null,p_tipo:tipo,p_mensagem:mensagem,p_pagina:location.href,p_user_agent:navigator.userAgent});
+  btn.textContent='Enviar para o suporte'; btn.disabled=false;
+  if(error){ showToast('Não consegui enviar agora'); return; }
+  document.getElementById('supportMensagem').value='';
+  const st=document.getElementById('supportStatus'); st.textContent='✓ Recebido. Obrigado por ajudar a testar o Vendaí.'; st.style.display='block';
+  showToast('Relato enviado ao suporte ✓');
 }
 
 function showToast(msg){
@@ -1437,6 +1688,17 @@ document.getElementById('searchInput').addEventListener('input', (e)=>{
   renderGrid();
 });
 
+document.addEventListener('pointerdown', ()=>prepararSom(), { once:true });
+
+document.addEventListener('keydown', (e)=>{
+  const lb = document.getElementById('lightboxOverlay');
+  if(!lb || !lb.classList.contains('show')) return;
+  if(e.key==='ArrowLeft') mudarFotoLightbox(-1);
+  if(e.key==='ArrowRight') mudarFotoLightbox(1);
+  if(e.key==='Escape') closeSheet('lightboxOverlay');
+});
+
+restaurarSessao();
 renderChips();
 carregarAnuncios();
 </script>

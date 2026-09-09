@@ -103,6 +103,198 @@
   }
   .searchBar input::placeholder{ color:#9AA6A0; }
 
+  /* Topo comercial / hero */
+  .heroTop{
+    margin: 14px 18px 8px;
+    border-radius: 24px;
+    overflow:hidden;
+    position:relative;
+    background:
+      radial-gradient(circle at 85% 16%, rgba(255,201,60,.32), transparent 25%),
+      linear-gradient(135deg, #0F6B3B 0%, #16854A 48%, #1EA35A 100%);
+    box-shadow: 0 14px 34px rgba(18,112,62,.20);
+    min-height: 214px;
+  }
+  .heroTop::after{
+    content:'';
+    position:absolute;
+    inset:auto -38px -64px auto;
+    width:170px;
+    height:170px;
+    border-radius:50%;
+    border:32px solid rgba(255,255,255,.06);
+    pointer-events:none;
+  }
+  .heroInner{
+    display:grid;
+    grid-template-columns: 1.05fr .95fr;
+    gap:12px;
+    align-items:stretch;
+    padding:20px;
+    position:relative;
+    z-index:1;
+  }
+  .heroCopy{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    min-width:0;
+  }
+  .heroEyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    width:max-content;
+    max-width:100%;
+    padding:6px 9px;
+    border-radius:999px;
+    background:rgba(255,255,255,.13);
+    color:#EFFFF5;
+    font-size:10.5px;
+    font-weight:700;
+    margin-bottom:10px;
+    backdrop-filter: blur(4px);
+  }
+  .heroTitle{
+    font-family:'Fredoka',sans-serif;
+    color:#fff;
+    font-weight:700;
+    font-size:25px;
+    line-height:1.02;
+    letter-spacing:-.6px;
+    margin:0 0 9px;
+  }
+  .heroTitle em{
+    color:var(--yellow);
+    font-style:normal;
+  }
+  .heroText{
+    color:rgba(255,255,255,.84);
+    font-size:12.2px;
+    line-height:1.42;
+    margin-bottom:14px;
+    max-width:210px;
+  }
+  .heroActions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .heroPrimary, .heroSecondary{
+    border:none;
+    border-radius:999px;
+    min-height:38px;
+    padding:0 13px;
+    font-family:'Inter',sans-serif;
+    font-size:11.5px;
+    font-weight:800;
+    cursor:pointer;
+  }
+  .heroPrimary{
+    background:var(--yellow);
+    color:var(--ink);
+    box-shadow:0 7px 16px rgba(0,0,0,.14);
+  }
+  .heroSecondary{
+    background:rgba(255,255,255,.12);
+    color:#fff;
+    border:1px solid rgba(255,255,255,.24);
+  }
+  .heroVisual{
+    position:relative;
+    min-height:174px;
+    display:flex;
+    align-items:flex-end;
+  }
+  .heroMosaic{
+    width:100%;
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0,1fr));
+    gap:9px;
+    padding:0 0 28px 0;
+  }
+  .heroTile{
+    position:relative;
+    overflow:hidden;
+    border-radius:16px;
+    border:2px solid rgba(255,255,255,.88);
+    box-shadow:0 10px 24px rgba(7,51,28,.24);
+    background:#fff;
+    min-height:60px;
+  }
+  .heroTile img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .heroTile span{
+    position:absolute;
+    left:6px;
+    right:6px;
+    bottom:6px;
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    min-height:20px;
+    border-radius:999px;
+    background:rgba(255,255,255,.92);
+    color:var(--ink);
+    font-size:9.5px;
+    font-weight:800;
+    padding:2px 7px;
+    text-align:center;
+    line-height:1.1;
+    box-shadow:0 4px 10px rgba(0,0,0,.08);
+  }
+  .heroTile.t1{ transform:rotate(-4deg) translateY(10px); }
+  .heroTile.t2{ transform:rotate(5deg); }
+  .heroTile.t3{ transform:rotate(-2deg); }
+  .heroTile.t4{ transform:rotate(4deg) translateY(-4px); }
+  .heroTile.t5{ transform:rotate(3deg) translateY(4px); }
+  .heroTile.t6{ transform:rotate(-4deg) translateY(-6px); }
+  .moneyTag{
+    position:absolute;
+    left:-2px;
+    bottom:0;
+    z-index:3;
+    background:#fff;
+    color:var(--green-dark);
+    border-radius:12px;
+    padding:7px 9px;
+    box-shadow:0 8px 18px rgba(0,0,0,.16);
+    font-weight:800;
+    font-size:10.5px;
+    line-height:1.15;
+  }
+  .moneyTag strong{
+    display:block;
+    font-family:'Fredoka',sans-serif;
+    font-size:15px;
+    color:var(--ink);
+    margin-top:2px;
+  }
+  @media (max-width:380px){
+    .heroInner{ padding:17px; grid-template-columns:1.08fr .92fr; }
+    .heroTitle{ font-size:22px; }
+    .heroText{ font-size:11.5px; }
+    .heroMosaic{ gap:7px; padding-bottom:24px; }
+    .heroTile{ min-height:54px; }
+    .heroTile span{ font-size:8.5px; left:4px; right:4px; bottom:4px; }
+  }
+  @media (min-width:760px){
+    .heroTop{ margin:18px 40px 10px; min-height:250px; }
+    .heroInner{ padding:28px 34px; grid-template-columns:1fr .8fr; }
+    .heroTitle{ font-size:38px; max-width:440px; }
+    .heroText{ font-size:14px; max-width:430px; }
+    .heroVisual{ min-height:190px; max-width:330px; margin-left:auto; width:100%; }
+    .heroMosaic{ gap:12px; padding-bottom:34px; }
+    .heroTile{ min-height:86px; border-radius:18px; }
+    .heroTile span{ font-size:11px; min-height:24px; }
+    .moneyTag{ left:8px; bottom:4px; font-size:12px; }
+    .moneyTag strong{ font-size:18px; }
+  }
+
   .chipRow{
     display:flex; gap:8px; overflow-x:auto;
     padding: 14px 18px 6px;
@@ -444,6 +636,11 @@
     width:56px; height:56px; border-radius:10px; object-fit:cover;
     border:1.5px solid #E2E9E3;
   }
+  .msgBubble.oferta{
+    background: var(--yellow) !important;
+    color: var(--ink) !important;
+    font-weight:700;
+  }
 </style>
 </head>
 <body>
@@ -466,6 +663,31 @@
       <input id="searchInput" type="text" placeholder="Buscar sofá, bicicleta, celular...">
     </div>
   </header>
+
+  <section class="heroTop" aria-label="Venda, troca e renda extra">
+    <div class="heroInner">
+      <div class="heroCopy">
+        <div class="heroEyebrow">✨ Celular, relógio, carro, casa e mais</div>
+        <h1 class="heroTitle">Venda, troque e faça uma <em>renda extra.</em></h1>
+        <div class="heroText">Anuncie celular, relógio, eletrônicos, carro, itens de casa e até máquinas. Tudo em um só lugar, negociando direto com quem quer comprar.</div>
+        <div class="heroActions">
+          <button class="heroPrimary" onclick="openPostSheet()">＋ Quero vender</button>
+          <button class="heroSecondary" onclick="document.getElementById('grid').scrollIntoView({behavior:'smooth'})">Ver ofertas</button>
+        </div>
+      </div>
+      <div class="heroVisual" aria-hidden="true">
+        <div class="heroMosaic">
+          <div class="heroTile t1"><img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=500&q=80" alt=""><span>Celular</span></div>
+          <div class="heroTile t2"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=500&q=80" alt=""><span>Relógio</span></div>
+          <div class="heroTile t3"><img src="https://images.unsplash.com/photo-1494976688153-cf97fdd9d7b6?auto=format&fit=crop&w=500&q=80" alt=""><span>Carro</span></div>
+          <div class="heroTile t4"><img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=500&q=80" alt=""><span>Casa</span></div>
+          <div class="heroTile t5"><img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=500&q=80" alt=""><span>Eletrônicos</span></div>
+          <div class="heroTile t6"><img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=500&q=80" alt=""><span>Máquinas</span></div>
+        </div>
+        <div class="moneyTag">Anuncie de tudo<strong>em um só lugar</strong></div>
+      </div>
+    </div>
+  </section>
 
   <div class="chipRow" id="chipRow"></div>
 
@@ -496,6 +718,12 @@
     <button onclick="openProfileSheet()"><span class="ic">👤</span>Perfil</button>
   </nav>
 
+  <!-- Lightbox de fotos -->
+  <div class="overlay" id="lightboxOverlay" onclick="closeSheet('lightboxOverlay')" style="align-items:center; justify-content:center; background:rgba(10,18,13,0.92);">
+    <button class="closeBtn" style="position:fixed; top:20px; right:20px; background:rgba(255,255,255,0.15); color:#fff;" onclick="closeSheet('lightboxOverlay')">✕</button>
+    <img id="lightboxImg" style="max-width:90%; max-height:80vh; border-radius:14px; object-fit:contain;">
+  </div>
+
   <!-- Chat sheet -->
   <div class="overlay" id="chatOverlay" onclick="closeOverlayBg(event,'chatOverlay')">
     <div class="sheet" style="position:relative; height:75vh; display:flex; flex-direction:column; padding-bottom:12px;" onclick="event.stopPropagation()">
@@ -503,6 +731,7 @@
       <div class="sheetHandle"></div>
       <div id="chatHeader" style="font-weight:600; font-size:14.5px; margin-bottom:10px; padding-right:30px;"></div>
       <div id="chatMensagens" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:8px; padding:4px 2px 10px;"></div>
+      <button style="align-self:flex-start; margin-bottom:8px; background:var(--green-soft); color:var(--green-dark); border:none; border-radius:999px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer;" onclick="fazerOferta()">💰 Fazer oferta</button>
       <div style="display:flex; gap:8px;">
         <input type="text" id="chatInput" placeholder="Escreva sua mensagem..." style="flex:1;" onkeydown="if(event.key==='Enter') enviarMensagem()">
         <button style="background:var(--green); color:#fff; border:none; border-radius:12px; padding:0 16px; font-weight:700; cursor:pointer;" onclick="enviarMensagem()">Enviar</button>
@@ -595,7 +824,7 @@
       <label>Descrição</label>
       <textarea id="fDesc" placeholder="Conte o estado do item, tempo de uso, motivo da venda..."></textarea>
 
-      <div class="photoBox" id="photoBox" onclick="document.getElementById('fFoto').click()">📷 Toque pra adicionar fotos</div>
+      <div class="photoBox" id="photoBox" onclick="document.getElementById('fFoto').click()">📷 Toque pra adicionar fotos (até 4 no plano grátis)</div>
       <input type="file" id="fFoto" accept="image/*" multiple style="display:none;" onchange="previewFotos()">
       <div id="fotoPreview" style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;"></div>
 
@@ -884,14 +1113,22 @@ function renderGrid(){
 
 function openDetail(id){
   const ad = ads.find(a=>a.id===id);
+  window._anuncioAtual = ad;
   const content = document.getElementById('detailContent');
+  const temFotos = ad.fotos && ad.fotos.length>0;
+
   content.innerHTML = `
-    <div class="detailThumb" style="background:${CATEGORY_COLOR[ad.categoria]}; padding:0; overflow:hidden;">
-      ${ad.fotos && ad.fotos.length>0
+    <div class="detailThumb" style="background:${CATEGORY_COLOR[ad.categoria]}; padding:0; overflow:hidden; cursor:${temFotos?'zoom-in':'default'};" ${temFotos ? `onclick="abrirLightbox(0)"` : ''}>
+      ${temFotos
         ? `<img src="${ad.fotos[0]}" style="width:100%;height:100%;object-fit:cover;">`
         : CATEGORY_ICON[ad.categoria]}
     </div>
-    <div class="detailTitle">${ad.titulo}</div>
+    ${temFotos && ad.fotos.length>1 ? `
+      <div style="display:flex; gap:8px; margin:10px 0 4px; overflow-x:auto;">
+        ${ad.fotos.map((f,i)=>`<img src="${f}" onclick="abrirLightbox(${i})" style="width:54px;height:54px;object-fit:cover;border-radius:8px;flex:0 0 auto;cursor:zoom-in;border:1.5px solid #E2E9E3;">`).join('')}
+      </div>
+    ` : ''}
+    <div class="detailTitle" style="margin-top:14px;">${ad.titulo}</div>
     <div class="detailPrice">${formatPrice(ad.preco)}</div>
     <div class="detailMeta">${ad.cidade} · publicado ${tempoDecorrido(ad.criado_em)}</div>
     <div class="detailDesc">${ad.descricao || 'Sem descrição.'}</div>
@@ -903,12 +1140,25 @@ function openDetail(id){
       </div>
     </div>
     <div class="btnRow">
-      <div class="btnPrimary" onclick="iniciarChat('${ad.id}','${ad.titulo.replace(/'/g,"\\'")}','${ad.vendedor_telefone||''}','${(ad.vendedor_nome||'Anônimo').replace(/'/g,"\\'")}')">💬 Chamar no chat</div>
+      <div class="btnPrimary" onclick="iniciarChatFromDetail()">💬 Chamar no chat</div>
       <div class="btnGhost" onclick="showToast('Denúncia registrada (simulação)')">🚩 Denunciar</div>
     </div>
     ${(!ad.destaque && currentUser && currentUser.telefone===ad.vendedor_telefone) ? `<div class="publishBtn" style="margin-top:12px; background:var(--card); border:1.5px solid #E2E9E3; box-shadow:none; color:var(--green-dark);" onclick="destacarAnuncio('${ad.id}')">🏷️ Destacar este anúncio — ${formatPrice(PRECO_DESTAQUE)}</div>` : ''}
   `;
   document.getElementById('detailOverlay').classList.add('show');
+}
+
+function iniciarChatFromDetail(){
+  const ad = window._anuncioAtual;
+  if(!ad) return;
+  iniciarChat(ad.id, ad.titulo, ad.vendedor_telefone || '', ad.vendedor_nome || 'Anônimo');
+}
+
+function abrirLightbox(index){
+  const ad = window._anuncioAtual;
+  if(!ad || !ad.fotos || ad.fotos.length===0) return;
+  document.getElementById('lightboxImg').src = ad.fotos[index];
+  document.getElementById('lightboxOverlay').classList.add('show');
 }
 
 async function destacarAnuncio(id){
@@ -1009,6 +1259,10 @@ async function publishAd(){
 
 function previewFotos(){
   selectedFotos = Array.from(document.getElementById('fFoto').files);
+  if(selectedFotos.length > 4){
+    selectedFotos = selectedFotos.slice(0,4);
+    showToast('No plano grátis, o limite é 4 fotos por anúncio');
+  }
   const preview = document.getElementById('fotoPreview');
   preview.innerHTML = '';
   selectedFotos.forEach(file=>{
@@ -1018,8 +1272,8 @@ function previewFotos(){
     preview.appendChild(img);
   });
   document.getElementById('photoBox').textContent = selectedFotos.length>0
-    ? `📷 ${selectedFotos.length} foto(s) selecionada(s) — toque pra trocar`
-    : '📷 Toque pra adicionar fotos';
+    ? `📷 ${selectedFotos.length}/4 foto(s) selecionada(s) — toque pra trocar`
+    : '📷 Toque pra adicionar fotos (até 4 no plano grátis)';
 }
 
 async function iniciarChat(anuncioId, titulo, outroTelefone, outroNome){
@@ -1071,11 +1325,33 @@ async function carregarMensagens(){
   }
   data.forEach(m=>{
     const bubble = document.createElement('div');
-    bubble.className = 'msgBubble ' + (m.remetente_telefone===currentUser.telefone ? 'mine' : 'theirs');
+    const ehMinha = m.remetente_telefone===currentUser.telefone;
+    const ehOferta = m.texto.startsWith('💰');
+    bubble.className = 'msgBubble ' + (ehMinha ? 'mine' : 'theirs') + (ehOferta ? ' oferta' : '');
     bubble.textContent = m.texto;
     box.appendChild(bubble);
   });
   box.scrollTop = box.scrollHeight;
+}
+
+async function fazerOferta(){
+  if(!currentChat) return;
+  const valor = prompt('Qual valor você quer oferecer? (só números, ex: 400)');
+  if(!valor) return;
+  const num = parseFloat(valor.replace(',','.'));
+  if(isNaN(num) || num<=0){
+    showToast('Valor inválido');
+    return;
+  }
+  await sb.from('vendai_mensagens').insert({
+    anuncio_id: currentChat.anuncioId,
+    anuncio_titulo: currentChat.titulo,
+    remetente_telefone: currentUser.telefone,
+    remetente_nome: currentUser.nome,
+    destinatario_telefone: currentChat.outroTelefone,
+    texto: `💰 Oferta: ${formatPrice(num)}`
+  });
+  await carregarMensagens();
 }
 
 async function enviarMensagem(){

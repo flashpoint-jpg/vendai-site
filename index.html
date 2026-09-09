@@ -663,6 +663,46 @@
     color: var(--ink) !important;
     font-weight:700;
   }
+  .chatOfferPanel{
+    display:none;
+    margin:0 0 10px;
+    padding:10px;
+    border-radius:14px;
+    background:#FFF9E6;
+    border:1px solid #F1D889;
+    box-shadow:var(--shadow-sm);
+  }
+  .chatOfferPanel.show{ display:block; }
+  .offerCard{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:8px 0;
+    border-bottom:1px solid rgba(181,145,32,.16);
+  }
+  .offerCard:last-child{ border-bottom:none; }
+  .offerValue{
+    font-family:'Fredoka',sans-serif;
+    font-size:17px;
+    font-weight:700;
+    color:var(--green-dark);
+  }
+  .offerMeta{ font-size:11.5px; color:var(--ink-soft); margin-top:2px; }
+  .offerActions{ display:flex; gap:6px; margin-left:auto; flex:0 0 auto; }
+  .offerAccept,.offerReject{
+    border:none; border-radius:10px; padding:8px 10px; font-size:11px; font-weight:800; cursor:pointer;
+  }
+  .offerAccept{ background:var(--green); color:#fff; }
+  .offerReject{ background:#FBE9E9; color:var(--danger); }
+  .offerStatus{
+    margin-left:auto; flex:0 0 auto; border-radius:999px; padding:6px 9px; font-size:10.5px; font-weight:800;
+  }
+  .offerStatus.pendente{ background:#FFF0BE; color:#7A5A00; }
+  .offerStatus.aceita{ background:#DDF4E6; color:var(--green-dark); }
+  .offerStatus.recusada{ background:#FBE9E9; color:var(--danger); }
+  .chatLoadError{
+    margin:auto; text-align:center; padding:18px; color:var(--danger); font-size:13px; line-height:1.45;
+  }
 
 
   /* Suporte de teste */
@@ -881,6 +921,7 @@
       <button class="closeBtn" onclick="fecharChat()">✕</button>
       <div class="sheetHandle"></div>
       <div id="chatHeader" style="font-weight:600; font-size:14.5px; margin-bottom:10px; padding-right:30px;"></div>
+      <div id="chatOfferPanel" class="chatOfferPanel"></div>
       <div id="chatMensagens" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:8px; padding:4px 2px 10px;"></div>
       <button style="align-self:flex-start; margin-bottom:8px; background:var(--green-soft); color:var(--green-dark); border:none; border-radius:999px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer;" onclick="fazerOferta()">💰 Fazer oferta</button>
       <div style="display:flex; gap:8px;">
@@ -1610,25 +1651,82 @@ async function iniciarChat(anuncioId, titulo, outroId, outroNome){
 function fecharChat(){
   closeSheet('chatOverlay');
   if(chatPollingInterval){ clearInterval(chatPollingInterval); chatPollingInterval = null; }
+  const painel=document.getElementById('chatOfferPanel'); if(painel){ painel.innerHTML=''; painel.classList.remove('show'); }
   currentChat = null;
 }
 
 async function carregarMensagens(){
   if(!currentChat || !currentUser || !currentSessionToken) return;
+  const box=document.getElementById('chatMensagens');
   const { data, error } = await sb.rpc('vendai_chat_seguro',{p_token:currentSessionToken,p_anuncio_id:currentChat.anuncioId,p_outro_id:currentChat.outroId});
-  if(error) return;
-  const mensagens=data||[]; const box=document.getElementById('chatMensagens'); box.innerHTML='';
-  if(mensagens.length===0){ box.innerHTML='<div style="text-align:center;color:var(--ink-soft);font-size:12.5px;margin-top:20px;">Envie a primeira mensagem</div>'; return; }
-  mensagens.forEach(m=>{ const bubble=document.createElement('div'); const ehMinha=m.remetente_id===currentUser.id; const ehOferta=String(m.texto||'').startsWith('💰'); bubble.className='msgBubble '+(ehMinha?'mine':'theirs')+(ehOferta?' oferta':''); bubble.textContent=m.texto; box.appendChild(bubble); });
-  box.scrollTop=box.scrollHeight; checarMensagensNovas();
+  if(error){
+    console.error('Erro ao carregar chat', error);
+    box.innerHTML='<div class="chatLoadError">Não consegui abrir as mensagens agora.<br>Feche e abra a conversa novamente.</div>';
+    return;
+  }
+  const mensagens=data||[];
+  box.innerHTML='';
+  if(mensagens.length===0){
+    box.innerHTML='<div style="text-align:center;color:var(--ink-soft);font-size:12.5px;margin-top:20px;">Envie a primeira mensagem</div>';
+  }else{
+    mensagens.forEach(m=>{
+      const bubble=document.createElement('div');
+      const ehMinha=m.remetente_id===currentUser.id;
+      const ehOferta=String(m.texto||'').startsWith('💰');
+      const ehRespostaOferta=String(m.texto||'').startsWith('✅ Oferta') || String(m.texto||'').startsWith('❌ Oferta');
+      bubble.className='msgBubble '+(ehMinha?'mine':'theirs')+((ehOferta||ehRespostaOferta)?' oferta':'');
+      bubble.textContent=m.texto;
+      box.appendChild(bubble);
+    });
+    box.scrollTop=box.scrollHeight;
+  }
+  await carregarOfertasChat();
+  checarMensagensNovas();
+}
+
+async function carregarOfertasChat(){
+  const painel=document.getElementById('chatOfferPanel');
+  if(!painel || !currentChat || !currentUser || !currentSessionToken) return;
+  const { data, error }=await sb.rpc('vendai_ofertas_conversa',{p_token:currentSessionToken,p_anuncio_id:currentChat.anuncioId,p_outro_id:currentChat.outroId});
+  if(error){ console.error('Erro ao carregar ofertas',error); painel.classList.remove('show'); painel.innerHTML=''; return; }
+  const ofertas=data||[];
+  if(ofertas.length===0){ painel.classList.remove('show'); painel.innerHTML=''; return; }
+  painel.innerHTML='<div style="font-size:11px;font-weight:800;color:#7A5A00;margin-bottom:4px;">💰 OFERTAS DESTA CONVERSA</div>';
+  ofertas.slice(0,3).forEach(o=>{
+    const card=document.createElement('div');
+    card.className='offerCard';
+    const souVendedor=o.vendedor_id===currentUser.id;
+    const statusLabel=o.status==='aceita'?'Aceita':(o.status==='recusada'?'Recusada':'Aguardando');
+    card.innerHTML=`
+      <div style="min-width:0;flex:1;">
+        <div class="offerValue">${formatPrice(o.valor)}</div>
+        <div class="offerMeta">${souVendedor ? 'Oferta de '+(o.comprador_nome||'comprador') : 'Sua oferta'}</div>
+      </div>
+      ${souVendedor && o.status==='pendente'
+        ? `<div class="offerActions"><button class="offerAccept" onclick="responderOferta('${o.id}',true)">Aceitar</button><button class="offerReject" onclick="responderOferta('${o.id}',false)">Recusar</button></div>`
+        : `<div class="offerStatus ${o.status}">${statusLabel}</div>`}
+    `;
+    painel.appendChild(card);
+  });
+  painel.classList.add('show');
+}
+
+async function responderOferta(ofertaId, aceitar){
+  if(!currentSessionToken) return;
+  const { data, error }=await sb.rpc('vendai_responder_oferta',{p_token:currentSessionToken,p_oferta_id:ofertaId,p_aceitar:aceitar});
+  if(error){ console.error(error); showToast('Não consegui responder a oferta'); return; }
+  showToast(aceitar?'Oferta aceita ✓':'Oferta recusada');
+  await carregarMensagens();
 }
 
 async function fazerOferta(){
   if(!currentChat || !currentSessionToken) return;
   const valor=prompt('Qual valor você quer oferecer? (só números, ex: 400)'); if(!valor) return;
   const num=parseFloat(valor.replace(',','.')); if(isNaN(num)||num<=0){ showToast('Valor inválido'); return; }
-  const { error }=await sb.rpc('vendai_enviar_mensagem_segura',{p_token:currentSessionToken,p_anuncio_id:currentChat.anuncioId,p_destinatario_id:currentChat.outroId,p_texto:`💰 Oferta: ${formatPrice(num)}`});
-  if(error){ showToast('Não consegui enviar a oferta'); return; } await carregarMensagens();
+  const { error }=await sb.rpc('vendai_criar_oferta',{p_token:currentSessionToken,p_anuncio_id:currentChat.anuncioId,p_valor:num});
+  if(error){ console.error(error); showToast('Não consegui enviar a oferta'); return; }
+  showToast('Oferta enviada ✓');
+  await carregarMensagens();
 }
 
 async function enviarMensagem(){

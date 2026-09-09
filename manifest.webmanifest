@@ -1,0 +1,70 @@
+{
+  "id": "./",
+  "name": "Vendaí — Comprar, Vender e Negociar",
+  "short_name": "Vendaí",
+  "description": "Marketplace local para vender, comprar, negociar e trocar produtos com pessoas da sua região.",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "any",
+  "background_color": "#F6FAF7",
+  "theme_color": "#1EA35A",
+  "categories": [
+    "shopping",
+    "lifestyle",
+    "business"
+  ],
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Anunciar produto",
+      "short_name": "Anunciar",
+      "description": "Criar um novo anúncio no Vendaí",
+      "url": "./index.html?action=anunciar",
+      "icons": [
+        {
+          "src": "./icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Conversas",
+      "short_name": "Conversas",
+      "description": "Abrir suas conversas",
+      "url": "./index.html?action=conversas",
+      "icons": [
+        {
+          "src": "./icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}

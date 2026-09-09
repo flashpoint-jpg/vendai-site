@@ -2,8 +2,17 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vendaí — teste</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1EA35A">
+<meta name="description" content="Vendaí — marketplace local para vender, comprar, negociar e trocar produtos com pessoas da sua região.">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Vendaí">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<title>Vendaí — compre, venda e negocie</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1799,6 +1808,20 @@ document.addEventListener('keydown', (e)=>{
 restaurarSessao();
 renderChips();
 carregarAnuncios();
+</script>
+
+<script>
+// PWA: registra o service worker. Usa rede primeiro para evitar versão antiga presa em cache.
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', async () => {
+    try {
+      const reg = await navigator.serviceWorker.register('./sw.js', { scope: './', updateViaCache: 'none' });
+      reg.update().catch(()=>{});
+    } catch (err) {
+      console.warn('Service worker não registrado:', err);
+    }
+  });
+}
 </script>
 
 </body>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vendaí — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{
+    --bg: #F6FAF7;
+    --card: #FFFFFF;
+    --ink: #16281D;
+    --ink-soft: #71827A;
+    --green: #1EA35A;
+    --green-dark: #12703E;
+    --green-soft: #E4F5EB;
+    --yellow: #FFC93C;
+    --yellow-dark: #E8A800;
+    --danger: #E5484D;
+    --danger-soft: #FBE9E9;
+    --radius: 14px;
+    --shadow-sm: 0 2px 8px rgba(18,40,28,0.07);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: #E9EEE9;
+    font-family:'Inter', sans-serif;
+    color: var(--ink);
+    min-height:100vh;
+  }
+
+  /* Login */
+  #loginScreen{
+    min-height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    padding: 20px;
+  }
+  .loginBox{
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 32px 26px;
+    width:100%;
+    max-width:340px;
+    text-align:center;
+  }
+  .loginLogo{
+    width:52px; height:52px; border-radius:16px;
+    background: var(--green);
+    display:flex; align-items:center; justify-content:center;
+    margin: 0 auto 16px;
+  }
+  .loginTitle{ font-family:'Fredoka',sans-serif; font-weight:600; font-size:20px; margin-bottom:4px; }
+  .loginSub{ font-size:13px; color:var(--ink-soft); margin-bottom:20px; }
+  .loginBox input{
+    width:100%; padding:12px 14px; border-radius:10px;
+    border:1.5px solid #E2E9E3; font-size:14px; margin-bottom:12px; outline:none;
+    font-family:'Inter',sans-serif;
+  }
+  .loginBox button{
+    width:100%; padding:13px 0; border:none; border-radius:10px;
+    background: var(--green); color:#fff; font-weight:700; font-size:14.5px; cursor:pointer;
+    font-family:'Inter',sans-serif;
+  }
+  .loginErr{ color:var(--danger); font-size:12.5px; margin-top:10px; display:none; }
+
+  /* App */
+  #app{ display:none; max-width:900px; margin:0 auto; padding: 20px 18px 60px; }
+  .topBar{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:20px;
+  }
+  .brand{ display:flex; align-items:center; gap:10px; }
+  .brandMark{ width:32px; height:32px; border-radius:10px; background:var(--green); }
+  .brandName{ font-family:'Fredoka',sans-serif; font-weight:600; font-size:19px; }
+  .brandName em{ font-style:normal; color:var(--yellow-dark); }
+  .brandTag{ font-size:11px; color:var(--ink-soft); background:var(--green-soft); padding:3px 9px; border-radius:999px; margin-left:6px; }
+  .logoutBtn{
+    background:var(--card); border:1.5px solid #E2E9E3; border-radius:10px;
+    padding:9px 14px; font-size:13px; font-weight:600; color:var(--ink-soft); cursor:pointer;
+    font-family:'Inter',sans-serif;
+  }
+
+  .statsRow{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:22px; }
+  .statCard{
+    background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow-sm);
+    padding:16px 14px;
+  }
+  .statNum{ font-family:'Fredoka',sans-serif; font-weight:600; font-size:24px; color:var(--green-dark); }
+  .statLabel{ font-size:11.5px; color:var(--ink-soft); margin-top:2px; }
+
+  .tabRow{ display:flex; gap:8px; margin-bottom:18px; }
+  .tabBtn{
+    padding:9px 16px; border-radius:999px; border:none; background:var(--card);
+    font-size:13.5px; font-weight:600; color:var(--ink-soft); cursor:pointer;
+    font-family:'Inter',sans-serif; box-shadow:var(--shadow-sm);
+  }
+  .tabBtn.active{ background:var(--green); color:#fff; }
+
+  .panel{ display:none; }
+  .panel.active{ display:block; }
+
+  .rowCard{
+    background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow-sm);
+    padding:14px 16px; margin-bottom:10px;
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  }
+  .rowThumb{
+    width:42px; height:42px; border-radius:10px; flex:0 0 auto;
+    display:flex; align-items:center; justify-content:center; font-size:19px;
+  }
+  .rowMain{ flex:1; min-width:180px; }
+  .rowTitle{ font-weight:600; font-size:14px; margin-bottom:2px; }
+  .rowMeta{ font-size:12px; color:var(--ink-soft); }
+  .badge{
+    font-size:10.5px; font-weight:700; padding:3px 8px; border-radius:999px;
+    display:inline-block; margin-right:5px;
+  }
+  .badge.ativo{ background:var(--green-soft); color:var(--green-dark); }
+  .badge.vendido{ background:#EEE; color:var(--ink-soft); }
+  .badge.removido{ background:var(--danger-soft); color:var(--danger); }
+  .badge.destaque{ background:var(--yellow); color:var(--ink); }
+
+  .rowActions{ display:flex; gap:6px; flex-wrap:wrap; }
+  .miniBtn{
+    font-size:11.5px; font-weight:700; border:none; border-radius:8px;
+    padding:7px 10px; cursor:pointer; font-family:'Inter',sans-serif;
+  }
+  .miniBtn.yellow{ background:var(--yellow); color:var(--ink); }
+  .miniBtn.grey{ background:#EEF2EE; color:var(--ink-soft); }
+  .miniBtn.red{ background:var(--danger-soft); color:var(--danger); }
+  .miniBtn.green{ background:var(--green-soft); color:var(--green-dark); }
+
+  .emptyMsg{ text-align:center; padding:40px 20px; color:var(--ink-soft); font-size:14px; }
+</style>
+</head>
+<body>
+
+<div id="loginScreen">
+  <div class="loginBox">
+    <div class="loginLogo"></div>
+    <div class="loginTitle">Vendaí Admin</div>
+    <div class="loginSub">Acesso restrito</div>
+    <input type="password" id="senhaInput" placeholder="Senha de admin">
+    <button onclick="verificarSenha()">Entrar</button>
+    <div class="loginErr" id="loginErr">Senha incorreta.</div>
+  </div>
+</div>
+
+<div id="app">
+  <div class="topBar">
+    <div class="brand">
+      <div class="brandMark"></div>
+      <div class="brandName">Vend<em>aí</em> <span class="brandTag">admin</span></div>
+    </div>
+    <button class="logoutBtn" onclick="location.reload()">Sair</button>
+  </div>
+
+  <div class="statsRow" id="statsRow"></div>
+
+  <div class="tabRow">
+    <button class="tabBtn active" onclick="mudarAba('anuncios', event)">📦 Anúncios</button>
+    <button class="tabBtn" onclick="mudarAba('usuarios', event)">👥 Usuários</button>
+  </div>
+
+  <div class="panel active" id="panelAnuncios">
+    <div id="listaAnuncios"></div>
+  </div>
+
+  <div class="panel" id="panelUsuarios">
+    <div id="listaUsuarios"></div>
+  </div>
+</div>
+
+<script>
+// ATENÇÃO: senha fixa aqui no código, igual o primeiro admin do Entrega Flash —
+// serve pra testar agora; antes de divulgar de verdade, troca isso por uma
+// verificação real no banco (igual foi corrigido lá).
+const ADMIN_SENHA = 'vendai2026';
+
+const SUPABASE_URL = 'https://rgcclordmqjmwuzrrfbd.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJnY2Nsb3JkbXFqbXd1enJyZmJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUzMzU5NjgsImV4cCI6MjEwMDkxMTk2OH0.08MeNbE_Tr5sf7APOP9gsSr5KwDjDbdacaXXzDOyqXA';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const CATEGORY_ICON = {moveis:'🛋️', eletronicos:'📱', veiculos:'🚗', roupas:'👕', casa:'🏠', bebe:'🍼', outros:'📦'};
+const CATEGORY_COLOR = {moveis:'#E7D9B8', eletronicos:'#CFE0D8', veiculos:'#EAC9B8', roupas:'#E3D2E0', casa:'#D8E2C4', bebe:'#F2DCC9', outros:'#DCD5C8'};
+
+function verificarSenha(){
+  const val = document.getElementById('senhaInput').value;
+  if(val === ADMIN_SENHA){
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    carregarTudo();
+  } else {
+    document.getElementById('loginErr').style.display = 'block';
+  }
+}
+document.getElementById('senhaInput').addEventListener('keydown', e=>{ if(e.key==='Enter') verificarSenha(); });
+
+function formatPrice(n){ return 'R$ ' + Number(n).toLocaleString('pt-BR'); }
+
+function mudarAba(nome, e){
+  document.querySelectorAll('.tabBtn').forEach(b=>b.classList.remove('active'));
+  e.currentTarget.classList.add('active');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel' + nome.charAt(0).toUpperCase()+nome.slice(1)).classList.add('active');
+}
+
+async function carregarTudo(){
+  await Promise.all([carregarStats(), carregarAnunciosAdmin(), carregarUsuarios()]);
+}
+
+async function carregarStats(){
+  const { data } = await sb.from('vendai_anuncios').select('status,destaque');
+  const { data: usuarios } = await sb.from('vendai_usuarios').select('id');
+
+  const ativos = (data||[]).filter(a=>a.status==='ativo').length;
+  const destacados = (data||[]).filter(a=>a.destaque && a.status==='ativo').length;
+  const vendidos = (data||[]).filter(a=>a.status==='vendido').length;
+
+  document.getElementById('statsRow').innerHTML = `
+    <div class="statCard"><div class="statNum">${ativos}</div><div class="statLabel">Anúncios ativos</div></div>
+    <div class="statCard"><div class="statNum">${destacados}</div><div class="statLabel">Destacados agora</div></div>
+    <div class="statCard"><div class="statNum">${vendidos}</div><div class="statLabel">Marcados vendidos</div></div>
+    <div class="statCard"><div class="statNum">${(usuarios||[]).length}</div><div class="statLabel">Usuários cadastrados</div></div>
+  `;
+}
+
+async function carregarAnunciosAdmin(){
+  const { data, error } = await sb.from('vendai_anuncios').select('*').order('criado_em', { ascending:false });
+  const box = document.getElementById('listaAnuncios');
+
+  if(error){ box.innerHTML = '<div class="emptyMsg">Erro ao carregar anúncios.</div>'; return; }
+  if(!data || data.length===0){ box.innerHTML = '<div class="emptyMsg">Nenhum anúncio publicado ainda.</div>'; return; }
+
+  box.innerHTML = '';
+  data.forEach(ad=>{
+    const row = document.createElement('div');
+    row.className = 'rowCard';
+    row.innerHTML = `
+      <div class="rowThumb" style="background:${CATEGORY_COLOR[ad.categoria]||'#eee'}">${CATEGORY_ICON[ad.categoria]||'📦'}</div>
+      <div class="rowMain">
+        <div class="rowTitle">${ad.titulo}</div>
+        <div class="rowMeta">
+          <span class="badge ${ad.status}">${ad.status}</span>
+          ${ad.destaque ? '<span class="badge destaque">🔥 destaque</span>' : ''}
+          ${formatPrice(ad.preco)} · ${ad.cidade} · ${ad.vendedor_nome||'—'} (${ad.vendedor_telefone||'sem telefone'})
+        </div>
+      </div>
+      <div class="rowActions">
+        ${ad.destaque
+          ? `<button class="miniBtn grey" onclick="toggleDestaque('${ad.id}', false)">Remover destaque</button>`
+          : `<button class="miniBtn yellow" onclick="toggleDestaque('${ad.id}', true)">🔥 Destacar</button>`}
+        ${ad.status!=='ativo' ? `<button class="miniBtn green" onclick="atualizarStatus('${ad.id}','ativo')">Reativar</button>` : ''}
+        ${ad.status!=='vendido' ? `<button class="miniBtn grey" onclick="atualizarStatus('${ad.id}','vendido')">Marcar vendido</button>` : ''}
+        ${ad.status!=='removido' ? `<button class="miniBtn red" onclick="atualizarStatus('${ad.id}','removido')">Remover</button>` : ''}
+      </div>
+    `;
+    box.appendChild(row);
+  });
+}
+
+async function toggleDestaque(id, valor){
+  const payload = { destaque: valor };
+  payload.destaque_expira_em = valor ? new Date(Date.now()+7*24*60*60*1000).toISOString() : null;
+  await sb.from('vendai_anuncios').update(payload).eq('id', id);
+  await carregarTudo();
+}
+
+async function atualizarStatus(id, status){
+  await sb.from('vendai_anuncios').update({ status }).eq('id', id);
+  await carregarTudo();
+}
+
+async function carregarUsuarios(){
+  const { data, error } = await sb.from('vendai_usuarios').select('*').order('criado_em', { ascending:false });
+  const box = document.getElementById('listaUsuarios');
+
+  if(error){ box.innerHTML = '<div class="emptyMsg">Erro ao carregar usuários.</div>'; return; }
+  if(!data || data.length===0){ box.innerHTML = '<div class="emptyMsg">Nenhum usuário cadastrado ainda.</div>'; return; }
+
+  box.innerHTML = '';
+  data.forEach(u=>{
+    const row = document.createElement('div');
+    row.className = 'rowCard';
+    row.innerHTML = `
+      <div class="rowThumb" style="background:var(--green-soft);">🙂</div>
+      <div class="rowMain">
+        <div class="rowTitle">${u.nome}</div>
+        <div class="rowMeta">${u.telefone} · cadastrado em ${new Date(u.criado_em).toLocaleDateString('pt-BR')}</div>
+      </div>
+    `;
+    box.appendChild(row);
+  });
+}
+</script>
+</body>
+</html>

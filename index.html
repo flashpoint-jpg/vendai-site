@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vendaí — teste</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{
+    --bg: #F6FAF7;
+    --card: #FFFFFF;
+    --ink: #16281D;
+    --ink-soft: #71827A;
+    --green: #1EA35A;
+    --green-dark: #12703E;
+    --green-soft: #E4F5EB;
+    --yellow: #FFC93C;
+    --yellow-dark: #E8A800;
+    --danger: #E5484D;
+    --radius: 16px;
+    --radius-sm: 12px;
+    --shadow: 0 6px 20px rgba(18,40,28,0.08);
+    --shadow-sm: 0 2px 8px rgba(18,40,28,0.06);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: #E9EEE9;
+    font-family:'Inter', sans-serif;
+    color: var(--ink);
+    display:flex;
+    justify-content:center;
+  }
+  #app{
+    width:100%;
+    max-width:430px;
+    min-height:100vh;
+    background: var(--bg);
+    position:relative;
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* Header */
+  header{
+    position:sticky; top:0; z-index:20;
+    background: var(--card);
+    padding: 16px 18px 14px;
+    box-shadow: var(--shadow-sm);
+  }
+  .topRow{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:14px;
+  }
+  .logoGroup{ display:flex; align-items:center; gap:9px; }
+  .logoMark{ flex:0 0 auto; display:block; }
+  .logo{
+    font-family:'Fredoka', sans-serif;
+    font-weight:600;
+    font-size:24px;
+    color: var(--green-dark);
+    letter-spacing:-0.2px;
+  }
+  .logo em{
+    font-style:normal;
+    color: var(--yellow-dark);
+  }
+  .location{
+    font-size:12.5px;
+    font-weight:500;
+    color: var(--ink-soft);
+    display:flex; align-items:center; gap:4px;
+    cursor:pointer;
+    background: var(--green-soft);
+    border:none;
+    border-radius:999px;
+    padding:7px 12px;
+    font-family:inherit;
+  }
+  .searchBar{
+    display:flex; align-items:center; gap:9px;
+    background: var(--bg);
+    border: 1.5px solid #E2E9E3;
+    border-radius: 999px;
+    padding: 11px 16px;
+  }
+  .searchBar input{
+    border:none; outline:none; background:none;
+    font-family:'Inter', sans-serif;
+    font-size:14.5px;
+    flex:1;
+    color: var(--ink);
+  }
+  .searchBar input::placeholder{ color:#9AA6A0; }
+
+  .chipRow{
+    display:flex; gap:8px; overflow-x:auto;
+    padding: 14px 18px 6px;
+    scrollbar-width:none;
+  }
+  .chipRow::-webkit-scrollbar{display:none;}
+  .chip{
+    flex:0 0 auto;
+    font-size:13px; font-weight:600;
+    padding:8px 15px;
+    border-radius: 999px;
+    border: 1.5px solid #E2E9E3;
+    background: var(--card);
+    color: var(--ink-soft);
+    cursor:pointer;
+    white-space:nowrap;
+    transition: all .15s ease;
+  }
+  .chip.active{
+    background: var(--green);
+    color: #fff;
+    border-color: var(--green);
+  }
+
+  /* Feed */
+  main{ flex:1; padding: 16px 18px 96px; }
+  .feedTitle{
+    font-family:'Fredoka', sans-serif;
+    font-weight:600;
+    font-size:18px;
+    margin: 2px 0 14px;
+    color: var(--ink);
+  }
+  .grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:14px;
+  }
+  .card{
+    background: var(--card);
+    border-radius: var(--radius);
+    overflow:hidden;
+    cursor:pointer;
+    box-shadow: var(--shadow-sm);
+    transition: transform .1s ease, box-shadow .1s ease;
+  }
+  .card:active{ transform: scale(0.97); box-shadow: var(--shadow-sm); }
+  .thumb{
+    height:104px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:36px;
+  }
+  .cardBody{ padding:11px 12px 13px; }
+  .cardTitle{
+    font-size:13.5px; font-weight:600;
+    line-height:1.3;
+    margin-bottom:5px;
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+  }
+  .cardPrice{
+    font-family:'Fredoka', sans-serif;
+    font-weight:600;
+    font-size:16px;
+    color: var(--green-dark);
+    margin-bottom:4px;
+  }
+  .cardMeta{ font-size:11px; color: var(--ink-soft); }
+
+  .empty{
+    text-align:center;
+    padding: 50px 20px;
+    color: var(--ink-soft);
+    font-size:14px;
+  }
+
+  .infoBanner{
+    position:relative;
+    background: var(--green-soft);
+    border-radius: var(--radius);
+    padding: 16px 40px 14px 16px;
+    margin-bottom:18px;
+  }
+  .infoClose{
+    position:absolute; top:10px; right:10px;
+    background:none; border:none; font-size:14px; color:var(--ink-soft); cursor:pointer;
+    width:24px; height:24px;
+  }
+  .infoTitle{
+    font-family:'Fredoka', sans-serif;
+    font-weight:600;
+    font-size:15.5px;
+    color: var(--green-dark);
+    margin-bottom:10px;
+  }
+  .infoStep{
+    display:flex; align-items:flex-start; gap:9px;
+    font-size:13px; line-height:1.4;
+    color: var(--ink);
+    margin-bottom:8px;
+  }
+  .stepNum{
+    flex:0 0 auto;
+    width:19px; height:19px;
+    border-radius:50%;
+    background: var(--yellow);
+    color: var(--ink);
+    font-size:11px; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+    margin-top:1px;
+  }
+  .infoNote{
+    font-size:12px;
+    color: var(--green-dark);
+    font-weight:600;
+    margin-top:8px;
+  }
+
+  /* FAB */
+  .fab{
+    position:fixed;
+    max-width:430px;
+    margin:0 auto;
+    left:0; right:0;
+    bottom:82px;
+    display:flex; justify-content:flex-end;
+    padding: 0 18px;
+    pointer-events:none;
+    z-index:25;
+  }
+  .fab button{
+    pointer-events:all;
+    background: var(--yellow);
+    border: none;
+    border-radius: 999px;
+    font-family:'Inter', sans-serif;
+    font-weight:700;
+    font-size:14px;
+    padding: 14px 22px;
+    box-shadow: 0 6px 16px rgba(232,168,0,0.4);
+    cursor:pointer;
+    color: var(--ink);
+    transition: transform .1s ease;
+  }
+  .fab button:active{ transform: scale(0.96); }
+
+  /* Bottom nav */
+  nav{
+    position:fixed;
+    max-width:430px;
+    margin:0 auto;
+    left:0; right:0;
+    bottom:0;
+    background: var(--card);
+    box-shadow: 0 -4px 16px rgba(18,40,28,0.06);
+    display:flex;
+    z-index:20;
+  }
+  nav button{
+    flex:1;
+    background:none; border:none;
+    padding: 10px 0 9px;
+    display:flex; flex-direction:column; align-items:center; gap:3px;
+    font-family:'Inter', sans-serif;
+    font-size:10.5px;
+    font-weight:500;
+    color: var(--ink-soft);
+    cursor:pointer;
+  }
+  nav button.active{ color: var(--green); font-weight:700; }
+  nav button .ic{ font-size:19px; }
+
+  /* Overlays */
+  .overlay{
+    position:fixed; inset:0;
+    max-width:430px; margin:0 auto;
+    background: rgba(18,32,24,0.45);
+    z-index:50;
+    display:none;
+    align-items:flex-end;
+  }
+  .overlay.show{ display:flex; }
+  .sheet{
+    width:100%;
+    max-height:88vh;
+    overflow-y:auto;
+    background: var(--bg);
+    border-radius: 22px 22px 0 0;
+    padding: 18px 20px 28px;
+    animation: slideUp .18s ease-out;
+  }
+  @keyframes slideUp{ from{ transform: translateY(24px); opacity:0; } to{ transform:none; opacity:1; } }
+  .sheetHandle{
+    width:38px; height:4px; background: #D7E0D8;
+    border-radius:2px; margin: 0 auto 16px;
+  }
+  .closeBtn{
+    position:absolute; top:16px; right:18px;
+    background: var(--card); border:none; width:30px; height:30px; border-radius:50%;
+    font-size:15px; cursor:pointer; color: var(--ink);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .detailThumb{
+    height:180px; border-radius: var(--radius);
+    display:flex; align-items:center; justify-content:center; font-size:60px;
+    background: var(--card); margin-bottom:16px;
+  }
+  .detailTitle{ font-family:'Fredoka',sans-serif; font-weight:600; font-size:19px; margin-bottom:6px;}
+  .detailPrice{ font-family:'Fredoka',sans-serif; font-weight:600; font-size:22px; color:var(--green-dark); margin-bottom:12px;}
+  .detailMeta{ font-size:12.5px; color:var(--ink-soft); margin-bottom:16px; }
+  .detailDesc{ font-size:14px; line-height:1.55; margin-bottom:18px; color:var(--ink);}
+  .sellerRow{
+    display:flex; align-items:center; gap:11px;
+    padding:12px; border-radius: var(--radius);
+    margin-bottom:16px; background: var(--card);
+    box-shadow: var(--shadow-sm);
+  }
+  .sellerAvatar{
+    width:38px; height:38px; border-radius:50%;
+    background: var(--green-soft);
+    display:flex; align-items:center; justify-content:center; font-size:16px; flex:0 0 auto;
+  }
+  .sellerName{ font-size:13.5px; font-weight:600; }
+  .sellerLoc{ font-size:11.5px; color:var(--ink-soft); }
+  .btnRow{ display:flex; gap:10px; }
+  .btnPrimary, .btnGhost{
+    flex:1;
+    padding:14px 0;
+    border-radius: var(--radius-sm);
+    font-family:'Inter', sans-serif;
+    font-weight:700;
+    font-size:14px;
+    cursor:pointer;
+    text-align:center;
+  }
+  .btnPrimary{
+    background: var(--green); color:#fff; border: none;
+  }
+  .btnGhost{
+    background: var(--card); color: var(--danger); border: 1.5px solid #F3D4D5;
+  }
+
+  /* Form */
+  label{ display:block; font-size:12.5px; font-weight:600; margin: 14px 0 6px; color:var(--ink); }
+  input[type=text], input[type=number], select, textarea{
+    width:100%;
+    font-family:'Inter', sans-serif;
+    font-size:14px;
+    padding: 12px 14px;
+    border: 1.5px solid #E2E9E3;
+    border-radius: var(--radius-sm);
+    background: var(--card);
+    color: var(--ink);
+    outline:none;
+  }
+  textarea{ resize:vertical; min-height:70px; }
+  .photoBox{
+    margin-top:14px;
+    border: 1.5px dashed #C9D5CB;
+    border-radius: var(--radius-sm);
+    padding: 22px;
+    text-align:center;
+    font-size:13px;
+    color: var(--ink-soft);
+    cursor:pointer;
+    background: var(--card);
+  }
+  .publishBtn{
+    margin-top:20px;
+    width:100%;
+    background: var(--yellow);
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 15px 0;
+    font-family:'Inter', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    cursor:pointer;
+    color: var(--ink);
+    box-shadow: 0 6px 16px rgba(232,168,0,0.35);
+  }
+  .publishBtn:active{ transform: scale(0.98); }
+
+  .toast{
+    position:fixed;
+    max-width:430px; margin:0 auto; left:0; right:0;
+    bottom:104px;
+    display:flex; justify-content:center;
+    z-index:60;
+    pointer-events:none;
+  }
+  .toast div{
+    background: var(--green-dark);
+    color:#fff;
+    font-size:13px;
+    font-weight:600;
+    padding: 11px 20px;
+    border-radius: 999px;
+    box-shadow: var(--shadow);
+    opacity:0;
+    transform: translateY(10px);
+    transition: all .25s ease;
+  }
+  .toast.show div{ opacity:1; transform:none; }
+
+  .cityOption{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 4px;
+    border-bottom: 1px solid #EEF2EE;
+    font-size:14.5px; font-weight:500;
+    cursor:pointer;
+  }
+  .cityOption:last-child{ border-bottom:none; }
+  .cityOption.active{ color: var(--green-dark); font-weight:700; }
+  .cityCheck{ color: var(--green); font-size:16px; visibility:hidden; }
+  .cityOption.active .cityCheck{ visibility:visible; }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <header>
+    <div class="topRow">
+      <div class="logoGroup">
+        <svg class="logoMark" width="34" height="34" viewBox="0 0 40 40">
+          <rect x="2" y="2" width="36" height="36" rx="12" fill="var(--green)"/>
+          <path d="M13 16 L20 27 L27 16" stroke="var(--yellow)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <circle cx="27" cy="13" r="3" fill="var(--yellow)"/>
+        </svg>
+        <div class="logo">Vend<em>aí</em></div>
+      </div>
+      <button class="location" onclick="openLocationSheet()" id="locationBtn">📍 Toda a região ▾</button>
+    </div>
+    <div class="searchBar">
+      <span>🔍</span>
+      <input id="searchInput" type="text" placeholder="Buscar sofá, bicicleta, celular...">
+    </div>
+  </header>
+
+  <div class="chipRow" id="chipRow"></div>
+
+  <main>
+    <div class="infoBanner" id="infoBanner">
+      <button class="infoClose" onclick="document.getElementById('infoBanner').style.display='none'">✕</button>
+      <div class="infoTitle">Como funciona o Vendaí</div>
+      <div class="infoStep"><span class="stepNum">1</span> Anuncie grátis, sem mensalidade e sem taxa pra vender</div>
+      <div class="infoStep"><span class="stepNum">2</span> Quem tiver interesse te chama direto pelo chat</div>
+      <div class="infoStep"><span class="stepNum">3</span> Quer vender mais rápido? Destaque o anúncio por uma taxinha (opcional)</div>
+      <div class="infoNote">🌱 Estamos testando a versão gratuita por enquanto</div>
+    </div>
+
+    <div class="feedTitle">Perto de você</div>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="emptyState" style="display:none;">Nenhum anúncio encontrado por aqui ainda.</div>
+  </main>
+
+  <div class="fab">
+    <button onclick="openPostSheet()">＋ Anunciar</button>
+  </div>
+
+  <nav>
+    <button class="active"><span class="ic">🏠</span>Início</button>
+    <button onclick="alert('Só a tela de início está funcionando neste teste.')"><span class="ic">🗂️</span>Categorias</button>
+    <button onclick="openPostSheet()"><span class="ic">➕</span>Anunciar</button>
+    <button onclick="alert('Só a tela de início está funcionando neste teste.')"><span class="ic">💬</span>Conversas</button>
+    <button onclick="openProfileSheet()"><span class="ic">👤</span>Perfil</button>
+  </nav>
+
+  <!-- Location sheet -->
+  <div class="overlay" id="locationOverlay" onclick="closeOverlayBg(event,'locationOverlay')">
+    <div class="sheet" style="position:relative;" onclick="event.stopPropagation()">
+      <button class="closeBtn" onclick="closeSheet('locationOverlay')">✕</button>
+      <div class="sheetHandle"></div>
+      <div class="detailTitle" style="margin-bottom:2px;">Onde você está?</div>
+      <div style="font-size:12.5px; color:var(--ink-soft); margin-bottom:14px;">Escolha pra ver os anúncios mais perto de você</div>
+      <div id="cityList"></div>
+    </div>
+  </div>
+
+  <!-- Login sheet -->
+  <div class="overlay" id="loginOverlay" onclick="closeOverlayBg(event,'loginOverlay')">
+    <div class="sheet" style="position:relative;" onclick="event.stopPropagation()">
+      <button class="closeBtn" onclick="closeSheet('loginOverlay')">✕</button>
+      <div class="sheetHandle"></div>
+      <div class="detailTitle" style="margin-bottom:2px;">Entrar no Vendaí</div>
+      <div style="font-size:12.5px; color:var(--ink-soft); margin-bottom:6px;">Só pra saber quem é o dono de cada anúncio</div>
+
+      <label>Seu telefone (WhatsApp)</label>
+      <input type="text" id="lTelefone" placeholder="Ex: 35 99999-0000">
+
+      <label>Seu nome</label>
+      <input type="text" id="lNome" placeholder="Ex: Cida">
+
+      <button class="publishBtn" onclick="entrar()">Entrar</button>
+    </div>
+  </div>
+
+  <!-- Profile / meus anúncios sheet -->
+  <div class="overlay" id="profileOverlay" onclick="closeOverlayBg(event,'profileOverlay')">
+    <div class="sheet" style="position:relative;" onclick="event.stopPropagation()">
+      <button class="closeBtn" onclick="closeSheet('profileOverlay')">✕</button>
+      <div class="sheetHandle"></div>
+      <div id="profileContent"></div>
+    </div>
+  </div>
+
+  <!-- Detail sheet -->
+  <div class="overlay" id="detailOverlay" onclick="closeOverlayBg(event,'detailOverlay')">
+    <div class="sheet" style="position:relative;">
+      <button class="closeBtn" onclick="closeSheet('detailOverlay')">✕</button>
+      <div class="sheetHandle"></div>
+      <div id="detailContent"></div>
+    </div>
+  </div>
+
+  <!-- Post ad sheet -->
+  <div class="overlay" id="postOverlay" onclick="closeOverlayBg(event,'postOverlay')">
+    <div class="sheet" style="position:relative;" onclick="event.stopPropagation()">
+      <button class="closeBtn" onclick="closeSheet('postOverlay')">✕</button>
+      <div class="sheetHandle"></div>
+      <div class="detailTitle" style="margin-bottom:2px;">Anunciar item</div>
+      <div style="font-size:12.5px; color:var(--ink-soft); margin-bottom:6px;">Preencha pra ver como fica no feed</div>
+
+      <label>Título</label>
+      <input type="text" id="fTitle" placeholder="Ex: Guarda-roupa 6 portas">
+
+      <label>Preço (R$)</label>
+      <input type="number" id="fPrice" placeholder="Ex: 350">
+
+      <label>Categoria</label>
+      <select id="fCategory">
+        <option value="moveis">🛋️ Móveis</option>
+        <option value="eletronicos">📱 Eletrônicos</option>
+        <option value="veiculos">🚗 Veículos</option>
+        <option value="roupas">👕 Roupas</option>
+        <option value="casa">🏠 Casa</option>
+        <option value="bebe">🍼 Bebê</option>
+        <option value="outros">📦 Outros</option>
+      </select>
+
+      <label>Descrição</label>
+      <textarea id="fDesc" placeholder="Conte o estado do item, tempo de uso, motivo da venda..."></textarea>
+
+      <div class="photoBox" onclick="alert('Neste teste o upload de foto é só ilustrativo.')">📷 Toque pra adicionar fotos</div>
+
+      <button class="publishBtn" onclick="publishAd()">Publicar anúncio</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"><div id="toastMsg"></div></div>
+
+</div>
+
+<script>
+const SUPABASE_URL = 'https://rgcclordmqjmwuzrrfbd.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJnY2Nsb3JkbXFqbXd1enJyZmJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUzMzU5NjgsImV4cCI6MjEwMDkxMTk2OH0.08MeNbE_Tr5sf7APOP9gsSr5KwDjDbdacaXXzDOyqXA';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const CATEGORIES = [
+  {id:'todos', label:'Todos'},
+  {id:'moveis', label:'🛋️ Móveis'},
+  {id:'eletronicos', label:'📱 Eletrônicos'},
+  {id:'veiculos', label:'🚗 Veículos'},
+  {id:'roupas', label:'👕 Roupas'},
+  {id:'casa', label:'🏠 Casa'},
+  {id:'bebe', label:'🍼 Bebê'},
+  {id:'outros', label:'📦 Outros'},
+];
+
+const CATEGORY_ICON = {moveis:'🛋️', eletronicos:'📱', veiculos:'🚗', roupas:'👕', casa:'🏠', bebe:'🍼', outros:'📦'};
+const CATEGORY_COLOR = {moveis:'#E7D9B8', eletronicos:'#CFE0D8', veiculos:'#EAC9B8', roupas:'#E3D2E0', casa:'#D8E2C4', bebe:'#F2DCC9', outros:'#DCD5C8'};
+const PRECO_DESTAQUE = 5.90;
+
+const CITIES = [
+  {id:'toda', label:'Toda a região'},
+  {id:'Muzambinho', label:'Muzambinho, MG'},
+  {id:'Alfenas', label:'Alfenas, MG'},
+  {id:'Poços de Caldas', label:'Poços de Caldas, MG'},
+  {id:'Machado', label:'Machado, MG'},
+];
+
+let activeCity = 'toda';
+let ads = [];
+let activeCategory = 'todos';
+let searchTerm = '';
+let currentUser = null;
+let pendingAction = null;
+
+function openLoginSheet(){
+  document.getElementById('loginOverlay').classList.add('show');
+}
+
+async function entrar(){
+  const telefone = document.getElementById('lTelefone').value.trim();
+  const nome = document.getElementById('lNome').value.trim();
+
+  if(!telefone || !nome){
+    showToast('Preencha telefone e nome');
+    return;
+  }
+
+  const { data: existente } = await sb
+    .from('vendai_usuarios')
+    .select('*')
+    .eq('telefone', telefone)
+    .maybeSingle();
+
+  if(existente){
+    currentUser = existente;
+  } else {
+    const { data: novo, error } = await sb
+      .from('vendai_usuarios')
+      .insert({ telefone, nome })
+      .select()
+      .single();
+    if(error){
+      showToast('Não consegui entrar agora');
+      return;
+    }
+    currentUser = novo;
+  }
+
+  closeSheet('loginOverlay');
+  showToast(`Bem-vindo(a), ${currentUser.nome} 👋`);
+
+  if(pendingAction === 'post'){
+    pendingAction = null;
+    openPostSheet();
+  } else if(pendingAction === 'profile'){
+    pendingAction = null;
+    openProfileSheet();
+  }
+}
+
+function openProfileSheet(){
+  if(!currentUser){
+    pendingAction = 'profile';
+    openLoginSheet();
+    return;
+  }
+  renderProfile();
+  document.getElementById('profileOverlay').classList.add('show');
+}
+
+async function renderProfile(){
+  const content = document.getElementById('profileContent');
+  content.innerHTML = `
+    <div class="sellerRow" style="margin-bottom:16px;">
+      <div class="sellerAvatar">🙂</div>
+      <div>
+        <div class="sellerName">${currentUser.nome}</div>
+        <div class="sellerLoc">${currentUser.telefone}</div>
+      </div>
+    </div>
+    <div class="detailTitle" style="font-size:15px; margin-bottom:10px;">Meus anúncios</div>
+    <div id="meusAnunciosList" style="font-size:13px; color:var(--ink-soft);">Carregando...</div>
+  `;
+
+  const { data, error } = await sb
+    .from('vendai_anuncios')
+    .select('*')
+    .eq('vendedor_telefone', currentUser.telefone)
+    .order('criado_em', { ascending: false });
+
+  const list = document.getElementById('meusAnunciosList');
+  if(error){
+    list.textContent = 'Não consegui carregar seus anúncios.';
+    return;
+  }
+  if(data.length === 0){
+    list.textContent = 'Você ainda não publicou nenhum anúncio.';
+    return;
+  }
+
+  list.innerHTML = '';
+  data.forEach(ad=>{
+    const row = document.createElement('div');
+    row.className = 'sellerRow';
+    row.style.marginBottom = '10px';
+    row.style.alignItems = 'flex-start';
+    row.innerHTML = `
+      <div style="width:34px; height:34px; border-radius:10px; background:${CATEGORY_COLOR[ad.categoria]}; display:flex; align-items:center; justify-content:center; font-size:16px; flex:0 0 auto;">${CATEGORY_ICON[ad.categoria]}</div>
+      <div style="flex:1;">
+        <div class="sellerName">${ad.titulo}</div>
+        <div class="sellerLoc">${formatPrice(ad.preco)} · ${ad.status === 'vendido' ? 'Vendido' : (ad.destaque ? '🔥 Destacado' : 'Ativo')}</div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        ${ad.status==='vendido' ? '' : `<button style="font-size:11px; border:none; background:var(--green-soft); color:var(--green-dark); border-radius:8px; padding:5px 8px; font-weight:700; cursor:pointer;" onclick="marcarVendido('${ad.id}')">Marcar vendido</button>`}
+        <button style="font-size:11px; border:none; background:#FBE9E9; color:var(--danger); border-radius:8px; padding:5px 8px; font-weight:700; cursor:pointer;" onclick="excluirAnuncio('${ad.id}')">Excluir</button>
+      </div>
+    `;
+    list.appendChild(row);
+  });
+}
+
+async function marcarVendido(id){
+  await sb.from('vendai_anuncios').update({ status: 'vendido' }).eq('id', id);
+  await renderProfile();
+  await carregarAnuncios();
+  showToast('Anúncio marcado como vendido ✓');
+}
+
+async function excluirAnuncio(id){
+  await sb.from('vendai_anuncios').update({ status: 'removido' }).eq('id', id);
+  await renderProfile();
+  await carregarAnuncios();
+  showToast('Anúncio removido ✓');
+}
+
+function renderCityList(){
+  const list = document.getElementById('cityList');
+  list.innerHTML = '';
+  CITIES.forEach(c=>{
+    const row = document.createElement('div');
+    row.className = 'cityOption' + (c.id===activeCity ? ' active' : '');
+    row.innerHTML = `<span>${c.label}</span><span class="cityCheck">✓</span>`;
+    row.onclick = () => selecionarCidade(c.id, c.label);
+    list.appendChild(row);
+  });
+}
+
+function openLocationSheet(){
+  renderCityList();
+  document.getElementById('locationOverlay').classList.add('show');
+}
+
+function selecionarCidade(id, label){
+  activeCity = id;
+  document.getElementById('locationBtn').textContent = '📍 ' + label + ' ▾';
+  closeSheet('locationOverlay');
+  renderGrid();
+}
+
+async function carregarAnuncios(){
+  const { data, error } = await sb
+    .from('vendai_anuncios')
+    .select('*')
+    .eq('status', 'ativo')
+    .order('destaque', { ascending: false })
+    .order('criado_em', { ascending: false });
+
+  if(error){
+    console.error(error);
+    showToast('Não consegui carregar os anúncios agora');
+    return;
+  }
+  ads = data;
+  renderGrid();
+}
+
+function renderChips(){
+  const row = document.getElementById('chipRow');
+  row.innerHTML = '';
+  CATEGORIES.forEach(cat=>{
+    const chip = document.createElement('button');
+    chip.className = 'chip' + (cat.id===activeCategory ? ' active' : '');
+    chip.textContent = cat.label;
+    chip.onclick = () => { activeCategory = cat.id; renderChips(); renderGrid(); };
+    row.appendChild(chip);
+  });
+}
+
+function formatPrice(n){
+  return 'R$ ' + Number(n).toLocaleString('pt-BR', {minimumFractionDigits:0});
+}
+
+function tempoDecorrido(dataISO){
+  const diffMs = Date.now() - new Date(dataISO).getTime();
+  const min = Math.floor(diffMs/60000);
+  if(min < 1) return 'agora mesmo';
+  if(min < 60) return `há ${min} min`;
+  const h = Math.floor(min/60);
+  if(h < 24) return `há ${h}h`;
+  const d = Math.floor(h/24);
+  return `há ${d} dia${d>1?'s':''}`;
+}
+
+function renderGrid(){
+  const grid = document.getElementById('grid');
+  const empty = document.getElementById('emptyState');
+  grid.innerHTML = '';
+
+  const filtered = ads.filter(ad=>{
+    const matchCat = activeCategory==='todos' || ad.categoria===activeCategory;
+    const matchSearch = ad.titulo.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchCity = activeCity==='toda' || ad.cidade.includes(activeCity);
+    return matchCat && matchSearch && matchCity;
+  });
+
+  if(filtered.length===0){
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  filtered.forEach(ad=>{
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.onclick = () => openDetail(ad.id);
+    card.innerHTML = `
+      <div class="thumb" style="background:${CATEGORY_COLOR[ad.categoria]}; position:relative;">
+        ${ad.destaque ? '<div style="position:absolute; top:8px; left:8px; background:var(--yellow); border-radius:8px; font-size:9.5px; font-weight:700; padding:3px 7px; color:var(--ink);">🔥 Destaque</div>' : ''}
+        ${CATEGORY_ICON[ad.categoria]}
+      </div>
+      <div class="cardBody">
+        <div class="cardTitle">${ad.titulo}</div>
+        <div class="cardPrice">${formatPrice(ad.preco)}</div>
+        <div class="cardMeta">${ad.cidade} · ${tempoDecorrido(ad.criado_em)}</div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function openDetail(id){
+  const ad = ads.find(a=>a.id===id);
+  const content = document.getElementById('detailContent');
+  content.innerHTML = `
+    <div class="detailThumb" style="background:${CATEGORY_COLOR[ad.categoria]}">${CATEGORY_ICON[ad.categoria]}</div>
+    <div class="detailTitle">${ad.titulo}</div>
+    <div class="detailPrice">${formatPrice(ad.preco)}</div>
+    <div class="detailMeta">${ad.cidade} · publicado ${tempoDecorrido(ad.criado_em)}</div>
+    <div class="detailDesc">${ad.descricao || 'Sem descrição.'}</div>
+    <div class="sellerRow">
+      <div class="sellerAvatar">🙂</div>
+      <div>
+        <div class="sellerName">${ad.vendedor_nome || 'Anônimo'}</div>
+        <div class="sellerLoc">${ad.cidade}</div>
+      </div>
+    </div>
+    <div class="btnRow">
+      <div class="btnPrimary" onclick="showToast('Chat ainda não existe neste teste 🙂')">💬 Chamar no chat</div>
+      <div class="btnGhost" onclick="showToast('Denúncia registrada (simulação)')">🚩 Denunciar</div>
+    </div>
+    ${(!ad.destaque && currentUser && currentUser.telefone===ad.vendedor_telefone) ? `<div class="publishBtn" style="margin-top:12px; background:var(--card); border:1.5px solid #E2E9E3; box-shadow:none; color:var(--green-dark);" onclick="destacarAnuncio('${ad.id}')">🏷️ Destacar este anúncio — ${formatPrice(PRECO_DESTAQUE)}</div>` : ''}
+  `;
+  document.getElementById('detailOverlay').classList.add('show');
+}
+
+async function destacarAnuncio(id){
+  // Passo de teste: aqui ainda não cobra de verdade. O próximo passo é
+  // trocar isso por uma cobrança Pix real (igual ao Entrega Flash) que,
+  // ao confirmar o pagamento via webhook, marca destaque=true sozinho.
+  const { error } = await sb
+    .from('vendai_anuncios')
+    .update({ destaque: true, destaque_expira_em: new Date(Date.now()+7*24*60*60*1000).toISOString() })
+    .eq('id', id);
+
+  if(error){
+    showToast('Não consegui destacar agora');
+    return;
+  }
+  closeSheet('detailOverlay');
+  await carregarAnuncios();
+  showToast('Anúncio destacado por 7 dias (simulação, sem cobrança ainda) ✓');
+}
+
+function openPostSheet(){
+  if(!currentUser){
+    pendingAction = 'post';
+    openLoginSheet();
+    return;
+  }
+  document.getElementById('postOverlay').classList.add('show');
+}
+
+function closeSheet(id){
+  document.getElementById(id).classList.remove('show');
+}
+
+function closeOverlayBg(e, id){
+  if(e.target.id===id) closeSheet(id);
+}
+
+async function publishAd(){
+  const titulo = document.getElementById('fTitle').value.trim();
+  const preco = parseFloat(document.getElementById('fPrice').value);
+  const categoria = document.getElementById('fCategory').value;
+  const descricao = document.getElementById('fDesc').value.trim();
+
+  if(!titulo || !preco){
+    showToast('Preencha pelo menos título e preço');
+    return;
+  }
+
+  const { error } = await sb.from('vendai_anuncios').insert({
+    titulo, preco, categoria,
+    descricao: descricao || null,
+    cidade: 'Muzambinho, MG',
+    vendedor_nome: currentUser.nome,
+    vendedor_telefone: currentUser.telefone
+  });
+
+  if(error){
+    console.error(error);
+    showToast('Não consegui publicar agora');
+    return;
+  }
+
+  document.getElementById('fTitle').value='';
+  document.getElementById('fPrice').value='';
+  document.getElementById('fDesc').value='';
+
+  closeSheet('postOverlay');
+  activeCategory = 'todos';
+  renderChips();
+  await carregarAnuncios();
+  showToast('Anúncio publicado ✓');
+}
+
+function showToast(msg){
+  const toast = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  toast.classList.add('show');
+  setTimeout(()=> toast.classList.remove('show'), 2200);
+}
+
+document.getElementById('searchInput').addEventListener('input', (e)=>{
+  searchTerm = e.target.value;
+  renderGrid();
+});
+
+renderChips();
+carregarAnuncios();
+</script>
+
+</body>
+</html>

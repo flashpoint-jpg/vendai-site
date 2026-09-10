@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vendai-pwa-editar-fotos-20260910-4';
+const CACHE_NAME = 'vendai-pwa-cidades-sulminas-20260910-5';
 const APP_SHELL = [
   '/',
   '/index.html',

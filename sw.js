@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vendai-pwa-menu-app-20260910-2';
+const CACHE_NAME = 'vendai-pwa-editar-fotos-20260910-4';
 const APP_SHELL = [
   '/',
   '/index.html',

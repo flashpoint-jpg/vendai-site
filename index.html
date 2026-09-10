@@ -656,6 +656,30 @@
   }
   .publishBtn:active{ transform: scale(0.98); }
 
+
+  /* Destaque pago por PIX */
+  .highlightPayCard{
+    background:var(--card); border:1.5px solid #E2E9E3; border-radius:16px;
+    padding:14px; margin:12px 0; box-shadow:var(--shadow-sm);
+  }
+  .highlightPayLine{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 0;font-size:13px;}
+  .highlightPayLine strong{font-size:15px;color:var(--green-dark);}
+  .highlightNotice{
+    background:#FFF7D9; color:#6C5200; border:1px solid #F4DEA0; border-radius:12px;
+    padding:11px 12px; font-size:12px; line-height:1.45; margin-top:10px;
+  }
+  .highlightQrWrap{text-align:center;margin:14px 0 10px;}
+  .highlightQrWrap img{width:220px;max-width:78vw;background:#fff;border-radius:14px;padding:10px;border:1px solid #E2E9E3;}
+  .highlightPixCode{
+    width:100%;min-height:76px;resize:none;font-size:11px;line-height:1.35;word-break:break-all;
+    background:#F7FAF8!important;
+  }
+  .highlightStatus{margin-top:10px;text-align:center;font-size:12.5px;font-weight:700;color:var(--green-dark);}
+  .highlightActions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px;}
+  .highlightActions button{border:none;border-radius:13px;padding:13px 10px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;}
+  .highlightActions .cancel{background:#EEF2EE;color:var(--ink);}
+  .highlightActions .pay{background:var(--yellow);color:var(--ink);}
+
   .toast{
     position:fixed;
     max-width:var(--app-width); margin:0 auto; left:0; right:0;
@@ -711,9 +735,26 @@
     border-bottom-left-radius:4px;
   }
   .fotoThumbPreview{
-    width:56px; height:56px; border-radius:10px; object-fit:cover;
-    border:1.5px solid #E2E9E3;
+    width:76px; height:76px; border-radius:12px; object-fit:cover;
+    border:1.5px solid #E2E9E3; display:block;
   }
+  .photoPreviewItem{ position:relative; width:76px; height:76px; flex:0 0 auto; }
+  .photoRemoveBtn{
+    position:absolute; top:-7px; right:-7px; width:24px; height:24px; border:none; border-radius:50%;
+    background:#E5484D; color:#fff; font-size:13px; font-weight:900; line-height:24px; text-align:center;
+    box-shadow:0 3px 8px rgba(0,0,0,.18); cursor:pointer; z-index:3; padding:0;
+  }
+  .photoTag{
+    position:absolute; left:5px; bottom:5px; background:rgba(17,34,25,.76); color:#fff; border-radius:999px;
+    padding:3px 6px; font-size:8.5px; font-weight:800; pointer-events:none;
+  }
+  .photoEditHelp{font-size:10.8px;color:var(--ink-soft);line-height:1.35;margin-top:7px;}
+  .profileAdPhoto{width:42px;height:42px;border-radius:10px;object-fit:cover;flex:0 0 auto;background:#EEF3EF;}
+  .adMiniBtn{font-size:11px;border:none;border-radius:8px;padding:6px 9px;font-weight:750;cursor:pointer;white-space:nowrap;}
+  .adMiniBtn.edit{background:#EAF2FF;color:#275FA8;}
+  .adMiniBtn.sold{background:var(--green-soft);color:var(--green-dark);}
+  .adMiniBtn.delete{background:#FBE9E9;color:var(--danger);}
+  .zoomHint{text-align:center;margin:-4px 0 11px;font-size:10.8px;font-weight:700;color:var(--green-dark);}
   .msgBubble.oferta{
     background: var(--yellow) !important;
     color: var(--ink) !important;
@@ -846,8 +887,10 @@
     position:relative; width:100%; height:100%; display:flex; align-items:center; justify-content:center;
     padding:68px 54px 72px;
   }
+  #lightboxOverlay{z-index:100;max-width:none;}
   .lightboxStage img{
     max-width:100%; max-height:100%; object-fit:contain; border-radius:14px; display:block;
+    touch-action:pinch-zoom; user-select:none; -webkit-user-drag:none;
   }
   .lightboxArrow{
     position:fixed; top:50%; transform:translateY(-50%); z-index:3;
@@ -1221,7 +1264,7 @@
   <!-- Lightbox de fotos -->
   <div class="overlay" id="lightboxOverlay" onclick="closeSheet('lightboxOverlay')" style="align-items:center; justify-content:center; background:rgba(10,18,13,0.94);">
     <button class="closeBtn" style="position:fixed; top:20px; right:20px; background:rgba(255,255,255,0.15); color:#fff; z-index:5;" onclick="event.stopPropagation(); closeSheet('lightboxOverlay')">✕</button>
-    <div class="lightboxStage" onclick="event.stopPropagation()">
+    <div class="lightboxStage" id="lightboxStage" onclick="event.stopPropagation()">
       <button class="lightboxArrow prev" id="lightboxPrev" onclick="mudarFotoLightbox(-1)">‹</button>
       <img id="lightboxImg" alt="Foto do anúncio">
       <button class="lightboxArrow next" id="lightboxNext" onclick="mudarFotoLightbox(1)">›</button>
@@ -1330,13 +1373,23 @@
     </div>
   </div>
 
+
+  <!-- Cobrança de destaque por PIX -->
+  <div class="overlay" id="destaqueOverlay" onclick="if(event.target.id==='destaqueOverlay') fecharDestaquePix()">
+    <div class="sheet" style="position:relative;max-height:90vh;overflow-y:auto;" onclick="event.stopPropagation()">
+      <button class="closeBtn" onclick="fecharDestaquePix()">✕</button>
+      <div class="sheetHandle"></div>
+      <div id="destaqueContent"></div>
+    </div>
+  </div>
+
   <!-- Post ad sheet -->
   <div class="overlay" id="postOverlay" onclick="closeOverlayBg(event,'postOverlay')">
     <div class="sheet" style="position:relative;" onclick="event.stopPropagation()">
       <button class="closeBtn" onclick="closeSheet('postOverlay')">✕</button>
       <div class="sheetHandle"></div>
-      <div class="detailTitle" style="margin-bottom:2px;">Anunciar item</div>
-      <div style="font-size:12.5px; color:var(--ink-soft); margin-bottom:6px;">Preencha pra ver como fica no feed</div>
+      <div class="detailTitle" id="postFormTitle" style="margin-bottom:2px;">Anunciar item</div>
+      <div id="postFormSub" style="font-size:12.5px; color:var(--ink-soft); margin-bottom:6px;">Preencha pra ver como fica no feed</div>
 
       <label>Título</label>
       <input type="text" id="fTitle" placeholder="Ex: Guarda-roupa 6 portas">
@@ -1358,9 +1411,13 @@
       <label>Descrição</label>
       <textarea id="fDesc" placeholder="Conte o estado do item, tempo de uso, motivo da venda..."></textarea>
 
-      <div class="photoBox" id="photoBox" onclick="document.getElementById('fFoto').click()">📷 Toque pra adicionar fotos (até 4 no plano grátis)</div>
+      <label>Localização</label>
+      <input type="text" id="fCity" placeholder="Ex: Muzambinho, MG">
+
+      <div class="photoBox" id="photoBox" onclick="document.getElementById('fFoto').click()">📷 Adicionar fotos (até 4)</div>
       <input type="file" id="fFoto" accept="image/*" multiple style="display:none;" onchange="previewFotos()">
-      <div id="fotoPreview" style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;"></div>
+      <div id="fotoPreview" style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;"></div>
+      <div class="photoEditHelp">Se escolher a foto errada, toque no <strong>✕</strong> da miniatura para remover. Na edição, você também pode apagar fotos antigas e colocar outras.</div>
 
       <button class="publishBtn" id="btnPublicar" onclick="publishAd()">Publicar anúncio</button>
     </div>
@@ -1429,7 +1486,7 @@ const CATEGORIES = [
 
 const CATEGORY_ICON = {moveis:'🛋️', eletronicos:'📱', veiculos:'🚗', roupas:'👕', casa:'🏠', bebe:'🍼', outros:'📦'};
 const CATEGORY_COLOR = {moveis:'#E7D9B8', eletronicos:'#CFE0D8', veiculos:'#EAC9B8', roupas:'#E3D2E0', casa:'#D8E2C4', bebe:'#F2DCC9', outros:'#DCD5C8'};
-const PRECO_DESTAQUE = 5.90;
+let PRECO_DESTAQUE = 5.90;
 
 const CITIES = [
   {id:'toda', label:'Toda a região'},
@@ -1449,6 +1506,9 @@ let pendingChat = null;
 let currentChat = null;
 let chatPollingInterval = null;
 let selectedFotos = [];
+let editAdId = null;
+let editExistingFotos = [];
+let meusAnunciosCache = [];
 let inboxPollingInterval = null;
 let inboxUltimoId = null;
 let inboxPrimeiraLeitura = true;
@@ -1678,13 +1738,15 @@ async function renderProfile(){
   const { data, error } = await sb.rpc('vendai_meus_anuncios', { p_token: currentSessionToken });
   const list = document.getElementById('meusAnunciosList');
   if(error){ list.textContent='Não consegui carregar seus anúncios.'; return; }
-  if(!data || data.length===0){ list.textContent='Você ainda não publicou nenhum anúncio.'; return; }
+  if(!data || data.length===0){ meusAnunciosCache=[]; list.textContent='Você ainda não publicou nenhum anúncio.'; return; }
+  meusAnunciosCache=data||[];
   list.innerHTML='';
   data.forEach(ad=>{
     const row=document.createElement('div'); row.className='sellerRow'; row.style.marginBottom='10px'; row.style.alignItems='flex-start';
-    row.innerHTML=`<div style="width:34px;height:34px;border-radius:10px;background:${CATEGORY_COLOR[ad.categoria]};display:flex;align-items:center;justify-content:center;font-size:16px;flex:0 0 auto;">${CATEGORY_ICON[ad.categoria]}</div>
-      <div style="flex:1;"><div class="sellerName">${ad.titulo}</div><div class="sellerLoc">${formatPrice(ad.preco)} · ${ad.status==='vendido'?'Vendido':(ad.destaque?'🔥 Destacado':'Ativo')}</div></div>
-      <div style="display:flex;flex-direction:column;gap:6px;">${ad.status==='vendido'?'':`<button style="font-size:11px;border:none;background:var(--green-soft);color:var(--green-dark);border-radius:8px;padding:5px 8px;font-weight:700;cursor:pointer;" onclick="marcarVendido('${ad.id}')">Marcar vendido</button>`}<button style="font-size:11px;border:none;background:#FBE9E9;color:var(--danger);border-radius:8px;padding:5px 8px;font-weight:700;cursor:pointer;" onclick="excluirAnuncio('${ad.id}')">Excluir</button></div>`;
+    const foto=(ad.fotos&&ad.fotos[0]) ? `<img class="profileAdPhoto" src="${escHtml(ad.fotos[0])}" alt="">` : `<div style="width:42px;height:42px;border-radius:10px;background:${CATEGORY_COLOR[ad.categoria]};display:flex;align-items:center;justify-content:center;font-size:18px;flex:0 0 auto;">${CATEGORY_ICON[ad.categoria]}</div>`;
+    row.innerHTML=`${foto}
+      <div style="flex:1;min-width:0;"><div class="sellerName" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escHtml(ad.titulo)}</div><div class="sellerLoc">${formatPrice(ad.preco)} · ${ad.status==='vendido'?'Vendido':(ad.destaque?'🔥 Destacado':'Ativo')}</div></div>
+      <div style="display:flex;flex-direction:column;gap:6px;align-items:stretch;"><button class="adMiniBtn edit" onclick="editarAnuncio('${ad.id}')">✏️ Editar</button>${ad.status==='vendido'?'':`<button class="adMiniBtn sold" onclick="marcarVendido('${ad.id}')">Vendido</button>`}<button class="adMiniBtn delete" onclick="excluirAnuncio('${ad.id}')">Excluir</button></div>`;
     list.appendChild(row);
   });
 }
@@ -1783,6 +1845,10 @@ function formatPrice(n){
   return 'R$ ' + Number(n).toLocaleString('pt-BR', {minimumFractionDigits:0});
 }
 
+function formatMoneyCharge(n){
+  return 'R$ ' + Number(n).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
 function tempoDecorrido(dataISO){
   const diffMs = Date.now() - new Date(dataISO).getTime();
   const min = Math.floor(diffMs/60000);
@@ -1853,22 +1919,24 @@ function openDetail(id){
 
   content.innerHTML = `
     ${galeria}
-    <div class="detailTitle" style="margin-top:14px;">${ad.titulo}</div>
+    ${temFotos ? '<div class="zoomHint">🔎 Toque na foto para ampliar em tela cheia</div>' : ''}
+    <div class="detailTitle" style="margin-top:14px;">${escHtml(ad.titulo)}</div>
     <div class="detailPrice">${formatPrice(ad.preco)}</div>
-    <div class="detailMeta">${ad.cidade} · publicado ${tempoDecorrido(ad.criado_em)}</div>
-    <div class="detailDesc">${ad.descricao || 'Sem descrição.'}</div>
+    <div class="detailMeta">${escHtml(ad.cidade)} · publicado ${tempoDecorrido(ad.criado_em)}</div>
+    <div class="detailDesc">${escHtml(ad.descricao || 'Sem descrição.')}</div>
     <div class="sellerRow">
       <div class="sellerAvatar">🙂</div>
       <div>
-        <div class="sellerName">${ad.vendedor_nome || 'Anônimo'}</div>
-        <div class="sellerLoc">${ad.cidade}</div>
+        <div class="sellerName">${escHtml(ad.vendedor_nome || 'Anônimo')}</div>
+        <div class="sellerLoc">${escHtml(ad.cidade)}</div>
       </div>
     </div>
     <div class="btnRow">
       <div class="btnPrimary" onclick="iniciarChatFromDetail()">💬 Chamar no chat</div>
       <div class="btnGhost" onclick="showToast('Denúncia registrada (simulação)')">🚩 Denunciar</div>
     </div>
-    ${(!ad.destaque && currentUser && currentUser.id===ad.vendedor_id) ? `<div class="publishBtn" style="margin-top:12px; background:var(--card); border:1.5px solid #E2E9E3; box-shadow:none; color:var(--green-dark);" onclick="destacarAnuncio('${ad.id}')">🏷️ Destacar este anúncio — ${formatPrice(PRECO_DESTAQUE)}</div>` : ''}
+    ${(currentUser && currentUser.id===ad.vendedor_id) ? `<div class="publishBtn" style="margin-top:12px;background:#EAF2FF;border:1.5px solid #D6E4FA;box-shadow:none;color:#275FA8;" onclick="editarAnuncio('${ad.id}')">✏️ Editar este anúncio</div>` : ''}
+    ${(!ad.destaque && currentUser && currentUser.id===ad.vendedor_id) ? `<div class="publishBtn" style="margin-top:9px; background:var(--card); border:1.5px solid #E2E9E3; box-shadow:none; color:var(--green-dark);" onclick="destacarAnuncio('${ad.id}')">🏷️ Destacar este anúncio — ${formatMoneyCharge(PRECO_DESTAQUE)}</div>` : ''}
   `;
   document.getElementById('detailOverlay').classList.add('show');
 }
@@ -1924,10 +1992,140 @@ function mudarFotoLightbox(delta){
   selecionarFotoDetalhe(lightboxIndex);
 }
 
-async function destacarAnuncio(id){
-  const { error } = await sb.rpc('vendai_destacar_anuncio_seguro', { p_token:currentSessionToken, p_id:id });
-  if(error){ showToast('Não consegui destacar agora'); return; }
-  closeSheet('detailOverlay'); await carregarAnuncios(); showToast('Anúncio destacado por 7 dias (teste) ✓');
+let lightboxTouchStartX=null;
+document.getElementById('lightboxStage')?.addEventListener('touchstart',e=>{
+  lightboxTouchStartX=e.touches?.[0]?.clientX ?? null;
+},{passive:true});
+document.getElementById('lightboxStage')?.addEventListener('touchend',e=>{
+  if(lightboxTouchStartX==null)return;
+  const endX=e.changedTouches?.[0]?.clientX;
+  if(typeof endX==='number'){
+    const dx=endX-lightboxTouchStartX;
+    if(Math.abs(dx)>55) mudarFotoLightbox(dx<0?1:-1);
+  }
+  lightboxTouchStartX=null;
+},{passive:true});
+
+let destaqueCobrancaId=null;
+let destaquePollTimer=null;
+let destaqueAnuncioId=null;
+
+async function carregarPrecoDestaque(){
+  try{
+    const r=await sb.rpc('vendai_preco_destaque_publico');
+    const n=Number(r.data);
+    if(!r.error && Number.isFinite(n) && n>0) PRECO_DESTAQUE=n;
+  }catch(e){ console.warn('Preço de destaque indisponível',e); }
+}
+
+function destacarAnuncio(id){
+  if(!currentUser || !currentSessionToken){ pendingAction=null; openLoginSheet(); return; }
+  destaqueAnuncioId=id;
+  destaqueCobrancaId=null;
+  if(destaquePollTimer){ clearInterval(destaquePollTimer); destaquePollTimer=null; }
+  const c=document.getElementById('destaqueContent');
+  c.innerHTML=`
+    <div class="detailTitle">⭐ Destacar anúncio</div>
+    <div style="font-size:12.5px;color:var(--ink-soft);line-height:1.45;">Seu anúncio ganha prioridade no feed por <strong>7 dias</strong>.</div>
+    <div class="highlightPayCard">
+      <div class="highlightPayLine"><span>Período</span><strong>7 dias</strong></div>
+      <div class="highlightPayLine"><span>Forma de pagamento</span><strong>PIX</strong></div>
+      <div class="highlightPayLine"><span>Valor da cobrança</span><strong>${formatMoneyCharge(PRECO_DESTAQUE)}</strong></div>
+    </div>
+    <div class="highlightNotice"><strong>Importante:</strong> o clique abaixo gera uma cobrança PIX de ${formatMoneyCharge(PRECO_DESTAQUE)}. O anúncio <strong>não será destacado antes do pagamento ser aprovado</strong>.</div>
+    <div class="highlightActions">
+      <button class="cancel" onclick="fecharDestaquePix()">Cancelar</button>
+      <button class="pay" id="gerarDestaquePixBtn" onclick="gerarPixDestaque()">Gerar PIX ${formatMoneyCharge(PRECO_DESTAQUE)}</button>
+    </div>`;
+  document.getElementById('destaqueOverlay').classList.add('show');
+}
+
+async function chamarDestaquePix(action,body={}){
+  const resp=await fetch(`${SUPABASE_URL}/functions/v1/vendai-destaque-pix?action=${encodeURIComponent(action)}`,{
+    method:'POST',headers:{apikey:SUPABASE_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify({token:currentSessionToken,...body})
+  });
+  const j=await resp.json().catch(()=>({}));
+  if(!resp.ok){ const err=new Error(j.error||'falha_destaque'); err.detalhe=j.detalhe; throw err; }
+  return j;
+}
+
+async function gerarPixDestaque(){
+  if(!destaqueAnuncioId)return;
+  const btn=document.getElementById('gerarDestaquePixBtn');
+  if(btn){btn.disabled=true;btn.textContent='Gerando PIX...';}
+  try{
+    const r=await chamarDestaquePix('create',{anuncio_id:destaqueAnuncioId});
+    destaqueCobrancaId=r.cobranca_id;
+    const c=document.getElementById('destaqueContent');
+    const qr=r.qr_code_base64 ? `<div class="highlightQrWrap"><img alt="QR Code PIX" src="data:image/png;base64,${r.qr_code_base64}"></div>` : '';
+    c.innerHTML=`
+      <div class="detailTitle">PIX para destacar</div>
+      <div style="font-size:12.5px;color:var(--ink-soft);line-height:1.45;">Pague <strong>${formatMoneyCharge(r.valor)}</strong>. Assim que o Mercado Pago confirmar, o destaque é ativado automaticamente por 7 dias.</div>
+      ${qr}
+      <label>Código PIX Copia e Cola</label>
+      <textarea id="destaquePixCode" class="highlightPixCode" readonly></textarea>
+      <button class="publishBtn" style="margin-top:10px" onclick="copiarPixDestaque()">📋 Copiar código PIX</button>
+      <div class="highlightNotice">Nenhum destaque é liberado apenas por gerar o PIX. A ativação acontece somente após a confirmação do pagamento.</div>
+      <div class="highlightStatus" id="destaqueStatus">⏳ Aguardando pagamento...</div>`;
+    const code=document.getElementById('destaquePixCode');if(code)code.value=r.copia_cola||'';
+    iniciarMonitorDestaque();
+  }catch(e){
+    const m=String(e.message||'');
+    if(m.includes('anuncio_ja_destacado')){showToast('Este anúncio já está destacado');fecharDestaquePix();await carregarAnuncios();return;}
+    showToast(m.includes('pix_indisponivel')?'PIX indisponível agora':'Não consegui gerar o PIX');
+    if(btn){btn.disabled=false;btn.textContent=`Gerar PIX ${formatMoneyCharge(PRECO_DESTAQUE)}`;}
+  }
+}
+
+async function copiarPixDestaque(){
+  const el=document.getElementById('destaquePixCode');if(!el||!el.value)return;
+  try{await navigator.clipboard.writeText(el.value);showToast('Código PIX copiado ✓');}
+  catch(e){el.focus();el.select();document.execCommand('copy');showToast('Código PIX copiado ✓');}
+}
+
+function iniciarMonitorDestaque(){
+  if(destaquePollTimer)clearInterval(destaquePollTimer);
+  const verificar=async()=>{
+    if(!destaqueCobrancaId)return;
+    try{
+      const r=await chamarDestaquePix('status',{cobranca_id:destaqueCobrancaId});
+      const st=document.getElementById('destaqueStatus');
+      if(r.pago){
+        if(destaquePollTimer){clearInterval(destaquePollTimer);destaquePollTimer=null;}
+        if(st)st.textContent='✅ Pagamento confirmado. Destaque ativado!';
+        await carregarAnuncios();
+        setTimeout(()=>{closeSheet('detailOverlay');fecharDestaquePix();showToast('Anúncio destacado por 7 dias ✓');},900);
+      }else if(['expirado','rejeitado','cancelado','estornado'].includes(String(r.status))){
+        if(destaquePollTimer){clearInterval(destaquePollTimer);destaquePollTimer=null;}
+        if(st)st.textContent='⚠️ PIX não aprovado. Gere uma nova cobrança para tentar novamente.';
+      }else if(st) st.textContent='⏳ Aguardando confirmação do pagamento...';
+    }catch(e){ console.warn('Consulta PIX destaque',e); }
+  };
+  setTimeout(verificar,1800);
+  destaquePollTimer=setInterval(verificar,4000);
+}
+
+function fecharDestaquePix(){
+  if(destaquePollTimer){clearInterval(destaquePollTimer);destaquePollTimer=null;}
+  destaqueCobrancaId=null;
+  destaqueAnuncioId=null;
+  const o=document.getElementById('destaqueOverlay');if(o)o.classList.remove('show');
+}
+
+function resetPostForm(){
+  editAdId=null; editExistingFotos=[]; selectedFotos=[];
+  document.getElementById('postFormTitle').textContent='Anunciar item';
+  document.getElementById('postFormSub').textContent='Preencha os dados do anúncio. Você poderá editar depois.';
+  document.getElementById('fTitle').value='';
+  document.getElementById('fPrice').value='';
+  document.getElementById('fCategory').value='moveis';
+  document.getElementById('fDesc').value='';
+  const cidadeAtual=CITIES.find(c=>c.id===activeCity && c.id!=='toda');
+  document.getElementById('fCity').value=cidadeAtual ? cidadeAtual.label : 'Muzambinho, MG';
+  document.getElementById('fFoto').value='';
+  document.getElementById('btnPublicar').textContent='Publicar anúncio';
+  renderFotoPreview();
 }
 
 function openPostSheet(){
@@ -1936,6 +2134,28 @@ function openPostSheet(){
     openLoginSheet();
     return;
   }
+  resetPostForm();
+  document.getElementById('postOverlay').classList.add('show');
+}
+
+function editarAnuncio(id){
+  if(!currentUser || !currentSessionToken){ openLoginSheet(); return; }
+  const ad=meusAnunciosCache.find(a=>a.id===id) || ads.find(a=>a.id===id);
+  if(!ad){ showToast('Não consegui abrir esse anúncio para editar'); return; }
+  editAdId=ad.id;
+  editExistingFotos=Array.isArray(ad.fotos) ? ad.fotos.filter(Boolean).slice(0,4) : [];
+  selectedFotos=[];
+  document.getElementById('postFormTitle').textContent='Editar anúncio';
+  document.getElementById('postFormSub').textContent='Altere título, preço, categoria, descrição, localização ou fotos.';
+  document.getElementById('fTitle').value=ad.titulo||'';
+  document.getElementById('fPrice').value=ad.preco||'';
+  document.getElementById('fCategory').value=ad.categoria||'outros';
+  document.getElementById('fDesc').value=ad.descricao||'';
+  document.getElementById('fCity').value=ad.cidade||'Muzambinho, MG';
+  document.getElementById('fFoto').value='';
+  document.getElementById('btnPublicar').textContent='Salvar alterações';
+  renderFotoPreview();
+  closeSheet('profileOverlay'); closeSheet('detailOverlay');
   document.getElementById('postOverlay').classList.add('show');
 }
 
@@ -1953,57 +2173,108 @@ async function publishAd(){
   const preco=parseFloat(document.getElementById('fPrice').value);
   const categoria=document.getElementById('fCategory').value;
   const descricao=document.getElementById('fDesc').value.trim();
-  if(!titulo || !preco){ showToast('Preencha pelo menos título e preço'); return; }
-  const btn=document.getElementById('btnPublicar'); btn.textContent='Publicando...'; btn.style.opacity='.65'; btn.style.pointerEvents='none';
-  let fotosUrls=[];
-  for(const file of selectedFotos){
-    try{
+  const cidade=document.getElementById('fCity').value.trim();
+  if(titulo.length<3 || !Number.isFinite(preco) || preco<=0){ showToast('Revise o título e o preço'); return; }
+  if(!cidade){ showToast('Informe a localização do anúncio'); return; }
+  if(editExistingFotos.length + selectedFotos.length > 4){ showToast('O limite é 4 fotos por anúncio'); return; }
+
+  const btn=document.getElementById('btnPublicar');
+  const textoNormal=editAdId?'Salvar alterações':'Publicar anúncio';
+  btn.textContent=editAdId?'Salvando...':'Publicando...'; btn.style.opacity='.65'; btn.style.pointerEvents='none';
+
+  try{
+    const novasUrls=[];
+    for(const file of selectedFotos){
       const form=new FormData();
       form.append('token',currentSessionToken);
       form.append('file',file,file.name);
       const resp=await fetch(`${SUPABASE_URL}/functions/v1/vendai-upload`,{method:'POST',headers:{apikey:SUPABASE_KEY},body:form});
-      const up=await resp.json();
-      if(resp.ok && up.publicUrl) fotosUrls.push(up.publicUrl);
-      else console.warn('Falha ao enviar foto',up);
-    }catch(e){ console.warn('Falha ao enviar foto',e); }
-  }
-  if(selectedFotos.length && fotosUrls.length===0){
-    btn.textContent='Publicar anúncio'; btn.style.opacity='1'; btn.style.pointerEvents='auto';
-    showToast('Não consegui enviar as fotos. Tente novamente.'); return;
-  }
-  const { error }=await sb.rpc('vendai_publicar_anuncio',{p_token:currentSessionToken,p_titulo:titulo,p_preco:preco,p_categoria:categoria,p_descricao:descricao||'',p_cidade:'Muzambinho, MG',p_fotos:fotosUrls});
-  btn.textContent='Publicar anúncio'; btn.style.opacity='1'; btn.style.pointerEvents='auto';
-  if(error){
+      const up=await resp.json().catch(()=>({}));
+      if(resp.ok && up.publicUrl) novasUrls.push(up.publicUrl);
+      else throw new Error('upload_falhou');
+    }
+    const fotosFinais=[...editExistingFotos,...novasUrls].slice(0,4);
+
+    let result;
+    if(editAdId){
+      result=await sb.rpc('vendai_editar_anuncio_seguro',{
+        p_token:currentSessionToken,p_id:editAdId,p_titulo:titulo,p_preco:preco,p_categoria:categoria,
+        p_descricao:descricao||'',p_cidade:cidade,p_fotos:fotosFinais
+      });
+    }else{
+      result=await sb.rpc('vendai_publicar_anuncio',{
+        p_token:currentSessionToken,p_titulo:titulo,p_preco:preco,p_categoria:categoria,
+        p_descricao:descricao||'',p_cidade:cidade,p_fotos:fotosFinais
+      });
+    }
+    if(result.error) throw result.error;
+
+    const eraEdicao=!!editAdId;
+    resetPostForm();
+    closeSheet('postOverlay'); activeCategory='todos'; renderChips();
+    await carregarAnuncios();
+    if(eraEdicao && currentUser) await renderProfile();
+    showToast(eraEdicao?'Anúncio atualizado ✓':'Anúncio publicado ✓');
+  }catch(error){
     console.error(error);
-    const msg=String(error.message||'');
+    const msg=String(error?.message||error||'');
     if(msg.includes('sessao_invalida')){
       currentUser=null; currentSessionToken=null; localStorage.removeItem('vendai_sessao');
-      closeSheet('postOverlay'); pendingAction='post'; openLoginSheet();
-      showToast('Sua sessão venceu. Entre novamente para publicar.');
-    }else showToast('Não consegui publicar agora. Tente novamente.');
-    return;
+      closeSheet('postOverlay'); openLoginSheet();
+      showToast('Sua sessão venceu. Entre novamente.');
+    }else if(msg.includes('upload_falhou')){
+      showToast('Não consegui enviar uma das fotos. Tente novamente.');
+    }else{
+      showToast(editAdId?'Não consegui salvar as alterações':'Não consegui publicar agora');
+    }
+  }finally{
+    btn.textContent=textoNormal; btn.style.opacity='1'; btn.style.pointerEvents='auto';
   }
-  document.getElementById('fTitle').value=''; document.getElementById('fPrice').value=''; document.getElementById('fDesc').value=''; document.getElementById('fFoto').value=''; document.getElementById('fotoPreview').innerHTML=''; document.getElementById('photoBox').textContent='📷 Toque pra adicionar fotos'; selectedFotos=[];
-  closeSheet('postOverlay'); activeCategory='todos'; renderChips(); await carregarAnuncios(); showToast('Anúncio publicado ✓');
+}
+
+function renderFotoPreview(){
+  const preview=document.getElementById('fotoPreview');
+  if(!preview)return;
+  preview.innerHTML='';
+
+  editExistingFotos.forEach((url,index)=>{
+    const wrap=document.createElement('div'); wrap.className='photoPreviewItem';
+    wrap.innerHTML=`<img class="fotoThumbPreview" src="${escHtml(url)}" alt="Foto atual"><button type="button" class="photoRemoveBtn" aria-label="Remover foto" onclick="removerFotoExistente(${index})">×</button><span class="photoTag">ATUAL</span>`;
+    preview.appendChild(wrap);
+  });
+
+  selectedFotos.forEach((file,index)=>{
+    const wrap=document.createElement('div'); wrap.className='photoPreviewItem';
+    const img=document.createElement('img'); img.className='fotoThumbPreview'; img.alt='Nova foto'; img.src=URL.createObjectURL(file);
+    const btn=document.createElement('button'); btn.type='button'; btn.className='photoRemoveBtn'; btn.textContent='×'; btn.setAttribute('aria-label','Remover foto'); btn.onclick=()=>removerFotoNova(index);
+    const tag=document.createElement('span'); tag.className='photoTag'; tag.textContent='NOVA';
+    wrap.appendChild(img); wrap.appendChild(btn); wrap.appendChild(tag); preview.appendChild(wrap);
+  });
+
+  const total=editExistingFotos.length+selectedFotos.length;
+  const box=document.getElementById('photoBox');
+  if(box) box.textContent=total ? `📷 ${total}/4 foto(s) — toque para adicionar mais` : '📷 Adicionar fotos (até 4)';
+}
+
+function removerFotoExistente(index){
+  editExistingFotos.splice(index,1);
+  renderFotoPreview();
+}
+
+function removerFotoNova(index){
+  selectedFotos.splice(index,1);
+  renderFotoPreview();
 }
 
 function previewFotos(){
-  selectedFotos = Array.from(document.getElementById('fFoto').files);
-  if(selectedFotos.length > 4){
-    selectedFotos = selectedFotos.slice(0,4);
-    showToast('No plano grátis, o limite é 4 fotos por anúncio');
-  }
-  const preview = document.getElementById('fotoPreview');
-  preview.innerHTML = '';
-  selectedFotos.forEach(file=>{
-    const img = document.createElement('img');
-    img.src = URL.createObjectURL(file);
-    img.className = 'fotoThumbPreview';
-    preview.appendChild(img);
-  });
-  document.getElementById('photoBox').textContent = selectedFotos.length>0
-    ? `📷 ${selectedFotos.length}/4 foto(s) selecionada(s) — toque pra trocar`
-    : '📷 Toque pra adicionar fotos (até 4 no plano grátis)';
+  const input=document.getElementById('fFoto');
+  const escolhidas=Array.from(input.files||[]);
+  const disponiveis=Math.max(0,4-editExistingFotos.length-selectedFotos.length);
+  if(disponiveis===0){ showToast('O limite é 4 fotos por anúncio'); input.value=''; return; }
+  selectedFotos.push(...escolhidas.slice(0,disponiveis));
+  if(escolhidas.length>disponiveis) showToast('Só cabem 4 fotos por anúncio');
+  input.value='';
+  renderFotoPreview();
 }
 
 async function iniciarChat(anuncioId, titulo, outroId, outroNome){
@@ -2329,6 +2600,7 @@ async function renderComprasUsuario(){
 }
 
 restaurarSessao();
+carregarPrecoDestaque();
 renderChips();
 carregarAnuncios();
 carregarMarketplaceLojas();

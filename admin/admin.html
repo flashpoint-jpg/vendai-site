@@ -1,300 +1,51 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vendaí — Admin</title>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Vendaí — Administração</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-  :root{
-    --bg: #F6FAF7;
-    --card: #FFFFFF;
-    --ink: #16281D;
-    --ink-soft: #71827A;
-    --green: #1EA35A;
-    --green-dark: #12703E;
-    --green-soft: #E4F5EB;
-    --yellow: #FFC93C;
-    --yellow-dark: #E8A800;
-    --danger: #E5484D;
-    --danger-soft: #FBE9E9;
-    --radius: 14px;
-    --shadow-sm: 0 2px 8px rgba(18,40,28,0.07);
-  }
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
-  body{
-    background: #E9EEE9;
-    font-family:'Inter', sans-serif;
-    color: var(--ink);
-    min-height:100vh;
-  }
-
-  /* Login */
-  #loginScreen{
-    min-height:100vh;
-    display:flex; align-items:center; justify-content:center;
-    padding: 20px;
-  }
-  .loginBox{
-    background: var(--card);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-    padding: 32px 26px;
-    width:100%;
-    max-width:340px;
-    text-align:center;
-  }
-  .loginLogo{
-    width:52px; height:52px; border-radius:16px;
-    background: var(--green);
-    display:flex; align-items:center; justify-content:center;
-    margin: 0 auto 16px;
-  }
-  .loginTitle{ font-family:'Fredoka',sans-serif; font-weight:600; font-size:20px; margin-bottom:4px; }
-  .loginSub{ font-size:13px; color:var(--ink-soft); margin-bottom:20px; }
-  .loginBox input{
-    width:100%; padding:12px 14px; border-radius:10px;
-    border:1.5px solid #E2E9E3; font-size:14px; margin-bottom:12px; outline:none;
-    font-family:'Inter',sans-serif;
-  }
-  .loginBox button{
-    width:100%; padding:13px 0; border:none; border-radius:10px;
-    background: var(--green); color:#fff; font-weight:700; font-size:14.5px; cursor:pointer;
-    font-family:'Inter',sans-serif;
-  }
-  .loginErr{ color:var(--danger); font-size:12.5px; margin-top:10px; display:none; }
-
-  /* App */
-  #app{ display:none; max-width:900px; margin:0 auto; padding: 20px 18px 60px; }
-  .topBar{
-    display:flex; align-items:center; justify-content:space-between;
-    margin-bottom:20px;
-  }
-  .brand{ display:flex; align-items:center; gap:10px; }
-  .brandMark{ width:32px; height:32px; border-radius:10px; background:var(--green); }
-  .brandName{ font-family:'Fredoka',sans-serif; font-weight:600; font-size:19px; }
-  .brandName em{ font-style:normal; color:var(--yellow-dark); }
-  .brandTag{ font-size:11px; color:var(--ink-soft); background:var(--green-soft); padding:3px 9px; border-radius:999px; margin-left:6px; }
-  .logoutBtn{
-    background:var(--card); border:1.5px solid #E2E9E3; border-radius:10px;
-    padding:9px 14px; font-size:13px; font-weight:600; color:var(--ink-soft); cursor:pointer;
-    font-family:'Inter',sans-serif;
-  }
-
-  .statsRow{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:22px; }
-  .statCard{
-    background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow-sm);
-    padding:16px 14px;
-  }
-  .statNum{ font-family:'Fredoka',sans-serif; font-weight:600; font-size:24px; color:var(--green-dark); }
-  .statLabel{ font-size:11.5px; color:var(--ink-soft); margin-top:2px; }
-
-  .tabRow{ display:flex; gap:8px; margin-bottom:18px; }
-  .tabBtn{
-    padding:9px 16px; border-radius:999px; border:none; background:var(--card);
-    font-size:13.5px; font-weight:600; color:var(--ink-soft); cursor:pointer;
-    font-family:'Inter',sans-serif; box-shadow:var(--shadow-sm);
-  }
-  .tabBtn.active{ background:var(--green); color:#fff; }
-
-  .panel{ display:none; }
-  .panel.active{ display:block; }
-
-  .rowCard{
-    background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow-sm);
-    padding:14px 16px; margin-bottom:10px;
-    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
-  }
-  .rowThumb{
-    width:42px; height:42px; border-radius:10px; flex:0 0 auto;
-    display:flex; align-items:center; justify-content:center; font-size:19px;
-  }
-  .rowMain{ flex:1; min-width:180px; }
-  .rowTitle{ font-weight:600; font-size:14px; margin-bottom:2px; }
-  .rowMeta{ font-size:12px; color:var(--ink-soft); }
-  .badge{
-    font-size:10.5px; font-weight:700; padding:3px 8px; border-radius:999px;
-    display:inline-block; margin-right:5px;
-  }
-  .badge.ativo{ background:var(--green-soft); color:var(--green-dark); }
-  .badge.vendido{ background:#EEE; color:var(--ink-soft); }
-  .badge.removido{ background:var(--danger-soft); color:var(--danger); }
-  .badge.destaque{ background:var(--yellow); color:var(--ink); }
-
-  .rowActions{ display:flex; gap:6px; flex-wrap:wrap; }
-  .miniBtn{
-    font-size:11.5px; font-weight:700; border:none; border-radius:8px;
-    padding:7px 10px; cursor:pointer; font-family:'Inter',sans-serif;
-  }
-  .miniBtn.yellow{ background:var(--yellow); color:var(--ink); }
-  .miniBtn.grey{ background:#EEF2EE; color:var(--ink-soft); }
-  .miniBtn.red{ background:var(--danger-soft); color:var(--danger); }
-  .miniBtn.green{ background:var(--green-soft); color:var(--green-dark); }
-
-  .emptyMsg{ text-align:center; padding:40px 20px; color:var(--ink-soft); font-size:14px; }
-</style>
-</head>
-<body>
-
-<div id="loginScreen">
-  <div class="loginBox">
-    <div class="loginLogo"></div>
-    <div class="loginTitle">Vendaí Admin</div>
-    <div class="loginSub">Acesso restrito</div>
-    <input type="password" id="senhaInput" placeholder="Senha de admin">
-    <button onclick="verificarSenha()">Entrar</button>
-    <div class="loginErr" id="loginErr">Senha incorreta.</div>
-  </div>
-</div>
-
-<div id="app">
-  <div class="topBar">
-    <div class="brand">
-      <div class="brandMark"></div>
-      <div class="brandName">Vend<em>aí</em> <span class="brandTag">admin</span></div>
-    </div>
-    <button class="logoutBtn" onclick="location.reload()">Sair</button>
-  </div>
-
-  <div class="statsRow" id="statsRow"></div>
-
-  <div class="tabRow">
-    <button class="tabBtn active" onclick="mudarAba('anuncios', event)">📦 Anúncios</button>
-    <button class="tabBtn" onclick="mudarAba('usuarios', event)">👥 Usuários</button>
-  </div>
-
-  <div class="panel active" id="panelAnuncios">
-    <div id="listaAnuncios"></div>
-  </div>
-
-  <div class="panel" id="panelUsuarios">
-    <div id="listaUsuarios"></div>
-  </div>
-</div>
-
+:root{--bg:#f5f7f5;--card:#fff;--ink:#1d2721;--soft:#6c776f;--green:#174d34;--green2:#23704a;--mint:#e8f3ec;--yellow:#f4cb54;--red:#b63c3c;--line:#e4e9e5;--shadow:0 10px 32px rgba(20,55,37,.08)}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink)}button,input{font:inherit}button{cursor:pointer}
+#loginScreen{min-height:100vh;display:grid;place-items:center;padding:22px;background:linear-gradient(160deg,#123f2b,#1e6544)}.loginBox{width:min(390px,100%);background:white;border-radius:24px;padding:25px;box-shadow:0 25px 80px #0004}.logo{width:54px;height:54px;border-radius:18px;background:var(--green);display:grid;place-items:center;color:var(--yellow);font-weight:900;font-size:25px;margin-bottom:15px}.loginTitle{font-weight:900;font-size:24px}.muted{color:var(--soft);font-size:13px;line-height:1.45}input{width:100%;border:1px solid var(--line);border-radius:13px;padding:12px 13px;margin-top:12px;outline:none}input:focus{border-color:#8ab59d;box-shadow:0 0 0 3px #dcefe3}.primary{width:100%;border:0;border-radius:13px;background:var(--green);color:white;font-weight:850;padding:12px;margin-top:12px}.err{display:none;color:var(--red);font-size:12px;margin-top:9px}
+#app{display:none}.top{position:sticky;top:0;z-index:10;background:#fffffff2;backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:12px 16px}.topIn{max-width:1180px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-weight:950;font-size:21px;color:var(--green)}.brand em{color:#cf9d13;font-style:normal}.topBtns{display:flex;gap:7px}.ghost{border:1px solid var(--line);background:white;border-radius:10px;padding:8px 10px;font-weight:750;color:var(--green)}
+.wrap{max-width:1180px;margin:auto;padding:17px 14px 50px}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.stat{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:14px;box-shadow:var(--shadow)}.stat b{display:block;font-size:21px;color:var(--green)}.stat span{font-size:11px;color:var(--soft)}.tabs{display:flex;gap:7px;overflow:auto;padding:15px 0 10px}.tab{white-space:nowrap;border:0;border-radius:999px;background:white;padding:9px 13px;font-weight:800;color:var(--soft);box-shadow:0 2px 8px #0000000b}.tab.active{background:var(--green);color:white}.panel{display:none}.panel.active{display:block}.sectionTitle{font-weight:900;font-size:18px;margin:8px 0 11px}.row{background:white;border:1px solid var(--line);border-radius:16px;padding:13px;margin-bottom:9px;box-shadow:0 4px 18px #00000008}.rowTop{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.title{font-size:14px;font-weight:900}.meta{font-size:11px;line-height:1.55;color:var(--soft);margin-top:4px}.money{font-weight:900;color:var(--green)}.actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.mini{border:0;border-radius:9px;padding:7px 9px;font-weight:800;font-size:10px;background:var(--mint);color:var(--green)}.mini.warn{background:#fff4d4;color:#815f00}.mini.red{background:#fbe8e8;color:var(--red)}.badge{display:inline-block;padding:3px 7px;border-radius:999px;background:#eef2ef;font-size:9px;font-weight:850;text-transform:uppercase}.badge.ativa,.badge.ativo,.badge.concluido,.badge.paga{background:#e2f3e8;color:#17663c}.badge.suspensa,.badge.devida,.badge.novo{background:#fff1cc;color:#835f00}.badge.excluida,.badge.removido,.badge.cancelada{background:#f8e3e3;color:#9b3131}.empty{text-align:center;padding:34px;color:var(--soft)}.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}.search{max-width:340px;margin:0;flex:1;min-width:200px}.configCard{background:white;border:1px solid var(--line);border-radius:17px;padding:15px;margin-bottom:12px}.configCard h3{margin:0 0 6px;font-size:15px}.formRow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}.formRow .primary{width:auto;margin:12px 0 0;padding-inline:18px}.notice{background:#fff7dd;border:1px solid #f2dfa0;border-radius:13px;padding:11px;font-size:11px;color:#6f580f;line-height:1.45;margin-bottom:12px}
+@media(max-width:700px){.stats{grid-template-columns:1fr 1fr}.rowTop{display:block}.formRow{grid-template-columns:1fr}.formRow .primary{width:100%}}
+</style></head><body>
+<div id="loginScreen"><div class="loginBox"><div class="logo">V</div><div class="loginTitle">Vendaí Admin</div><div class="muted">Painel protegido no servidor. Use a senha administrativa do painel.</div><input id="senhaInput" type="password" placeholder="Senha de administrador" autocomplete="current-password"><button class="primary" onclick="entrar()">Entrar</button><div id="loginErr" class="err">Não foi possível entrar. Confira a senha.</div></div></div>
+<div id="app"><div class="top"><div class="topIn"><div class="brand">Vend<em>aí</em> <small style="font-size:11px;color:var(--soft)">admin</small></div><div class="topBtns"><button class="ghost" onclick="carregarTudo()">↻ Atualizar</button><button class="ghost" onclick="sair()">Sair</button></div></div></div>
+<div class="wrap"><div id="stats" class="stats"></div><div class="tabs"><button class="tab active" data-tab="lojas" onclick="aba('lojas',this)">🏪 Lojas</button><button class="tab" data-tab="comissoes" onclick="aba('comissoes',this)">💰 Comissões</button><button class="tab" data-tab="anuncios" onclick="aba('anuncios',this)">📦 Anúncios</button><button class="tab" data-tab="usuarios" onclick="aba('usuarios',this)">👥 Usuários</button><button class="tab" data-tab="config" onclick="aba('config',this)">⚙️ Configuração</button></div>
+<section id="panelLojas" class="panel active"><div class="toolbar"><div class="sectionTitle" style="margin-right:auto">Lojistas cadastrados</div><input class="search" id="qLoja" placeholder="Buscar loja, responsável ou telefone" oninput="renderLojas()"></div><div id="listaLojas"></div></section>
+<section id="panelComissoes" class="panel"><div class="toolbar"><div class="sectionTitle" style="margin-right:auto">Vendas e comissões</div><input class="search" id="qPedido" placeholder="Buscar loja, produto ou lojista" oninput="renderPedidos()"></div><div class="notice"><b>Pagamento integrado:</b> nas compras online, o Mercado Pago registra automaticamente o pagamento e a comissão do Vendaí. Quando o cliente escolhe Entrega Flash, o frete também aparece separado aqui. Pedidos antigos sem pagamento integrado continuam identificados no histórico.</div><div id="listaPedidos"></div></section>
+<section id="panelAnuncios" class="panel"><div class="sectionTitle">Anúncios de usuários</div><div id="listaAnuncios"></div></section>
+<section id="panelUsuarios" class="panel"><div class="sectionTitle">Usuários cadastrados</div><div id="listaUsuarios"></div></section>
+<section id="panelConfig" class="panel"><div class="configCard"><h3>Comissão do Vendaí</h3><div class="muted">A nova porcentagem vale para pedidos criados depois da alteração. Pedidos antigos mantêm a taxa registrada no momento da compra.</div><div class="formRow"><input id="taxaInput" type="number" min="0" max="30" step="0.1" placeholder="8"><button class="primary" onclick="salvarTaxa()">Salvar taxa</button></div></div><div class="configCard"><h3>Segurança do painel</h3><div class="muted">A senha não fica mais escrita dentro do arquivo HTML. Ela é validada no servidor.</div><input id="senhaAtual" type="password" placeholder="Senha atual"><input id="novaSenha" type="password" placeholder="Nova senha (mínimo 8 caracteres)"><button class="primary" onclick="trocarSenha()">Trocar senha</button></div></section>
+</div></div>
 <script>
-// ATENÇÃO: senha fixa aqui no código, igual o primeiro admin do Entrega Flash —
-// serve pra testar agora; antes de divulgar de verdade, troca isso por uma
-// verificação real no banco (igual foi corrigido lá).
-const ADMIN_SENHA = 'vendai2026';
-
-const SUPABASE_URL = 'https://rgcclordmqjmwuzrrfbd.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJnY2Nsb3JkbXFqbXd1enJyZmJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUzMzU5NjgsImV4cCI6MjEwMDkxMTk2OH0.08MeNbE_Tr5sf7APOP9gsSr5KwDjDbdacaXXzDOyqXA';
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-const CATEGORY_ICON = {moveis:'🛋️', eletronicos:'📱', veiculos:'🚗', roupas:'👕', casa:'🏠', bebe:'🍼', outros:'📦'};
-const CATEGORY_COLOR = {moveis:'#E7D9B8', eletronicos:'#CFE0D8', veiculos:'#EAC9B8', roupas:'#E3D2E0', casa:'#D8E2C4', bebe:'#F2DCC9', outros:'#DCD5C8'};
-
-function verificarSenha(){
-  const val = document.getElementById('senhaInput').value;
-  if(val === ADMIN_SENHA){
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    carregarTudo();
-  } else {
-    document.getElementById('loginErr').style.display = 'block';
-  }
-}
-document.getElementById('senhaInput').addEventListener('keydown', e=>{ if(e.key==='Enter') verificarSenha(); });
-
-function formatPrice(n){ return 'R$ ' + Number(n).toLocaleString('pt-BR'); }
-
-function mudarAba(nome, e){
-  document.querySelectorAll('.tabBtn').forEach(b=>b.classList.remove('active'));
-  e.currentTarget.classList.add('active');
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('panel' + nome.charAt(0).toUpperCase()+nome.slice(1)).classList.add('active');
-}
-
-async function carregarTudo(){
-  await Promise.all([carregarStats(), carregarAnunciosAdmin(), carregarUsuarios()]);
-}
-
-async function carregarStats(){
-  const { data } = await sb.from('vendai_anuncios').select('status,destaque');
-  const { data: usuarios } = await sb.from('vendai_usuarios').select('id');
-
-  const ativos = (data||[]).filter(a=>a.status==='ativo').length;
-  const destacados = (data||[]).filter(a=>a.destaque && a.status==='ativo').length;
-  const vendidos = (data||[]).filter(a=>a.status==='vendido').length;
-
-  document.getElementById('statsRow').innerHTML = `
-    <div class="statCard"><div class="statNum">${ativos}</div><div class="statLabel">Anúncios ativos</div></div>
-    <div class="statCard"><div class="statNum">${destacados}</div><div class="statLabel">Destacados agora</div></div>
-    <div class="statCard"><div class="statNum">${vendidos}</div><div class="statLabel">Marcados vendidos</div></div>
-    <div class="statCard"><div class="statNum">${(usuarios||[]).length}</div><div class="statLabel">Usuários cadastrados</div></div>
-  `;
-}
-
-async function carregarAnunciosAdmin(){
-  const { data, error } = await sb.from('vendai_anuncios').select('*').order('criado_em', { ascending:false });
-  const box = document.getElementById('listaAnuncios');
-
-  if(error){ box.innerHTML = '<div class="emptyMsg">Erro ao carregar anúncios.</div>'; return; }
-  if(!data || data.length===0){ box.innerHTML = '<div class="emptyMsg">Nenhum anúncio publicado ainda.</div>'; return; }
-
-  box.innerHTML = '';
-  data.forEach(ad=>{
-    const row = document.createElement('div');
-    row.className = 'rowCard';
-    row.innerHTML = `
-      <div class="rowThumb" style="background:${CATEGORY_COLOR[ad.categoria]||'#eee'}">${CATEGORY_ICON[ad.categoria]||'📦'}</div>
-      <div class="rowMain">
-        <div class="rowTitle">${ad.titulo}</div>
-        <div class="rowMeta">
-          <span class="badge ${ad.status}">${ad.status}</span>
-          ${ad.destaque ? '<span class="badge destaque">🔥 destaque</span>' : ''}
-          ${formatPrice(ad.preco)} · ${ad.cidade} · ${ad.vendedor_nome||'—'} (${ad.vendedor_telefone||'sem telefone'})
-        </div>
-      </div>
-      <div class="rowActions">
-        ${ad.destaque
-          ? `<button class="miniBtn grey" onclick="toggleDestaque('${ad.id}', false)">Remover destaque</button>`
-          : `<button class="miniBtn yellow" onclick="toggleDestaque('${ad.id}', true)">🔥 Destacar</button>`}
-        ${ad.status!=='ativo' ? `<button class="miniBtn green" onclick="atualizarStatus('${ad.id}','ativo')">Reativar</button>` : ''}
-        ${ad.status!=='vendido' ? `<button class="miniBtn grey" onclick="atualizarStatus('${ad.id}','vendido')">Marcar vendido</button>` : ''}
-        ${ad.status!=='removido' ? `<button class="miniBtn red" onclick="atualizarStatus('${ad.id}','removido')">Remover</button>` : ''}
-      </div>
-    `;
-    box.appendChild(row);
-  });
-}
-
-async function toggleDestaque(id, valor){
-  const payload = { destaque: valor };
-  payload.destaque_expira_em = valor ? new Date(Date.now()+7*24*60*60*1000).toISOString() : null;
-  await sb.from('vendai_anuncios').update(payload).eq('id', id);
-  await carregarTudo();
-}
-
-async function atualizarStatus(id, status){
-  await sb.from('vendai_anuncios').update({ status }).eq('id', id);
-  await carregarTudo();
-}
-
-async function carregarUsuarios(){
-  const { data, error } = await sb.from('vendai_usuarios').select('*').order('criado_em', { ascending:false });
-  const box = document.getElementById('listaUsuarios');
-
-  if(error){ box.innerHTML = '<div class="emptyMsg">Erro ao carregar usuários.</div>'; return; }
-  if(!data || data.length===0){ box.innerHTML = '<div class="emptyMsg">Nenhum usuário cadastrado ainda.</div>'; return; }
-
-  box.innerHTML = '';
-  data.forEach(u=>{
-    const row = document.createElement('div');
-    row.className = 'rowCard';
-    row.innerHTML = `
-      <div class="rowThumb" style="background:var(--green-soft);">🙂</div>
-      <div class="rowMain">
-        <div class="rowTitle">${u.nome}</div>
-        <div class="rowMeta">${u.telefone} · cadastrado em ${new Date(u.criado_em).toLocaleDateString('pt-BR')}</div>
-      </div>
-    `;
-    box.appendChild(row);
-  });
-}
-</script>
-</body>
-</html>
+const SUPABASE_URL='https://rgcclordmqjmwuzrrfbd.supabase.co';
+const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJnY2Nsb3JkbXFqbXd1enJyZmJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUzMzU5NjgsImV4cCI6MjEwMDkxMTk2OH0.08MeNbE_Tr5sf7APOP9gsSr5KwDjDbdacaXXzDOyqXA';
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+let adminToken=sessionStorage.getItem('vendai_admin_token')||null, resumo=null, lojas=[], pedidos=[], anuncios=[], usuarios=[];
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const money=n=>'R$ '+Number(n||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+function msgErro(e){return String(e?.message||e||'erro')}
+async function entrar(){const senha=document.getElementById('senhaInput').value;document.getElementById('loginErr').style.display='none';const r=await sb.rpc('vendai_admin_login',{p_senha:senha});if(r.error||!r.data?.[0]?.token){document.getElementById('loginErr').style.display='block';return}adminToken=r.data[0].token;sessionStorage.setItem('vendai_admin_token',adminToken);abrirApp();}
+async function validar(){if(!adminToken)return false;const r=await sb.rpc('vendai_admin_validar',{p_token:adminToken});return !r.error&&r.data===true}
+async function abrirApp(){document.getElementById('loginScreen').style.display='none';document.getElementById('app').style.display='block';await carregarTudo()}
+async function sair(){if(adminToken)await sb.rpc('vendai_admin_logout',{p_token:adminToken});adminToken=null;sessionStorage.removeItem('vendai_admin_token');location.reload()}
+function aba(n,b){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));document.getElementById('panel'+n[0].toUpperCase()+n.slice(1)).classList.add('active')}
+async function carregarTudo(){const [rs,ls,ps,as,us]=await Promise.all([sb.rpc('vendai_admin_resumo_v2',{p_token:adminToken}),sb.rpc('vendai_admin_lojas_v2',{p_token:adminToken}),sb.rpc('vendai_admin_pedidos_loja_v2',{p_token:adminToken}),sb.rpc('vendai_admin_anuncios',{p_token:adminToken}),sb.rpc('vendai_admin_usuarios',{p_token:adminToken})]);if(rs.error){if(msgErro(rs.error).includes('sessao_admin_invalida'))return sair();alert('Erro ao carregar painel');return}resumo=rs.data?.[0]||{};lojas=ls.data||[];pedidos=ps.data||[];anuncios=as.data||[];usuarios=us.data||[];renderStats();renderLojas();renderPedidos();renderAnuncios();renderUsuarios();document.getElementById('taxaInput').value=resumo.taxa_atual??8;}
+function renderStats(){document.getElementById('stats').innerHTML=`<div class="stat"><b>${resumo.lojas_ativas||0}</b><span>Lojas ativas</span></div><div class="stat"><b>${money(resumo.vendas_valor)}</b><span>Produtos pagos</span></div><div class="stat"><b>${money(resumo.comissao_recebida)}</b><span>Comissão registrada</span></div><div class="stat"><b>${money(resumo.fretes_flash)}</b><span>Fretes Entrega Flash</span></div><div class="stat"><b>${resumo.entregas_flash||0}</b><span>Corridas geradas</span></div><div class="stat"><b>${resumo.lojas_mp_conectadas||0}</b><span>Lojas com Mercado Pago</span></div>`}
+function renderLojas(){const q=(document.getElementById('qLoja')?.value||'').toLowerCase();const box=document.getElementById('listaLojas');const ds=lojas.filter(l=>[l.nome,l.cidade,l.responsavel_nome,l.responsavel_telefone,l.whatsapp,l.endereco_retirada].join(' ').toLowerCase().includes(q));if(!ds.length){box.innerHTML='<div class="empty">Nenhuma loja encontrada.</div>';return}box.innerHTML=ds.map(l=>{const metodos=[l.entrega_flash_ativa?'⚡ Entrega Flash':'',l.retirada_loja_ativa?'🏪 Retirada':'',l.entrega_propria_ativa?'🚚 Entrega própria':''].filter(Boolean).join(' · ')||'Nenhum';return `<div class="row"><div class="rowTop"><div><div class="title">🏪 ${esc(l.nome)} <span class="badge ${esc(l.status)}">${esc(l.status)}</span></div><div class="meta"><b>Responsável:</b> ${esc(l.responsavel_nome)} · ${esc(l.responsavel_telefone)}<br><b>WhatsApp:</b> ${esc(l.whatsapp||'não informado')} · <b>Cidade:</b> ${esc(l.cidade)}<br><b>Mercado Pago:</b> ${l.mercado_pago_conectado?'✅ conectado':'⚠️ não conectado'}${l.mp_user_id?` · ID ${esc(l.mp_user_id)}`:''}<br><b>Retirada:</b> ${esc(l.endereco_retirada||'não informado')}<br><b>Entrega:</b> ${metodos}<br>Produtos: ${l.produtos} · Pedidos: ${l.pedidos} · Vendas concluídas: ${l.vendas_concluidas}<br>Produtos pagos: <span class="money">${money(l.vendas_valor)}</span> · Comissão automática: <span class="money">${money(l.comissao_recebida)}</span></div></div></div><div class="actions">${l.status!=='ativa'?`<button class="mini" onclick="statusLoja('${l.id}','ativa')">Ativar</button>`:''}${l.status==='ativa'?`<button class="mini warn" onclick="statusLoja('${l.id}','suspensa')">Suspender</button>`:''}${l.status!=='excluida'?`<button class="mini red" onclick="statusLoja('${l.id}','excluida')">Excluir loja</button>`:''}</div></div>`}).join('')}
+async function statusLoja(id,status){const frase=status==='excluida'?'Excluir esta loja do marketplace? O histórico financeiro será preservado.':status==='suspensa'?'Suspender esta loja? Ela sairá da vitrine.':'Reativar esta loja?';if(!confirm(frase))return;const r=await sb.rpc('vendai_admin_status_loja',{p_token:adminToken,p_loja_id:id,p_status:status});if(r.error)return alert('Não consegui alterar a loja.');await carregarTudo()}
+function renderPedidos(){const q=(document.getElementById('qPedido')?.value||'').toLowerCase();const box=document.getElementById('listaPedidos');const ds=pedidos.filter(o=>[o.loja_nome,o.lojista_nome,o.lojista_telefone,o.comprador_nome,o.produto_titulo,o.status,o.taxa_status,o.entrega_status,o.entrega_flash_pedido_id].join(' ').toLowerCase().includes(q));if(!ds.length){box.innerHTML='<div class="empty">Nenhuma venda de loja registrada.</div>';return}box.innerHTML=ds.map(o=>{const flash=o.entrega_tipo==='entrega_flash';const entrega=flash?`⚡ Entrega Flash · ${esc(o.frete_veiculo||'')} · frete ${money(o.frete_valor)}<br>Status entrega: <b>${esc(o.entrega_status||'')}</b>${o.entrega_flash_pedido_id?` · corrida ${esc(o.entrega_flash_pedido_id)}`:''}${o.entrega_motorista_nome?`<br>Motorista: ${esc(o.entrega_motorista_nome)} · ${esc(o.entrega_motorista_telefone||'')}`:''}<br>Destino: ${esc(o.endereco_entrega||'')}`:(o.entrega_tipo==='retirada_loja'?'🏪 Retirada na loja':'🚚 Entrega própria da loja');const manual=(!o.mp_payment_id&&o.status==='concluido'&&o.taxa_status==='devida')?`<button class="mini" onclick="statusComissao('${o.id}','paga')">✓ Marcar comissão recebida (legado)</button>`:'';return `<div class="row"><div class="title">${esc(o.produto_titulo)} × ${o.quantidade} · ${esc(o.loja_nome)}</div><div class="meta">Lojista: <b>${esc(o.lojista_nome)}</b> · ${esc(o.lojista_telefone)}<br>Comprador: ${esc(o.comprador_nome)} · ${esc(o.comprador_telefone)}<br>Produto: <b>${money(o.subtotal)}</b> · Comissão (${Number(o.taxa_percentual)}%): <span class="money">${money(o.taxa_valor)}</span> · Líquido-base lojista: ${money(o.lojista_liquido)}<br><b>Total cobrado:</b> ${money(o.total_pagamento??o.subtotal)} · Pagamento: <span class="badge ${esc(o.pagamento_status)}">${esc(o.pagamento_status)}</span> · MP: ${esc(o.mp_payment_status||'—')}<br>${entrega}<br>Pedido: <span class="badge ${esc(o.status)}">${esc(o.status)}</span> · Comissão: <span class="badge ${esc(o.taxa_status)}">${esc(o.taxa_status)}</span> · ${new Date(o.criado_em).toLocaleString('pt-BR')}</div><div class="actions">${manual}</div></div>`}).join('')}
+async function statusComissao(id,status){if(status==='paga'&&!confirm('Confirmar que a comissão entrou para o Vendaí?'))return;const r=await sb.rpc('vendai_admin_status_comissao',{p_token:adminToken,p_pedido_id:id,p_status:status});if(r.error)return alert('Não consegui atualizar a comissão.');await carregarTudo()}
+function renderAnuncios(){const box=document.getElementById('listaAnuncios');if(!anuncios.length){box.innerHTML='<div class="empty">Nenhum anúncio.</div>';return}box.innerHTML=anuncios.map(a=>`<div class="row"><div class="title">${esc(a.titulo)} · ${money(a.preco)}</div><div class="meta">${esc(a.cidade)} · ${esc(a.vendedor_nome||'')} · ${esc(a.vendedor_telefone||'')} · <span class="badge ${esc(a.status)}">${esc(a.status)}</span>${a.destaque?' · 🔥 destaque':''}</div><div class="actions"><button class="mini" onclick="destaque('${a.id}',${!a.destaque})">${a.destaque?'Remover destaque':'Destacar 7 dias'}</button>${a.status!=='ativo'?`<button class="mini" onclick="statusAnuncio('${a.id}','ativo')">Ativar</button>`:''}${a.status!=='vendido'?`<button class="mini warn" onclick="statusAnuncio('${a.id}','vendido')">Vendido</button>`:''}${a.status!=='removido'?`<button class="mini red" onclick="statusAnuncio('${a.id}','removido')">Remover</button>`:''}</div></div>`).join('')}
+async function destaque(id,v){const r=await sb.rpc('vendai_admin_destaque_anuncio',{p_token:adminToken,p_id:id,p_destaque:v});if(r.error)return alert('Erro ao atualizar destaque.');await carregarTudo()}
+async function statusAnuncio(id,status){const r=await sb.rpc('vendai_admin_status_anuncio',{p_token:adminToken,p_id:id,p_status:status});if(r.error)return alert('Erro ao atualizar anúncio.');await carregarTudo()}
+function renderUsuarios(){const box=document.getElementById('listaUsuarios');if(!usuarios.length){box.innerHTML='<div class="empty">Nenhum usuário.</div>';return}box.innerHTML=usuarios.map(u=>`<div class="row"><div class="title">👤 ${esc(u.nome)}</div><div class="meta">Telefone: ${esc(u.telefone)} · Cadastro: ${new Date(u.criado_em).toLocaleDateString('pt-BR')}</div></div>`).join('')}
+async function salvarTaxa(){const v=Number(document.getElementById('taxaInput').value);if(!Number.isFinite(v)||v<0||v>30)return alert('Informe uma taxa entre 0% e 30%.');if(!confirm(`Alterar a comissão para ${v}% nos próximos pedidos?`))return;const r=await sb.rpc('vendai_admin_definir_taxa',{p_token:adminToken,p_taxa:v});if(r.error)return alert('Não consegui alterar a taxa.');await carregarTudo();alert('Taxa atualizada.')}
+async function trocarSenha(){const atual=document.getElementById('senhaAtual').value,nova=document.getElementById('novaSenha').value;if(nova.length<8)return alert('A nova senha precisa ter pelo menos 8 caracteres.');const r=await sb.rpc('vendai_admin_trocar_senha',{p_token:adminToken,p_senha_atual:atual,p_nova_senha:nova});if(r.error)return alert(msgErro(r.error).includes('senha_atual_incorreta')?'Senha atual incorreta.':'Não consegui trocar a senha.');document.getElementById('senhaAtual').value='';document.getElementById('novaSenha').value='';alert('Senha alterada com segurança.')}
+document.getElementById('senhaInput').addEventListener('keydown',e=>{if(e.key==='Enter')entrar()});
+(async()=>{if(await validar())abrirApp();})();
+</script></body></html>

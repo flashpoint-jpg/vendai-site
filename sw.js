@@ -1,9 +1,10 @@
-const CACHE_NAME = 'vendai-pwa-lojistas-20260910-1';
+const CACHE_NAME = 'vendai-pwa-entrega-flash-20260910-1';
 const APP_SHELL = [
   '/',
   '/index.html',
   '/manifest.webmanifest',
   '/offline.html',
+  '/admin/admin.html',
   '/icon-192.png',
   '/icon-512.png',
   '/icon-maskable-512.png'

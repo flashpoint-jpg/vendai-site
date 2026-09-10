@@ -1,0 +1,23 @@
+VENDAÍ — LOJISTAS + CONTROLE ADMINISTRATIVO
+
+O que foi acrescentado:
+- Lojista pode excluir/encerrar a própria loja.
+- Exclusão é segura: a loja sai da vitrine, produtos são pausados e o histórico financeiro é preservado.
+- Loja com pedido aberto não pode ser excluída até o pedido ser resolvido.
+- Lojista pode reativar a loja depois.
+- Painel do lojista mostra vendas, comissão a pagar ao Vendaí, comissão já paga e líquido acumulado.
+
+Painel administrativo: /admin/admin.html
+- Lista de lojas com responsável, telefone, WhatsApp, cidade e status.
+- Total vendido por loja.
+- Comissão a receber e comissão recebida.
+- Lista de pedidos/vendas e valores de comissão.
+- Marcar comissão como recebida.
+- Ativar, suspender ou excluir loja.
+- Alterar a porcentagem de comissão para novos pedidos.
+- Controle dos anúncios e usuários que já existiam.
+- Login de administrador agora é validado no servidor; a senha não fica escrita no HTML.
+- Tela para trocar a senha administrativa.
+
+IMPORTANTE SOBRE DINHEIRO:
+A comissão é registrada automaticamente quando a venda é concluída. Enquanto o pagamento automático não estiver integrado, 'comissão a receber' é um controle de contas a receber; ao receber o valor, o administrador marca como recebida.

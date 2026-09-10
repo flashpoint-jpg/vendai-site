@@ -1,0 +1,25 @@
+VENDAÍ + ENTREGA FLASH — integração marketplace
+Versão: 10/09/2026
+
+FLUXO
+1. Lojista cria/edita a loja e informa endereço real de retirada.
+2. Lojista escolhe formas de recebimento: Entrega Flash, retirada na loja e/ou entrega própria.
+3. Cada produto informa o tipo de veículo necessário para a entrega.
+4. Cliente escolhe Entrega Flash, informa o destino e o servidor calcula o frete pela tabela atual do Entrega Flash.
+5. Antes de liberar a opção, o servidor confirma que existe motorista aprovado/disponível do veículo necessário, com push válido, na região.
+6. O checkout cobra produto + frete. A comissão do Vendaí incide somente sobre o produto; a parcela marketplace também separa o frete da operação Entrega Flash.
+7. Após pagamento aprovado e pedido aceito, o lojista toca em “Produto pronto — chamar Entrega Flash”.
+8. Uma corrida é criada no Entrega Flash com a loja como origem e o comprador como destino.
+9. O status e o motorista são sincronizados de volta para o Vendaí até a entrega.
+
+PROTEÇÕES
+- Frete é recalculado no servidor; o navegador não define o valor.
+- Criação interna de pedido/entrega só pode ser executada pelo service role.
+- Pedido Vendaí não recebe acréscimo Pro nem taxa de espera depois do checkout.
+- Corridas Vendaí ficam limitadas a motoristas num raio operacional máximo de 60 km da retirada.
+- Depois de o produto ser coletado, o motorista não pode simplesmente devolver a corrida Vendaí à lista; deve acionar suporte.
+- Histórico de loja, venda, comissão e entrega é preservado.
+
+MERCADO PAGO
+Para pagamento real, configure no Supabase Secrets: MP_CLIENT_ID, MP_CLIENT_SECRET e MP_REDIRECT_URI com os dados da aplicação Marketplace do Vendaí.
+Não coloque Client Secret no HTML.

@@ -1021,6 +1021,32 @@
   .heroTile img{position:relative;z-index:1;background:#EEF4F0;}
   .heroTile span{z-index:2;}
 
+
+
+  /* ===== Vendaí Lojistas / Marketplace ===== */
+  .merchantIntro{margin:14px 0 16px;background:linear-gradient(145deg,#123C2C,#1B5A42);border-radius:20px;padding:18px;color:#fff;box-shadow:0 12px 26px rgba(12,58,42,.16);overflow:hidden;position:relative}
+  .merchantIntro:after{content:'🏪';position:absolute;right:-8px;top:-12px;font-size:88px;opacity:.09;transform:rotate(-8deg)}
+  .merchantKicker{font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#D8F36B;margin-bottom:6px}
+  .merchantTitle{font-size:20px;font-weight:850;line-height:1.12;max-width:360px}
+  .merchantText{font-size:12px;line-height:1.48;color:rgba(255,255,255,.88);margin-top:7px;max-width:560px}
+  .merchantSteps{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:14px 0 12px}
+  .merchantStep{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:9px 8px;font-size:10.5px;line-height:1.25}
+  .merchantStep b{display:block;color:#D8F36B;font-size:11px;margin-bottom:3px}
+  .merchantCta{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .merchantCta button{border:0;border-radius:12px;padding:10px 13px;font-weight:800;cursor:pointer;font-size:12px}
+  .merchantCta .primary{background:#D8F36B;color:#173A2C}.merchantCta .secondary{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.18)}
+  .merchantFine{font-size:9.8px;color:rgba(255,255,255,.68);margin-top:9px}
+  .storeSection{margin:18px 0 6px}.storeSectionHead{display:flex;justify-content:space-between;align-items:end;gap:10px;margin-bottom:10px}.storeSectionTitle{font-size:16px;font-weight:850}.storeSectionSub{font-size:10.5px;color:var(--ink-soft);margin-top:2px}
+  .storeRail{display:flex;gap:10px;overflow-x:auto;padding:2px 2px 8px;scrollbar-width:none}.storeRail::-webkit-scrollbar{display:none}
+  .storeCard{min-width:180px;max-width:180px;border:1px solid #E4EAE5;background:var(--card);border-radius:16px;padding:12px;box-shadow:0 5px 14px rgba(26,51,39,.06);cursor:pointer}
+  .storeLogo{width:42px;height:42px;border-radius:13px;background:var(--green-soft);display:grid;place-items:center;overflow:hidden;font-size:20px;margin-bottom:9px}.storeLogo img{width:100%;height:100%;object-fit:cover}.storeName{font-size:13px;font-weight:850}.storeCity{font-size:10.5px;color:var(--ink-soft);margin-top:2px}.storeCount{font-size:10px;color:var(--green-dark);font-weight:750;margin-top:7px}
+  .storeProductsGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:10px 0 18px}.storeProductCard{background:var(--card);border:1px solid #E4EAE5;border-radius:15px;overflow:hidden;cursor:pointer;box-shadow:0 5px 14px rgba(26,51,39,.05)}.storeProductImg{height:112px;background:#EEF4F0;display:grid;place-items:center;font-size:28px;overflow:hidden;position:relative}.storeProductImg img{width:100%;height:100%;object-fit:cover}.officialBadge{position:absolute;top:7px;left:7px;background:#183D2E;color:#fff;border-radius:999px;padding:4px 7px;font-size:8px;font-weight:800}.storeProductBody{padding:10px}.storeProductTitle{font-size:12px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.storeProductPrice{font-size:15px;font-weight:900;color:var(--green-dark);margin-top:4px}.storeProductMeta{font-size:9.5px;color:var(--ink-soft);margin-top:4px}
+  .lojaStatGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.lojaStat{border-radius:13px;background:#F3F7F4;padding:10px}.lojaStat b{display:block;font-size:17px;color:var(--green-dark)}.lojaStat span{font-size:9.5px;color:var(--ink-soft)}
+  .lojaToolbar{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 14px}.lojaToolbar button{border:0;border-radius:999px;padding:8px 11px;font-size:10.5px;font-weight:800;cursor:pointer;background:var(--green-soft);color:var(--green-dark)}
+  .lojaRow{border:1px solid #E3EAE5;border-radius:14px;padding:11px;margin-bottom:9px;background:var(--card)}.lojaRowTop{display:flex;justify-content:space-between;gap:10px}.lojaRowTitle{font-size:12.5px;font-weight:850}.lojaRowMeta{font-size:10px;color:var(--ink-soft);margin-top:3px;line-height:1.35}.lojaRowActions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.lojaRowActions button{border:0;border-radius:9px;padding:7px 9px;font-size:10px;font-weight:800;cursor:pointer}.btnOk{background:var(--green-soft);color:var(--green-dark)}.btnWarn{background:#FFF4D9;color:#8B6500}.btnDanger{background:#FBE9E9;color:var(--danger)}
+  .feeBox{background:#F3F7F4;border:1px solid #DDE8E0;border-radius:14px;padding:11px;margin:10px 0;font-size:11px;line-height:1.45}.feeBox strong{color:var(--green-dark)}
+  .shopEmpty{font-size:11px;color:var(--ink-soft);padding:12px;border:1px dashed #D7E0DA;border-radius:12px;text-align:center}
+  @media(max-width:520px){.merchantSteps{grid-template-columns:repeat(2,1fr)}.storeProductsGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.merchantIntro{padding:15px}.merchantTitle{font-size:18px}}
 </style>
 </head>
 <body>
@@ -1096,6 +1122,31 @@
       <div class="infoStep"><span class="stepNum">3</span> Receba e faça ofertas</div>
       <div class="infoNote">🌱 Estamos testando a versão gratuita por enquanto</div>
     </div>
+
+
+
+    <section class="merchantIntro" id="lojistaHome">
+      <div class="merchantKicker">🏪 Área para lojistas</div>
+      <div class="merchantTitle">Sua loja e seus produtos dentro do Vendaí</div>
+      <div class="merchantText">Cadastre sua loja, publique seu estoque e receba pedidos de clientes da região. Você não paga mensalidade nesta fase. O Vendaí registra <strong>8% de comissão somente sobre a venda concluída</strong>.</div>
+      <div class="merchantSteps">
+        <div class="merchantStep"><b>1. Crie a loja</b>Nome, cidade e WhatsApp.</div>
+        <div class="merchantStep"><b>2. Cadastre produtos</b>Foto, preço e estoque.</div>
+        <div class="merchantStep"><b>3. Receba pedidos</b>Aceite ou recuse no painel.</div>
+        <div class="merchantStep"><b>4. Venda</b>Veja bruto, taxa e líquido.</div>
+      </div>
+      <div class="merchantCta">
+        <button class="primary" onclick="openLojaPainel()">Criar minha loja</button>
+        <button class="secondary" onclick="abrirComoFuncionaLojista()">Como funciona</button>
+      </div>
+      <div class="merchantFine">Exemplo: venda de R$ 100 → taxa Vendaí R$ 8 → líquido do lojista R$ 92. A comissão é calculada automaticamente no pedido.</div>
+    </section>
+
+    <section class="storeSection" id="lojasSection" style="display:none;">
+      <div class="storeSectionHead"><div><div class="storeSectionTitle">Lojas no Vendaí</div><div class="storeSectionSub">Produtos de comércios da região</div></div></div>
+      <div class="storeRail" id="storeRail"></div>
+      <div class="storeProductsGrid" id="storeProductsGrid"></div>
+    </section>
 
     <div class="feedTitle">Perto de você</div>
     <div class="grid" id="grid"></div>
@@ -1259,6 +1310,45 @@
       <div id="fotoPreview" style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;"></div>
 
       <button class="publishBtn" id="btnPublicar" onclick="publishAd()">Publicar anúncio</button>
+    </div>
+  </div>
+
+
+
+  <!-- Área do lojista -->
+  <div class="overlay" id="lojaOverlay" onclick="closeOverlayBg(event,'lojaOverlay')">
+    <div class="sheet" style="position:relative;max-height:90vh;overflow-y:auto;" onclick="event.stopPropagation()">
+      <button class="closeBtn" onclick="closeSheet('lojaOverlay')">✕</button>
+      <div class="sheetHandle"></div>
+      <div id="lojaContent"></div>
+    </div>
+  </div>
+
+  <!-- Cadastro/edição de produto da loja -->
+  <div class="overlay" id="lojaProdutoOverlay" onclick="closeOverlayBg(event,'lojaProdutoOverlay')">
+    <div class="sheet" style="position:relative;max-height:90vh;overflow-y:auto;" onclick="event.stopPropagation()">
+      <button class="closeBtn" onclick="closeSheet('lojaProdutoOverlay')">✕</button>
+      <div class="sheetHandle"></div>
+      <div class="detailTitle" id="lpFormTitle">Cadastrar produto</div>
+      <input type="hidden" id="lpId">
+      <label>Nome do produto</label><input id="lpTitulo" type="text" placeholder="Ex: Mesa de escritório">
+      <label>Preço (R$)</label><input id="lpPreco" type="number" min="0.01" step="0.01" placeholder="Ex: 299,90">
+      <label>Estoque</label><input id="lpEstoque" type="number" min="0" step="1" value="1">
+      <label>Categoria</label><select id="lpCategoria"><option value="moveis">🛋️ Móveis</option><option value="eletronicos">📱 Eletrônicos</option><option value="veiculos">🚗 Veículos</option><option value="roupas">👕 Roupas</option><option value="casa">🏠 Casa</option><option value="bebe">🍼 Bebê</option><option value="outros">📦 Outros</option></select>
+      <label>Descrição</label><textarea id="lpDescricao" placeholder="Detalhes do produto, medidas, condições..."></textarea>
+      <div class="photoBox" onclick="document.getElementById('lpFoto').click()">📷 Adicionar fotos do produto (até 4)</div>
+      <input id="lpFoto" type="file" accept="image/*" multiple style="display:none" onchange="previewFotosLojaProduto()">
+      <div id="lpFotoPreview" style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"></div>
+      <button class="publishBtn" id="lpSalvarBtn" onclick="salvarProdutoLoja()">Salvar produto</button>
+    </div>
+  </div>
+
+  <!-- Produto de lojista -->
+  <div class="overlay" id="lojaProdutoDetailOverlay" onclick="closeOverlayBg(event,'lojaProdutoDetailOverlay')">
+    <div class="sheet" style="position:relative;max-height:90vh;overflow-y:auto;" onclick="event.stopPropagation()">
+      <button class="closeBtn" onclick="closeSheet('lojaProdutoDetailOverlay')">✕</button>
+      <div class="sheetHandle"></div>
+      <div id="lojaProdutoDetailContent"></div>
     </div>
   </div>
 
@@ -1496,6 +1586,8 @@ async function entrar(){
   if(pendingAction === 'post'){ pendingAction=null; openPostSheet(); }
   else if(pendingAction === 'profile'){ pendingAction=null; openProfileSheet(); }
   else if(pendingAction === 'conversas'){ pendingAction=null; abrirConversas(); }
+  else if(pendingAction === 'loja'){ pendingAction=null; openLojaPainel(); }
+  else if(pendingAction === 'buy_loja' && produtoLojaAtual){ pendingAction=null; abrirProdutoLoja(produtoLojaAtual.id); }
   else if(pendingAction === 'chat' && pendingChat){
     pendingAction=null; const c=pendingChat; pendingChat=null;
     iniciarChat(c.anuncioId,c.titulo,c.outroId,c.outroNome);
@@ -1522,6 +1614,7 @@ async function renderProfile(){
     <div style="display:flex; gap:8px; margin:0 0 14px; flex-wrap:wrap;">
       <button onclick="ativarNotificacoes()" style="border:none;border-radius:999px;background:var(--green-soft);color:var(--green-dark);padding:8px 12px;font-weight:700;cursor:pointer;">🔔 Ativar alertas</button>
       <button onclick="openSupportSheet()" style="border:none;border-radius:999px;background:#FFF7D9;color:#8A6500;padding:8px 12px;font-weight:700;cursor:pointer;">🧪 Suporte</button>
+      <button onclick="closeSheet('profileOverlay');openLojaPainel()" style="border:none;border-radius:999px;background:#E8F1EB;color:var(--green-dark);padding:8px 12px;font-weight:700;cursor:pointer;">🏪 Minha loja</button>
       <button onclick="sairConta()" style="border:none;border-radius:999px;background:#FBE9E9;color:var(--danger);padding:8px 12px;font-weight:700;cursor:pointer;">Sair</button>
     </div>
     <div class="detailTitle" style="font-size:15px;margin-bottom:10px;">Meus anúncios</div>
@@ -2045,9 +2138,134 @@ document.addEventListener('keydown', (e)=>{
   if(e.key==='Escape') closeSheet('lightboxOverlay');
 });
 
+
+
+// ===== Marketplace para lojistas =====
+let lojasPublicas=[];
+let produtosLojas=[];
+let lojaAtual=null;
+let lojaProdutosMeus=[];
+let lojaProdutoFotos=[];
+let produtoLojaAtual=null;
+let taxaVendai=8;
+
+function escHtml(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+
+async function carregarMarketplaceLojas(){
+  try{
+    const [cfg,ls,ps]=await Promise.all([
+      sb.rpc('vendai_loja_config_publica'),
+      sb.rpc('vendai_lojas_publicas'),
+      sb.rpc('vendai_produtos_loja_publicos',{p_loja_id:null})
+    ]);
+    if(cfg.data?.[0]?.taxa_comissao!=null) taxaVendai=Number(cfg.data[0].taxa_comissao);
+    lojasPublicas=ls.data||[]; produtosLojas=ps.data||[];
+    renderMarketplaceLojas();
+  }catch(e){console.warn('Lojas indisponíveis',e);}
+}
+
+function renderMarketplaceLojas(){
+  const section=document.getElementById('lojasSection'),rail=document.getElementById('storeRail'),grid=document.getElementById('storeProductsGrid');
+  if(!section||!rail||!grid) return;
+  if(!lojasPublicas.length && !produtosLojas.length){section.style.display='none';return;}
+  section.style.display='block'; rail.innerHTML=''; grid.innerHTML='';
+  lojasPublicas.slice(0,12).forEach(l=>{
+    const el=document.createElement('div'); el.className='storeCard'; el.onclick=()=>filtrarLojaPublica(l.id,l.nome);
+    el.innerHTML=`<div class="storeLogo">${l.logo_url?`<img src="${escHtml(l.logo_url)}" alt="">`:'🏪'}</div><div class="storeName">${escHtml(l.nome)}</div><div class="storeCity">📍 ${escHtml(l.cidade)}</div><div class="storeCount">${Number(l.qtd_produtos||0)} produto${Number(l.qtd_produtos||0)===1?'':'s'}</div>`;
+    rail.appendChild(el);
+  });
+  produtosLojas.slice(0,10).forEach(p=>grid.appendChild(cardProdutoLoja(p)));
+}
+
+function cardProdutoLoja(p){
+  const el=document.createElement('div'); el.className='storeProductCard'; el.onclick=()=>abrirProdutoLoja(p.id);
+  const foto=p.fotos?.[0];
+  el.innerHTML=`<div class="storeProductImg">${foto?`<img src="${escHtml(foto)}" alt="">`:(CATEGORY_ICON[p.categoria]||'📦')}<span class="officialBadge">🏪 Loja</span></div><div class="storeProductBody"><div class="storeProductTitle">${escHtml(p.titulo)}</div><div class="storeProductPrice">${formatPrice(p.preco)}</div><div class="storeProductMeta">${escHtml(p.loja_nome)} · ${escHtml(p.loja_cidade)}</div></div>`;
+  return el;
+}
+
+function filtrarLojaPublica(lojaId,nome){
+  const grid=document.getElementById('storeProductsGrid'); if(!grid)return;
+  const itens=produtosLojas.filter(p=>p.loja_id===lojaId); grid.innerHTML=''; itens.forEach(p=>grid.appendChild(cardProdutoLoja(p)));
+  if(!itens.length) grid.innerHTML='<div class="shopEmpty" style="grid-column:1/-1">Essa loja ainda não tem produtos disponíveis.</div>';
+  showToast(`Vitrine: ${nome}`); grid.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function abrirComoFuncionaLojista(){
+  const c=document.getElementById('lojaContent');
+  c.innerHTML=`<div class="detailTitle">Como funciona para lojistas</div><div class="feeBox"><strong>1. Crie sua loja</strong><br>Use sua conta Vendaí e informe nome da loja, cidade e WhatsApp.<br><br><strong>2. Publique seu estoque</strong><br>Cadastre produtos com foto, preço, descrição e quantidade disponível.<br><br><strong>3. Receba e confirme pedidos</strong><br>O pedido aparece no seu painel. Você pode aceitar ou recusar.<br><br><strong>4. Comissão somente na venda concluída</strong><br>O Vendaí calcula ${taxaVendai.toFixed(0)}% sobre o valor vendido. Exemplo: R$ 100 vendidos → R$ ${(100*taxaVendai/100).toFixed(2).replace('.',',')} de taxa → R$ ${(100-100*taxaVendai/100).toFixed(2).replace('.',',')} líquido para a loja.</div><button class="publishBtn" onclick="openLojaPainel()">Quero criar minha loja</button>`;
+  document.getElementById('lojaOverlay').classList.add('show');
+}
+
+async function openLojaPainel(){
+  if(!currentUser||!currentSessionToken){pendingAction='loja';openLoginSheet();return;}
+  document.getElementById('lojaOverlay').classList.add('show');
+  const c=document.getElementById('lojaContent'); c.innerHTML='<div class="detailTitle">Área do lojista</div><div class="shopEmpty">Carregando sua loja...</div>';
+  const r=await sb.rpc('vendai_minha_loja',{p_token:currentSessionToken});
+  if(r.error){c.innerHTML='<div class="detailTitle">Área do lojista</div><div class="shopEmpty">Não consegui carregar sua loja.</div>';return;}
+  lojaAtual=r.data?.[0]||null;
+  if(!lojaAtual){renderCriarLoja();return;}
+  await renderPainelLoja();
+}
+
+function renderCriarLoja(){
+  const c=document.getElementById('lojaContent');
+  c.innerHTML=`<div class="merchantKicker" style="color:var(--green-dark)">🏪 Venda profissionalmente</div><div class="detailTitle">Crie sua loja no Vendaí</div><div style="font-size:12px;color:var(--ink-soft);line-height:1.45;margin:6px 0 14px">Sem mensalidade nesta fase. Cadastre produtos e receba pedidos. A comissão atual é de <strong>${taxaVendai.toFixed(0)}% somente sobre vendas concluídas</strong>.</div><label>Nome da loja</label><input id="lojaNome" type="text" placeholder="Ex: Móveis Central"><label>Cidade</label><input id="lojaCidade" type="text" placeholder="Ex: Muzambinho, MG"><label>WhatsApp da loja</label><input id="lojaWhats" type="text" value="${escHtml(currentUser.telefone||'')}" placeholder="DDD + número"><label>Sobre a loja</label><textarea id="lojaDesc" placeholder="O que sua loja vende, horário, região atendida..."></textarea><label>Logo (opcional)</label><input id="lojaLogo" type="file" accept="image/*"><button class="publishBtn" id="lojaSalvarBtn" onclick="salvarLoja()">Criar minha loja</button>`;
+}
+
+async function uploadVendai(file){
+  if(!file)return null; const form=new FormData(); form.append('token',currentSessionToken); form.append('file',file,file.name);
+  const resp=await fetch(`${SUPABASE_URL}/functions/v1/vendai-upload`,{method:'POST',headers:{apikey:SUPABASE_KEY},body:form}); const j=await resp.json();
+  if(!resp.ok||!j.publicUrl)throw new Error('upload_falhou'); return j.publicUrl;
+}
+
+async function salvarLoja(){
+  const nome=document.getElementById('lojaNome').value.trim(),cidade=document.getElementById('lojaCidade').value.trim(),whatsapp=document.getElementById('lojaWhats').value.trim(),descricao=document.getElementById('lojaDesc').value.trim(),file=document.getElementById('lojaLogo').files?.[0];
+  if(nome.length<2||cidade.length<2){showToast('Informe nome e cidade da loja');return;}
+  const btn=document.getElementById('lojaSalvarBtn');btn.disabled=true;btn.textContent='Criando loja...';
+  try{const logo=file?await uploadVendai(file):null;const r=await sb.rpc('vendai_salvar_loja',{p_token:currentSessionToken,p_nome:nome,p_cidade:cidade,p_whatsapp:whatsapp,p_descricao:descricao,p_logo_url:logo});if(r.error)throw r.error;showToast('Sua loja foi criada ✓');await carregarMarketplaceLojas();await openLojaPainel();}catch(e){console.error(e);showToast('Não consegui criar a loja agora');btn.disabled=false;btn.textContent='Criar minha loja';}
+}
+
+async function renderPainelLoja(){
+  const c=document.getElementById('lojaContent');
+  const [pr,ord]=await Promise.all([sb.rpc('vendai_loja_meus_produtos',{p_token:currentSessionToken}),sb.rpc('vendai_loja_pedidos_lojista',{p_token:currentSessionToken})]);
+  lojaProdutosMeus=pr.data||[]; const pedidos=ord.data||[];
+  c.innerHTML=`<div class="merchantKicker" style="color:var(--green-dark)">🏪 Minha loja</div><div class="detailTitle">${escHtml(lojaAtual.nome)}</div><div style="font-size:11px;color:var(--ink-soft)">📍 ${escHtml(lojaAtual.cidade)} · status: ${escHtml(lojaAtual.status)}</div><div class="lojaStatGrid"><div class="lojaStat"><b>${Number(lojaAtual.qtd_produtos||0)}</b><span>Produtos</span></div><div class="lojaStat"><b>${Number(lojaAtual.pedidos_abertos||0)}</b><span>Pedidos abertos</span></div><div class="lojaStat"><b>${Number(lojaAtual.vendas_concluidas||0)}</b><span>Vendas concluídas</span></div></div><div class="feeBox">Comissão atual do Vendaí: <strong>${taxaVendai.toFixed(0)}%</strong> por venda concluída. Taxas registradas nas vendas: <strong>${formatPrice(lojaAtual.total_taxas||0)}</strong>.</div><div class="lojaToolbar"><button onclick="abrirNovoProdutoLoja()">＋ Novo produto</button><button onclick="renderPedidosLoja()">📦 Pedidos (${pedidos.filter(p=>['novo','aceito'].includes(p.status)).length})</button><button onclick="renderProdutosMinhaLoja()">🛍️ Produtos</button><button onclick="renderEditarLoja()">✏️ Dados da loja</button><button onclick="renderComprasUsuario()">🧾 Minhas compras</button></div><div id="lojaPainelLista"></div>`;
+  window._pedidosLoja=pedidos; renderPedidosLoja();
+}
+
+function renderPedidosLoja(){
+  const box=document.getElementById('lojaPainelLista'); if(!box)return; const pedidos=window._pedidosLoja||[];
+  box.innerHTML='<div class="detailTitle" style="font-size:14px;margin-bottom:9px">Pedidos recebidos</div>';
+  if(!pedidos.length){box.innerHTML+='<div class="shopEmpty">Sua loja ainda não recebeu pedidos.</div>';return;}
+  pedidos.forEach(o=>{const el=document.createElement('div');el.className='lojaRow';const st={novo:'Novo pedido',aceito:'Aceito',recusado:'Recusado',cancelado:'Cancelado',concluido:'Concluído'}[o.status]||o.status;el.innerHTML=`<div class="lojaRowTop"><div><div class="lojaRowTitle">${escHtml(o.produto_titulo)} × ${o.quantidade}</div><div class="lojaRowMeta">Cliente: ${escHtml(o.comprador_nome)} · ${st}<br>Venda: ${formatPrice(o.subtotal)} · Taxa ${o.taxa_percentual}%: ${formatPrice(o.taxa_valor)} · <strong>Líquido: ${formatPrice(o.lojista_liquido)}</strong></div></div></div>${o.observacao?`<div class="lojaRowMeta" style="margin-top:6px">Obs.: ${escHtml(o.observacao)}</div>`:''}<div class="lojaRowActions">${o.status==='novo'?`<button class="btnOk" onclick="responderPedidoLoja('${o.id}',true)">Aceitar</button><button class="btnDanger" onclick="responderPedidoLoja('${o.id}',false)">Recusar</button>`:''}${o.status==='aceito'?`<button class="btnOk" onclick="concluirPedidoLoja('${o.id}')">Marcar venda concluída</button>`:''}</div>`;box.appendChild(el);});
+}
+
+async function responderPedidoLoja(id,aceitar){const r=await sb.rpc('vendai_loja_responder_pedido',{p_token:currentSessionToken,p_pedido_id:id,p_aceitar:aceitar});if(r.error){showToast('Não consegui atualizar o pedido');return;}showToast(aceitar?'Pedido aceito ✓':'Pedido recusado');await openLojaPainel();}
+async function concluirPedidoLoja(id){if(!confirm('Confirmar que esta venda foi concluída? A comissão do Vendaí será registrada como devida.'))return;const r=await sb.rpc('vendai_loja_concluir_pedido',{p_token:currentSessionToken,p_pedido_id:id});if(r.error){showToast('Não consegui concluir a venda');return;}showToast(`Venda concluída · taxa ${formatPrice(r.data?.taxa_valor||0)}`);await openLojaPainel();}
+
+function renderProdutosMinhaLoja(){const box=document.getElementById('lojaPainelLista');if(!box)return;box.innerHTML='<div class="detailTitle" style="font-size:14px;margin-bottom:9px">Meus produtos</div>';if(!lojaProdutosMeus.length){box.innerHTML+='<div class="shopEmpty">Cadastre seu primeiro produto.</div>';return;}lojaProdutosMeus.forEach(p=>{const el=document.createElement('div');el.className='lojaRow';el.innerHTML=`<div class="lojaRowTitle">${escHtml(p.titulo)}</div><div class="lojaRowMeta">${formatPrice(p.preco)} · estoque ${p.estoque} · ${p.status}</div><div class="lojaRowActions"><button class="btnOk" onclick="editarProdutoLoja('${p.id}')">Editar</button>${p.status==='ativo'?`<button class="btnWarn" onclick="statusProdutoLoja('${p.id}','pausado')">Pausar</button>`:`<button class="btnOk" onclick="statusProdutoLoja('${p.id}','ativo')">Ativar</button>`}<button class="btnDanger" onclick="statusProdutoLoja('${p.id}','removido')">Remover</button></div>`;box.appendChild(el);});}
+
+function abrirNovoProdutoLoja(){document.getElementById('lpFormTitle').textContent='Cadastrar produto';document.getElementById('lpId').value='';document.getElementById('lpTitulo').value='';document.getElementById('lpPreco').value='';document.getElementById('lpEstoque').value='1';document.getElementById('lpDescricao').value='';document.getElementById('lpCategoria').value='outros';document.getElementById('lpFoto').value='';document.getElementById('lpFotoPreview').innerHTML='';lojaProdutoFotos=[];document.getElementById('lojaProdutoOverlay').classList.add('show');}
+function editarProdutoLoja(id){const p=lojaProdutosMeus.find(x=>x.id===id);if(!p)return;document.getElementById('lpFormTitle').textContent='Editar produto';document.getElementById('lpId').value=p.id;document.getElementById('lpTitulo').value=p.titulo;document.getElementById('lpPreco').value=p.preco;document.getElementById('lpEstoque').value=p.estoque;document.getElementById('lpDescricao').value=p.descricao||'';document.getElementById('lpCategoria').value=p.categoria||'outros';document.getElementById('lpFoto').value='';document.getElementById('lpFotoPreview').innerHTML=(p.fotos||[]).map(f=>`<img src="${escHtml(f)}" style="width:54px;height:54px;object-fit:cover;border-radius:9px">`).join('');lojaProdutoFotos=[];document.getElementById('lojaProdutoOverlay').classList.add('show');}
+function previewFotosLojaProduto(){const files=Array.from(document.getElementById('lpFoto').files||[]).slice(0,4);lojaProdutoFotos=files;document.getElementById('lpFotoPreview').innerHTML='';files.forEach(f=>{const i=document.createElement('img');i.src=URL.createObjectURL(f);i.style='width:54px;height:54px;object-fit:cover;border-radius:9px';document.getElementById('lpFotoPreview').appendChild(i);});}
+async function salvarProdutoLoja(){const id=document.getElementById('lpId').value||null,titulo=document.getElementById('lpTitulo').value.trim(),preco=Number(document.getElementById('lpPreco').value),estoque=Number(document.getElementById('lpEstoque').value),categoria=document.getElementById('lpCategoria').value,descricao=document.getElementById('lpDescricao').value.trim();if(titulo.length<3||preco<=0||estoque<0){showToast('Revise nome, preço e estoque');return;}const b=document.getElementById('lpSalvarBtn');b.disabled=true;b.textContent='Salvando...';try{const fotos=[];for(const f of lojaProdutoFotos)fotos.push(await uploadVendai(f));const r=await sb.rpc('vendai_loja_salvar_produto',{p_token:currentSessionToken,p_id:id,p_titulo:titulo,p_descricao:descricao,p_categoria:categoria,p_preco:preco,p_estoque:estoque,p_fotos:fotos});if(r.error)throw r.error;closeSheet('lojaProdutoOverlay');showToast('Produto salvo ✓');await carregarMarketplaceLojas();await openLojaPainel();renderProdutosMinhaLoja();}catch(e){console.error(e);showToast('Não consegui salvar o produto');}finally{b.disabled=false;b.textContent='Salvar produto';}}
+async function statusProdutoLoja(id,status){const r=await sb.rpc('vendai_loja_status_produto',{p_token:currentSessionToken,p_id:id,p_status:status});if(r.error){showToast('Não consegui alterar o produto');return;}await carregarMarketplaceLojas();await openLojaPainel();renderProdutosMinhaLoja();}
+
+function renderEditarLoja(){const box=document.getElementById('lojaPainelLista');if(!box||!lojaAtual)return;box.innerHTML=`<div class="detailTitle" style="font-size:14px">Dados da loja</div><label>Nome da loja</label><input id="lojaENome" value="${escHtml(lojaAtual.nome)}"><label>Cidade</label><input id="lojaECidade" value="${escHtml(lojaAtual.cidade)}"><label>WhatsApp</label><input id="lojaEWhats" value="${escHtml(lojaAtual.whatsapp||'')}"><label>Sobre a loja</label><textarea id="lojaEDesc">${escHtml(lojaAtual.descricao||'')}</textarea><label>Nova logo (opcional)</label><input id="lojaELogo" type="file" accept="image/*"><button class="publishBtn" onclick="salvarEdicaoLoja()">Salvar dados</button>`;}
+async function salvarEdicaoLoja(){try{const f=document.getElementById('lojaELogo').files?.[0],logo=f?await uploadVendai(f):null;const r=await sb.rpc('vendai_salvar_loja',{p_token:currentSessionToken,p_nome:document.getElementById('lojaENome').value,p_cidade:document.getElementById('lojaECidade').value,p_whatsapp:document.getElementById('lojaEWhats').value,p_descricao:document.getElementById('lojaEDesc').value,p_logo_url:logo});if(r.error)throw r.error;showToast('Loja atualizada ✓');await carregarMarketplaceLojas();await openLojaPainel();}catch(e){showToast('Não consegui salvar os dados');}}
+
+function abrirProdutoLoja(id){const p=produtosLojas.find(x=>x.id===id);if(!p)return;produtoLojaAtual=p;const c=document.getElementById('lojaProdutoDetailContent');const foto=p.fotos?.[0];c.innerHTML=`${foto?`<img src="${escHtml(foto)}" style="width:100%;max-height:280px;object-fit:cover;border-radius:15px;margin-bottom:12px">`:''}<div class="merchantKicker" style="color:var(--green-dark)">🏪 ${escHtml(p.loja_nome)}</div><div class="detailTitle">${escHtml(p.titulo)}</div><div class="detailPrice">${formatPrice(p.preco)}</div><div class="detailMeta">${escHtml(p.loja_cidade)} · estoque ${p.estoque}</div><div class="detailDesc">${escHtml(p.descricao||'Sem descrição.')}</div><div class="feeBox">Compra em loja do Vendaí. A comissão de ${taxaVendai.toFixed(0)}% é responsabilidade do lojista e <strong>não aumenta o preço mostrado para você</strong>.</div><label>Quantidade</label><input id="compraQtdLoja" type="number" min="1" max="${p.estoque}" value="1"><label>Observação para a loja (opcional)</label><textarea id="compraObsLoja" placeholder="Cor, tamanho, horário, retirada..."></textarea><button class="publishBtn" onclick="criarPedidoProdutoLoja()">🛒 Fazer pedido</button>`;document.getElementById('lojaProdutoDetailOverlay').classList.add('show');}
+
+async function criarPedidoProdutoLoja(){if(!currentUser||!currentSessionToken){pendingAction='buy_loja';closeSheet('lojaProdutoDetailOverlay');openLoginSheet();return;}const p=produtoLojaAtual;if(!p)return;const qtd=Number(document.getElementById('compraQtdLoja').value),obs=document.getElementById('compraObsLoja').value.trim();const r=await sb.rpc('vendai_loja_criar_pedido',{p_token:currentSessionToken,p_produto_id:p.id,p_quantidade:qtd,p_observacao:obs});if(r.error){const m=String(r.error.message||'');showToast(m.includes('produto_indisponivel')?'Produto/estoque indisponível':'Não consegui criar o pedido');return;}closeSheet('lojaProdutoDetailOverlay');await carregarMarketplaceLojas();const d=r.data||{};alert(`Pedido enviado para ${d.loja_nome}.\n\nTotal do produto: ${formatPrice(d.subtotal)}\nTaxa Vendaí do lojista: ${formatPrice(d.taxa_valor)}\nLíquido da loja: ${formatPrice(d.lojista_liquido)}\n\nA loja vai confirmar o pedido no painel.`);}
+
+async function renderComprasUsuario(){const box=document.getElementById('lojaPainelLista');if(!box)return;box.innerHTML='<div class="detailTitle" style="font-size:14px">Minhas compras em lojas</div><div class="shopEmpty">Carregando...</div>';const r=await sb.rpc('vendai_loja_pedidos_comprador',{p_token:currentSessionToken});if(r.error){box.innerHTML='<div class="shopEmpty">Não consegui carregar suas compras.</div>';return;}const ds=r.data||[];box.innerHTML='<div class="detailTitle" style="font-size:14px;margin-bottom:9px">Minhas compras em lojas</div>';if(!ds.length){box.innerHTML+='<div class="shopEmpty">Você ainda não fez pedidos em lojas.</div>';return;}ds.forEach(o=>{const e=document.createElement('div');e.className='lojaRow';e.innerHTML=`<div class="lojaRowTitle">${escHtml(o.produto_titulo)} × ${o.quantidade}</div><div class="lojaRowMeta">${escHtml(o.loja_nome)} · ${formatPrice(o.subtotal)} · ${escHtml(o.status)}</div>`;box.appendChild(e);});}
+
+
 restaurarSessao();
 renderChips();
 carregarAnuncios();
+carregarMarketplaceLojas();
 
 // Atalhos do ícone instalado.
 try{

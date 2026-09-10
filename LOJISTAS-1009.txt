@@ -1,0 +1,25 @@
+VENDAÍ — ÁREA PARA LOJISTAS — 10/09/2026
+
+Backend Supabase já aplicado:
+- lojas de lojistas
+- produtos com preço, fotos e estoque
+- pedidos de clientes
+- comissão padrão: 8% por venda concluída
+- cálculo automático de valor bruto, taxa Vendaí e líquido do lojista
+- aceite/recusa e conclusão do pedido
+- acesso protegido pela sessão atual do Vendaí
+
+Frontend:
+- explicação para lojistas na tela inicial
+- botão "Criar minha loja"
+- vitrine de lojas e produtos
+- painel "Minha loja"
+- cadastro/edição/pausa de produtos
+- pedidos recebidos
+- compras do cliente
+
+IMPORTANTE SOBRE PAGAMENTO:
+Nesta versão, a comissão é calculada e registrada no pedido/venda. O recebimento automático do dinheiro e o repasse financeiro ao lojista ainda não foram conectados ao provedor de pagamento. Não anuncie split/repasse automático antes dessa integração.
+
+Publicação:
+Substitua o conteúdo do site por este pacote. O banco já está atualizado; não é necessário executar SQL manual.

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vendai-pwa-entrega-flash-20260910-1';
+const CACHE_NAME = 'vendai-pwa-menu-app-20260910-2';
 const APP_SHELL = [
   '/',
   '/index.html',

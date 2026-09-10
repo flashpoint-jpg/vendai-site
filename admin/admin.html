@@ -12,7 +12,7 @@
 .wrap{max-width:1180px;margin:auto;padding:17px 14px 50px}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.stat{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:14px;box-shadow:var(--shadow)}.stat b{display:block;font-size:21px;color:var(--green)}.stat span{font-size:11px;color:var(--soft)}.tabs{display:flex;gap:7px;overflow:auto;padding:15px 0 10px}.tab{white-space:nowrap;border:0;border-radius:999px;background:white;padding:9px 13px;font-weight:800;color:var(--soft);box-shadow:0 2px 8px #0000000b}.tab.active{background:var(--green);color:white}.panel{display:none}.panel.active{display:block}.sectionTitle{font-weight:900;font-size:18px;margin:8px 0 11px}.row{background:white;border:1px solid var(--line);border-radius:16px;padding:13px;margin-bottom:9px;box-shadow:0 4px 18px #00000008}.rowTop{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.title{font-size:14px;font-weight:900}.meta{font-size:11px;line-height:1.55;color:var(--soft);margin-top:4px}.money{font-weight:900;color:var(--green)}.actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.mini{border:0;border-radius:9px;padding:7px 9px;font-weight:800;font-size:10px;background:var(--mint);color:var(--green)}.mini.warn{background:#fff4d4;color:#815f00}.mini.red{background:#fbe8e8;color:var(--red)}.badge{display:inline-block;padding:3px 7px;border-radius:999px;background:#eef2ef;font-size:9px;font-weight:850;text-transform:uppercase}.badge.ativa,.badge.ativo,.badge.concluido,.badge.paga{background:#e2f3e8;color:#17663c}.badge.suspensa,.badge.devida,.badge.novo{background:#fff1cc;color:#835f00}.badge.excluida,.badge.removido,.badge.cancelada{background:#f8e3e3;color:#9b3131}.empty{text-align:center;padding:34px;color:var(--soft)}.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}.search{max-width:340px;margin:0;flex:1;min-width:200px}.configCard{background:white;border:1px solid var(--line);border-radius:17px;padding:15px;margin-bottom:12px}.configCard h3{margin:0 0 6px;font-size:15px}.formRow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}.formRow .primary{width:auto;margin:12px 0 0;padding-inline:18px}.notice{background:#fff7dd;border:1px solid #f2dfa0;border-radius:13px;padding:11px;font-size:11px;color:#6f580f;line-height:1.45;margin-bottom:12px}
 @media(max-width:700px){.stats{grid-template-columns:1fr 1fr}.rowTop{display:block}.formRow{grid-template-columns:1fr}.formRow .primary{width:100%}}
 </style></head><body>
-<div id="loginScreen"><div class="loginBox"><div class="logo">V</div><div class="loginTitle">Vendaí Admin</div><div class="muted">Painel protegido no servidor. Use a senha administrativa do painel.</div><input id="senhaInput" type="password" placeholder="Senha de administrador" autocomplete="current-password"><button class="primary" onclick="entrar()">Entrar</button><div id="loginErr" class="err">Não foi possível entrar. Confira a senha.</div></div></div>
+<div id="loginScreen"><div class="loginBox"><div class="logo">V</div><div class="loginTitle">Vendaí Admin</div><div class="muted">Painel protegido no servidor. Use a senha administrativa do painel.</div><input id="senhaInput" type="password" placeholder="Senha de administrador" autocomplete="current-password"><button class="primary" id="btnEntrar" onclick="entrar()">Entrar</button><div id="loginErr" class="err">Não foi possível entrar.</div><div id="loginDiag" style="display:none;margin-top:10px;padding:10px;border-radius:10px;background:#f6f7f6;border:1px solid #e4e9e5;font-size:11px;line-height:1.45;color:#4d5851;word-break:break-word"></div><button type="button" class="ghost" style="width:100%;margin-top:9px" onclick="testarConexao()">Testar conexão</button></div></div>
 <div id="app"><div class="top"><div class="topIn"><div class="brand">Vend<em>aí</em> <small style="font-size:11px;color:var(--soft)">admin</small></div><div class="topBtns"><button class="ghost" onclick="carregarTudo()">↻ Atualizar</button><button class="ghost" onclick="sair()">Sair</button></div></div></div>
 <div class="wrap"><div id="stats" class="stats"></div><div class="tabs"><button class="tab active" data-tab="lojas" onclick="aba('lojas',this)">🏪 Lojas</button><button class="tab" data-tab="comissoes" onclick="aba('comissoes',this)">💰 Comissões</button><button class="tab" data-tab="anuncios" onclick="aba('anuncios',this)">📦 Anúncios</button><button class="tab" data-tab="usuarios" onclick="aba('usuarios',this)">👥 Usuários</button><button class="tab" data-tab="config" onclick="aba('config',this)">⚙️ Configuração</button></div>
 <section id="panelLojas" class="panel active"><div class="toolbar"><div class="sectionTitle" style="margin-right:auto">Lojistas cadastrados</div><input class="search" id="qLoja" placeholder="Buscar loja, responsável ou telefone" oninput="renderLojas()"></div><div id="listaLojas"></div></section>
@@ -29,7 +29,34 @@ let adminToken=sessionStorage.getItem('vendai_admin_token')||null, resumo=null, 
 const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const money=n=>'R$ '+Number(n||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
 function msgErro(e){return String(e?.message||e||'erro')}
-async function entrar(){const senha=document.getElementById('senhaInput').value;document.getElementById('loginErr').style.display='none';const r=await sb.rpc('vendai_admin_login',{p_senha:senha});if(r.error||!r.data?.[0]?.token){document.getElementById('loginErr').style.display='block';return}adminToken=r.data[0].token;sessionStorage.setItem('vendai_admin_token',adminToken);abrirApp();}
+function mostrarErroLogin(titulo,detalhe=''){const e=document.getElementById('loginErr'),d=document.getElementById('loginDiag');e.textContent=titulo||'Não foi possível entrar.';e.style.display='block';d.textContent=detalhe||'';d.style.display=detalhe?'block':'none';}
+function limparErroLogin(){document.getElementById('loginErr').style.display='none';document.getElementById('loginDiag').style.display='none';}
+function detalheErroSupabase(error){if(!error)return '';return [error.message&&('Mensagem: '+error.message),error.code&&('Código: '+error.code),error.details&&('Detalhes: '+error.details),error.hint&&('Dica: '+error.hint)].filter(Boolean).join(' | ')}
+async function entrar(){
+  const senha=document.getElementById('senhaInput').value;
+  const btn=document.getElementById('btnEntrar');
+  limparErroLogin();
+  if(!senha){mostrarErroLogin('Digite a senha administrativa.');return}
+  btn.disabled=true;btn.textContent='Entrando...';
+  try{
+    if(typeof supabase==='undefined'){mostrarErroLogin('Biblioteca do Supabase não carregou.','Verifique a internet ou bloqueio do CDN jsDelivr.');return}
+    const r=await sb.rpc('vendai_admin_login',{p_senha:senha});
+    if(r.error){mostrarErroLogin('O servidor recusou o login.',detalheErroSupabase(r.error));return}
+    if(!r.data?.[0]?.token){mostrarErroLogin('O servidor respondeu, mas não retornou uma sessão administrativa.','Resposta recebida sem token. Isso indica problema na função vendai_admin_login ou no formato retornado.');return}
+    adminToken=r.data[0].token;sessionStorage.setItem('vendai_admin_token',adminToken);abrirApp();
+  }catch(error){mostrarErroLogin('Falha de conexão com o Supabase.',String(error?.message||error));}
+  finally{btn.disabled=false;btn.textContent='Entrar'}
+}
+async function testarConexao(){
+  limparErroLogin();
+  const d=document.getElementById('loginDiag');d.style.display='block';d.textContent='Testando conexão...';
+  try{
+    if(typeof supabase==='undefined'){d.textContent='ERRO: biblioteca do Supabase não carregou (CDN).';return}
+    const r=await sb.rpc('vendai_admin_validar',{p_token:'00000000-0000-0000-0000-000000000000'});
+    if(r.error){d.textContent='Supabase respondeu, mas a RPC retornou erro: '+detalheErroSupabase(r.error);return}
+    d.textContent='Conexão com Supabase OK. Projeto respondeu normalmente. Resultado de validação esperado: '+String(r.data)+'. Agora tente Entrar e veja o erro detalhado, se houver.';
+  }catch(error){d.textContent='Falha de rede: '+String(error?.message||error)}
+}
 async function validar(){if(!adminToken)return false;const r=await sb.rpc('vendai_admin_validar',{p_token:adminToken});return !r.error&&r.data===true}
 async function abrirApp(){document.getElementById('loginScreen').style.display='none';document.getElementById('app').style.display='block';await carregarTudo()}
 async function sair(){if(adminToken)await sb.rpc('vendai_admin_logout',{p_token:adminToken});adminToken=null;sessionStorage.removeItem('vendai_admin_token');location.reload()}

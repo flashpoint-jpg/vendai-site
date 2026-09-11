@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#0F6B3D">
 <meta name="description" content="Vendaí — marketplace local para vender, comprar, negociar e trocar produtos com pessoas da sua região.">
 <meta name="mobile-web-app-capable" content="yes">
@@ -10,9 +10,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Vendaí">
 <link rel="manifest" href="/manifest.webmanifest">
-<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
-<link rel="apple-touch-icon" href="/icon-192.png">
-<link rel="preload" href="/icon-192.png" as="image">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png?v=20260911-newbrand">
+<link rel="apple-touch-icon" href="/icon-192.png?v=20260911-newbrand">
+<link rel="preload" href="/icon-192.png?v=20260911-newbrand" as="image">
 <link rel="preconnect" href="https://rgcclordmqjmwuzrrfbd.supabase.co">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <title>Vendaí — compre, venda e negocie</title>
@@ -1502,6 +1502,137 @@
   .partnerBtn.share{background:#F3F7F4;color:var(--green-dark);border:1px solid #DFE7E2;}
   .rolinhoHome,.rolinhoFloat{display:none !important;}
 
+
+  /* ===== Visual limpo + nova marca Vendaí Entrega Flash ===== */
+  .brandLogoGroup{min-width:0;display:flex;align-items:center;overflow:visible;}
+  .brandLogoFull{display:block;width:168px;height:auto;max-height:70px;object-fit:contain;object-position:left center;filter:drop-shadow(0 4px 8px rgba(12,64,36,.14));}
+  .logoMark,.logo{display:none!important;}
+
+  /* Menos blocos na tela inicial */
+  .merchantAccessBar,.partnerQuickLink,.supportHome,.infoBanner{display:none!important;}
+  header{padding-bottom:10px;box-shadow:none;border-bottom:1px solid #EEF2EF;}
+  .searchBar{margin-top:6px;background:#fff;border:1px solid #E2E9E4;border-radius:16px;box-shadow:none;}
+
+  /* Parceiro continua visível, mas sem virar um blocão */
+  .partnersSection{margin:8px 16px 4px;padding:10px 12px;border-radius:16px;background:#fff;border:1px solid #E1E9E3;box-shadow:none;}
+  .partnersSection::after{display:none;}
+  .partnersHeader{display:flex;align-items:center;gap:8px;margin:0 0 8px;}
+  .partnersKicker{padding:4px 7px;font-size:8.5px;white-space:nowrap;}
+  .partnersTitle{font-size:14px;margin:0;font-family:inherit;font-weight:850;}
+  .partnersSub{display:none;}
+  .partnerCard{grid-template-columns:142px minmax(0,1fr);gap:12px;padding:8px;border:0;border-radius:12px;box-shadow:none;background:#F8FBF9;}
+  .partnerLogoBox{width:142px;height:84px;padding:2px;border:0;background:transparent;overflow:visible;}
+  .partnerLogoBox img{width:100%;height:100%;object-fit:contain;}
+  .partnerVerified{font-size:8.7px;padding:3px 6px;margin-bottom:3px;}
+  .partnerName{font-size:15px;}
+  .partnerMeta{font-size:10px;line-height:1.3;}
+  .partnerActions{margin-top:6px;gap:5px;}
+  .partnerBtn{padding:7px 9px;font-size:9.8px;border-radius:9px;}
+
+  /* Instalação vira faixa compacta */
+  .installHero{margin:8px 16px 4px;padding:8px 10px;border-radius:14px;box-shadow:none;background:#0F6B3D;}
+  .installHero::after{display:none;}
+  .installAppIcon{width:40px;height:40px;border-radius:10px;background:transparent;box-shadow:none;overflow:visible;}
+  .installAppIcon img{object-fit:contain;}
+  .installTitle{font-size:12px;}
+  .installSub{font-size:9.5px;}
+  .installBtn{padding:8px 10px;font-size:10.5px;box-shadow:none;border-radius:10px;}
+
+  /* Hero mais baixo */
+  .heroTop{margin:8px 16px 4px;border-radius:18px;box-shadow:none;}
+  .heroInner{padding:14px;min-height:164px;}
+  .heroTitle{font-size:22px;}
+  .heroText{font-size:10.8px;margin-bottom:9px;}
+
+  /* Categorias sem caixa grande */
+  .categorySection{margin:4px 12px 8px;padding:10px 4px 6px;background:transparent;border:0;border-radius:0;box-shadow:none;}
+  .categoryHeader{margin:0 4px 7px;}
+  .categoryHint{display:none;}
+  .chipRow{display:flex;gap:10px;overflow-x:auto;padding:2px 4px 5px;scrollbar-width:none;}
+  .chipRow::-webkit-scrollbar{display:none;}
+  .chip{min-width:62px;flex:0 0 62px;gap:4px;font-size:9.6px;}
+  .chipIcon{width:44px;height:44px;border-radius:14px;box-shadow:none;border:1px solid rgba(18,40,28,.05);}
+  .chip.active .chipIcon{transform:none;box-shadow:0 4px 10px rgba(18,40,28,.10);}
+
+  /* Feed mais limpo */
+  main{padding-top:6px;}
+  .feedTitle{margin:0 0 10px;font-size:17px;}
+  .card{box-shadow:none;border:1px solid #E6ECE8;}
+  .cardBody{padding:10px 11px 11px;}
+  .cardBottomMeta{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:2px;}
+  .cardBottomMeta .cardMeta{min-width:0;flex:1;}
+  .likeChip.cardLike{position:static!important;flex:0 0 auto;box-shadow:none;background:transparent;border:0;padding:2px 0 2px 5px;font-size:10.5px;color:#6D7B73;}
+  .likeChip.cardLike.active{color:#C23E63;background:transparent;}
+  .likeChip.cardLike .heart{font-size:13px;}
+
+  /* A área para lojista fica discreta no fim do feed */
+  .merchantIntroCompact{margin:14px 0 2px;padding:12px 13px;border-radius:15px;box-shadow:none;background:#F7FAF8;border:1px solid #E3EAE5;}
+  .merchantIntroCompact .merchantTitle{font-size:16px;}
+  .merchantIntroCompact .merchantText{font-size:11px;}
+  .merchantMiniList{display:none;}
+  .merchantIntroCompact .merchantCta{margin-top:8px;}
+  .merchantIntroCompact .merchantCta button{min-height:34px;padding:0 10px;font-size:10.5px;}
+
+  @media(max-width:520px){
+    .brandLogoFull{width:148px;max-height:62px;}
+    .location{max-width:43%;padding:6px 8px;font-size:10.5px;}
+    .partnersSection{margin-left:12px;margin-right:12px;}
+    .partnerCard{grid-template-columns:122px minmax(0,1fr);gap:9px;}
+    .partnerLogoBox{width:122px;height:74px;}
+    .partnerActions{flex-direction:column;align-items:flex-start;}
+    .partnerBtn{width:auto;}
+    .installHero,.heroTop{margin-left:12px;margin-right:12px;}
+  }
+  @media(min-width:760px){
+    .brandLogoFull{width:220px;max-height:82px;}
+    .partnersSection{margin-left:40px;margin-right:40px;}
+    .partnerCard{grid-template-columns:180px minmax(0,1fr);}
+    .partnerLogoBox{width:180px;height:100px;}
+    .categorySection{margin-left:36px;margin-right:36px;}
+    .chipRow{justify-content:flex-start;overflow:visible;}
+  }
+
+
+  /* ===== 11/09/2026 — desktop como site, celular como app ===== */
+  .desktopSiteNav{display:none;}
+  html,body{overscroll-behavior-x:none;}
+  #app{touch-action:pan-y;}
+
+  @media (max-width:759px){
+    html,body{width:100%;max-width:100%;overflow-x:hidden;}
+    body{display:flex;justify-content:center;background:var(--bg);}
+    #app{width:100%;max-width:430px;min-height:100dvh;overflow-x:hidden;}
+    header{width:100%;}
+    /* Evita o zoom automático ao tocar em campos no celular */
+    input,textarea,select{font-size:16px!important;}
+    /* A navegação inferior continua com aparência de aplicativo */
+    nav{display:flex;}
+    .fab{display:block;}
+  }
+
+  @media (min-width:760px){
+    /* No computador a interface ocupa a janela como um site, não como um telefone ampliado */
+    html,body{width:100%;max-width:none;min-width:100%;background:#F6FAF7;overflow-x:hidden;}
+    body{display:block;}
+    #app{width:100%;max-width:none;min-height:100vh;background:#F6FAF7;}
+    header{position:sticky;top:0;width:100%;padding:14px clamp(28px,4vw,72px) 12px;background:rgba(255,255,255,.98);}
+    .topRow{margin-bottom:8px;}
+    .brandLogoFull{width:210px;max-height:78px;}
+    .searchBar{max-width:none;margin-top:4px;}
+    .desktopSiteNav{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap;}
+    .desktopSiteNav button{border:1px solid #DDE7E0;background:#fff;color:var(--green-dark);border-radius:10px;padding:8px 12px;font:800 11px 'Inter',sans-serif;cursor:pointer;}
+    .desktopSiteNav button.primary{background:var(--green-dark);color:#fff;border-color:var(--green-dark);}
+    .desktopSiteNav button:hover{filter:brightness(.98);}
+    /* Controles típicos de app ficam só no celular */
+    nav,.fab{display:none!important;}
+    .installHero{display:none!important;}
+    main{padding-bottom:36px;}
+    .partnersSection,.heroTop,.categorySection{margin-left:clamp(28px,4vw,72px);margin-right:clamp(28px,4vw,72px);}
+    .partnersSection{max-width:none;}
+    .grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))!important;}
+    .overlay{width:100vw;max-width:none;}
+  }
+
 </style>
 </head>
 <body>
@@ -1510,29 +1641,22 @@
 
   <header>
     <div class="topRow">
-      <div class="logoGroup">
-        <svg class="logoMark" width="34" height="34" viewBox="0 0 40 40" aria-label="Vendaí">
-          <defs>
-            <linearGradient id="logoBg" x1="4" y1="2" x2="36" y2="38" gradientUnits="userSpaceOnUse">
-              <stop offset="0" stop-color="#27BF6B"/>
-              <stop offset="1" stop-color="#12703E"/>
-            </linearGradient>
-            <linearGradient id="logoMarkGrad" x1="12" y1="13" x2="28" y2="27" gradientUnits="userSpaceOnUse">
-              <stop offset="0" stop-color="#FFC93C"/>
-              <stop offset="1" stop-color="#E8A800"/>
-            </linearGradient>
-          </defs>
-          <rect x="2" y="2" width="36" height="36" rx="12" fill="url(#logoBg)"/>
-          <path d="M12.5 15.5 L20 27.5 L27.5 15.5" stroke="url(#logoMarkGrad)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          <circle cx="27.5" cy="12.3" r="3.1" fill="url(#logoMarkGrad)"/>
-        </svg>
-        <div class="logo">Vend<em>aí</em></div>
+      <div class="logoGroup brandLogoGroup">
+        <img class="brandLogoFull" src="/vendai-logo-novo.png?v=20260911-newbrand" alt="Vendaí Entrega Flash">
       </div>
       <button class="location" onclick="openLocationSheet()" id="locationBtn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:2px;"><path d="M12 21s7-6.4 7-11.6A7 7 0 0 0 5 9.4C5 14.6 12 21 12 21Z"/><circle cx="12" cy="9.4" r="2.4"/></svg> Toda a região <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:1px;margin-left:1px;"><polyline points="6 9 12 15 18 9"/></svg></button>
     </div>
     <div class="searchBar">
       <span style="display:inline-flex;color:var(--ink-soft);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="10.8" cy="10.8" r="6.8"/><line x1="20" y1="20" x2="15.6" y2="15.6"/></svg></span>
       <input id="searchInput" type="text" placeholder="Buscar celular, carro, móveis..." autocomplete="off">
+    </div>
+    <div class="desktopSiteNav" aria-label="Navegação do site">
+      <button type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})">Início</button>
+      <button type="button" onclick="openCategories()">Categorias</button>
+      <button type="button" class="primary" onclick="openPostSheet()">＋ Anunciar</button>
+      <button type="button" onclick="document.getElementById('parceirosHome')?.scrollIntoView({behavior:'smooth',block:'start'})">Parceiros</button>
+      <button type="button" onclick="abrirConversas()">Conversas</button>
+      <button type="button" onclick="openProfileSheet()">Perfil</button>
     </div>
     <button class="partnerQuickLink" type="button" onclick="document.getElementById('parceirosHome').scrollIntoView({behavior:'smooth',block:'start'})" aria-label="Ver parceiros oficiais do Vendaí">
       <span class="partnerQuickLinkLeft"><span class="partnerQuickLinkIcon">🤝</span><span>Parceiros oficiais do Vendaí</span></span>
@@ -1559,7 +1683,7 @@
     <div class="partnersHeader">
       <div class="partnersKicker">🤝 Parceiros oficiais</div>
       <div class="partnersTitle">Parceiro em destaque</div>
-      <div class="partnersSub">Veja quem já faz parte da rede oficial de parceiros do Vendaí.</div>
+      <div class="partnersSub">Lojas reconhecidas como parceiras oficiais do Vendaí.</div>
     </div>
     <div class="partnersTrack">
       <article class="partnerCard" id="partner-otica-myrian">
@@ -1582,7 +1706,7 @@
 
 
   <section class="installHero" id="installHero" aria-label="Instalar aplicativo Vendaí">
-    <div class="installAppIcon"><img src="/icon-192.png" alt="Ícone do Vendaí" width="46" height="46"></div>
+    <div class="installAppIcon"><img src="/icon-192.png?v=20260911-newbrand" alt="Ícone do Vendaí Entrega Flash" width="46" height="46"></div>
     <div class="installCopy">
       <div class="installTitle">Leve o Vendaí no celular</div>
       <div class="installSub">Android • app leve • acesso rápido</div>
@@ -2567,12 +2691,14 @@ function renderGrid(){
           : CATEGORY_ICON[ad.categoria]}
         ${ad.destaque ? '<div style="position:absolute; top:8px; left:8px; background:var(--yellow); border-radius:8px; font-size:9.5px; font-weight:700; padding:3px 7px; color:var(--ink);">🔥 Destaque</div>' : ''}
         ${aceitaTroca(ad) ? '<div class="rolinhoBadge">🔄 Aceita troca</div>' : ''}
-        ${renderLikeButtonHtml(ad.id)}
       </div>
       <div class="cardBody">
         <div class="cardTitle">${ad.titulo}</div>
         <div class="cardPrice">${formatPrice(ad.preco)}</div>
-        <div class="cardMeta">${ad.cidade} · ${tempoDecorrido(ad.criado_em)}</div>
+        <div class="cardBottomMeta">
+          <div class="cardMeta">${ad.cidade} · ${tempoDecorrido(ad.criado_em)}</div>
+          ${renderLikeButtonHtml(ad.id,'cardLike')}
+        </div>
       </div>
     `;
     grid.appendChild(card);
@@ -3401,7 +3527,27 @@ function gerarEtiquetaPedidoLoja(id){
     ${o.observacao?`<div class="row"><div class="box full"><div class="k">Observação do cliente</div><div class="v">${seguro(o.observacao)}</div></div></div>`:''}
     ${nota?`<div class="row"><div class="box full"><div class="k">Anotação da loja</div><div class="v">${seguro(nota)}</div></div></div>`:''}
     <div class="row"><div class="box"><div class="k">Pagamento</div><div class="v">${seguro(o.pagamento_status)}</div></div><div class="box"><div class="k">Status</div><div class="v"><span class="status">${seguro(o.status)}</span></div></div></div>
-  </div><div class="foot">Etiqueta de separação do pedido. Confira produto, quantidade, cliente e endereço antes de liberar a retirada ou entrega.</div></div><div class="actions"><button class="print" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button><button class="close" onclick="window.close()">Fechar</button></div></body></html>`);
+  </div><div class="foot">Etiqueta de separação do pedido. Confira produto, quantidade, cliente e endereço antes de liberar a retirada ou entrega.</div></div><div class="actions"><button class="print" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button><button class="close" onclick="window.close()">Fechar</button></div>
+<script>
+(function(){
+  function mobileLike(){ return window.matchMedia('(max-width: 759px)').matches; }
+  document.addEventListener('gesturestart', function(e){ if(mobileLike()) e.preventDefault(); }, {passive:false});
+  document.addEventListener('gesturechange', function(e){ if(mobileLike()) e.preventDefault(); }, {passive:false});
+  document.addEventListener('gestureend', function(e){ if(mobileLike()) e.preventDefault(); }, {passive:false});
+  document.addEventListener('touchmove', function(e){
+    if(mobileLike() && e.touches && e.touches.length > 1) e.preventDefault();
+  }, {passive:false});
+  let lastTouchEnd=0;
+  document.addEventListener('touchend', function(e){
+    if(!mobileLike()) return;
+    const now=Date.now();
+    if(now-lastTouchEnd<=300) e.preventDefault();
+    lastTouchEnd=now;
+  }, {passive:false});
+})();
+</script>
+
+</body></html>`);
   w.document.close();
 }
 async function responderPedidoLoja(id,aceitar){

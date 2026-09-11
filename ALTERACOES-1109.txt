@@ -10,3 +10,8 @@ VENDAÍ — AJUSTES 11/09/2026
 - Desktop revisado para ocupar 100% da largura da janela, sem faixa lateral do antigo limite de 1100px.
 - Grades, navegação, overlays e cartões foram ajustados para telas grandes.
 - Comissão de lojista permanece em 8% sobre o valor do produto (configurável no admin).
+
+- Desktop agora usa visual de site em largura total com menu próprio no cabeçalho.
+- Celular mantém visual de aplicativo com barra inferior.
+- Zoom por gesto, pinça e toque duplo desativado no celular; campos também não provocam zoom automático.
+- Faixa "Instalar app" e navegação inferior ficam ocultas no computador.

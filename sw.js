@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vendai-parceiros-20260911-1';
+const CACHE_NAME = 'vendai-clean-brand-20260911-2';
 const APP_SHELL = [
   '/',
   '/index.html',
@@ -9,7 +9,9 @@ const APP_SHELL = [
   '/icon-512.png',
   '/icon-maskable-512.png',
   '/hero-products.png',
-  '/parceiro-otica-myrian-logo.jpg'
+  '/parceiro-otica-myrian-logo-transparent.png',
+  '/vendai-logo-novo.png',
+  '/vendai-icon-novo.png'
 ];
 
 self.addEventListener('install', event => {

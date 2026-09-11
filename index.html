@@ -1638,6 +1638,44 @@
     html,body{touch-action:pan-x pan-y;overscroll-behavior-y:contain;}
     input,textarea,select{font-size:16px;}
   }
+
+
+  /* ===== 11/09/2026 — home explicativa inspirada no material comercial ===== */
+  .merchantLanding{margin:12px 16px 8px;background:#fff;border:1px solid #E1E9E3;border-radius:22px;overflow:hidden;box-shadow:0 12px 32px rgba(18,40,28,.08)}
+  .merchantLandingHero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(250px,.8fr);gap:18px;padding:24px;background:linear-gradient(135deg,#F8FCF9 0%,#FFFFFF 52%,#F2F9F4 100%)}
+  .merchantLandingCopy{min-width:0;display:flex;flex-direction:column;justify-content:center}
+  .merchantLandingBadge{display:inline-flex;width:max-content;max-width:100%;padding:6px 10px;border-radius:999px;background:#E7F5EC;color:#17633E;font-size:10.5px;font-weight:900;letter-spacing:.2px;margin-bottom:10px}
+  .merchantLanding h1{margin:0;color:#173323;font:900 clamp(26px,3vw,42px)/1.02 Inter,system-ui,sans-serif;letter-spacing:-1.2px}
+  .merchantLanding h1 span{color:#0F6B3D}
+  .merchantLandingCopy>p{margin:12px 0 16px;max-width:720px;color:#5F7167;font-size:13.5px;line-height:1.55}
+  .merchantLandingActions{display:flex;gap:8px;flex-wrap:wrap}
+  .merchantLandingActions button,.merchantBottomBtns button{border:0;border-radius:11px;padding:11px 14px;font:850 11.5px Inter,sans-serif;cursor:pointer}
+  .mlPrimary,.merchantBottomBtns button{background:#0F6B3D;color:#fff;box-shadow:0 7px 18px rgba(15,107,61,.18)}
+  .mlSecondary{background:#FFC93C;color:#3B3218}.mlGhost{background:#F1F5F2;color:#174D34;border:1px solid #DFE8E1!important}
+  .merchantLandingTrust{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;color:#60756A;font-size:10.5px;font-weight:750}
+  .merchantLandingVisual{min-height:270px;border-radius:18px;background:linear-gradient(145deg,#0F6B3D,#1E9B58);position:relative;overflow:hidden;padding:20px;display:flex;align-items:flex-end;justify-content:center}
+  .merchantLandingVisual:after{content:'';position:absolute;width:210px;height:210px;border-radius:50%;border:38px solid rgba(255,255,255,.06);right:-75px;top:-60px}
+  .merchantVisualBrand{position:absolute;left:16px;right:16px;top:16px;background:rgba(255,255,255,.94);border-radius:14px;padding:10px 12px;z-index:2;box-shadow:0 10px 28px rgba(0,0,0,.12)}
+  .merchantVisualBrand img{width:135px;max-height:54px;object-fit:contain;object-position:left center;display:block;margin-bottom:4px}.merchantVisualBrand strong{display:block;color:#174D34;font-size:12px}.merchantVisualBrand small{display:block;color:#66766D;font-size:9.5px;margin-top:2px}
+  .merchantVisualProducts{position:relative;z-index:1;width:min(260px,100%);max-height:190px;object-fit:contain;filter:drop-shadow(0 14px 16px rgba(0,0,0,.22))}
+  .merchantBenefitsTitle{padding:20px 22px 10px;font-size:18px;font-weight:950;color:#1D3225}
+  .merchantBenefitsGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding:0 22px 22px}.merchantBenefitsGrid article{display:flex;gap:10px;align-items:flex-start;background:#F8FBF9;border:1px solid #E4ECE6;border-radius:14px;padding:13px}.merchantBenefitIcon{width:38px;height:38px;flex:0 0 38px;border-radius:11px;display:grid;place-items:center;background:#FFF0A9;font-size:18px}.merchantBenefitsGrid strong{display:block;color:#21392A;font-size:12px}.merchantBenefitsGrid p{margin:4px 0 0;color:#708078;font-size:10.5px;line-height:1.42}
+  .merchantHow{padding:19px 22px;background:#FAFCFA;border-top:1px solid #EEF2EF;border-bottom:1px solid #EEF2EF}.merchantHowTitle{font-size:17px;font-weight:950;text-align:center;margin-bottom:14px}.merchantSteps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.merchantSteps>div{text-align:center;padding:10px}.merchantSteps b{width:29px;height:29px;border-radius:50%;display:grid;place-items:center;margin:0 auto 7px;background:#177745;color:#fff;font-size:12px}.merchantSteps strong{display:block;font-size:11.5px;color:#22372A}.merchantSteps span{display:block;margin-top:4px;font-size:9.8px;line-height:1.35;color:#79867F}
+  .merchantFeeStrip{margin:18px 22px;display:grid;grid-template-columns:52px minmax(0,1fr) minmax(210px,.7fr);gap:14px;align-items:center;padding:15px 18px;border-radius:16px;background:linear-gradient(135deg,#0D5E36,#147A45);color:white}.merchantFeeIcon{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:#F8CE42;color:#185533;font-size:23px;font-weight:950}.merchantFeeStrip strong{font-size:14px}.merchantFeeStrip p{margin:4px 0 0;font-size:10.5px;line-height:1.4;color:#DCEFE3}.merchantLocalStrong{border-left:1px solid rgba(255,255,255,.26);padding-left:16px}.merchantLocalStrong b{display:block;color:#FFD65A;font-size:11.5px}.merchantLocalStrong span{display:block;margin-top:3px;color:#DCEFE3;font-size:9.8px;line-height:1.35}
+  .merchantBottomCta{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:17px 22px;background:#FFF7D8}.merchantBottomCta strong{display:block;font-size:14px;color:#463B17}.merchantBottomCta span{display:block;margin-top:3px;font-size:10.5px;color:#76683A}.merchantBottomBtns{display:flex;gap:7px;flex-wrap:wrap}.merchantBottomBtns button.outline{background:#fff;color:#0F6B3D;border:1px solid #D5E4D9;box-shadow:none}
+
+  .supportHome{display:flex!important;}
+
+  /* Central de suporte no próprio Vendaí */
+  .supportSheet{height:min(82vh,720px);display:flex;flex-direction:column;padding-bottom:14px}.supportSheet>div[id^="support"]{min-height:0}.supportChatHead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:12px;padding-right:30px}.supportChatSub{font-size:11.5px;line-height:1.45;color:var(--ink-soft)}.supportNewBtn,.supportBack{border:0;border-radius:10px;background:#EAF6EE;color:#17633E;padding:8px 10px;font-weight:850;font-size:10.5px;cursor:pointer}.supportTickets{display:flex;flex-direction:column;gap:8px;max-height:58vh;overflow:auto}.supportTicket{width:100%;text-align:left;border:1px solid #E3EAE5;background:#fff;border-radius:14px;padding:11px 12px;cursor:pointer}.supportTicket.hasNew{border-color:#8BC7A2;box-shadow:0 0 0 2px #E6F5EB}.supportTicketTop,.supportTicketFoot{display:flex;align-items:center;justify-content:space-between;gap:10px}.supportTicketTop strong{font-size:12px;color:#233A2B}.supportTicketMsg{font-size:10.8px;color:#65756D;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:6px 0}.supportTicketFoot{font-size:9px;color:#8A9690}.supportTicketFoot b{color:#148046}.supportTicketStatus,.supportChatStatus{display:inline-flex;border-radius:999px;background:#EEF2EF;padding:4px 7px;font-size:8.8px;font-weight:900;text-transform:uppercase;color:#66756D}.supportTicketStatus.novo,.supportChatStatus.novo{background:#FFF1C7;color:#826000}.supportTicketStatus.em_atendimento,.supportChatStatus.em_atendimento{background:#E6F3FF;color:#24608E}.supportTicketStatus.resolvido,.supportChatStatus.resolvido{background:#E4F5EA;color:#14673B}.supportLoading,.supportEmpty{text-align:center;padding:28px 12px;color:#7A8780;font-size:11.5px;line-height:1.5}.supportConversationTop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}.supportChatMessages{height:48vh;overflow:auto;background:#F6F9F7;border:1px solid #E7ECE8;border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:8px}.supportBubble{max-width:84%;border-radius:14px;padding:9px 11px;font-size:11.5px;line-height:1.42;box-shadow:0 2px 7px rgba(0,0,0,.03)}.supportBubble.user{align-self:flex-end;background:#146F42;color:white;border-bottom-right-radius:5px}.supportBubble.admin{align-self:flex-start;background:white;color:#24362B;border:1px solid #E0E7E2;border-bottom-left-radius:5px}.supportBubble small{display:block;margin-top:5px;font-size:8.5px;opacity:.72}.supportComposer{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;margin-top:9px}.supportComposer textarea{margin:0;min-height:48px;max-height:100px;resize:vertical}.supportComposer button{border:0;border-radius:11px;background:#0F6B3D;color:white;font-weight:900;padding:0 15px;cursor:pointer}
+
+  @media(max-width:759px){
+    .merchantLanding{margin:8px 12px 7px;border-radius:18px}.merchantLandingHero{grid-template-columns:1fr;padding:16px;gap:12px}.merchantLanding h1{font-size:26px;letter-spacing:-.8px}.merchantLandingCopy>p{font-size:12px;margin:9px 0 12px}.merchantLandingActions button{width:100%;padding:11px 12px}.merchantLandingTrust{gap:7px;font-size:9.4px}.merchantLandingVisual{min-height:220px;padding:14px}.merchantVisualBrand img{width:120px}.merchantVisualProducts{max-height:140px;margin-top:58px}.merchantBenefitsTitle{padding:16px 14px 9px;font-size:15px}.merchantBenefitsGrid{grid-template-columns:1fr 1fr;padding:0 14px 16px;gap:7px}.merchantBenefitsGrid article{display:block;padding:10px}.merchantBenefitIcon{width:34px;height:34px;margin-bottom:7px}.merchantHow{padding:15px 10px}.merchantHowTitle{font-size:15px}.merchantSteps{grid-template-columns:1fr 1fr;gap:3px}.merchantSteps>div{padding:8px 4px}.merchantFeeStrip{margin:12px 14px;grid-template-columns:42px minmax(0,1fr);padding:12px;gap:10px}.merchantFeeIcon{width:40px;height:40px;font-size:19px}.merchantLocalStrong{grid-column:1/-1;border-left:0;border-top:1px solid rgba(255,255,255,.25);padding:9px 0 0}.merchantBottomCta{display:block;padding:14px}.merchantBottomBtns{margin-top:10px}.merchantBottomBtns button{flex:1}.supportSheet{height:86vh}.supportChatHead{display:block}.supportNewBtn{margin-top:9px}.supportChatMessages{height:52vh}.supportComposer{grid-template-columns:1fr}.supportComposer button{min-height:42px}
+  }
+  @media(min-width:760px){
+    .merchantLanding{margin-left:clamp(28px,4vw,72px);margin-right:clamp(28px,4vw,72px);margin-top:18px}.merchantLandingHero{padding:clamp(24px,3vw,42px)}.supportSheet{width:min(760px,calc(100vw - 80px));margin:auto;border-radius:22px;max-height:82vh}
+  }
+
 </style>
 </head>
 <body>
@@ -1661,6 +1699,7 @@
       <button type="button" class="primary" onclick="openPostSheet()">＋ Anunciar</button>
       <button type="button" onclick="document.getElementById('parceirosHome')?.scrollIntoView({behavior:'smooth',block:'start'})">Parceiros</button>
       <button type="button" onclick="abrirConversas()">Conversas</button>
+      <button type="button" onclick="openSupportSheet()">Suporte</button>
       <button type="button" onclick="openProfileSheet()">Perfil</button>
     </div>
     <button class="partnerQuickLink" type="button" onclick="document.getElementById('parceirosHome').scrollIntoView({behavior:'smooth',block:'start'})" aria-label="Ver parceiros oficiais do Vendaí">
@@ -1668,6 +1707,55 @@
       <span class="partnerQuickLinkBadge">Ver parceiros</span>
     </button>
   </header>
+
+  <section class="merchantLanding" id="vendaExplica" aria-label="Conheça o Vendaí">
+    <div class="merchantLandingHero">
+      <div class="merchantLandingCopy">
+        <div class="merchantLandingBadge">📍 COMPRE E VENDA PERTO DE VOCÊ</div>
+        <h1><span>Sua loja no Vendaí.</span><br>Aumente suas vendas com a força da sua região.</h1>
+        <p>Divulgue sua loja e seus produtos para milhares de pessoas da sua cidade e região. Simples, prático e feito para fortalecer o comércio local.</p>
+        <div class="merchantLandingActions">
+          <button class="mlPrimary" type="button" onclick="abrirCadastroLoja()">🏪 Cadastre sua loja agora</button>
+          <button class="mlSecondary" type="button" onclick="abrirAcessoLoja()">Acessar sua loja</button>
+          <button class="mlGhost" type="button" onclick="document.getElementById('grid').scrollIntoView({behavior:'smooth'})">Ver produtos perto de mim</button>
+        </div>
+        <div class="merchantLandingTrust"><span>✓ Cadastro simples</span><span>✓ Divulgação regional</span><span>✓ Você controla sua loja</span></div>
+      </div>
+      <div class="merchantLandingVisual" aria-hidden="true">
+        <div class="merchantVisualBrand"><img src="/vendai-logo-novo.png?v=20260911-newbrand" alt=""><strong>Compre de lojas da sua região</strong><small>Produtos, ofertas e negócios perto de você.</small></div>
+        <img class="merchantVisualProducts" src="/hero-products.png?v=20260910-real1" alt="" decoding="async">
+      </div>
+    </div>
+
+    <div class="merchantBenefitsTitle">Sua loja no Vendaí é simples, prática e dá resultado</div>
+    <div class="merchantBenefitsGrid">
+      <article><div class="merchantBenefitIcon">👥</div><div><strong>Mais clientes</strong><p>Seus produtos para quem realmente está perto de você.</p></div></article>
+      <article><div class="merchantBenefitIcon">📊</div><div><strong>Divulgação 24 horas</strong><p>Sua loja sempre visível no site e no aplicativo.</p></div></article>
+      <article><div class="merchantBenefitIcon">🛒</div><div><strong>Você controla tudo</strong><p>Publique, edite e atualize fotos, preços e produtos quando quiser.</p></div></article>
+      <article><div class="merchantBenefitIcon">📍</div><div><strong>Baixo custo, grandes resultados</strong><p>Venda mais e fortaleça o comércio da sua cidade.</p></div></article>
+    </div>
+
+    <div class="merchantHow">
+      <div class="merchantHowTitle">Como funciona?</div>
+      <div class="merchantSteps">
+        <div><b>1</b><strong>Cadastre sua loja</strong><span>É rápido e simples.</span></div>
+        <div><b>2</b><strong>Publique seus produtos</strong><span>Com fotos, preços e estoque.</span></div>
+        <div><b>3</b><strong>Apareça na sua região</strong><span>Clientes próximos encontram sua loja.</span></div>
+        <div><b>4</b><strong>Ganhe mais visualizações</strong><span>Mais oportunidades para vender.</span></div>
+      </div>
+    </div>
+
+    <div class="merchantFeeStrip">
+      <div class="merchantFeeIcon">$</div>
+      <div><strong>Nosso ganho é apenas <span id="merchantFeePct">8%</span></strong><p>Cobramos a comissão somente sobre o valor do produto vendido. Você vende, nós crescemos juntos.</p></div>
+      <div class="merchantLocalStrong"><b>🏪 Comércio local mais forte</b><span>Mais vendas na sua cidade movimentam a economia local.</span></div>
+    </div>
+
+    <div class="merchantBottomCta">
+      <div><strong>Pronto para vender mais?</strong><span>Cadastre sua loja e comece a aparecer para clientes da sua região.</span></div>
+      <div class="merchantBottomBtns"><button type="button" onclick="abrirCadastroLoja()">Cadastrar loja</button><button class="outline" type="button" onclick="openSupportSheet()">💬 Falar com o suporte</button></div>
+    </div>
+  </section>
 
   <section class="merchantAccessBar" aria-label="Acesso de lojistas">
     <div class="merchantAccessIcon">🏪</div>
@@ -1720,22 +1808,6 @@
   </section>
   <div class="apkNote" id="apkNote">Se o Android pedir autorização, permita instalar apps deste navegador para concluir a instalação.</div>
 
-  <section class="heroTop" aria-label="Comprar, vender e negociar">
-    <div class="heroInner">
-      <div class="heroCopy">
-        <div class="heroEyebrow"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px;margin-right:1px;"><path d="M12 2 14 9 21 12 14 15 12 22 10 15 3 12 10 9Z"/></svg> Marketplace perto de você</div>
-        <h1 class="heroTitle">Compre bem.<br><em>Venda rápido.</em></h1>
-        <div class="heroText">Celular, carro, casa, eletrônicos e muito mais. Anuncie grátis e negocie direto pelo chat.</div>
-        <div class="heroActions">
-          <button class="heroPrimary" onclick="openPostSheet()"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" style="vertical-align:-1px;margin-right:3px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Anunciar grátis</button>
-          <button class="heroSecondary" onclick="document.getElementById('grid').scrollIntoView({behavior:'smooth'})">Explorar</button>
-        </div>
-      </div>
-      <div class="heroVisual heroVisualReal" aria-hidden="true">
-        <img class="heroProductsReal" src="/hero-products.png?v=20260910-real1" alt="" width="320" height="344" decoding="async" fetchpriority="high">
-      </div>
-    </div>
-  </section>
 
 
   <section class="categorySection" id="categorySection" aria-label="Categorias do marketplace">
@@ -1751,10 +1823,10 @@
 
   <main>
     <div class="supportHome" onclick="openSupportSheet()">
-      <div class="supportHomeIcon">🧪</div>
+      <div class="supportHomeIcon">💬</div>
       <div class="supportHomeText">
-        <div class="supportHomeTitle">Ajude a melhorar o Vendaí</div>
-        <div class="supportHomeSub">Encontrou um erro ou tem uma sugestão? Fale com a gente.</div>
+        <div class="supportHomeTitle">Central de suporte Vendaí</div>
+        <div class="supportHomeSub">Dúvidas, problemas ou sugestões? Fale com a equipe pelo chat.</div>
       </div>
       <div class="supportHomeArrow">›</div>
     </div>
@@ -1778,25 +1850,6 @@
     <div class="feedTitle" id="feedTitle">Perto de você</div>
     <div class="grid" id="grid"></div>
     <div class="empty" id="emptyState" style="display:none;">Nenhum anúncio encontrado por aqui ainda.</div>
-
-
-
-
-    <section class="merchantIntro merchantIntroCompact" id="lojistaHome">
-      <div class="merchantKicker">🏪 Área para lojistas</div>
-      <div class="merchantTitle">Vendaí para lojas</div>
-      <div class="merchantText">Cadastre sua loja, anuncie seus produtos e receba pedidos da região. Comissão de <strong><span id="merchantFeePct">8%</span></strong> sobre o produto.</div>
-      <div class="merchantMiniList">
-        <span>Cadastro rápido</span>
-        <span>Produtos e estoque</span>
-        <span>Pedidos no painel</span>
-        <span>Entrega Flash opcional</span>
-      </div>
-      <div class="merchantCta">
-        <button class="primary" onclick="abrirCadastroLoja()">Cadastrar sua loja</button>
-        <button class="secondary" onclick="abrirAcessoLoja()">Acessar sua loja</button>
-      </div>
-    </section>
   </main>
 
   <div class="fab">
@@ -1859,25 +1912,41 @@
     </div>
   </div>
 
-  <!-- Suporte / sugestões -->
-  <div class="overlay" id="supportOverlay" onclick="closeOverlayBg(event,'supportOverlay')">
-    <div class="sheet" style="position:relative;" onclick="event.stopPropagation()">
-      <button class="closeBtn" onclick="closeSheet('supportOverlay')">✕</button>
+  <!-- Central de suporte por chat -->
+  <div class="overlay" id="supportOverlay" onclick="if(event.target===this) fecharSuporte()">
+    <div class="sheet supportSheet" style="position:relative;" onclick="event.stopPropagation()">
+      <button class="closeBtn" onclick="fecharSuporte()">✕</button>
       <div class="sheetHandle"></div>
-      <div class="detailTitle" style="margin-bottom:3px;">Suporte e sugestões</div>
-      <div style="font-size:12.5px;color:var(--ink-soft);line-height:1.45;margin-bottom:10px;">Esta versão está em teste. Conte o que aconteceu ou o que poderia ficar melhor.</div>
-      <label>O que você quer enviar?</label>
-      <select id="supportTipo">
-        <option value="problema">🐞 Encontrei um problema</option>
-        <option value="sugestao">💡 Tenho uma sugestão</option>
-        <option value="elogio">⭐ Gostei de algo</option>
-        <option value="outro">💬 Outro assunto</option>
-      </select>
-      <label>Mensagem</label>
-      <textarea id="supportMensagem" maxlength="2000" placeholder="Ex: cliquei em Conversas e não abriu; a foto ficou pequena; seria melhor se..."></textarea>
-      <div style="font-size:11px;color:var(--ink-soft);margin-top:7px;">Se você estiver conectado, sua conta fica vinculada ao relato para facilitar o teste.</div>
-      <button class="publishBtn" id="supportEnviarBtn" onclick="enviarSuporte()">Enviar para o suporte</button>
-      <div class="supportStatus" id="supportStatus"></div>
+
+      <div id="supportListView">
+        <div class="supportChatHead">
+          <div><div class="detailTitle" style="margin-bottom:2px;">Central de suporte</div><div class="supportChatSub">Fale com a equipe do Vendaí sem sair do site.</div></div>
+          <button class="supportNewBtn" type="button" onclick="novoAtendimentoSuporte()">＋ Novo atendimento</button>
+        </div>
+        <div id="supportTickets" class="supportTickets"><div class="supportLoading">Carregando atendimentos...</div></div>
+      </div>
+
+      <div id="supportNewView" style="display:none;">
+        <button class="supportBack" type="button" onclick="voltarSuporteLista()">‹ Voltar</button>
+        <div class="detailTitle" style="margin-bottom:2px;">Novo atendimento</div>
+        <div class="supportChatSub">Explique o que precisa. Sua mensagem chega direto ao painel administrativo.</div>
+        <label>Assunto</label>
+        <select id="supportTipo">
+          <option value="problema">🐞 Problema no site ou aplicativo</option>
+          <option value="sugestao">💡 Sugestão</option>
+          <option value="outro">💬 Dúvida ou outro assunto</option>
+        </select>
+        <label>Mensagem</label>
+        <textarea id="supportMensagem" maxlength="4000" placeholder="Escreva aqui o que aconteceu ou o que você precisa..."></textarea>
+        <button class="publishBtn" id="supportEnviarBtn" onclick="enviarSuporte()">Iniciar atendimento</button>
+      </div>
+
+      <div id="supportChatView" style="display:none;">
+        <div class="supportConversationTop"><button class="supportBack" type="button" onclick="voltarSuporteLista()">‹ Atendimentos</button><div id="supportChatStatus" class="supportChatStatus"></div></div>
+        <div id="supportChatTitle" class="detailTitle" style="margin-bottom:8px;">Atendimento</div>
+        <div id="supportChatMessages" class="supportChatMessages"></div>
+        <div class="supportComposer"><textarea id="supportChatInput" maxlength="4000" placeholder="Digite sua mensagem..."></textarea><button id="supportChatSend" type="button" onclick="enviarMensagemSuporte()">Enviar</button></div>
+      </div>
     </div>
   </div>
 
@@ -1890,7 +1959,7 @@
       <div id="loginSubtitle" style="font-size:12.5px; color:var(--ink-soft); margin-bottom:6px;">Se é sua primeira vez, a conta é criada na hora. Se já tem conta, use o mesmo telefone e PIN.</div>
       <div class="securityHint">Use o telefone completo com DDD e escolha um PIN de 4 a 6 números. Ele protege seus anúncios e conversas.</div>
 
-      <label>Seu telefone (WhatsApp)</label>
+      <label>Seu telefone</label>
       <input type="text" id="lTelefone" placeholder="Ex: 35 99999-0000 (DDD + número)">
 
       <label>Seu nome</label>
@@ -2417,6 +2486,7 @@ async function entrar(){
   if(pendingAction === 'post'){ pendingAction=null; openPostSheet(); }
   else if(pendingAction === 'profile'){ pendingAction=null; openProfileSheet(); }
   else if(pendingAction === 'conversas'){ pendingAction=null; abrirConversas(); }
+  else if(pendingAction === 'suporte'){ pendingAction=null; openSupportSheet(); }
   else if(pendingAction === 'loja'){ pendingAction=null; openLojaPainel(); }
   else if(pendingAction === 'buy_loja' && produtoLojaAtual){ pendingAction=null; abrirProdutoLoja(produtoLojaAtual.id); }
   else if(pendingAction === 'chat' && pendingChat){
@@ -3243,22 +3313,122 @@ async function abrirConversas(){
   await checarMensagensNovas();
 }
 
-function openSupportSheet(){
-  document.getElementById('supportStatus').style.display='none';
+let suporteAtualId=null;
+let suporteAtualTicket=null;
+let suporteTimer=null;
+
+function suporteTipoLabel(tipo){
+  return ({problema:'Problema',sugestao:'Sugestão',elogio:'Elogio',outro:'Atendimento'})[tipo]||'Atendimento';
+}
+function suporteStatusLabel(status){
+  return ({novo:'Novo',aberto:'Aberto',em_atendimento:'Em atendimento',resolvido:'Resolvido'})[status]||status||'Aberto';
+}
+function suporteFmtData(v){try{return new Date(v).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});}catch(e){return '';}}
+
+async function openSupportSheet(){
+  if(!currentUser || !currentSessionToken){
+    pendingAction='suporte';
+    openLoginSheet();
+    return;
+  }
+  suporteAtualId=null; suporteAtualTicket=null;
+  document.getElementById('supportListView').style.display='block';
+  document.getElementById('supportNewView').style.display='none';
+  document.getElementById('supportChatView').style.display='none';
   document.getElementById('supportOverlay').classList.add('show');
+  await carregarSuporteLista();
+  if(suporteTimer)clearInterval(suporteTimer);
+  suporteTimer=setInterval(async()=>{
+    if(!document.getElementById('supportOverlay')?.classList.contains('show'))return;
+    if(suporteAtualId) await carregarMensagensSuporte(false); else await carregarSuporteLista(false);
+  },12000);
+}
+
+function fecharSuporte(){
+  if(suporteTimer){clearInterval(suporteTimer);suporteTimer=null;}
+  suporteAtualId=null; suporteAtualTicket=null;
+  closeSheet('supportOverlay');
+}
+
+async function carregarSuporteLista(showLoading=true){
+  const box=document.getElementById('supportTickets');
+  if(showLoading)box.innerHTML='<div class="supportLoading">Carregando atendimentos...</div>';
+  const {data,error}=await sb.rpc('vendai_suporte_listar',{p_token:currentSessionToken});
+  if(error){box.innerHTML='<div class="supportEmpty">Não consegui carregar o suporte agora.</div>';return;}
+  const lista=data||[];
+  if(!lista.length){box.innerHTML='<div class="supportEmpty"><b>Nenhum atendimento ainda.</b><br>Toque em “Novo atendimento” para falar com a equipe.</div>';return;}
+  box.innerHTML=lista.map(t=>`<button class="supportTicket ${t.tem_nova_resposta?'hasNew':''}" type="button" onclick="abrirAtendimentoSuporte('${t.id}')">
+    <div class="supportTicketTop"><strong>${escHtml(suporteTipoLabel(t.tipo))}</strong><span class="supportTicketStatus ${escHtml(t.status)}">${escHtml(suporteStatusLabel(t.status))}</span></div>
+    <div class="supportTicketMsg">${escHtml(t.ultima_mensagem||'')}</div>
+    <div class="supportTicketFoot"><span>${suporteFmtData(t.atualizado_em||t.criado_em)}</span>${t.tem_nova_resposta?'<b>● Nova resposta</b>':''}</div>
+  </button>`).join('');
+}
+
+function novoAtendimentoSuporte(){
+  suporteAtualId=null; suporteAtualTicket=null;
+  document.getElementById('supportListView').style.display='none';
+  document.getElementById('supportChatView').style.display='none';
+  document.getElementById('supportNewView').style.display='block';
+  const ta=document.getElementById('supportMensagem'); if(ta){ta.value='';setTimeout(()=>ta.focus(),80);}
+}
+
+async function voltarSuporteLista(){
+  suporteAtualId=null; suporteAtualTicket=null;
+  document.getElementById('supportNewView').style.display='none';
+  document.getElementById('supportChatView').style.display='none';
+  document.getElementById('supportListView').style.display='block';
+  await carregarSuporteLista();
 }
 
 async function enviarSuporte(){
+  if(!currentUser||!currentSessionToken){pendingAction='suporte';openLoginSheet();return;}
   const tipo=document.getElementById('supportTipo').value;
   const mensagem=document.getElementById('supportMensagem').value.trim();
-  if(mensagem.length<5){ showToast('Conte um pouco mais sobre o problema ou sugestão'); return; }
-  const btn=document.getElementById('supportEnviarBtn'); btn.textContent='Enviando...'; btn.disabled=true;
-  const { data, error }=await sb.rpc('vendai_enviar_suporte',{p_token:currentSessionToken||null,p_tipo:tipo,p_mensagem:mensagem,p_pagina:location.href,p_user_agent:navigator.userAgent});
-  btn.textContent='Enviar para o suporte'; btn.disabled=false;
-  if(error){ showToast('Não consegui enviar agora'); return; }
+  if(mensagem.length<3){showToast('Escreva uma mensagem para o suporte');return;}
+  const btn=document.getElementById('supportEnviarBtn');btn.textContent='Enviando...';btn.disabled=true;
+  const {data,error}=await sb.rpc('vendai_enviar_suporte',{p_token:currentSessionToken,p_tipo:tipo,p_mensagem:mensagem,p_pagina:location.href,p_user_agent:navigator.userAgent});
+  btn.textContent='Iniciar atendimento';btn.disabled=false;
+  if(error||!data){showToast('Não consegui iniciar o atendimento agora');return;}
   document.getElementById('supportMensagem').value='';
-  const st=document.getElementById('supportStatus'); st.textContent='✓ Recebido. Obrigado por ajudar a testar o Vendaí.'; st.style.display='block';
-  showToast('Relato enviado ao suporte ✓');
+  showToast('Atendimento aberto ✓');
+  await abrirAtendimentoSuporte(data);
+}
+
+async function abrirAtendimentoSuporte(id){
+  suporteAtualId=id;
+  document.getElementById('supportListView').style.display='none';
+  document.getElementById('supportNewView').style.display='none';
+  document.getElementById('supportChatView').style.display='block';
+  const {data,error}=await sb.rpc('vendai_suporte_listar',{p_token:currentSessionToken});
+  if(!error)suporteAtualTicket=(data||[]).find(x=>x.id===id)||null;
+  const title=document.getElementById('supportChatTitle');
+  const status=document.getElementById('supportChatStatus');
+  if(title)title.textContent=suporteAtualTicket?suporteTipoLabel(suporteAtualTicket.tipo):'Atendimento';
+  if(status){status.textContent=suporteAtualTicket?suporteStatusLabel(suporteAtualTicket.status):'';status.className='supportChatStatus '+(suporteAtualTicket?.status||'');}
+  await carregarMensagensSuporte();
+}
+
+async function carregarMensagensSuporte(scroll=true){
+  if(!suporteAtualId)return;
+  const box=document.getElementById('supportChatMessages');
+  const {data,error}=await sb.rpc('vendai_suporte_mensagens_cliente',{p_token:currentSessionToken,p_suporte_id:suporteAtualId});
+  if(error){box.innerHTML='<div class="supportEmpty">Não consegui carregar as mensagens.</div>';return;}
+  const msgs=data||[];
+  box.innerHTML=msgs.map(m=>`<div class="supportBubble ${m.autor==='admin'?'admin':'user'}"><div>${escHtml(m.mensagem)}</div><small>${m.autor==='admin'?'Suporte Vendaí':'Você'} · ${suporteFmtData(m.criado_em)}</small></div>`).join('')||'<div class="supportEmpty">Nenhuma mensagem.</div>';
+  if(scroll)box.scrollTop=box.scrollHeight;
+}
+
+async function enviarMensagemSuporte(){
+  if(!suporteAtualId)return;
+  const input=document.getElementById('supportChatInput');
+  const mensagem=input.value.trim();
+  if(!mensagem)return;
+  const btn=document.getElementById('supportChatSend');btn.disabled=true;btn.textContent='...';
+  const {error}=await sb.rpc('vendai_suporte_enviar_mensagem_cliente',{p_token:currentSessionToken,p_suporte_id:suporteAtualId,p_mensagem:mensagem});
+  btn.disabled=false;btn.textContent='Enviar';
+  if(error){showToast('Mensagem não enviada');return;}
+  input.value='';
+  await carregarMensagensSuporte();
 }
 
 

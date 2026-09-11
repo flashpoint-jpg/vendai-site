@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vendai-fix-html-20260911-3';
+const CACHE_NAME = 'vendai-home-suporte-20260911-4';
 const APP_SHELL = [
   '/',
   '/index.html',

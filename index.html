@@ -1633,6 +1633,11 @@
     .overlay{width:100vw;max-width:none;}
   }
 
+
+  @media (max-width:759px){
+    html,body{touch-action:pan-x pan-y;overscroll-behavior-y:contain;}
+    input,textarea,select{font-size:16px;}
+  }
 </style>
 </head>
 <body>
@@ -2067,6 +2072,25 @@
 </div>
 
 <script>
+// Celular: mantém a interface com comportamento de app e evita zoom por pinça/toque duplo.
+function bloquearZoomMobile(){
+  const mobileLike=()=>window.matchMedia('(max-width: 759px)').matches;
+  ['gesturestart','gesturechange','gestureend'].forEach(tipo=>{
+    document.addEventListener(tipo,e=>{ if(mobileLike()) e.preventDefault(); },{passive:false});
+  });
+  document.addEventListener('touchmove',e=>{
+    if(mobileLike() && e.touches && e.touches.length>1) e.preventDefault();
+  },{passive:false});
+  let ultimoToque=0;
+  document.addEventListener('touchend',e=>{
+    if(!mobileLike()) return;
+    const agora=Date.now();
+    if(agora-ultimoToque<=300) e.preventDefault();
+    ultimoToque=agora;
+  },{passive:false});
+}
+bloquearZoomMobile();
+
 const SUPABASE_URL = 'https://rgcclordmqjmwuzrrfbd.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_g5Tcimge2aiMX8JE3ml1dg_6zbR3uXi';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -3504,19 +3528,6 @@ function gerarEtiquetaPedidoLoja(id){
     .foot{border-top:2px dashed #cfd9d2;padding:12px 16px 15px;font-size:10px;color:#64746a;line-height:1.45}.actions{max-width:105mm;margin:10px auto 30px;display:flex;gap:10px}.actions button{flex:1;border:0;border-radius:12px;padding:13px;font-weight:800;font-size:14px;cursor:pointer}.print{background:#ffd33d;color:#1d2c23}.close{background:#173d2b;color:#fff}
     @media print{body{background:#fff}.wrap{margin:0;max-width:none;width:100%;box-shadow:none;border-radius:0}.actions{display:none}@page{size:100mm 150mm;margin:5mm}}
   
-  .likeChip{position:absolute;top:8px;right:8px;z-index:3;display:inline-flex;align-items:center;gap:5px;border:none;border-radius:999px;background:rgba(255,255,255,.96);color:var(--ink);padding:5px 9px;font-size:10.8px;font-weight:850;box-shadow:0 8px 18px rgba(0,0,0,.18);cursor:pointer;}
-  .likeChip .heart{font-size:12px;line-height:1;}
-  .likeChip.active{background:#FFF2F5;color:#C23E63;}
-  .likeChip.detailLike{position:static;box-shadow:none;background:#F6FAF7;border:1px solid #E1E8E3;padding:8px 12px;font-size:12px;}
-  .detailLikeRow{display:flex;align-items:center;gap:8px;margin-top:8px;}
-  .detailLikeHint{font-size:10.8px;color:var(--ink-soft);}
-  .partnersSection{margin:12px 12px 10px;}
-  .partnersHeader{margin-bottom:11px;}
-  .partnerMeta{font-size:10.8px;}
-  .partnerActions{gap:6px;}
-  .partnerBtn.share{background:#F3F7F4;color:var(--green-dark);border:1px solid #DFE7E2;}
-  .rolinhoHome,.rolinhoFloat{display:none !important;}
-
 </style></head><body><div class="wrap"><div class="head"><div class="brand">Venda<span>í</span></div><div class="code">PEDIDO #${seguro(short)}</div></div><div class="body">
     <div class="row"><div class="box full"><div class="k">Produto</div><div class="product">${seguro(o.produto_titulo)} <span class="qty">Qtd. ${seguro(o.quantidade)}</span></div></div></div>
     <div class="row"><div class="box"><div class="k">Cliente</div><div class="v">${seguro(o.comprador_nome)}</div></div><div class="box"><div class="k">Criado em</div><div class="v">${seguro(data)}</div></div></div>
@@ -3528,25 +3539,6 @@ function gerarEtiquetaPedidoLoja(id){
     ${nota?`<div class="row"><div class="box full"><div class="k">Anotação da loja</div><div class="v">${seguro(nota)}</div></div></div>`:''}
     <div class="row"><div class="box"><div class="k">Pagamento</div><div class="v">${seguro(o.pagamento_status)}</div></div><div class="box"><div class="k">Status</div><div class="v"><span class="status">${seguro(o.status)}</span></div></div></div>
   </div><div class="foot">Etiqueta de separação do pedido. Confira produto, quantidade, cliente e endereço antes de liberar a retirada ou entrega.</div></div><div class="actions"><button class="print" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button><button class="close" onclick="window.close()">Fechar</button></div>
-<script>
-(function(){
-  function mobileLike(){ return window.matchMedia('(max-width: 759px)').matches; }
-  document.addEventListener('gesturestart', function(e){ if(mobileLike()) e.preventDefault(); }, {passive:false});
-  document.addEventListener('gesturechange', function(e){ if(mobileLike()) e.preventDefault(); }, {passive:false});
-  document.addEventListener('gestureend', function(e){ if(mobileLike()) e.preventDefault(); }, {passive:false});
-  document.addEventListener('touchmove', function(e){
-    if(mobileLike() && e.touches && e.touches.length > 1) e.preventDefault();
-  }, {passive:false});
-  let lastTouchEnd=0;
-  document.addEventListener('touchend', function(e){
-    if(!mobileLike()) return;
-    const now=Date.now();
-    if(now-lastTouchEnd<=300) e.preventDefault();
-    lastTouchEnd=now;
-  }, {passive:false});
-})();
-</script>
-
 </body></html>`);
   w.document.close();
 }

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vendai-perfil-loja-conversao-20260911-1';
+const CACHE_NAME = 'vendai-acesso-lojista-recuperacao-desktop-20260911-2';
 const APP_SHELL = [
   '/',
   '/index.html',

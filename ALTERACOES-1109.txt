@@ -1,0 +1,12 @@
+VENDAÍ — AJUSTES 11/09/2026
+
+- Entrada rápida no topo: Cadastrar sua loja / Acessar sua loja.
+- Área de lojista também ganhou os dois botões separados.
+- Esqueci meu PIN / senha no login comum e no acesso de lojista.
+- Recuperação usa o mesmo cadastro, porque cliente e lojista usam a mesma conta.
+- Usuário conectado pode trocar o próprio PIN pelo perfil.
+- Admin ganhou aba Recuperação, botão de WhatsApp e redefinição de PIN temporário.
+- Redefinição administrativa encerra sessões antigas por segurança.
+- Desktop revisado para ocupar 100% da largura da janela, sem faixa lateral do antigo limite de 1100px.
+- Grades, navegação, overlays e cartões foram ajustados para telas grandes.
+- Comissão de lojista permanece em 8% sobre o valor do produto (configurável no admin).

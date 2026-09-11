@@ -1356,6 +1356,44 @@
   .rolinhoFloat{position:fixed;right:14px;bottom:92px;z-index:70;border:0;border-radius:999px;background:#FFD64A;color:#173B2B;box-shadow:0 8px 22px rgba(0,0,0,.18);padding:10px 14px;font-size:12px;font-weight:900;display:flex;align-items:center;gap:6px;cursor:pointer}
   .rolinhoFloat:active{transform:scale(.97)}
   @media(min-width:700px){.rolinhoHome{margin-left:40px;margin-right:40px;padding:16px 18px}.rolinhoTitle{font-size:17px}.rolinhoSub{font-size:12.5px}}
+
+
+  /* ===== Ajustes 11/09/2026 — acesso lojista, recuperação de PIN e desktop 100% ===== */
+  .merchantAccessBar{
+    margin:12px 18px 4px;padding:13px 14px;border:1px solid #DCE8E0;border-radius:18px;background:#fff;
+    display:flex;align-items:center;gap:12px;box-shadow:0 6px 18px rgba(18,52,34,.05);
+  }
+  .merchantAccessIcon{width:42px;height:42px;border-radius:13px;background:var(--green-soft);color:var(--green-dark);display:grid;place-items:center;font-size:20px;flex:0 0 auto}
+  .merchantAccessCopy{min-width:0;flex:1}.merchantAccessTitle{font-size:13px;font-weight:900;color:var(--ink)}.merchantAccessSub{font-size:10.5px;color:var(--ink-soft);margin-top:2px;line-height:1.3}
+  .merchantAccessActions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.merchantAccessActions button{border:0;border-radius:11px;padding:9px 11px;font-size:10.5px;font-weight:850;cursor:pointer;white-space:nowrap}
+  .merchantAccessActions .create{background:var(--green);color:#fff}.merchantAccessActions .access{background:#EEF5F0;color:var(--green-dark);border:1px solid #D8E6DD}
+  .linkBtn{border:0;background:transparent;color:var(--green-dark);font-weight:850;font-size:11.5px;padding:8px 0;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+  .recoveryInfo{font-size:11px;line-height:1.45;color:var(--ink-soft);padding:10px 11px;border-radius:12px;background:#F1F7F3;border:1px solid #DDE9E1;margin:8px 0 4px}
+  .desktopFullHint{display:none}
+  @media(max-width:620px){
+    .merchantAccessBar{margin-left:12px;margin-right:12px;align-items:flex-start;flex-wrap:wrap}.merchantAccessCopy{min-width:180px}.merchantAccessActions{width:100%}.merchantAccessActions button{flex:1}
+  }
+  @media(min-width:760px){
+    :root{--app-width:100vw}
+    html,body{width:100%;min-width:100%;background:var(--bg)}
+    body{display:block}
+    #app{width:100%;max-width:none;min-height:100vh}
+    header{width:100%;padding-left:clamp(28px,4vw,72px);padding-right:clamp(28px,4vw,72px)}
+    .merchantAccessBar,.rolinhoHome,.installHero,.heroTop,.categorySection{margin-left:clamp(28px,4vw,72px);margin-right:clamp(28px,4vw,72px)}
+    main{width:100%;padding-left:clamp(28px,4vw,72px);padding-right:clamp(28px,4vw,72px)}
+    .heroInner{grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr)}
+    .heroVisual{max-width:460px}.heroProductsReal{width:min(100%,380px)}
+    .grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr)) !important;gap:14px}
+    .storeProductsGrid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+    .merchantTitle{max-width:none}.merchantText{max-width:900px}.merchantSteps{gap:10px}.merchantStep{min-height:72px}
+    nav{max-width:none;left:0;right:0;border-radius:0;justify-content:center;padding-left:clamp(28px,4vw,72px);padding-right:clamp(28px,4vw,72px)}
+    nav button{flex:0 1 190px;max-width:190px}
+    .overlay{max-width:none;width:100vw}
+    .overlay .sheet{width:min(760px,calc(100vw - 64px));margin:0 auto;border-radius:26px 26px 0 0}
+    #detailOverlay .sheet,#lojaOverlay .sheet,#lojaProdutoOverlay .sheet,#lojaProdutoDetailOverlay .sheet{width:min(880px,calc(100vw - 64px))}
+    .rolinhoFloat{right:clamp(28px,4vw,72px)}
+  }
+
 </style>
 </head>
 <body>
@@ -1389,6 +1427,18 @@
       <input id="searchInput" type="text" placeholder="Buscar celular, carro, móveis..." autocomplete="off">
     </div>
   </header>
+
+  <section class="merchantAccessBar" aria-label="Acesso de lojistas">
+    <div class="merchantAccessIcon">🏪</div>
+    <div class="merchantAccessCopy">
+      <div class="merchantAccessTitle">Você é lojista?</div>
+      <div class="merchantAccessSub">Cadastre sua loja no Vendaí ou entre no painel da sua loja.</div>
+    </div>
+    <div class="merchantAccessActions">
+      <button class="create" type="button" onclick="abrirCadastroLoja()">Cadastrar sua loja</button>
+      <button class="access" type="button" onclick="abrirAcessoLoja()">Acessar sua loja</button>
+    </div>
+  </section>
 
   <section class="rolinhoHome" aria-label="Chama pro Rolinho, área de trocas">
     <div class="rolinhoIcon">🔄</div>
@@ -1469,7 +1519,8 @@
         <div class="merchantStep"><b>4. Entregue e receba</b>Entrega Flash, retirada na loja ou entrega própria.</div>
       </div>
       <div class="merchantCta">
-        <button class="primary" onclick="openLojaPainel()">Criar minha loja</button>
+        <button class="primary" onclick="abrirCadastroLoja()">Cadastrar sua loja</button>
+        <button class="secondary" onclick="abrirAcessoLoja()">Acessar sua loja</button>
         <button class="secondary" onclick="abrirComoFuncionaLojista()">Como funciona</button>
       </div>
       <div class="merchantFine">Exemplo: produto de R$ 100 + frete de R$ 18. A comissão de <span id="merchantFeeExamplePct">8%</span> incide só sobre o produto. No pagamento, o Vendaí separa sua comissão e o valor do frete; o lojista recebe a parte dele do produto conforme as regras do Mercado Pago. O Entrega Flash só é chamado quando o lojista marcar o produto como pronto.</div>
@@ -1575,8 +1626,8 @@
     <div class="sheet" style="position:relative;" onclick="event.stopPropagation()">
       <button class="closeBtn" onclick="closeSheet('loginOverlay')">✕</button>
       <div class="sheetHandle"></div>
-      <div class="detailTitle" style="margin-bottom:2px;">Entrar ou criar conta</div>
-      <div style="font-size:12.5px; color:var(--ink-soft); margin-bottom:6px;">Se é sua primeira vez, a conta é criada na hora. Se já tem conta, use o mesmo telefone e PIN.</div>
+      <div class="detailTitle" id="loginTitle" style="margin-bottom:2px;">Entrar ou criar conta</div>
+      <div id="loginSubtitle" style="font-size:12.5px; color:var(--ink-soft); margin-bottom:6px;">Se é sua primeira vez, a conta é criada na hora. Se já tem conta, use o mesmo telefone e PIN.</div>
       <div class="securityHint">Use o telefone completo com DDD e escolha um PIN de 4 a 6 números. Ele protege seus anúncios e conversas.</div>
 
       <label>Seu telefone (WhatsApp)</label>
@@ -1590,7 +1641,38 @@
       <div style="font-size:11px;color:var(--ink-soft);margin-top:6px;line-height:1.35;">No primeiro acesso de uma conta antiga, este PIN passa a proteger a conta. Nos próximos acessos, ele será obrigatório.</div>
 
       <button class="publishBtn" onclick="entrar()">Entrar / Criar conta</button>
+      <button class="linkBtn" type="button" onclick="openForgotPin()">Esqueci meu PIN / senha</button>
       <div id="loginStatus" style="display:none;margin-top:10px;padding:10px 12px;border-radius:10px;background:#FFF7D9;color:#6C5200;font-size:11.5px;line-height:1.4;"></div>
+    </div>
+  </div>
+
+  <!-- Recuperação de acesso: vale para cliente e lojista -->
+  <div class="overlay" id="forgotPinOverlay" onclick="closeOverlayBg(event,'forgotPinOverlay')">
+    <div class="sheet" style="position:relative;" onclick="event.stopPropagation()">
+      <button class="closeBtn" onclick="closeSheet('forgotPinOverlay')">✕</button>
+      <div class="sheetHandle"></div>
+      <div class="detailTitle" style="margin-bottom:4px;">Esqueci meu PIN</div>
+      <div class="recoveryInfo">O mesmo PIN vale para a conta comum e para a loja. Informe os dados cadastrados. O pedido vai para o suporte para conferência antes da redefinição.</div>
+      <label>Telefone cadastrado</label>
+      <input type="text" id="recTelefone" placeholder="DDD + número">
+      <label>Nome cadastrado</label>
+      <input type="text" id="recNome" placeholder="Seu nome">
+      <button class="publishBtn" id="recEnviarBtn" onclick="solicitarRecuperacaoPin()">Solicitar recuperação</button>
+      <div id="recStatus" style="display:none;margin-top:10px;padding:10px 12px;border-radius:10px;background:#EAF7EE;color:#17633E;font-size:11.5px;line-height:1.4;"></div>
+    </div>
+  </div>
+
+  <!-- Troca de PIN para usuário conectado -->
+  <div class="overlay" id="changePinOverlay" onclick="closeOverlayBg(event,'changePinOverlay')">
+    <div class="sheet" style="position:relative;" onclick="event.stopPropagation()">
+      <button class="closeBtn" onclick="closeSheet('changePinOverlay')">✕</button>
+      <div class="sheetHandle"></div>
+      <div class="detailTitle" style="margin-bottom:4px;">Trocar meu PIN</div>
+      <div class="recoveryInfo">Use de 4 a 6 números. A troca vale também para o acesso à sua loja.</div>
+      <label>PIN atual</label><input type="password" inputmode="numeric" maxlength="6" id="pinAtual" placeholder="PIN atual">
+      <label>Novo PIN</label><input type="password" inputmode="numeric" maxlength="6" id="pinNovo" placeholder="Novo PIN">
+      <label>Confirmar novo PIN</label><input type="password" inputmode="numeric" maxlength="6" id="pinNovo2" placeholder="Repita o novo PIN">
+      <button class="publishBtn" id="pinTrocarBtn" onclick="trocarMeuPin()">Salvar novo PIN</button>
     </div>
   </div>
 
@@ -1936,8 +2018,72 @@ async function ativarNotificacoes(){
   showToast('Alertas de mensagem ativados 🔔');
 }
 
-function openLoginSheet(){
+function openLoginSheet(mode='cliente'){
+  const title=document.getElementById('loginTitle');
+  const sub=document.getElementById('loginSubtitle');
+  if(mode==='lojaCadastro'){
+    if(title)title.textContent='Cadastrar sua loja';
+    if(sub)sub.textContent='Primeiro entre ou crie sua conta. Depois você cadastra os dados da loja.';
+  }else if(mode==='lojaAcesso'){
+    if(title)title.textContent='Acessar sua loja';
+    if(sub)sub.textContent='Entre com o telefone e PIN da conta vinculada à sua loja.';
+  }else{
+    if(title)title.textContent='Entrar ou criar conta';
+    if(sub)sub.textContent='Se é sua primeira vez, a conta é criada na hora. Se já tem conta, use o mesmo telefone e PIN.';
+  }
   document.getElementById('loginOverlay').classList.add('show');
+}
+
+function abrirCadastroLoja(){
+  if(currentUser&&currentSessionToken){ openLojaPainel(); return; }
+  pendingAction='loja';
+  openLoginSheet('lojaCadastro');
+}
+function abrirAcessoLoja(){
+  if(currentUser&&currentSessionToken){ openLojaPainel(); return; }
+  pendingAction='loja';
+  openLoginSheet('lojaAcesso');
+}
+function openForgotPin(){
+  const tel=document.getElementById('lTelefone')?.value||'';
+  const nome=document.getElementById('lNome')?.value||'';
+  closeSheet('loginOverlay');
+  document.getElementById('recTelefone').value=tel;
+  document.getElementById('recNome').value=nome;
+  const st=document.getElementById('recStatus');if(st){st.style.display='none';st.textContent='';}
+  document.getElementById('forgotPinOverlay').classList.add('show');
+}
+async function solicitarRecuperacaoPin(){
+  const telefone=normalizarTelefone(document.getElementById('recTelefone').value);
+  const nome=document.getElementById('recNome').value.trim();
+  const btn=document.getElementById('recEnviarBtn');
+  const st=document.getElementById('recStatus');
+  if(!telefoneValido(telefone)){showToast('Digite o telefone completo com DDD');return;}
+  if(nome.length<2){showToast('Informe o nome cadastrado');return;}
+  btn.disabled=true;btn.textContent='Enviando...';
+  const r=await sb.rpc('vendai_solicitar_recuperacao_pin',{p_telefone:telefone,p_nome:nome});
+  btn.disabled=false;btn.textContent='Solicitar recuperação';
+  if(r.error){console.error(r.error);showToast('Não consegui enviar a recuperação agora');return;}
+  st.textContent='Solicitação enviada ✓ O suporte vai conferir o cadastro e orientar a redefinição do PIN.';st.style.display='block';
+  showToast('Pedido de recuperação enviado ✓');
+}
+function openChangePin(){
+  if(!currentUser||!currentSessionToken){openLoginSheet();return;}
+  ['pinAtual','pinNovo','pinNovo2'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+  document.getElementById('changePinOverlay').classList.add('show');
+}
+async function trocarMeuPin(){
+  const atual=String(document.getElementById('pinAtual').value||'').replace(/\D/g,'');
+  const novo=String(document.getElementById('pinNovo').value||'').replace(/\D/g,'');
+  const novo2=String(document.getElementById('pinNovo2').value||'').replace(/\D/g,'');
+  if(!/^\d{4,6}$/.test(atual)||!/^\d{4,6}$/.test(novo)){showToast('Use PIN de 4 a 6 números');return;}
+  if(novo!==novo2){showToast('A confirmação do novo PIN não confere');return;}
+  if(atual===novo){showToast('Escolha um PIN diferente do atual');return;}
+  const btn=document.getElementById('pinTrocarBtn');btn.disabled=true;btn.textContent='Salvando...';
+  const r=await sb.rpc('vendai_trocar_pin',{p_token:currentSessionToken,p_pin_atual:atual,p_novo_pin:novo});
+  btn.disabled=false;btn.textContent='Salvar novo PIN';
+  if(r.error){const m=String(r.error.message||'');showToast(m.includes('pin_atual_incorreto')?'PIN atual incorreto':'Não consegui trocar o PIN');return;}
+  closeSheet('changePinOverlay');showToast('PIN alterado com segurança ✓');
 }
 
 async function entrar(){
@@ -2015,6 +2161,7 @@ async function renderProfile(){
     <div style="display:flex; gap:8px; margin:0 0 14px; flex-wrap:wrap;">
       <button onclick="ativarNotificacoes()" style="border:none;border-radius:999px;background:var(--green-soft);color:var(--green-dark);padding:8px 12px;font-weight:700;cursor:pointer;">🔔 Ativar alertas</button>
       <button onclick="openSupportSheet()" style="border:none;border-radius:999px;background:#FFF7D9;color:#8A6500;padding:8px 12px;font-weight:700;cursor:pointer;">🧪 Suporte</button>
+      <button onclick="closeSheet('profileOverlay');openChangePin()" style="border:none;border-radius:999px;background:#EEF1FF;color:#374A92;padding:8px 12px;font-weight:700;cursor:pointer;">🔐 Trocar PIN</button>
       <button onclick="closeSheet('profileOverlay');openLojaPainel()" style="border:none;border-radius:999px;background:#E8F1EB;color:var(--green-dark);padding:8px 12px;font-weight:700;cursor:pointer;">🏪 Minha loja</button>
       <button onclick="sairConta()" style="border:none;border-radius:999px;background:#FBE9E9;color:var(--danger);padding:8px 12px;font-weight:700;cursor:pointer;">Sair</button>
     </div>
@@ -2847,7 +2994,7 @@ function cardProdutoLoja(p){
 function filtrarLojaPublica(lojaId,nome){const grid=document.getElementById('storeProductsGrid');if(!grid)return;const itens=produtosLojas.filter(p=>p.loja_id===lojaId);grid.innerHTML='';itens.forEach(p=>grid.appendChild(cardProdutoLoja(p)));if(!itens.length)grid.innerHTML='<div class="shopEmpty" style="grid-column:1/-1">Essa loja ainda não tem produtos disponíveis.</div>';showToast(`Vitrine: ${nome}`);grid.scrollIntoView({behavior:'smooth',block:'start'});}
 function abrirComoFuncionaLojista(){
   const c=document.getElementById('lojaContent');
-  c.innerHTML=`<div class="detailTitle">Como funciona para lojistas</div><div class="feeBox"><strong>1. Crie a loja e informe o endereço de retirada</strong><br>Esse endereço vira a origem da corrida no Entrega Flash.<br><br><strong>2. Cadastre o produto e o veículo necessário</strong><br>Ex.: moto para pacote pequeno, carro/van para produto maior.<br><br><strong>3. O cliente escolhe a entrega</strong><br>Entrega Flash, retirada na loja ou entrega própria, conforme as opções ativadas por você.<br><br><strong>4. Pagamento</strong><br>A comissão de ${taxaVendai.toFixed(0)}% incide somente no produto. Se houver Entrega Flash, o frete é cobrado junto e fica separado para a operação da entrega.<br><br><strong>5. Produto pronto</strong><br>Depois do pagamento e da sua aceitação, toque em “Produto pronto — chamar Entrega Flash”. Só aí a corrida é aberta para os motoristas.</div><button class="publishBtn" onclick="openLojaPainel()">Quero criar minha loja</button>`;
+  c.innerHTML=`<div class="detailTitle">Como funciona para lojistas</div><div class="feeBox"><strong>1. Crie a loja e informe o endereço de retirada</strong><br>Esse endereço vira a origem da corrida no Entrega Flash.<br><br><strong>2. Cadastre o produto e o veículo necessário</strong><br>Ex.: moto para pacote pequeno, carro/van para produto maior.<br><br><strong>3. O cliente escolhe a entrega</strong><br>Entrega Flash, retirada na loja ou entrega própria, conforme as opções ativadas por você.<br><br><strong>4. Pagamento</strong><br>A comissão de ${taxaVendai.toFixed(0)}% incide somente no produto. Se houver Entrega Flash, o frete é cobrado junto e fica separado para a operação da entrega.<br><br><strong>5. Produto pronto</strong><br>Depois do pagamento e da sua aceitação, toque em “Produto pronto — chamar Entrega Flash”. Só aí a corrida é aberta para os motoristas.</div><button class="publishBtn" onclick="abrirCadastroLoja()">Cadastrar minha loja</button>`;
   document.getElementById('lojaOverlay').classList.add('show');
 }
 

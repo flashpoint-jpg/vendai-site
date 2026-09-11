@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vendai-pwa-cidades-sulminas-20260910-5';
+const CACHE_NAME = 'vendai-pwa-endereco-elegante-20260911-1';
 const APP_SHELL = [
   '/',
   '/index.html',

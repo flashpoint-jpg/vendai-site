@@ -668,20 +668,53 @@
     box-shadow: 0 6px 16px rgba(232,168,0,0.35);
   }
   .publishBtn:active{ transform: scale(0.98); }
-  .secondary{
-    width:100%;
-    background: var(--green-soft);
-    color: var(--green-dark);
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: 13px 0;
-    font-family:'Inter', sans-serif;
-    font-weight:700;
-    font-size:13.5px;
-    cursor:pointer;
-  }
-  .secondary:active{ transform: scale(0.98); }
 
+  .flashCalcBtn{
+    margin-top:10px;
+    width:100%;
+    border:none;
+    border-radius:18px;
+    padding:15px 16px;
+    font-family:'Inter', sans-serif;
+    font-weight:800;
+    font-size:15px;
+    letter-spacing:.01em;
+    cursor:pointer;
+    color:#fff;
+    background:linear-gradient(135deg, var(--green-dark), #1F9A56);
+    box-shadow:0 12px 24px rgba(19,115,61,.24);
+    display:flex;align-items:center;justify-content:center;gap:10px;
+  }
+  .flashCalcBtn .icon{
+    width:30px;height:30px;border-radius:999px;display:grid;place-items:center;
+    background:rgba(255,255,255,.14);font-size:16px;flex:0 0 30px;
+  }
+  .flashCalcBtn:active{transform:scale(0.985);}
+  .flashCalcBtn small{display:block;font-size:11px;font-weight:600;opacity:.88;margin-top:2px;}
+  .tinyHint{font-size:11px;line-height:1.45;color:var(--ink-soft);margin:6px 2px 0;}
+  .addressAssist{
+    margin-top:10px;padding:12px 13px;border-radius:14px;
+    background:#F6FAF7;border:1.5px solid #DCE9DF;color:var(--ink);
+  }
+  .addressAssist strong{color:var(--green-dark);}
+  .ruralToggle{
+    margin-top:10px;display:flex;align-items:center;gap:10px;
+    padding:12px 14px;border:1.5px solid #DCE9DF;border-radius:16px;
+    background:#F8FBF9;font-size:12.5px;font-weight:700;color:var(--ink);
+  }
+  .ruralToggle input{width:auto;accent-color:var(--green);margin:0;}
+  .addressSuggestBox{
+    margin-top:8px;border:1.5px solid #E2E9E3;border-radius:16px;
+    background:#fff;overflow:hidden;box-shadow:0 8px 24px rgba(18,57,34,.08);
+  }
+  .addressSuggestHead{padding:10px 12px;font-size:11px;font-weight:800;color:var(--green-dark);background:#F4FAF6;border-bottom:1px solid #EEF3EF;}
+  .addressSuggestItem{padding:12px;border-bottom:1px solid #F0F2F1;cursor:pointer;}
+  .addressSuggestItem:last-child{border-bottom:none;}
+  .addressSuggestItem:active{background:#F7FBF8;}
+  .addressSuggestItem strong{display:block;font-size:12.5px;color:var(--ink);}
+  .addressSuggestItem span{display:block;font-size:11px;color:var(--ink-soft);margin-top:3px;line-height:1.35;}
+  .addressSuggestEmpty{padding:12px;font-size:11.5px;color:var(--ink-soft);line-height:1.45;}
+  .locationStatus{margin-top:8px;font-size:11.5px;color:var(--green-dark);line-height:1.45;}
 
   /* Destaque pago por PIX */
   .highlightPayCard{
@@ -2792,16 +2825,146 @@ function renderEditarLoja(){const box=document.getElementById('lojaPainelLista')
 async function salvarEdicaoLoja(){try{const flash=document.getElementById('lojaEFlash').checked,retirada=document.getElementById('lojaERetirada').checked,propria=document.getElementById('lojaEPropria').checked;if(!flash&&!retirada&&!propria){showToast('Escolha ao menos uma forma de entrega');return;}const endereco=document.getElementById('lojaEEndereco').value.trim();const mudouEndereco=endereco!==String(lojaAtual.endereco_retirada||'').trim();let geo={lat:lojaAtual.endereco_lat??null,lng:lojaAtual.endereco_lng??null};if(flash&&(mudouEndereco||geo.lat==null||geo.lng==null))geo=await geocodificarLojaSeNecessario(endereco,true);if(!flash)geo={lat:null,lng:null};const f=document.getElementById('lojaELogo').files?.[0],logo=f?await uploadVendai(f):null;const r=await sb.rpc('vendai_salvar_loja_v2',{p_token:currentSessionToken,p_nome:document.getElementById('lojaENome').value,p_cidade:document.getElementById('lojaECidade').value,p_whatsapp:document.getElementById('lojaEWhats').value,p_descricao:document.getElementById('lojaEDesc').value,p_logo_url:logo,p_endereco_retirada:endereco,p_endereco_complemento:document.getElementById('lojaEComplemento').value,p_endereco_referencia:document.getElementById('lojaEReferencia').value,p_endereco_lat:geo.lat,p_endereco_lng:geo.lng,p_entrega_flash_ativa:flash,p_retirada_loja_ativa:retirada,p_entrega_propria_ativa:propria});if(r.error)throw r.error;showToast('Loja atualizada ✓');await carregarMarketplaceLojas();await openLojaPainel();}catch(e){console.error(e);showToast(String(e.message).includes('endereco')?'Não consegui localizar o endereço':'Não consegui salvar os dados');}}
 async function excluirMinhaLoja(){if(!lojaAtual)return;if(!confirm('Excluir sua loja do Vendaí? Ela sairá da vitrine e os produtos serão pausados. O histórico de vendas e comissões será preservado.'))return;const r=await sb.rpc('vendai_excluir_minha_loja',{p_token:currentSessionToken});if(r.error){const m=String(r.error.message||'');showToast(m.includes('loja_tem_pedidos_abertos')?'Finalize ou recuse os pedidos abertos antes de excluir a loja.':'Não consegui excluir a loja.');return;}showToast('Loja excluída da vitrine');await carregarMarketplaceLojas();await openLojaPainel();}
 async function reativarMinhaLoja(){const r=await sb.rpc('vendai_reativar_minha_loja',{p_token:currentSessionToken});if(r.error){showToast('Não consegui reativar a loja.');return;}showToast('Loja reativada ✓');await carregarMarketplaceLojas();await openLojaPainel();}
-function atualizarCamposEntregaCompra(){const tipo=document.getElementById('compraEntregaTipo')?.value;const b=document.getElementById('compraFlashCampos');if(b)b.style.display=tipo==='entrega_flash'?'block':'none';ultimaCotacaoFlash=null;const q=document.getElementById('compraCotacao');if(q)q.innerHTML=tipo==='entrega_flash'?'Informe o endereço e calcule o frete.':tipo==='retirada_loja'?'Sem frete. Retirada combinada com a loja.':'O valor/condição da entrega própria será combinado com a loja.';}
-function abrirProdutoLoja(id){
-  const p=produtosLojas.find(x=>x.id===id);if(!p)return;produtoLojaAtual=p;ultimaCotacaoFlash=null;const c=document.getElementById('lojaProdutoDetailContent');const foto=p.fotos?.[0];const opts=[];if(p.entrega_flash_ativa)opts.push('<option value="entrega_flash">⚡ Entrega Flash</option>');if(p.retirada_loja_ativa)opts.push('<option value="retirada_loja">🏪 Retirar na loja</option>');if(p.entrega_propria_ativa)opts.push('<option value="entrega_propria">🚚 Entrega própria da loja</option>');
-  c.innerHTML=`${foto?`<img src="${escHtml(foto)}" style="width:100%;max-height:280px;object-fit:cover;border-radius:15px;margin-bottom:12px">`:''}<div class="merchantKicker" style="color:var(--green-dark)">🏪 ${escHtml(p.loja_nome)}</div><div class="detailTitle">${escHtml(p.titulo)}</div><div class="detailPrice">${formatPrice(p.preco)}</div><div class="detailMeta">${escHtml(p.loja_cidade)} · estoque ${p.estoque}</div><div class="detailDesc">${escHtml(p.descricao||'Sem descrição.')}</div><div class="feeBox">A comissão de ${taxaVendai.toFixed(0)}% é cobrada do lojista. Se escolher Entrega Flash, o frete aparece antes de pagar e é cobrado junto com o produto.</div><label>Quantidade</label><input id="compraQtdLoja" type="number" min="1" max="${p.estoque}" value="1" onchange="ultimaCotacaoFlash=null"><label>Como quer receber?</label><select id="compraEntregaTipo" onchange="atualizarCamposEntregaCompra()">${opts.join('')}</select><div id="compraFlashCampos" style="display:none"><label>Endereço de entrega</label><input id="compraEndereco" type="text" placeholder="Rua, número, bairro, cidade, CEP"><label>Complemento (opcional)</label><input id="compraComplemento" type="text" placeholder="Apto, bloco..."><label>Referência (opcional)</label><input id="compraReferencia" type="text" placeholder="Portaria, comércio próximo..."><button class="secondary" style="width:100%;margin-top:8px" onclick="calcularFreteCompra()">⚡ Calcular Entrega Flash</button></div><div id="compraCotacao" class="feeBox" style="margin-top:10px"></div><label>Observação para a loja (opcional)</label><textarea id="compraObsLoja" placeholder="Cor, tamanho, horário..."></textarea><button class="publishBtn" id="compraFinalBtn" onclick="criarPedidoProdutoLoja()">🛒 Ir para pagamento</button>`;document.getElementById('lojaProdutoDetailOverlay').classList.add('show');atualizarCamposEntregaCompra();
+
+function atualizarCamposEntregaCompra(){
+  const tipo=document.getElementById('compraEntregaTipo')?.value;
+  const b=document.getElementById('compraFlashCampos');
+  if(b)b.style.display=tipo==='entrega_flash'?'block':'none';
+  ultimaCotacaoFlash=null;
+  const q=document.getElementById('compraCotacao');
+  if(q)q.innerHTML=tipo==='entrega_flash'?'Informe o endereço e calcule o frete.':tipo==='retirada_loja'?'Sem frete. Retirada combinada com a loja.':'O valor/condição da entrega própria será combinado com a loja.';
 }
-async function calcularFreteCompra(){if(!currentUser||!currentSessionToken){pendingAction='buy_loja';closeSheet('lojaProdutoDetailOverlay');openLoginSheet();showToast('Entre com seu telefone pra calcular a entrega');return;}const p=produtoLojaAtual;if(!p)return;const qtd=Number(document.getElementById('compraQtdLoja').value)||1,end=document.getElementById('compraEndereco').value.trim(),box=document.getElementById('compraCotacao');if(end.length<5){showToast('Informe o endereço completo');return;}box.textContent='Calculando frete e verificando motorista na região...';try{const q=await vendaiEntrega('quote',{produto_id:p.id,quantidade:qtd,endereco_entrega:end});ultimaCotacaoFlash=q;box.innerHTML=`<strong>Entrega Flash: ${formatPrice(q.frete_valor)}</strong><br>${q.distancia_km} km · ${nomeVeiculo(q.veiculo)} · ${q.motoristas_disponiveis} entregador(es) disponível(is) na região<br><strong>Total estimado: ${formatPrice(Number(p.preco)*qtd+Number(q.frete_valor))}</strong>`;}catch(e){ultimaCotacaoFlash=null;const m=String(e.message||'');box.textContent=m.includes('sessao_invalida')?'Sua sessão expirou. Feche e entre novamente com seu telefone.':m.includes('sem_motorista')?'Entrega Flash indisponível nessa região neste momento. Escolha retirada/entrega própria ou tente depois.':m.includes('endereco')?'Não consegui localizar esse endereço. Confira rua, número, cidade e CEP.':'Não consegui calcular o frete agora.';}}
+
+let compraEnderecoTimer=null, compraEnderecoSugestoes=[], compraEnderecoEscolhido='';
+function montarEnderecoEntregaCompra(){
+  const p=produtoLojaAtual||{};
+  const endereco=(document.getElementById('compraEndereco')?.value||'').trim();
+  const complemento=(document.getElementById('compraComplemento')?.value||'').trim();
+  const referencia=(document.getElementById('compraReferencia')?.value||'').trim();
+  const rural=!!document.getElementById('compraZonaRural')?.checked;
+  let consulta=endereco;
+  if(complemento)consulta+=', '+complemento;
+  if(referencia)consulta+=', '+referencia;
+  if(rural)consulta+=', zona rural';
+  if(p?.loja_cidade && !String(consulta).toLowerCase().includes(String(p.loja_cidade).toLowerCase())) consulta+=', '+p.loja_cidade;
+  return consulta.replace(/\s+/g,' ').trim();
+}
+function toggleZonaRuralCompra(){
+  const rural=!!document.getElementById('compraZonaRural')?.checked;
+  const box=document.getElementById('compraZonaRuralBox');
+  if(box)box.style.display=rural?'block':'none';
+  const ref=document.getElementById('compraReferencia');
+  if(ref && rural && !ref.value) ref.placeholder='Nome do sítio, fazenda, estrada, km, porteira...';
+  if(ref && !rural && !ref.value) ref.placeholder='Portaria, comércio próximo...';
+}
+function limparSugestoesEnderecoCompra(){
+  const box=document.getElementById('compraEnderecoSugestoes');
+  if(box){box.innerHTML='';box.style.display='none';}
+}
+function atualizarStatusEnderecoCompra(html){
+  const st=document.getElementById('compraEnderecoStatus');
+  if(st)st.innerHTML=html||'';
+}
+function selecionarSugestaoEnderecoCompra(i){
+  const item=compraEnderecoSugestoes[i];
+  if(!item)return;
+  const inp=document.getElementById('compraEndereco');
+  if(inp)inp.value=String(item.nome||'').trim();
+  compraEnderecoEscolhido=String(item.nome||'').trim();
+  atualizarStatusEnderecoCompra(`✓ Endereço localizado${item.cidade?` em <strong>${escHtml(item.cidade)}</strong>`:''}.`);
+  limparSugestoesEnderecoCompra();
+  ultimaCotacaoFlash=null;
+}
+async function buscarSugestoesEnderecoCompra(){
+  const inp=document.getElementById('compraEndereco');
+  const box=document.getElementById('compraEnderecoSugestoes');
+  if(!inp||!box)return;
+  toggleZonaRuralCompra();
+  const raw=String(inp.value||'').trim();
+  if(raw.length<4){limparSugestoesEnderecoCompra();atualizarStatusEnderecoCompra('');return;}
+  const query=montarEnderecoEntregaCompra();
+  box.style.display='block';
+  box.innerHTML='<div class="addressSuggestHead">📍 Localizando opções de endereço...</div>';
+  try{
+    const resp=await fetch(`${SUPABASE_URL}/functions/v1/entregaflash-geocode`,{method:'POST',headers:{apikey:SUPABASE_KEY,'Content-Type':'application/json'},body:JSON.stringify({q:query,limit:5})});
+    const j=await resp.json().catch(()=>({}));
+    const rs=Array.isArray(j?.results)?j.results:[];
+    compraEnderecoSugestoes=rs;
+    if(!rs.length){
+      box.innerHTML=`<div class="addressSuggestEmpty">Ainda não achei opções. Digite rua, número, bairro, cidade ou CEP${document.getElementById('compraZonaRural')?.checked?' e algum ponto de referência da zona rural':''}.</div>`;
+      return;
+    }
+    box.innerHTML='<div class="addressSuggestHead">Escolha o endereço mais próximo</div>'+rs.map((r,i)=>`<div class="addressSuggestItem" onclick="selecionarSugestaoEnderecoCompra(${i})"><strong>${escHtml(String(r.nome||'Endereço encontrado'))}</strong><span>${escHtml(String(r.cidade||'Brasil'))}</span></div>`).join('');
+  }catch(e){
+    box.innerHTML='<div class="addressSuggestEmpty">Não consegui sugerir endereços agora. Você pode continuar digitando e calcular mesmo assim.</div>';
+  }
+}
+function agendarBuscaEnderecoCompra(){
+  clearTimeout(compraEnderecoTimer);
+  compraEnderecoTimer=setTimeout(buscarSugestoesEnderecoCompra,420);
+}
+function ligarAutoEnderecoCompra(){
+  const inp=document.getElementById('compraEndereco');
+  const rural=document.getElementById('compraZonaRural');
+  const comp=document.getElementById('compraComplemento');
+  const ref=document.getElementById('compraReferencia');
+  [inp,comp,ref].forEach(el=>el&&el.addEventListener('input',()=>{compraEnderecoEscolhido='';ultimaCotacaoFlash=null;agendarBuscaEnderecoCompra();}));
+  if(rural)rural.addEventListener('change',()=>{compraEnderecoEscolhido='';ultimaCotacaoFlash=null;toggleZonaRuralCompra();agendarBuscaEnderecoCompra();});
+  toggleZonaRuralCompra();
+}
+function abrirProdutoLoja(id){
+  const p=produtosLojas.find(x=>x.id===id);if(!p)return;produtoLojaAtual=p;ultimaCotacaoFlash=null;compraEnderecoEscolhido='';compraEnderecoSugestoes=[];
+  const c=document.getElementById('lojaProdutoDetailContent');
+  const foto=p.fotos?.[0];
+  const opts=[];
+  if(p.entrega_flash_ativa)opts.push('<option value="entrega_flash">⚡ Entrega Flash</option>');
+  if(p.retirada_loja_ativa)opts.push('<option value="retirada_loja">🏪 Retirar na loja</option>');
+  if(p.entrega_propria_ativa)opts.push('<option value="entrega_propria">🚚 Entrega própria da loja</option>');
+  c.innerHTML=`${foto?`<img src="${escHtml(foto)}" style="width:100%;max-height:280px;object-fit:cover;border-radius:15px;margin-bottom:12px">`:''}<div class="merchantKicker" style="color:var(--green-dark)">🏪 ${escHtml(p.loja_nome)}</div><div class="detailTitle">${escHtml(p.titulo)}</div><div class="detailPrice">${formatPrice(p.preco)}</div><div class="detailMeta">${escHtml(p.loja_cidade)} · estoque ${p.estoque}</div><div class="detailDesc">${escHtml(p.descricao||'Sem descrição.')}</div><div class="feeBox">A comissão de ${taxaVendai.toFixed(0)}% é cobrada do lojista. Se escolher Entrega Flash, o frete aparece antes de pagar e é cobrado junto com o produto.</div><label>Quantidade</label><input id="compraQtdLoja" type="number" min="1" max="${p.estoque}" value="1" onchange="ultimaCotacaoFlash=null"><label>Como quer receber?</label><select id="compraEntregaTipo" onchange="atualizarCamposEntregaCompra()">${opts.join('')}</select><div id="compraFlashCampos" style="display:none"><label>Endereço de entrega</label><input id="compraEndereco" type="text" autocomplete="off" placeholder="Rua, número, bairro, cidade ou CEP"><div class="tinyHint">Conforme você vai preenchendo, o sistema já tenta localizar o endereço automaticamente.</div><div id="compraEnderecoSugestoes" class="addressSuggestBox" style="display:none"></div><div id="compraEnderecoStatus" class="locationStatus"></div><label class="ruralToggle"><input id="compraZonaRural" type="checkbox"><span>🚜 Entrega em zona rural / sítio / fazenda</span></label><div id="compraZonaRuralBox" class="addressAssist" style="display:none"><strong>Dica para zona rural:</strong><br>Digite estrada, km, bairro rural, nome do sítio/fazenda e cidade para melhorar a localização.</div><label>Complemento (opcional)</label><input id="compraComplemento" type="text" placeholder="Apto, bloco, galpão..."><label>Referência (opcional)</label><input id="compraReferencia" type="text" placeholder="Portaria, comércio próximo..."><button class="flashCalcBtn" onclick="calcularFreteCompra()"><span class="icon">⚡</span><span><div>Calcular Entrega Flash</div><small>Frete, rota e disponibilidade</small></span></button></div><div id="compraCotacao" class="feeBox" style="margin-top:10px"></div><label>Observação para a loja (opcional)</label><textarea id="compraObsLoja" placeholder="Cor, tamanho, horário..."></textarea><button class="publishBtn" id="compraFinalBtn" onclick="criarPedidoProdutoLoja()">🛒 Ir para pagamento</button>`;
+  document.getElementById('lojaProdutoDetailOverlay').classList.add('show');
+  atualizarCamposEntregaCompra();
+  ligarAutoEnderecoCompra();
+}
+async function calcularFreteCompra(){
+  const p=produtoLojaAtual;if(!p)return;
+  const qtd=Number(document.getElementById('compraQtdLoja').value)||1;
+  const endRaw=document.getElementById('compraEndereco').value.trim();
+  const end=montarEnderecoEntregaCompra();
+  const box=document.getElementById('compraCotacao');
+  if(endRaw.length<5){showToast('Informe o endereço completo');return;}
+  box.textContent='Calculando a rota e o frete do Entrega Flash...';
+  try{
+    const q=await vendaiEntrega('quote',{produto_id:p.id,quantidade:qtd,endereco_entrega:end});
+    ultimaCotacaoFlash=q;
+    atualizarStatusEnderecoCompra(compraEnderecoEscolhido?'✓ Endereço confirmado para cálculo.':'✓ Endereço enviado para cálculo.');
+    box.innerHTML=`<strong>Entrega Flash: ${formatPrice(q.frete_valor)}</strong><br>Distância pela rota: <strong>${Number(q.distancia_km||0).toFixed(1)} km</strong> · ${nomeVeiculo(q.veiculo)} · ${q.motoristas_disponiveis} entregador(es) disponível(is) na região<br><strong>Total estimado: ${formatPrice(Number(p.preco)*qtd+Number(q.frete_valor))}</strong>`;
+  }catch(e){
+    ultimaCotacaoFlash=null;
+    const rural=!!document.getElementById('compraZonaRural')?.checked;
+    const m=String(e.message||'');
+    box.textContent=m.includes('sem_motorista')?'Não há motorista Entrega Flash disponível para esse veículo nessa região agora.':m.includes('distancia_fora_da_operacao')?'O endereço está fora da área atendida pelo Entrega Flash.':m.includes('tabela_frete_indisponivel')?'A tabela de frete desse veículo ainda não está configurada.':m.includes('produto_indisponivel')?'Este produto não está mais disponível nessa quantidade.':m.includes('entrega_flash_indisponivel')?'Essa loja não está com Entrega Flash ativo no momento.':m.includes('sessao_invalida')?'Atualize a página e tente calcular novamente.':m.includes('endereco')?`Não consegui localizar esse endereço${rural?' rural':''}. Informe rua/estrada, número ou km, bairro, cidade e um ponto de referência.`:'Não consegui calcular o frete agora. Confira o endereço e tente novamente.';
+  }
+}
 async function criarPedidoProdutoLoja(){
-  if(!currentUser||!currentSessionToken){pendingAction='buy_loja';closeSheet('lojaProdutoDetailOverlay');openLoginSheet();return;}const p=produtoLojaAtual;if(!p)return;const qtd=Number(document.getElementById('compraQtdLoja').value)||1,obs=document.getElementById('compraObsLoja').value.trim(),tipo=document.getElementById('compraEntregaTipo').value,end=tipo==='entrega_flash'?document.getElementById('compraEndereco').value.trim():'',comp=tipo==='entrega_flash'?document.getElementById('compraComplemento').value.trim():'',ref=tipo==='entrega_flash'?document.getElementById('compraReferencia').value.trim():'';
-  if(tipo==='entrega_flash'&&end.length<5){showToast('Informe o endereço de entrega');return;}const btn=document.getElementById('compraFinalBtn');btn.disabled=true;btn.textContent='Confirmando valores...';
-  try{const r=await vendaiEntrega('create_order',{produto_id:p.id,quantidade:qtd,observacao:obs,entrega_tipo:tipo,endereco_entrega:end,complemento_entrega:comp,referencia_entrega:ref});const d=r.pedido||{};btn.textContent='Abrindo Mercado Pago...';const ck=await vendaiMP('checkout',{pedido_id:d.id});location.href=ck.checkout_url;}catch(e){const m=String(e.message||'');showToast(m.includes('sem_motorista')?'Não há Entrega Flash disponível nessa região agora':m.includes('mercadopago')?'A loja ainda não conectou o Mercado Pago':m.includes('endereco')?'Não consegui localizar o endereço':'Não consegui criar o pedido');btn.disabled=false;btn.textContent='🛒 Ir para pagamento';}
+  if(!currentUser||!currentSessionToken){pendingAction='buy_loja';closeSheet('lojaProdutoDetailOverlay');openLoginSheet();return;}
+  const p=produtoLojaAtual;if(!p)return;
+  const qtd=Number(document.getElementById('compraQtdLoja').value)||1,obs=document.getElementById('compraObsLoja').value.trim(),tipo=document.getElementById('compraEntregaTipo').value;
+  const enderecoBase=tipo==='entrega_flash'?document.getElementById('compraEndereco').value.trim():'';
+  const comp=tipo==='entrega_flash'?document.getElementById('compraComplemento').value.trim():'';
+  const ref=tipo==='entrega_flash'?document.getElementById('compraReferencia').value.trim():'';
+  const rural=!!document.getElementById('compraZonaRural')?.checked;
+  const end=tipo==='entrega_flash'?montarEnderecoEntregaCompra():'';
+  const refFinal=tipo==='entrega_flash'&&rural?((ref?ref+' · ':'')+'Zona rural'):ref;
+  if(tipo==='entrega_flash'&&enderecoBase.length<5){showToast('Informe o endereço de entrega');return;}
+  const btn=document.getElementById('compraFinalBtn');btn.disabled=true;btn.textContent='Confirmando valores...';
+  try{
+    const r=await vendaiEntrega('create_order',{produto_id:p.id,quantidade:qtd,observacao:obs,entrega_tipo:tipo,endereco_entrega:end,complemento_entrega:comp,referencia_entrega:refFinal});
+    const d=r.pedido||{};btn.textContent='Abrindo Mercado Pago...';const ck=await vendaiMP('checkout',{pedido_id:d.id});location.href=ck.checkout_url;
+  }catch(e){
+    const m=String(e.message||'');
+    showToast(m.includes('sem_motorista')?'Não há Entrega Flash disponível nessa região agora':m.includes('mercadopago')?'A loja ainda não conectou o Mercado Pago':m.includes('endereco')?'Não consegui localizar o endereço':'Não consegui criar o pedido');
+    btn.disabled=false;btn.textContent='🛒 Ir para pagamento';
+  }
 }
 async function renderComprasUsuario(){
   const box=document.getElementById('lojaPainelLista');if(!box)return;box.innerHTML='<div class="detailTitle" style="font-size:14px">Minhas compras em lojas</div><div class="shopEmpty">Carregando...</div>';const r=await sb.rpc('vendai_loja_pedidos_comprador_v2',{p_token:currentSessionToken});if(r.error){box.innerHTML='<div class="shopEmpty">Não consegui carregar suas compras.</div>';return;}const ds=r.data||[];box.innerHTML='<div class="detailTitle" style="font-size:14px;margin-bottom:9px">Minhas compras em lojas</div>';if(!ds.length){box.innerHTML+='<div class="shopEmpty">Você ainda não fez pedidos em lojas.</div>';return;}ds.forEach(o=>{const e=document.createElement('div');e.className='lojaRow';const continua=o.pagamento_status==='aguardando_pagamento'&&o.mp_checkout_url?`<button class="btnOk" onclick="location.href='${escHtml(o.mp_checkout_url)}'">Continuar pagamento</button>`:'';e.innerHTML=`<div class="lojaRowTitle">${escHtml(o.produto_titulo)} × ${o.quantidade}</div><div class="lojaRowMeta">${escHtml(o.loja_nome)} · Produto ${formatPrice(o.subtotal)} · Frete ${formatPrice(o.frete_valor||0)} · <strong>Total ${formatPrice(o.total_pagamento||o.subtotal)}</strong><br>Pagamento: ${escHtml(o.pagamento_status)} · Pedido: ${escHtml(o.status)}<br>${nomeEntrega(o.entrega_tipo)}${o.entrega_tipo==='entrega_flash'?` · <strong>${nomeStatusEntrega(o.entrega_status)}</strong>`:''}${o.entrega_motorista_nome?`<br>Entregador: ${escHtml(o.entrega_motorista_nome)}`:''}</div><div class="lojaRowActions">${continua}</div>`;box.appendChild(e);});

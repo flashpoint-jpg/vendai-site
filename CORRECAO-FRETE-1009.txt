@@ -1,0 +1,11 @@
+VENDAÍ — CORREÇÃO DO CÁLCULO DE FRETE
+
+Correções aplicadas:
+- cotação de frete pode ser calculada antes do login do cliente;
+- geocodificação prioriza endereço completo/CEP e cidades da região de Guaxupé;
+- distância passa a usar rota viária quando disponível, com fallback seguro;
+- tabela de preço do Entrega Flash continua sendo lida do servidor;
+- mensagens de erro ficaram específicas para endereço, área, tabela e motorista;
+- cache do PWA atualizado.
+
+A correção principal do cálculo foi aplicada no backend Supabase.

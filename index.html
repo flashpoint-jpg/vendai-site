@@ -668,6 +668,19 @@
     box-shadow: 0 6px 16px rgba(232,168,0,0.35);
   }
   .publishBtn:active{ transform: scale(0.98); }
+  .secondary{
+    width:100%;
+    background: var(--green-soft);
+    color: var(--green-dark);
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 13px 0;
+    font-family:'Inter', sans-serif;
+    font-weight:700;
+    font-size:13.5px;
+    cursor:pointer;
+  }
+  .secondary:active{ transform: scale(0.98); }
 
 
   /* Destaque pago por PIX */
@@ -1145,13 +1158,6 @@
   .lojaStatGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.lojaStat{border-radius:13px;background:#F3F7F4;padding:10px}.lojaStat b{display:block;font-size:17px;color:var(--green-dark)}.lojaStat span{font-size:9.5px;color:var(--ink-soft)}
   .lojaToolbar{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 14px}.lojaToolbar button{border:0;border-radius:999px;padding:8px 11px;font-size:10.5px;font-weight:800;cursor:pointer;background:var(--green-soft);color:var(--green-dark)}
   .lojaRow{border:1px solid #E3EAE5;border-radius:14px;padding:11px;margin-bottom:9px;background:var(--card)}.lojaRowTop{display:flex;justify-content:space-between;gap:10px}.lojaRowTitle{font-size:12.5px;font-weight:850}.lojaRowMeta{font-size:10px;color:var(--ink-soft);margin-top:3px;line-height:1.35}.lojaRowActions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.lojaRowActions button{border:0;border-radius:9px;padding:7px 9px;font-size:10px;font-weight:800;cursor:pointer}.btnOk{background:var(--green-soft);color:var(--green-dark)}.btnWarn{background:#FFF4D9;color:#8B6500}.btnDanger{background:#FBE9E9;color:var(--danger)}
-  .flashDeliveryPanel{margin-top:10px;padding:12px;border-radius:14px;border:1px solid #CFE3D5;background:linear-gradient(145deg,#F4FBF6,#EAF7EE)}
-  .flashDeliveryHead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}.flashDeliveryTitle{font-size:11px;font-weight:900;color:var(--green-dark)}
-  .flashDeliveryStatus{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:5px 8px;font-size:9px;font-weight:850;background:#fff;border:1px solid #D8E9DD;color:#335C48}
-  .flashDeliveryHint{font-size:9.5px;color:var(--ink-soft);line-height:1.4;margin:5px 0 8px}
-  .flashMainBtn{width:100%;border:0;border-radius:12px;padding:12px 13px;font-size:12px;font-weight:950;cursor:pointer;background:linear-gradient(145deg,#10A85A,#078743);color:#fff;box-shadow:0 7px 16px rgba(8,135,67,.18)}
-  .flashMainBtn:active{transform:scale(.99)}
-  .flashProgress{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:9px}.flashStep{border-radius:9px;background:#fff;border:1px solid #E0EAE3;padding:6px 4px;text-align:center;font-size:8px;color:#7B8D83;line-height:1.2}.flashStep.on{background:#E7F6EC;color:#087D40;border-color:#BFE2CA;font-weight:850}
   .feeBox{background:#F3F7F4;border:1px solid #DDE8E0;border-radius:14px;padding:11px;margin:10px 0;font-size:11px;line-height:1.45}.feeBox strong{color:var(--green-dark)}
   .shopEmpty{font-size:11px;color:var(--ink-soft);padding:12px;border:1px dashed #D7E0DA;border-radius:12px;text-align:center}
   @media(max-width:520px){.merchantSteps{grid-template-columns:repeat(2,1fr)}.storeProductsGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.merchantIntro{padding:15px}.merchantTitle{font-size:18px}}
@@ -1260,50 +1266,9 @@
 /* corrige camada antiga (::before) que ficava por cima do ícone novo */
 .heroTile::before{ content:none !important; }
 .heroTile .heroTileIcon{ position:relative; z-index:1; }
-
-  /* Produtos realistas no topo */
-  .heroVisualReal{
-    min-height:176px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:visible;
-  }
-  .heroProductsReal{
-    display:block;
-    width:min(100%, 205px);
-    height:auto;
-    object-fit:contain;
-    filter:drop-shadow(0 12px 18px rgba(5,56,30,.22));
-    transform:translateY(3px);
-    user-select:none;
-    -webkit-user-drag:none;
-  }
-  @media (max-width:380px){
-    .heroProductsReal{width:min(100%, 176px);}
-  }
-  @media (min-width:760px){
-    .heroProductsReal{width:min(100%, 320px);}
-  }
-
-  /* Chama pro Rolinho — trocas entre usuários */
-  .rolinhoHome{margin:14px 12px 2px;padding:14px 15px;border-radius:22px;background:linear-gradient(135deg,#123F2D 0%,#178A52 58%,#27B96B 100%);color:#fff;display:flex;align-items:center;gap:12px;box-shadow:0 10px 24px rgba(18,63,45,.16);overflow:hidden;position:relative}
-  .rolinhoHome:after{content:"";position:absolute;width:130px;height:130px;border-radius:50%;right:-46px;top:-56px;background:rgba(255,255,255,.08)}
-  .rolinhoIcon{width:46px;height:46px;border-radius:15px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:25px;flex:0 0 auto;border:1px solid rgba(255,255,255,.16)}
-  .rolinhoCopy{min-width:0;flex:1;position:relative;z-index:1}.rolinhoTitle{font-size:15px;font-weight:900;letter-spacing:-.2px}.rolinhoSub{font-size:11.5px;line-height:1.35;opacity:.88;margin-top:2px}
-  .rolinhoBtn{position:relative;z-index:1;border:0;border-radius:999px;background:#FFD64A;color:#203228;padding:9px 12px;font-size:11px;font-weight:900;white-space:nowrap;cursor:pointer}
-  .rolinhoBadge{position:absolute;right:8px;top:8px;border-radius:999px;background:#153F2F;color:#fff;font-size:9.5px;font-weight:900;padding:4px 7px;box-shadow:0 3px 8px rgba(0,0,0,.12)}
-  .rolinhoTag{display:inline-flex;align-items:center;gap:5px;border-radius:999px;background:#E6F8EC;color:#146B3E;border:1px solid #CBECD7;padding:6px 10px;font-size:11.5px;font-weight:850;margin:10px 0 2px}
-  .rolinhoFormBox{margin:12px 0 2px;padding:12px;border-radius:15px;background:#F0FAF4;border:1.5px solid #D6F0E0;display:flex;align-items:flex-start;gap:10px;cursor:pointer}
-  .rolinhoFormBox input{width:18px;height:18px;margin:1px 0 0;accent-color:#159653;flex:0 0 auto}.rolinhoFormTitle{font-size:13px;font-weight:850;color:#175D3B}.rolinhoFormSub{font-size:11.5px;color:#5A7466;line-height:1.35;margin-top:2px}
-  .rolinhoChatBtn{background:#E9F8EF!important;color:#17633E!important;border:1.5px solid #CDEBD8!important}
-  .rolinhoFloat{position:fixed;right:14px;bottom:92px;z-index:70;border:0;border-radius:999px;background:#FFD64A;color:#173B2B;box-shadow:0 8px 22px rgba(0,0,0,.18);padding:10px 14px;font-size:12px;font-weight:900;display:flex;align-items:center;gap:6px;cursor:pointer}
-  .rolinhoFloat:active{transform:scale(.97)}
-  @media(min-width:700px){.rolinhoHome{margin-left:40px;margin-right:40px;padding:16px 18px}.rolinhoTitle{font-size:17px}.rolinhoSub{font-size:12.5px}}
 </style>
 </head>
 <body>
-<!-- Vendaí Rolinho visível v20260910-8 -->
 <div id="app">
 
   <header>
@@ -1334,15 +1299,6 @@
     </div>
   </header>
 
-  <section class="rolinhoHome" aria-label="Chama pro Rolinho, área de trocas">
-    <div class="rolinhoIcon">🔄</div>
-    <div class="rolinhoCopy">
-      <div class="rolinhoTitle">Chama pro Rolinho</div>
-      <div class="rolinhoSub">Quer trocar em vez de comprar? Veja anúncios que aceitam proposta de troca.</div>
-    </div>
-    <button class="rolinhoBtn" type="button" onclick="abrirRolinho()">Ver trocas</button>
-  </section>
-
   <section class="installHero" id="installHero" aria-label="Instalar aplicativo Vendaí">
     <div class="installAppIcon"><img src="/icon-192.png" alt="Ícone do Vendaí" width="46" height="46"></div>
     <div class="installCopy">
@@ -1364,8 +1320,40 @@
           <button class="heroSecondary" onclick="document.getElementById('grid').scrollIntoView({behavior:'smooth'})">Explorar</button>
         </div>
       </div>
-      <div class="heroVisual heroVisualReal" aria-hidden="true">
-        <img class="heroProductsReal" src="/hero-products.png?v=20260910-real1" alt="" width="320" height="344" decoding="async" fetchpriority="high">
+      <div class="heroVisual" aria-hidden="true">
+        <div class="heroMosaic burstMosaic">
+          <svg class="burstRays" viewBox="0 0 200 190"><g stroke="#FFF3CC" stroke-width="2.4" stroke-linecap="round" opacity=".55">
+            <line x1="100" y1="118" x2="100" y2="76"/>
+            <line x1="100" y1="118" x2="62" y2="86"/>
+            <line x1="100" y1="118" x2="138" y2="86"/>
+            <line x1="100" y1="118" x2="34" y2="112"/>
+            <line x1="100" y1="118" x2="166" y2="112"/>
+          </g></svg>
+          <svg class="burstSpark s1" viewBox="0 0 24 24" fill="#FFC93C"><path d="M12 2 14 9 21 12 14 15 12 22 10 15 3 12 10 9Z"/></svg>
+          <svg class="burstSpark s2" viewBox="0 0 24 24" fill="#FFC93C"><path d="M12 2 14 9 21 12 14 15 12 22 10 15 3 12 10 9Z"/></svg>
+          <svg class="burstSpark s3" viewBox="0 0 24 24" fill="#fff"><circle cx="12" cy="12" r="9"/></svg>
+          <div class="heroTile t1"><div class="heroTileIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="3.2" width="10" height="17.6" rx="2.2"/><line x1="10.4" y1="17.6" x2="13.6" y2="17.6"/></svg></div><span>Celular</span></div>
+          <div class="heroTile t2"><div class="heroTileIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7.3" width="10" height="9.4" rx="2.6"/><path d="M9.3 7.3V4.6a1 1 0 0 1 1-1h3.4a1 1 0 0 1 1 1v2.7"/><path d="M9.3 16.7v2.7a1 1 0 0 0 1 1h3.4a1 1 0 0 0 1-1v-2.7"/><line x1="12" y1="10.2" x2="12" y2="12.4"/><line x1="12" y1="12.4" x2="13.6" y2="13.4"/></svg></div><span>Relógio</span></div>
+          <div class="heroTile t3"><div class="heroTileIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 15.5 5 10a2 2 0 0 1 1.9-1.4h10.2A2 2 0 0 1 19 10l1.5 5.5"/><rect x="2.8" y="15.5" width="18.4" height="4.3" rx="1.4"/><circle cx="7" cy="19.8" r="1.3"/><circle cx="17" cy="19.8" r="1.3"/></svg></div><span>Carro</span></div>
+          <div class="heroTile t4"><div class="heroTileIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="17" r="2.6"/><circle cx="18" cy="17" r="2.6"/><path d="M8.4 17h5.2l2-5.4h3.4"/><path d="M6 17 9 10h3.2l2 3.6"/><path d="M9 10h3.6"/></svg></div><span>Moto</span></div>
+          <svg class="burstBox" viewBox="0 0 120 84">
+            <defs>
+              <linearGradient id="boxFront" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#E8A800"/>
+                <stop offset="1" stop-color="#C98B00"/>
+              </linearGradient>
+              <linearGradient id="boxFlap" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#FFD666"/>
+                <stop offset="1" stop-color="#FFC93C"/>
+              </linearGradient>
+            </defs>
+            <path d="M8 38 L60 24 L112 38 L112 78 A4 4 0 0 1 108 82 L12 82 A4 4 0 0 1 8 78 Z" fill="url(#boxFront)"/>
+            <path d="M8 38 L60 24 L112 38 L60 52 Z" fill="#FFE08A"/>
+            <line x1="60" y1="52" x2="60" y2="82" stroke="rgba(0,0,0,.12)" stroke-width="2"/>
+            <path d="M60 24 L60 44 L20 34 Z" fill="url(#boxFlap)" transform="rotate(-18 40 34)"/>
+            <path d="M60 24 L60 44 L100 34 Z" fill="url(#boxFlap)" transform="rotate(18 80 34)"/>
+          </svg>
+        </div>
       </div>
     </div>
   </section>
@@ -1379,7 +1367,6 @@
     </div>
     <div class="chipRow" id="chipRow"></div>
   </section>
-
 
   <main>
     <div class="supportHome" onclick="openSupportSheet()">
@@ -1425,7 +1412,7 @@
       <div class="storeProductsGrid" id="storeProductsGrid"></div>
     </section>
 
-    <div class="feedTitle" id="feedTitle">Perto de você</div>
+    <div class="feedTitle">Perto de você</div>
     <div class="grid" id="grid"></div>
     <div class="empty" id="emptyState" style="display:none;">Nenhum anúncio encontrado por aqui ainda.</div>
   </main>
@@ -1433,8 +1420,6 @@
   <div class="fab">
     <button onclick="openPostSheet()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" style="vertical-align:-2px;margin-right:5px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Anunciar</button>
   </div>
-
-  <button class="rolinhoFloat" type="button" onclick="abrirRolinho()" aria-label="Abrir trocas">🔄 Trocas</button>
 
   <nav>
     <button class="active"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 11.2 12 4l8.5 7.2"/><path d="M5.8 9.9V19a1 1 0 0 0 1 1h3.4v-5.6h3.6V20h3.4a1 1 0 0 0 1-1V9.9"/></svg></span>Início</button>
@@ -1580,12 +1565,6 @@
       <label>Preço (R$)</label>
       <input type="number" id="fPrice" placeholder="Ex: 350">
 
-
-      <label class="rolinhoFormBox" for="fTroca">
-        <input type="checkbox" id="fTroca">
-        <span><span class="rolinhoFormTitle">🔄 Chama pro Rolinho</span><span class="rolinhoFormSub">Marque se você aceita receber propostas de troca por este item. O preço vira uma referência de valor.</span></span>
-      </label>
-
       <label>Categoria</label>
       <select id="fCategory">
         <option value="moveis">🛋️ Móveis</option>
@@ -1728,7 +1707,6 @@ const CITIES = [
 let activeCity = 'toda';
 let ads = [];
 let activeCategory = 'todos';
-let activeRolinho = false;
 let searchTerm = '';
 let currentUser = null;
 let pendingAction = null;
@@ -1935,7 +1913,7 @@ async function entrar(){
   else if(pendingAction === 'buy_loja' && produtoLojaAtual){ pendingAction=null; abrirProdutoLoja(produtoLojaAtual.id); }
   else if(pendingAction === 'chat' && pendingChat){
     pendingAction=null; const c=pendingChat; pendingChat=null;
-    iniciarChat(c.anuncioId,c.titulo,c.outroId,c.outroNome,c.prefill||'');
+    iniciarChat(c.anuncioId,c.titulo,c.outroId,c.outroNome);
   }
 }
 
@@ -2059,7 +2037,6 @@ function renderChips(){
     chip.innerHTML = `<span class="chipIcon" style="--chip-bg:${cat.bg}">${cat.icon}</span><span class="chipLabel">${cat.label}</span>`;
     chip.onclick = () => {
       activeCategory = cat.id;
-      activeRolinho = false;
       renderChips();
       renderGrid();
       document.getElementById('grid')?.scrollIntoView({behavior:'smooth',block:'start'});
@@ -2070,22 +2047,6 @@ function renderChips(){
 
 function openCategories(){
   document.getElementById('categorySection')?.scrollIntoView({behavior:'smooth',block:'start'});
-}
-
-
-const ROLINHO_MARKER='[ROLINHO]';
-function aceitaTroca(ad){ return String(ad?.descricao||'').includes(ROLINHO_MARKER); }
-function descricaoSemRolinho(texto){ return String(texto||'').replaceAll(ROLINHO_MARKER,'').trim(); }
-function abrirRolinho(){
-  activeRolinho=true;
-  activeCategory='todos';
-  renderChips();
-  renderGrid();
-  document.getElementById('grid')?.scrollIntoView({behavior:'smooth',block:'start'});
-}
-function sairRolinho(){
-  activeRolinho=false;
-  renderGrid();
 }
 
 function formatPrice(n){
@@ -2116,12 +2077,8 @@ function renderGrid(){
     const matchCat = activeCategory==='todos' || ad.categoria===activeCategory;
     const matchSearch = ad.titulo.toLowerCase().includes(searchTerm.toLowerCase());
     const matchCity = activeCity==='toda' || ad.cidade.includes(activeCity);
-    const matchRolinho = !activeRolinho || aceitaTroca(ad);
-    return matchCat && matchSearch && matchCity && matchRolinho;
+    return matchCat && matchSearch && matchCity;
   });
-  const feedTitle=document.getElementById('feedTitle');
-  if(feedTitle) feedTitle.innerHTML=activeRolinho ? '🔄 Chama pro Rolinho <button type="button" onclick="sairRolinho()" style="margin-left:7px;border:0;background:#EEF6F0;color:#24613E;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:800;vertical-align:2px;">Ver todos</button>' : 'Perto de você';
-  if(empty) empty.textContent=activeRolinho ? 'Ainda não há anúncios aceitando troca por aqui.' : 'Nenhum anúncio encontrado por aqui ainda.';
 
   if(filtered.length===0){
     empty.style.display = 'block';
@@ -2139,7 +2096,6 @@ function renderGrid(){
           ? `<img src="${ad.fotos[0]}" style="width:100%;height:100%;object-fit:cover;">`
           : CATEGORY_ICON[ad.categoria]}
         ${ad.destaque ? '<div style="position:absolute; top:8px; left:8px; background:var(--yellow); border-radius:8px; font-size:9.5px; font-weight:700; padding:3px 7px; color:var(--ink);">🔥 Destaque</div>' : ''}
-        ${aceitaTroca(ad) ? '<div class="rolinhoBadge">🔄 Aceita troca</div>' : ''}
       </div>
       <div class="cardBody">
         <div class="cardTitle">${ad.titulo}</div>
@@ -2175,8 +2131,7 @@ function openDetail(id){
     <div class="detailTitle" style="margin-top:14px;">${escHtml(ad.titulo)}</div>
     <div class="detailPrice">${formatPrice(ad.preco)}</div>
     <div class="detailMeta">${escHtml(ad.cidade)} · publicado ${tempoDecorrido(ad.criado_em)}</div>
-    ${aceitaTroca(ad) ? '<div class="rolinhoTag">🔄 Aceita troca • Chama pro Rolinho</div>' : ''}
-    <div class="detailDesc">${escHtml(descricaoSemRolinho(ad.descricao) || 'Sem descrição.')}</div>
+    <div class="detailDesc">${escHtml(ad.descricao || 'Sem descrição.')}</div>
     <div class="sellerRow">
       <div class="sellerAvatar">🙂</div>
       <div>
@@ -2186,9 +2141,8 @@ function openDetail(id){
     </div>
     <div class="btnRow">
       <div class="btnPrimary" onclick="iniciarChatFromDetail()">💬 Chamar no chat</div>
-      ${aceitaTroca(ad) ? '<div class="btnGhost rolinhoChatBtn" onclick="iniciarRolinhoFromDetail()">🔄 Chama pro Rolinho</div>' : '<div class="btnGhost" onclick="showToast(\'Denúncia registrada (simulação)\')">🚩 Denunciar</div>'}
+      <div class="btnGhost" onclick="showToast('Denúncia registrada (simulação)')">🚩 Denunciar</div>
     </div>
-    ${aceitaTroca(ad) ? '<div style="font-size:10.5px;color:var(--ink-soft);margin-top:8px;text-align:center;">Combine a troca pelo chat. O Vendaí não recebe nem guarda o item.</div>' : ''}
     ${(currentUser && currentUser.id===ad.vendedor_id) ? `<div class="publishBtn" style="margin-top:12px;background:#EAF2FF;border:1.5px solid #D6E4FA;box-shadow:none;color:#275FA8;" onclick="editarAnuncio('${ad.id}')">✏️ Editar este anúncio</div>` : ''}
     ${(!ad.destaque && currentUser && currentUser.id===ad.vendedor_id) ? `<div class="publishBtn" style="margin-top:9px; background:var(--card); border:1.5px solid #E2E9E3; box-shadow:none; color:var(--green-dark);" onclick="destacarAnuncio('${ad.id}')">🏷️ Destacar este anúncio — ${formatMoneyCharge(PRECO_DESTAQUE)}</div>` : ''}
   `;
@@ -2199,12 +2153,6 @@ function iniciarChatFromDetail(){
   const ad = window._anuncioAtual;
   if(!ad) return;
   iniciarChat(ad.id, ad.titulo, ad.vendedor_id || '', ad.vendedor_nome || 'Anônimo');
-}
-
-function iniciarRolinhoFromDetail(){
-  const ad=window._anuncioAtual;
-  if(!ad)return;
-  iniciarChat(ad.id, ad.titulo, ad.vendedor_id || '', ad.vendedor_nome || 'Anônimo', 'Oi! Vi que você aceita troca. O que você teria interesse em receber nesse rolinho?');
 }
 
 function selecionarFotoDetalhe(index){
@@ -2380,7 +2328,6 @@ function resetPostForm(){
   document.getElementById('fTitle').value='';
   document.getElementById('fPrice').value='';
   document.getElementById('fCategory').value='moveis';
-  document.getElementById('fTroca').checked=false;
   document.getElementById('fDesc').value='';
   const cidadeAtual=CITIES.find(c=>c.id===activeCity && c.id!=='toda');
   document.getElementById('fCity').value=cidadeAtual ? cidadeAtual.label : 'Muzambinho, MG';
@@ -2411,8 +2358,7 @@ function editarAnuncio(id){
   document.getElementById('fTitle').value=ad.titulo||'';
   document.getElementById('fPrice').value=ad.preco||'';
   document.getElementById('fCategory').value=ad.categoria||'outros';
-  document.getElementById('fTroca').checked=aceitaTroca(ad);
-  document.getElementById('fDesc').value=descricaoSemRolinho(ad.descricao)||'';
+  document.getElementById('fDesc').value=ad.descricao||'';
   document.getElementById('fCity').value=ad.cidade||'Muzambinho, MG';
   document.getElementById('fFoto').value='';
   document.getElementById('btnPublicar').textContent='Salvar alterações';
@@ -2435,8 +2381,6 @@ async function publishAd(){
   const preco=parseFloat(document.getElementById('fPrice').value);
   const categoria=document.getElementById('fCategory').value;
   const descricao=document.getElementById('fDesc').value.trim();
-  const rolinho=!!document.getElementById('fTroca')?.checked;
-  const descricaoPersistida=rolinho ? `${ROLINHO_MARKER}\n${descricao}`.trim() : descricao;
   const cidade=document.getElementById('fCity').value.trim();
   if(titulo.length<3 || !Number.isFinite(preco) || preco<=0){ showToast('Revise o título e o preço'); return; }
   if(!cidade){ showToast('Informe a localização do anúncio'); return; }
@@ -2463,19 +2407,19 @@ async function publishAd(){
     if(editAdId){
       result=await sb.rpc('vendai_editar_anuncio_seguro',{
         p_token:currentSessionToken,p_id:editAdId,p_titulo:titulo,p_preco:preco,p_categoria:categoria,
-        p_descricao:descricaoPersistida||'',p_cidade:cidade,p_fotos:fotosFinais
+        p_descricao:descricao||'',p_cidade:cidade,p_fotos:fotosFinais
       });
     }else{
       result=await sb.rpc('vendai_publicar_anuncio',{
         p_token:currentSessionToken,p_titulo:titulo,p_preco:preco,p_categoria:categoria,
-        p_descricao:descricaoPersistida||'',p_cidade:cidade,p_fotos:fotosFinais
+        p_descricao:descricao||'',p_cidade:cidade,p_fotos:fotosFinais
       });
     }
     if(result.error) throw result.error;
 
     const eraEdicao=!!editAdId;
     resetPostForm();
-    closeSheet('postOverlay'); activeCategory='todos'; activeRolinho=false; renderChips();
+    closeSheet('postOverlay'); activeCategory='todos'; renderChips();
     await carregarAnuncios();
     if(eraEdicao && currentUser) await renderProfile();
     showToast(eraEdicao?'Anúncio atualizado ✓':'Anúncio publicado ✓');
@@ -2541,16 +2485,15 @@ function previewFotos(){
   renderFotoPreview();
 }
 
-async function iniciarChat(anuncioId, titulo, outroId, outroNome, prefill=''){
+async function iniciarChat(anuncioId, titulo, outroId, outroNome){
   if(!currentUser || !currentSessionToken){
-    pendingChat={anuncioId,titulo,outroId,outroNome,prefill}; pendingAction='chat'; openLoginSheet(); return;
+    pendingChat={anuncioId,titulo,outroId,outroNome}; pendingAction='chat'; openLoginSheet(); return;
   }
   if(!outroId){ showToast('Não consegui identificar o vendedor deste anúncio'); return; }
   if(outroId===currentUser.id){ showToast('Esse é o seu próprio anúncio 🙂'); return; }
   currentChat={anuncioId,titulo,outroId,outroNome};
   document.getElementById('chatHeader').textContent=outroNome+' · '+titulo;
   closeSheet('detailOverlay'); closeSheet('conversasOverlay'); document.getElementById('chatOverlay').classList.add('show');
-  const chatInput=document.getElementById('chatInput'); if(chatInput && prefill) chatInput.value=prefill;
   await carregarMensagens(); if(chatPollingInterval) clearInterval(chatPollingInterval); chatPollingInterval=setInterval(carregarMensagens,3000);
 }
 
@@ -2826,46 +2769,8 @@ async function renderPainelLoja(){
 function renderPedidosLoja(){
   const box=document.getElementById('lojaPainelLista');if(!box)return;const pedidos=window._pedidosLoja||[];box.innerHTML='<div class="detailTitle" style="font-size:14px;margin-bottom:9px">Pedidos recebidos</div>';
   if(!pedidos.length){box.innerHTML+='<div class="shopEmpty">Sua loja ainda não recebeu pedidos.</div>';return;}
-  const statusFlashInfo=(o)=>{
-    const s=o.entrega_status||(o.entrega_flash_pedido_id?'buscando':'nao_solicitada');
-    const map={
-      nao_solicitada:{label:'⏳ Aguardando solicitação',step:0},
-      aguardando_pagamento:{label:'💳 Aguardando pagamento',step:0},
-      buscando:{label:'🔎 Aguardando motorista',step:1},
-      entregador_a_caminho_da_loja:{label:'🏍️ Motorista a caminho',step:2},
-      coletado:{label:'📦 Produto coletado',step:3},
-      a_caminho:{label:'🚚 A caminho do cliente',step:3},
-      entregue:{label:'✅ Entregue',step:4},
-      cancelada:{label:'⚠️ Entrega cancelada',step:0}
-    };
-    return map[s]||{label:nomeStatusEntrega(s)||'Status da entrega',step:0};
-  };
-  pedidos.forEach(o=>{
-    const el=document.createElement('div');el.className='lojaRow';
-    const st={novo:'Novo pedido',aceito:'Aceito',recusado:'Recusado',cancelado:'Cancelado',concluido:'Concluído'}[o.status]||o.status;
-    const pago=o.pagamento_status==='pago';let actions='';let flashPanel='';
-    if(o.status==='novo')actions=`<button class="btnOk" onclick="responderPedidoLoja('${o.id}',true)">Aceitar</button><button class="btnDanger" onclick="responderPedidoLoja('${o.id}',false)">${pago?'Recusar e estornar':'Recusar'}</button>`;
-    if(o.status==='aceito'&&pago&&o.entrega_tipo!=='entrega_flash')actions+=`<button class="btnOk" onclick="concluirPedidoLoja('${o.id}')">Concluir venda</button>`;
-    if(o.entrega_tipo==='entrega_flash'){
-      const fs=statusFlashInfo(o);
-      let principal='';
-      if(o.status==='aceito'&&pago&&!o.entrega_flash_pedido_id){
-        principal=`<div class="flashDeliveryHint"><strong>Produto pronto?</strong> Toque abaixo somente quando ele estiver separado e pronto para o motorista retirar.</div><button class="flashMainBtn" onclick="chamarEntregaFlashLoja('${o.id}')">🚚 SOLICITAR MOTORISTA</button>`;
-      }else if(o.status==='novo'){
-        principal='<div class="flashDeliveryHint">Primeiro aceite o pedido. Depois do pagamento aprovado, o botão para solicitar o motorista será liberado.</div>';
-      }else if(o.status==='aceito'&&!pago){
-        principal='<div class="flashDeliveryHint">Aguardando o pagamento ser aprovado para liberar a solicitação do motorista.</div>';
-      }else if(o.status==='aceito'&&o.entrega_flash_pedido_id&&o.entrega_status==='entregue'){
-        principal=`<button class="flashMainBtn" onclick="concluirPedidoLoja('${o.id}')">✅ CONCLUIR VENDA</button>`;
-      }else if(o.entrega_flash_pedido_id){
-        principal='<div class="flashDeliveryHint">A entrega já foi solicitada. O status abaixo atualiza conforme o motorista avança.</div>';
-      }
-      const steps=['Solicitado','A caminho','Coletado','Entregue'].map((x,i)=>`<div class="flashStep ${fs.step>=i+1?'on':''}">${x}</div>`).join('');
-      flashPanel=`<div class="flashDeliveryPanel"><div class="flashDeliveryHead"><div class="flashDeliveryTitle">⚡ Entrega Flash</div><div class="flashDeliveryStatus">${fs.label}</div></div>${principal}<div class="flashProgress">${steps}</div></div>`;
-    }
-    el.innerHTML=`<div class="lojaRowTop"><div><div class="lojaRowTitle">${escHtml(o.produto_titulo)} × ${o.quantidade}</div><div class="lojaRowMeta">Cliente: ${escHtml(o.comprador_nome)} · ${st}<br>Produto: ${formatPrice(o.subtotal)} · Frete: ${formatPrice(o.frete_valor||0)} · <strong>Total: ${formatPrice(o.total_pagamento||o.subtotal)}</strong><br>Pagamento: <strong>${escHtml(o.pagamento_status)}</strong> · Comissão: ${formatPrice(o.taxa_valor)}<br>${nomeEntrega(o.entrega_tipo)}${o.entrega_tipo==='entrega_flash'?` · ${nomeVeiculo(o.frete_veiculo)}`:''}${o.entrega_motorista_nome?`<br>Entregador: ${escHtml(o.entrega_motorista_nome)}`:''}${o.endereco_entrega?`<br>Destino: ${escHtml(o.endereco_entrega)}`:''}</div></div></div>${o.observacao?`<div class="lojaRowMeta" style="margin-top:6px">Obs.: ${escHtml(o.observacao)}</div>`:''}${flashPanel}<div class="lojaRowActions">${actions}</div>`;
-    box.appendChild(el);
-  });
+  pedidos.forEach(o=>{const el=document.createElement('div');el.className='lojaRow';const st={novo:'Novo pedido',aceito:'Aceito',recusado:'Recusado',cancelado:'Cancelado',concluido:'Concluído'}[o.status]||o.status;const pago=o.pagamento_status==='pago';let actions='';if(o.status==='novo')actions=`<button class="btnOk" onclick="responderPedidoLoja('${o.id}',true)">Aceitar</button><button class="btnDanger" onclick="responderPedidoLoja('${o.id}',false)">${pago?'Recusar e estornar':'Recusar'}</button>`;if(o.status==='aceito'&&pago&&o.entrega_tipo==='entrega_flash'&&!o.entrega_flash_pedido_id)actions+=`<button class="btnOk" onclick="chamarEntregaFlashLoja('${o.id}')">⚡ Produto pronto — chamar Entrega Flash</button>`;if(o.status==='aceito'&&pago&&o.entrega_tipo!=='entrega_flash')actions+=`<button class="btnOk" onclick="concluirPedidoLoja('${o.id}')">Concluir venda</button>`;
+    el.innerHTML=`<div class="lojaRowTop"><div><div class="lojaRowTitle">${escHtml(o.produto_titulo)} × ${o.quantidade}</div><div class="lojaRowMeta">Cliente: ${escHtml(o.comprador_nome)} · ${st}<br>Produto: ${formatPrice(o.subtotal)} · Frete: ${formatPrice(o.frete_valor||0)} · <strong>Total: ${formatPrice(o.total_pagamento||o.subtotal)}</strong><br>Pagamento: <strong>${escHtml(o.pagamento_status)}</strong> · Comissão: ${formatPrice(o.taxa_valor)}<br>${nomeEntrega(o.entrega_tipo)}${o.entrega_tipo==='entrega_flash'?` · ${nomeStatusEntrega(o.entrega_status)} · ${nomeVeiculo(o.frete_veiculo)}`:''}${o.entrega_motorista_nome?`<br>Entregador: ${escHtml(o.entrega_motorista_nome)}`:''}${o.endereco_entrega?`<br>Destino: ${escHtml(o.endereco_entrega)}`:''}</div></div></div>${o.observacao?`<div class="lojaRowMeta" style="margin-top:6px">Obs.: ${escHtml(o.observacao)}</div>`:''}<div class="lojaRowActions">${actions}</div>`;box.appendChild(el);});
 }
 async function responderPedidoLoja(id,aceitar){
   const o=(window._pedidosLoja||[]).find(x=>x.id===id);if(!o)return;
@@ -2892,7 +2797,7 @@ function abrirProdutoLoja(id){
   const p=produtosLojas.find(x=>x.id===id);if(!p)return;produtoLojaAtual=p;ultimaCotacaoFlash=null;const c=document.getElementById('lojaProdutoDetailContent');const foto=p.fotos?.[0];const opts=[];if(p.entrega_flash_ativa)opts.push('<option value="entrega_flash">⚡ Entrega Flash</option>');if(p.retirada_loja_ativa)opts.push('<option value="retirada_loja">🏪 Retirar na loja</option>');if(p.entrega_propria_ativa)opts.push('<option value="entrega_propria">🚚 Entrega própria da loja</option>');
   c.innerHTML=`${foto?`<img src="${escHtml(foto)}" style="width:100%;max-height:280px;object-fit:cover;border-radius:15px;margin-bottom:12px">`:''}<div class="merchantKicker" style="color:var(--green-dark)">🏪 ${escHtml(p.loja_nome)}</div><div class="detailTitle">${escHtml(p.titulo)}</div><div class="detailPrice">${formatPrice(p.preco)}</div><div class="detailMeta">${escHtml(p.loja_cidade)} · estoque ${p.estoque}</div><div class="detailDesc">${escHtml(p.descricao||'Sem descrição.')}</div><div class="feeBox">A comissão de ${taxaVendai.toFixed(0)}% é cobrada do lojista. Se escolher Entrega Flash, o frete aparece antes de pagar e é cobrado junto com o produto.</div><label>Quantidade</label><input id="compraQtdLoja" type="number" min="1" max="${p.estoque}" value="1" onchange="ultimaCotacaoFlash=null"><label>Como quer receber?</label><select id="compraEntregaTipo" onchange="atualizarCamposEntregaCompra()">${opts.join('')}</select><div id="compraFlashCampos" style="display:none"><label>Endereço de entrega</label><input id="compraEndereco" type="text" placeholder="Rua, número, bairro, cidade, CEP"><label>Complemento (opcional)</label><input id="compraComplemento" type="text" placeholder="Apto, bloco..."><label>Referência (opcional)</label><input id="compraReferencia" type="text" placeholder="Portaria, comércio próximo..."><button class="secondary" style="width:100%;margin-top:8px" onclick="calcularFreteCompra()">⚡ Calcular Entrega Flash</button></div><div id="compraCotacao" class="feeBox" style="margin-top:10px"></div><label>Observação para a loja (opcional)</label><textarea id="compraObsLoja" placeholder="Cor, tamanho, horário..."></textarea><button class="publishBtn" id="compraFinalBtn" onclick="criarPedidoProdutoLoja()">🛒 Ir para pagamento</button>`;document.getElementById('lojaProdutoDetailOverlay').classList.add('show');atualizarCamposEntregaCompra();
 }
-async function calcularFreteCompra(){const p=produtoLojaAtual;if(!p)return;const qtd=Number(document.getElementById('compraQtdLoja').value)||1,end=document.getElementById('compraEndereco').value.trim(),box=document.getElementById('compraCotacao');if(end.length<5){showToast('Informe o endereço completo');return;}box.textContent='Calculando frete e verificando motorista na região...';try{const q=await vendaiEntrega('quote',{produto_id:p.id,quantidade:qtd,endereco_entrega:end});ultimaCotacaoFlash=q;box.innerHTML=`<strong>Entrega Flash: ${formatPrice(q.frete_valor)}</strong><br>${q.distancia_km} km · ${nomeVeiculo(q.veiculo)} · ${q.motoristas_disponiveis} entregador(es) disponível(is) na região<br><strong>Total estimado: ${formatPrice(Number(p.preco)*qtd+Number(q.frete_valor))}</strong>`;}catch(e){ultimaCotacaoFlash=null;const m=String(e.message||'');box.textContent=m.includes('sem_motorista')?'Entrega Flash indisponível nessa região neste momento. Escolha retirada/entrega própria ou tente depois.':m.includes('endereco')?'Não consegui localizar esse endereço. Confira rua, número, cidade e CEP.':'Não consegui calcular o frete agora.';}}
+async function calcularFreteCompra(){if(!currentUser||!currentSessionToken){pendingAction='buy_loja';closeSheet('lojaProdutoDetailOverlay');openLoginSheet();showToast('Entre com seu telefone pra calcular a entrega');return;}const p=produtoLojaAtual;if(!p)return;const qtd=Number(document.getElementById('compraQtdLoja').value)||1,end=document.getElementById('compraEndereco').value.trim(),box=document.getElementById('compraCotacao');if(end.length<5){showToast('Informe o endereço completo');return;}box.textContent='Calculando frete e verificando motorista na região...';try{const q=await vendaiEntrega('quote',{produto_id:p.id,quantidade:qtd,endereco_entrega:end});ultimaCotacaoFlash=q;box.innerHTML=`<strong>Entrega Flash: ${formatPrice(q.frete_valor)}</strong><br>${q.distancia_km} km · ${nomeVeiculo(q.veiculo)} · ${q.motoristas_disponiveis} entregador(es) disponível(is) na região<br><strong>Total estimado: ${formatPrice(Number(p.preco)*qtd+Number(q.frete_valor))}</strong>`;}catch(e){ultimaCotacaoFlash=null;const m=String(e.message||'');box.textContent=m.includes('sessao_invalida')?'Sua sessão expirou. Feche e entre novamente com seu telefone.':m.includes('sem_motorista')?'Entrega Flash indisponível nessa região neste momento. Escolha retirada/entrega própria ou tente depois.':m.includes('endereco')?'Não consegui localizar esse endereço. Confira rua, número, cidade e CEP.':'Não consegui calcular o frete agora.';}}
 async function criarPedidoProdutoLoja(){
   if(!currentUser||!currentSessionToken){pendingAction='buy_loja';closeSheet('lojaProdutoDetailOverlay');openLoginSheet();return;}const p=produtoLojaAtual;if(!p)return;const qtd=Number(document.getElementById('compraQtdLoja').value)||1,obs=document.getElementById('compraObsLoja').value.trim(),tipo=document.getElementById('compraEntregaTipo').value,end=tipo==='entrega_flash'?document.getElementById('compraEndereco').value.trim():'',comp=tipo==='entrega_flash'?document.getElementById('compraComplemento').value.trim():'',ref=tipo==='entrega_flash'?document.getElementById('compraReferencia').value.trim():'';
   if(tipo==='entrega_flash'&&end.length<5){showToast('Informe o endereço de entrega');return;}const btn=document.getElementById('compraFinalBtn');btn.disabled=true;btn.textContent='Confirmando valores...';

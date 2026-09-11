@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vendai-pwa-endereco-elegante-20260911-1';
+const CACHE_NAME = 'vendai-pwa-painel-endereco-rural-20260911-2';
 const APP_SHELL = [
   '/',
   '/index.html',
@@ -7,7 +7,8 @@ const APP_SHELL = [
   '/admin/admin.html',
   '/icon-192.png',
   '/icon-512.png',
-  '/icon-maskable-512.png'
+  '/icon-maskable-512.png',
+  '/hero-products.png'
 ];
 
 self.addEventListener('install', event => {

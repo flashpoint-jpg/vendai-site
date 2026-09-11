@@ -1251,6 +1251,9 @@
   .burstMosaic .heroTile{ max-width:88px; height:88px; }
   .burstMosaic .heroTile.t2, .burstMosaic .heroTile.t3{ max-width:76px; height:76px; }
 }
+/* corrige camada antiga (::before) que ficava por cima do ícone novo */
+.heroTile::before{ content:none !important; }
+.heroTile .heroTileIcon{ position:relative; z-index:1; }
 </style>
 </head>
 <body>

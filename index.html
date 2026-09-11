@@ -1253,6 +1253,31 @@
 /* corrige camada antiga (::before) que ficava por cima do ícone novo */
 .heroTile::before{ content:none !important; }
 .heroTile .heroTileIcon{ position:relative; z-index:1; }
+
+  /* Produtos realistas no topo */
+  .heroVisualReal{
+    min-height:176px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:visible;
+  }
+  .heroProductsReal{
+    display:block;
+    width:min(100%, 205px);
+    height:auto;
+    object-fit:contain;
+    filter:drop-shadow(0 12px 18px rgba(5,56,30,.22));
+    transform:translateY(3px);
+    user-select:none;
+    -webkit-user-drag:none;
+  }
+  @media (max-width:380px){
+    .heroProductsReal{width:min(100%, 176px);}
+  }
+  @media (min-width:760px){
+    .heroProductsReal{width:min(100%, 320px);}
+  }
 </style>
 </head>
 <body>
@@ -1307,40 +1332,8 @@
           <button class="heroSecondary" onclick="document.getElementById('grid').scrollIntoView({behavior:'smooth'})">Explorar</button>
         </div>
       </div>
-      <div class="heroVisual" aria-hidden="true">
-        <div class="heroMosaic burstMosaic">
-          <svg class="burstRays" viewBox="0 0 200 190"><g stroke="#FFF3CC" stroke-width="2.4" stroke-linecap="round" opacity=".55">
-            <line x1="100" y1="118" x2="100" y2="76"/>
-            <line x1="100" y1="118" x2="62" y2="86"/>
-            <line x1="100" y1="118" x2="138" y2="86"/>
-            <line x1="100" y1="118" x2="34" y2="112"/>
-            <line x1="100" y1="118" x2="166" y2="112"/>
-          </g></svg>
-          <svg class="burstSpark s1" viewBox="0 0 24 24" fill="#FFC93C"><path d="M12 2 14 9 21 12 14 15 12 22 10 15 3 12 10 9Z"/></svg>
-          <svg class="burstSpark s2" viewBox="0 0 24 24" fill="#FFC93C"><path d="M12 2 14 9 21 12 14 15 12 22 10 15 3 12 10 9Z"/></svg>
-          <svg class="burstSpark s3" viewBox="0 0 24 24" fill="#fff"><circle cx="12" cy="12" r="9"/></svg>
-          <div class="heroTile t1"><div class="heroTileIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="3.2" width="10" height="17.6" rx="2.2"/><line x1="10.4" y1="17.6" x2="13.6" y2="17.6"/></svg></div><span>Celular</span></div>
-          <div class="heroTile t2"><div class="heroTileIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7.3" width="10" height="9.4" rx="2.6"/><path d="M9.3 7.3V4.6a1 1 0 0 1 1-1h3.4a1 1 0 0 1 1 1v2.7"/><path d="M9.3 16.7v2.7a1 1 0 0 0 1 1h3.4a1 1 0 0 0 1-1v-2.7"/><line x1="12" y1="10.2" x2="12" y2="12.4"/><line x1="12" y1="12.4" x2="13.6" y2="13.4"/></svg></div><span>Relógio</span></div>
-          <div class="heroTile t3"><div class="heroTileIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 15.5 5 10a2 2 0 0 1 1.9-1.4h10.2A2 2 0 0 1 19 10l1.5 5.5"/><rect x="2.8" y="15.5" width="18.4" height="4.3" rx="1.4"/><circle cx="7" cy="19.8" r="1.3"/><circle cx="17" cy="19.8" r="1.3"/></svg></div><span>Carro</span></div>
-          <div class="heroTile t4"><div class="heroTileIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="17" r="2.6"/><circle cx="18" cy="17" r="2.6"/><path d="M8.4 17h5.2l2-5.4h3.4"/><path d="M6 17 9 10h3.2l2 3.6"/><path d="M9 10h3.6"/></svg></div><span>Moto</span></div>
-          <svg class="burstBox" viewBox="0 0 120 84">
-            <defs>
-              <linearGradient id="boxFront" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#E8A800"/>
-                <stop offset="1" stop-color="#C98B00"/>
-              </linearGradient>
-              <linearGradient id="boxFlap" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#FFD666"/>
-                <stop offset="1" stop-color="#FFC93C"/>
-              </linearGradient>
-            </defs>
-            <path d="M8 38 L60 24 L112 38 L112 78 A4 4 0 0 1 108 82 L12 82 A4 4 0 0 1 8 78 Z" fill="url(#boxFront)"/>
-            <path d="M8 38 L60 24 L112 38 L60 52 Z" fill="#FFE08A"/>
-            <line x1="60" y1="52" x2="60" y2="82" stroke="rgba(0,0,0,.12)" stroke-width="2"/>
-            <path d="M60 24 L60 44 L20 34 Z" fill="url(#boxFlap)" transform="rotate(-18 40 34)"/>
-            <path d="M60 24 L60 44 L100 34 Z" fill="url(#boxFlap)" transform="rotate(18 80 34)"/>
-          </svg>
-        </div>
+      <div class="heroVisual heroVisualReal" aria-hidden="true">
+        <img class="heroProductsReal" src="/hero-products.png?v=20260910-real1" alt="" width="320" height="344" decoding="async" fetchpriority="high">
       </div>
     </div>
   </section>

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vendai-pwa-cidades-sulminas-20260910-5';
+const CACHE_NAME = 'vendai-pwa-realisticos-20260910-6';
 const APP_SHELL = [
   '/',
   '/index.html',
@@ -7,7 +7,8 @@ const APP_SHELL = [
   '/admin/admin.html',
   '/icon-192.png',
   '/icon-512.png',
-  '/icon-maskable-512.png'
+  '/icon-maskable-512.png',
+  '/hero-products.png'
 ];
 
 self.addEventListener('install', event => {

@@ -720,6 +720,11 @@
   .orderStateTag{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:800;margin:8px 6px 0 0;}
   .orderStateTag.ready{background:#EAF8EE;color:#13683C;border:1px solid #CAE8D3;}
   .orderStateTag.return{background:#FFF6E0;color:#8B6500;border:1px solid #F3DE9F;}
+  .profileSectionHint{margin:-2px 0 12px;padding:10px 12px;border-radius:13px;background:#F5F9F6;border:1px solid #E1EAE3;font-size:11.5px;line-height:1.45;color:var(--ink-soft);}
+  .adMiniBtn.store{background:#EAF8EE;color:#146B3E;border:1px solid #CDE9D5;}
+  .sourceAdNote{font-size:10.5px;color:var(--green-dark);margin:6px 0 2px;font-weight:700;}
+  .rolinhoFloat{width:46px;height:46px;padding:0!important;justify-content:center;font-size:0!important;}
+  .rolinhoFloat::before{content:'🔄';font-size:20px;}
 
   /* Destaque pago por PIX */
   .highlightPayCard{
@@ -2013,7 +2018,8 @@ async function renderProfile(){
       <button onclick="closeSheet('profileOverlay');openLojaPainel()" style="border:none;border-radius:999px;background:#E8F1EB;color:var(--green-dark);padding:8px 12px;font-weight:700;cursor:pointer;">🏪 Minha loja</button>
       <button onclick="sairConta()" style="border:none;border-radius:999px;background:#FBE9E9;color:var(--danger);padding:8px 12px;font-weight:700;cursor:pointer;">Sair</button>
     </div>
-    <div class="detailTitle" style="font-size:15px;margin-bottom:10px;">Meus anúncios</div>
+    <div class="detailTitle" style="font-size:15px;margin-bottom:8px;">Meus anúncios particulares</div>
+    <div class="profileSectionHint">Estes anúncios são suas vendas pessoais. Produtos profissionais ficam em <strong>Minha loja</strong>. Você pode copiar qualquer anúncio para a loja sem cadastrar tudo de novo.</div>
     <div id="meusAnunciosList" style="font-size:13px;color:var(--ink-soft);">Carregando...</div>`;
 
   const { data, error } = await sb.rpc('vendai_meus_anuncios', { p_token: currentSessionToken });
@@ -2027,7 +2033,7 @@ async function renderProfile(){
     const foto=(ad.fotos&&ad.fotos[0]) ? `<img class="profileAdPhoto" src="${escHtml(ad.fotos[0])}" alt="">` : `<div style="width:42px;height:42px;border-radius:10px;background:${CATEGORY_COLOR[ad.categoria]};display:flex;align-items:center;justify-content:center;font-size:18px;flex:0 0 auto;">${CATEGORY_ICON[ad.categoria]}</div>`;
     row.innerHTML=`${foto}
       <div style="flex:1;min-width:0;"><div class="sellerName" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escHtml(ad.titulo)}</div><div class="sellerLoc">${formatPrice(ad.preco)} · ${ad.status==='vendido'?'Vendido':(ad.destaque?'🔥 Destacado':'Ativo')}</div></div>
-      <div style="display:flex;flex-direction:column;gap:6px;align-items:stretch;"><button class="adMiniBtn edit" onclick="editarAnuncio('${ad.id}')">✏️ Editar</button>${ad.status==='vendido'?'':`<button class="adMiniBtn sold" onclick="marcarVendido('${ad.id}')">Vendido</button>`}<button class="adMiniBtn delete" onclick="excluirAnuncio('${ad.id}')">Excluir</button></div>`;
+      <div style="display:flex;flex-direction:column;gap:6px;align-items:stretch;"><button class="adMiniBtn edit" onclick="editarAnuncio('${ad.id}')">✏️ Editar</button>${ad.status==='vendido'?'':`<button class="adMiniBtn store" onclick="transformarAnuncioEmProdutoLoja('${ad.id}')">🏪 Levar p/ loja</button><button class="adMiniBtn sold" onclick="marcarVendido('${ad.id}')">Vendido</button>`}<button class="adMiniBtn delete" onclick="excluirAnuncio('${ad.id}')">Excluir</button></div>`;
     list.appendChild(row);
   });
 }
@@ -2801,6 +2807,8 @@ let produtosLojas=[];
 let lojaAtual=null;
 let lojaProdutosMeus=[];
 let lojaProdutoFotos=[];
+let lojaProdutoFotosBase=[];
+let lojaProdutoOrigemAnuncioId=null;
 let produtoLojaAtual=null;
 let taxaVendai=8;
 let ultimaCotacaoFlash=null;
@@ -3020,10 +3028,74 @@ async function responderPedidoLoja(id,aceitar){
 async function chamarEntregaFlashLoja(id){if(!confirm('O produto está realmente pronto para retirada? Ao confirmar, o Entrega Flash começa a procurar motorista.'))return;try{const r=await vendaiEntrega('dispatch',{pedido_id:id});showToast(r.entrega?.ja_criado?'Entrega já estava aberta':'Entrega Flash acionado ✓');await openLojaPainel();}catch(e){const m=String(e.message||'');showToast(m.includes('pedido_nao_liberado')?'Aceite o pedido e aguarde o pagamento aprovado antes de chamar a entrega':'Não consegui chamar o Entrega Flash');}}
 async function concluirPedidoLoja(id){if(!confirm('Confirmar que este pedido foi entregue/retirado e a venda está concluída?'))return;const r=await sb.rpc('vendai_loja_concluir_pedido_v2',{p_token:currentSessionToken,p_pedido_id:id});if(r.error){showToast(String(r.error.message||'').includes('entrega_ainda')?'A Entrega Flash ainda não marcou como entregue':'Não consegui concluir a venda');return;}showToast('Venda concluída ✓');await openLojaPainel();}
 function renderProdutosMinhaLoja(){const box=document.getElementById('lojaPainelLista');if(!box)return;box.innerHTML='<div class="detailTitle" style="font-size:14px;margin-bottom:9px">Meus produtos</div>';if(!lojaProdutosMeus.length){box.innerHTML+='<div class="shopEmpty">Cadastre seu primeiro produto.</div>';return;}lojaProdutosMeus.forEach(p=>{const el=document.createElement('div');el.className='lojaRow';el.innerHTML=`<div class="lojaRowTitle">${escHtml(p.titulo)}</div><div class="lojaRowMeta">${formatPrice(p.preco)} · estoque ${p.estoque} · ${p.status}<br>Entrega Flash: ${nomeVeiculo(p.veiculo_entrega)}</div><div class="lojaRowActions"><button class="btnOk" onclick="editarProdutoLoja('${p.id}')">Editar</button>${p.status==='ativo'?`<button class="btnWarn" onclick="statusProdutoLoja('${p.id}','pausado')">Pausar</button>`:`<button class="btnOk" onclick="statusProdutoLoja('${p.id}','ativo')">Ativar</button>`}<button class="btnDanger" onclick="statusProdutoLoja('${p.id}','removido')">Remover</button></div>`;box.appendChild(el);});}
-function abrirNovoProdutoLoja(){document.getElementById('lpFormTitle').textContent='Cadastrar produto';document.getElementById('lpId').value='';document.getElementById('lpTitulo').value='';document.getElementById('lpPreco').value='';document.getElementById('lpEstoque').value='1';document.getElementById('lpDescricao').value='';document.getElementById('lpCategoria').value='outros';document.getElementById('lpVeiculo').value='moto';document.getElementById('lpFoto').value='';document.getElementById('lpFotoPreview').innerHTML='';lojaProdutoFotos=[];document.getElementById('lojaProdutoOverlay').classList.add('show');}
-function editarProdutoLoja(id){const p=lojaProdutosMeus.find(x=>x.id===id);if(!p)return;document.getElementById('lpFormTitle').textContent='Editar produto';document.getElementById('lpId').value=p.id;document.getElementById('lpTitulo').value=p.titulo;document.getElementById('lpPreco').value=p.preco;document.getElementById('lpEstoque').value=p.estoque;document.getElementById('lpDescricao').value=p.descricao||'';document.getElementById('lpCategoria').value=p.categoria||'outros';document.getElementById('lpVeiculo').value=p.veiculo_entrega||'moto';document.getElementById('lpFoto').value='';document.getElementById('lpFotoPreview').innerHTML=(p.fotos||[]).map(f=>`<img src="${escHtml(f)}" style="width:54px;height:54px;object-fit:cover;border-radius:9px">`).join('');lojaProdutoFotos=[];document.getElementById('lojaProdutoOverlay').classList.add('show');}
-function previewFotosLojaProduto(){const files=Array.from(document.getElementById('lpFoto').files||[]).slice(0,4);lojaProdutoFotos=files;document.getElementById('lpFotoPreview').innerHTML='';files.forEach(f=>{const i=document.createElement('img');i.src=URL.createObjectURL(f);i.style='width:54px;height:54px;object-fit:cover;border-radius:9px';document.getElementById('lpFotoPreview').appendChild(i);});}
-async function salvarProdutoLoja(){const id=document.getElementById('lpId').value||null,titulo=document.getElementById('lpTitulo').value.trim(),preco=Number(document.getElementById('lpPreco').value),estoque=Number(document.getElementById('lpEstoque').value),categoria=document.getElementById('lpCategoria').value,veiculo=document.getElementById('lpVeiculo').value,descricao=document.getElementById('lpDescricao').value.trim();if(titulo.length<3||preco<=0||estoque<0){showToast('Revise nome, preço e estoque');return;}const b=document.getElementById('lpSalvarBtn');b.disabled=true;b.textContent='Salvando...';try{const fotos=[];for(const f of lojaProdutoFotos)fotos.push(await uploadVendai(f));const r=await sb.rpc('vendai_loja_salvar_produto_v2',{p_token:currentSessionToken,p_id:id,p_titulo:titulo,p_descricao:descricao,p_categoria:categoria,p_preco:preco,p_estoque:estoque,p_fotos:fotos,p_veiculo_entrega:veiculo});if(r.error)throw r.error;closeSheet('lojaProdutoOverlay');showToast('Produto salvo ✓');await carregarMarketplaceLojas();await openLojaPainel();renderProdutosMinhaLoja();}catch(e){console.error(e);showToast('Não consegui salvar o produto');}finally{b.disabled=false;b.textContent='Salvar produto';}}
+function renderFotosProdutoLojaPreview(){
+  const box=document.getElementById('lpFotoPreview'); if(!box)return;
+  box.innerHTML='';
+  lojaProdutoFotosBase.slice(0,4).forEach(f=>{const i=document.createElement('img');i.src=f;i.style='width:54px;height:54px;object-fit:cover;border-radius:9px';box.appendChild(i);});
+  lojaProdutoFotos.slice(0,Math.max(0,4-lojaProdutoFotosBase.length)).forEach(f=>{const i=document.createElement('img');i.src=URL.createObjectURL(f);i.style='width:54px;height:54px;object-fit:cover;border-radius:9px';box.appendChild(i);});
+}
+function abrirNovoProdutoLoja(){
+  lojaProdutoOrigemAnuncioId=null; lojaProdutoFotosBase=[]; lojaProdutoFotos=[];
+  document.getElementById('lpFormTitle').textContent='Cadastrar produto';document.getElementById('lpId').value='';document.getElementById('lpTitulo').value='';document.getElementById('lpPreco').value='';document.getElementById('lpEstoque').value='1';document.getElementById('lpDescricao').value='';document.getElementById('lpCategoria').value='outros';document.getElementById('lpVeiculo').value='moto';document.getElementById('lpFoto').value='';renderFotosProdutoLojaPreview();document.getElementById('lojaProdutoOverlay').classList.add('show');
+}
+function editarProdutoLoja(id){
+  const p=lojaProdutosMeus.find(x=>x.id===id);if(!p)return;
+  lojaProdutoOrigemAnuncioId=null; lojaProdutoFotosBase=Array.isArray(p.fotos)?p.fotos.filter(Boolean).slice(0,4):[]; lojaProdutoFotos=[];
+  document.getElementById('lpFormTitle').textContent='Editar produto';document.getElementById('lpId').value=p.id;document.getElementById('lpTitulo').value=p.titulo;document.getElementById('lpPreco').value=p.preco;document.getElementById('lpEstoque').value=p.estoque;document.getElementById('lpDescricao').value=p.descricao||'';document.getElementById('lpCategoria').value=p.categoria||'outros';document.getElementById('lpVeiculo').value=p.veiculo_entrega||'moto';document.getElementById('lpFoto').value='';renderFotosProdutoLojaPreview();document.getElementById('lojaProdutoOverlay').classList.add('show');
+}
+function previewFotosLojaProduto(){
+  const limite=Math.max(0,4-lojaProdutoFotosBase.length);
+  const files=Array.from(document.getElementById('lpFoto').files||[]).slice(0,limite);
+  lojaProdutoFotos=files;
+  renderFotosProdutoLojaPreview();
+}
+async function transformarAnuncioEmProdutoLoja(id){
+  if(!currentUser||!currentSessionToken){openLoginSheet();return;}
+  const ad=meusAnunciosCache.find(a=>a.id===id)||ads.find(a=>a.id===id);
+  if(!ad){showToast('Não encontrei esse anúncio');return;}
+  const r=await sb.rpc('vendai_minha_loja_v2',{p_token:currentSessionToken});
+  if(r.error){showToast('Não consegui verificar sua loja');return;}
+  const l=r.data?.[0]||null;
+  if(!l){
+    closeSheet('profileOverlay');
+    showToast('Crie sua loja primeiro; depois você poderá copiar o anúncio.');
+    await openLojaPainel();
+    return;
+  }
+  lojaAtual=l;
+  lojaProdutoOrigemAnuncioId=ad.id;
+  lojaProdutoFotosBase=Array.isArray(ad.fotos)?ad.fotos.filter(Boolean).slice(0,4):[];
+  lojaProdutoFotos=[];
+  document.getElementById('lpFormTitle').textContent='Levar anúncio para Minha loja';
+  document.getElementById('lpId').value='';
+  document.getElementById('lpTitulo').value=ad.titulo||'';
+  document.getElementById('lpPreco').value=ad.preco||'';
+  document.getElementById('lpEstoque').value='1';
+  document.getElementById('lpDescricao').value=descricaoSemRolinho(ad.descricao)||'';
+  document.getElementById('lpCategoria').value=ad.categoria||'outros';
+  document.getElementById('lpVeiculo').value=(ad.categoria==='moveis'?'carro':'moto');
+  document.getElementById('lpFoto').value='';
+  renderFotosProdutoLojaPreview();
+  closeSheet('profileOverlay');
+  document.getElementById('lojaProdutoOverlay').classList.add('show');
+  showToast('Revise estoque e veículo antes de salvar na loja');
+}
+async function salvarProdutoLoja(){
+  const id=document.getElementById('lpId').value||null,titulo=document.getElementById('lpTitulo').value.trim(),preco=Number(document.getElementById('lpPreco').value),estoque=Number(document.getElementById('lpEstoque').value),categoria=document.getElementById('lpCategoria').value,veiculo=document.getElementById('lpVeiculo').value,descricao=document.getElementById('lpDescricao').value.trim();
+  if(titulo.length<3||preco<=0||estoque<0){showToast('Revise nome, preço e estoque');return;}
+  const b=document.getElementById('lpSalvarBtn');b.disabled=true;b.textContent='Salvando...';
+  try{
+    const fotos=[...lojaProdutoFotosBase];
+    for(const f of lojaProdutoFotos){if(fotos.length>=4)break;fotos.push(await uploadVendai(f));}
+    const r=await sb.rpc('vendai_loja_salvar_produto_v2',{p_token:currentSessionToken,p_id:id,p_titulo:titulo,p_descricao:descricao,p_categoria:categoria,p_preco:preco,p_estoque:estoque,p_fotos:fotos,p_veiculo_entrega:veiculo});
+    if(r.error)throw r.error;
+    const veioDoAnuncio=!!lojaProdutoOrigemAnuncioId;
+    lojaProdutoOrigemAnuncioId=null;lojaProdutoFotosBase=[];lojaProdutoFotos=[];
+    closeSheet('lojaProdutoOverlay');showToast(veioDoAnuncio?'Anúncio copiado para Minha loja ✓':'Produto salvo ✓');
+    await carregarMarketplaceLojas();await openLojaPainel();renderProdutosMinhaLoja();
+  }catch(e){console.error(e);showToast('Não consegui salvar o produto');}
+  finally{b.disabled=false;b.textContent='Salvar produto';}
+}
 async function statusProdutoLoja(id,status){const r=await sb.rpc('vendai_loja_status_produto',{p_token:currentSessionToken,p_id:id,p_status:status});if(r.error){showToast('Não consegui alterar o produto');return;}await carregarMarketplaceLojas();await openLojaPainel();renderProdutosMinhaLoja();}
 function renderEditarLoja(){const box=document.getElementById('lojaPainelLista');if(!box||!lojaAtual)return;box.innerHTML=`<div class="detailTitle" style="font-size:14px">Dados e entrega da loja</div><label>Nome da loja</label><input id="lojaENome" value="${escHtml(lojaAtual.nome)}"><label>Cidade</label><input id="lojaECidade" list="vendaiCityOptions" value="${escHtml(lojaAtual.cidade)}"><label>WhatsApp</label><input id="lojaEWhats" value="${escHtml(lojaAtual.whatsapp||'')}"><label>Endereço de retirada</label><input id="lojaEEndereco" value="${escHtml(lojaAtual.endereco_retirada||'')}" placeholder="Rua, número, bairro, cidade, CEP"><label>Complemento</label><input id="lojaEComplemento" value="${escHtml(lojaAtual.endereco_complemento||'')}"><label>Referência</label><input id="lojaEReferencia" value="${escHtml(lojaAtual.endereco_referencia||'')}"><label>Sobre a loja</label><textarea id="lojaEDesc">${escHtml(lojaAtual.descricao||'')}</textarea><div class="feeBox"><strong>Formas de entrega</strong><br><label style="display:block;margin:8px 0"><input id="lojaEFlash" type="checkbox" ${lojaAtual.entrega_flash_ativa?'checked':''}> ⚡ Entrega Flash</label><label style="display:block;margin:8px 0"><input id="lojaERetirada" type="checkbox" ${lojaAtual.retirada_loja_ativa?'checked':''}> 🏪 Retirada na loja</label><label style="display:block;margin:8px 0"><input id="lojaEPropria" type="checkbox" ${lojaAtual.entrega_propria_ativa?'checked':''}> 🚚 Entrega própria</label></div><label>Nova logo (opcional)</label><input id="lojaELogo" type="file" accept="image/*"><button class="publishBtn" onclick="salvarEdicaoLoja()">Salvar dados</button>`;}
 async function salvarEdicaoLoja(){try{const flash=document.getElementById('lojaEFlash').checked,retirada=document.getElementById('lojaERetirada').checked,propria=document.getElementById('lojaEPropria').checked;if(!flash&&!retirada&&!propria){showToast('Escolha ao menos uma forma de entrega');return;}const endereco=document.getElementById('lojaEEndereco').value.trim();const mudouEndereco=endereco!==String(lojaAtual.endereco_retirada||'').trim();let geo={lat:lojaAtual.endereco_lat??null,lng:lojaAtual.endereco_lng??null};if(flash&&(mudouEndereco||geo.lat==null||geo.lng==null))geo=await geocodificarLojaSeNecessario(endereco,true);if(!flash)geo={lat:null,lng:null};const f=document.getElementById('lojaELogo').files?.[0],logo=f?await uploadVendai(f):null;const r=await sb.rpc('vendai_salvar_loja_v2',{p_token:currentSessionToken,p_nome:document.getElementById('lojaENome').value,p_cidade:document.getElementById('lojaECidade').value,p_whatsapp:document.getElementById('lojaEWhats').value,p_descricao:document.getElementById('lojaEDesc').value,p_logo_url:logo,p_endereco_retirada:endereco,p_endereco_complemento:document.getElementById('lojaEComplemento').value,p_endereco_referencia:document.getElementById('lojaEReferencia').value,p_endereco_lat:geo.lat,p_endereco_lng:geo.lng,p_entrega_flash_ativa:flash,p_retirada_loja_ativa:retirada,p_entrega_propria_ativa:propria});if(r.error)throw r.error;showToast('Loja atualizada ✓');await carregarMarketplaceLojas();await openLojaPainel();}catch(e){console.error(e);showToast(String(e.message).includes('endereco')?'Não consegui localizar o endereço':'Não consegui salvar os dados');}}

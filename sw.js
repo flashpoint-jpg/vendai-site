@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vendai-etiqueta-pedido-20260911-1';
+const CACHE_NAME = 'vendai-perfil-loja-conversao-20260911-1';
 const APP_SHELL = [
   '/',
   '/index.html',

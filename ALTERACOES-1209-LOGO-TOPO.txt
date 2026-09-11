@@ -1,0 +1,10 @@
+Atualizações aplicadas:
+- Removida a faixa superior “Chama pro Rolinho / Ver trocas” da home.
+- Removido o botão flutuante de trocas da home.
+- A funcionalidade de troca continua ativa dentro dos anúncios que aceitam troca.
+- Substituído o logotipo antigo pelo novo logo em pontos visíveis do site.
+- Criado arquivo /logo-vendai-full.png com o novo logotipo.
+- Atualizados os ícones do app (manifest / atalhos) para o novo logo.
+- Ajustado o topo com a mensagem: “Aumente suas vendas com a força da sua região”.
+- Atualizado o admin para usar o novo logo.
+- Atualizada a página offline para usar o novo logo.

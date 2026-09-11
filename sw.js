@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vendai-acesso-lojista-recuperacao-desktop-20260911-2';
+const CACHE_NAME = 'vendai-logo-topo-regiao-20260911-3';
 const APP_SHELL = [
   '/',
   '/index.html',

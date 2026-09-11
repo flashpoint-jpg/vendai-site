@@ -1149,6 +1149,108 @@
   .feeBox{background:#F3F7F4;border:1px solid #DDE8E0;border-radius:14px;padding:11px;margin:10px 0;font-size:11px;line-height:1.45}.feeBox strong{color:var(--green-dark)}
   .shopEmpty{font-size:11px;color:var(--ink-soft);padding:12px;border:1px dashed #D7E0DA;border-radius:12px;text-align:center}
   @media(max-width:520px){.merchantSteps{grid-template-columns:repeat(2,1fr)}.storeProductsGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.merchantIntro{padding:15px}.merchantTitle{font-size:18px}}
+/* ===== Hero: itens "explodindo" da caixa ===== */
+.burstMosaic{
+  position:relative !important;
+  display:block !important;
+  height:190px;
+  padding:0 !important;
+}
+.burstMosaic .burstBox{
+  position:absolute;
+  left:50%; bottom:0;
+  width:58%;
+  max-width:132px;
+  transform:translateX(-50%);
+  filter:drop-shadow(0 10px 14px rgba(6,40,22,.28));
+  animation:burstBoxIn .55s cubic-bezier(.2,1.4,.4,1) both;
+  animation-delay:.05s;
+}
+.burstMosaic .burstRays{
+  position:absolute;
+  left:50%; bottom:2px;
+  width:100%;
+  transform:translateX(-50%);
+  opacity:0;
+  animation:burstRaysIn .7s ease-out .12s both;
+  pointer-events:none;
+}
+.burstMosaic .burstSpark{
+  position:absolute;
+  width:14px; height:14px;
+  opacity:0;
+  animation:burstSparkIn .6s ease-out both;
+}
+.burstMosaic .burstSpark.s1{ top:6%; left:10%; animation-delay:.32s; }
+.burstMosaic .burstSpark.s2{ top:2%; right:14%; width:11px; height:11px; animation-delay:.5s; }
+.burstMosaic .burstSpark.s3{ top:38%; right:4%; width:7px; height:7px; animation-delay:.4s; }
+.burstMosaic .heroTile{
+  position:absolute;
+  display:block !important;
+  width:30%;
+  max-width:76px;
+  height:76px;
+  opacity:0;
+  animation-fill-mode:both;
+  animation-timing-function:cubic-bezier(.22,1.5,.4,1);
+  animation-duration:.6s;
+}
+.burstMosaic .heroTile.t1{ top:0%; left:2%; animation-name:burstPopA; animation-delay:.16s; }
+.burstMosaic .heroTile.t2{ top:-4%; left:58%; width:27%; max-width:66px; height:66px; animation-name:burstPopB; animation-delay:.26s; }
+.burstMosaic .heroTile.t3{ top:44%; left:-3%; width:27%; max-width:66px; height:66px; animation-name:burstPopC; animation-delay:.36s; }
+.burstMosaic .heroTile.t4{ top:40%; left:62%; animation-name:burstPopD; animation-delay:.46s; }
+@keyframes burstBoxIn{
+  0%{ opacity:0; transform:translateX(-50%) scale(.7) translateY(14px); }
+  100%{ opacity:1; transform:translateX(-50%) scale(1) translateY(0); }
+}
+@keyframes burstRaysIn{
+  0%{ opacity:0; transform:translateX(-50%) scale(.5); }
+  60%{ opacity:.9; }
+  100%{ opacity:0; transform:translateX(-50%) scale(1.25); }
+}
+@keyframes burstSparkIn{
+  0%{ opacity:0; transform:scale(.3) rotate(-15deg); }
+  40%{ opacity:1; }
+  100%{ opacity:.85; transform:scale(1) rotate(0deg); }
+}
+@keyframes burstPopA{
+  0%{ opacity:0; transform:scale(.3) translate(-6px,26px) rotate(6deg); }
+  65%{ opacity:1; }
+  100%{ opacity:1; transform:scale(1) translate(0,0) rotate(-11deg); }
+}
+@keyframes burstPopB{
+  0%{ opacity:0; transform:scale(.3) translate(6px,26px) rotate(-6deg); }
+  65%{ opacity:1; }
+  100%{ opacity:1; transform:scale(1) translate(0,0) rotate(9deg); }
+}
+@keyframes burstPopC{
+  0%{ opacity:0; transform:scale(.3) translate(-4px,14px) rotate(4deg); }
+  65%{ opacity:1; }
+  100%{ opacity:1; transform:scale(1) translate(0,0) rotate(-7deg); }
+}
+@keyframes burstPopD{
+  0%{ opacity:0; transform:scale(.3) translate(4px,14px) rotate(-4deg); }
+  65%{ opacity:1; }
+  100%{ opacity:1; transform:scale(1) translate(0,0) rotate(8deg); }
+}
+@media (prefers-reduced-motion:reduce){
+  .burstMosaic .burstBox,.burstMosaic .burstRays,.burstMosaic .burstSpark,.burstMosaic .heroTile{ animation:none !important; opacity:1 !important; }
+  .burstMosaic .heroTile.t1{ transform:rotate(-11deg); }
+  .burstMosaic .heroTile.t2{ transform:rotate(9deg); }
+  .burstMosaic .heroTile.t3{ transform:rotate(-7deg); }
+  .burstMosaic .heroTile.t4{ transform:rotate(8deg); }
+  .burstMosaic .burstRays{ display:none; }
+}
+@media (max-width:380px){
+  .burstMosaic{ height:172px; }
+  .burstMosaic .heroTile{ max-width:64px; height:64px; }
+  .burstMosaic .heroTile.t2, .burstMosaic .heroTile.t3{ max-width:56px; height:56px; }
+}
+@media (min-width:760px){
+  .burstMosaic{ height:210px; }
+  .burstMosaic .heroTile{ max-width:88px; height:88px; }
+  .burstMosaic .heroTile.t2, .burstMosaic .heroTile.t3{ max-width:76px; height:76px; }
+}
 </style>
 </head>
 <body>
@@ -1204,11 +1306,38 @@
         </div>
       </div>
       <div class="heroVisual" aria-hidden="true">
-        <div class="heroMosaic">
+        <div class="heroMosaic burstMosaic">
+          <svg class="burstRays" viewBox="0 0 200 190"><g stroke="#FFF3CC" stroke-width="2.4" stroke-linecap="round" opacity=".55">
+            <line x1="100" y1="118" x2="100" y2="76"/>
+            <line x1="100" y1="118" x2="62" y2="86"/>
+            <line x1="100" y1="118" x2="138" y2="86"/>
+            <line x1="100" y1="118" x2="34" y2="112"/>
+            <line x1="100" y1="118" x2="166" y2="112"/>
+          </g></svg>
+          <svg class="burstSpark s1" viewBox="0 0 24 24" fill="#FFC93C"><path d="M12 2 14 9 21 12 14 15 12 22 10 15 3 12 10 9Z"/></svg>
+          <svg class="burstSpark s2" viewBox="0 0 24 24" fill="#FFC93C"><path d="M12 2 14 9 21 12 14 15 12 22 10 15 3 12 10 9Z"/></svg>
+          <svg class="burstSpark s3" viewBox="0 0 24 24" fill="#fff"><circle cx="12" cy="12" r="9"/></svg>
           <div class="heroTile t1"><div class="heroTileIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.4"/><line x1="10.3" y1="18.4" x2="13.7" y2="18.4"/></svg></div><span>Celular</span></div>
           <div class="heroTile t2"><div class="heroTileIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7.3" width="10" height="9.4" rx="2.6"/><path d="M9.3 7.3V4.6a1 1 0 0 1 1-1h3.4a1 1 0 0 1 1 1v2.7"/><path d="M9.3 16.7v2.7a1 1 0 0 0 1 1h3.4a1 1 0 0 0 1-1v-2.7"/><line x1="12" y1="10.2" x2="12" y2="12.4"/><line x1="12" y1="12.4" x2="13.6" y2="13.4"/></svg></div><span>Relógio</span></div>
           <div class="heroTile t3"><div class="heroTileIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 15.5 5 10a2 2 0 0 1 1.9-1.4h10.2A2 2 0 0 1 19 10l1.5 5.5"/><rect x="2.8" y="15.5" width="18.4" height="4.3" rx="1.4"/><circle cx="7" cy="19.8" r="1.3"/><circle cx="17" cy="19.8" r="1.3"/></svg></div><span>Carro</span></div>
           <div class="heroTile t4"><div class="heroTileIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.3 11.6 12 4.2l8.7 7.4"/><path d="M5.6 10.3V19a1 1 0 0 0 1 1H17.4a1 1 0 0 0 1-1v-8.7"/><rect x="10.2" y="13.4" width="3.6" height="6.6"/></svg></div><span>Casa</span></div>
+          <svg class="burstBox" viewBox="0 0 120 84">
+            <defs>
+              <linearGradient id="boxFront" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#E8A800"/>
+                <stop offset="1" stop-color="#C98B00"/>
+              </linearGradient>
+              <linearGradient id="boxFlap" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#FFD666"/>
+                <stop offset="1" stop-color="#FFC93C"/>
+              </linearGradient>
+            </defs>
+            <path d="M8 38 L60 24 L112 38 L112 78 A4 4 0 0 1 108 82 L12 82 A4 4 0 0 1 8 78 Z" fill="url(#boxFront)"/>
+            <path d="M8 38 L60 24 L112 38 L60 52 Z" fill="#FFE08A"/>
+            <line x1="60" y1="52" x2="60" y2="82" stroke="rgba(0,0,0,.12)" stroke-width="2"/>
+            <path d="M60 24 L60 44 L20 34 Z" fill="url(#boxFlap)" transform="rotate(-18 40 34)"/>
+            <path d="M60 24 L60 44 L100 34 Z" fill="url(#boxFlap)" transform="rotate(18 80 34)"/>
+          </svg>
         </div>
       </div>
     </div>

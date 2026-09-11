@@ -715,6 +715,11 @@
   .addressSuggestItem span{display:block;font-size:11px;color:var(--ink-soft);margin-top:3px;line-height:1.35;}
   .addressSuggestEmpty{padding:12px;font-size:11.5px;color:var(--ink-soft);line-height:1.45;}
   .locationStatus{margin-top:8px;font-size:11.5px;color:var(--green-dark);line-height:1.45;}
+  #lPin{font-size:22px;font-weight:900;letter-spacing:6px;text-align:center;padding:16px 14px;}
+  .orderNoteBox{margin-top:8px;padding:10px 12px;border-radius:13px;background:#F7FAF8;border:1px solid #E0E8E2;font-size:11.5px;line-height:1.45;color:var(--ink);}
+  .orderStateTag{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:800;margin:8px 6px 0 0;}
+  .orderStateTag.ready{background:#EAF8EE;color:#13683C;border:1px solid #CAE8D3;}
+  .orderStateTag.return{background:#FFF6E0;color:#8B6500;border:1px solid #F3DE9F;}
 
   /* Destaque pago por PIX */
   .highlightPayCard{
@@ -2469,6 +2474,7 @@ function editarAnuncio(id){
 
 function closeSheet(id){
   document.getElementById(id).classList.remove('show');
+  setTimeout(syncFloatingUi,20);
 }
 
 function closeOverlayBg(e, id){
@@ -2869,6 +2875,53 @@ async function renderPainelLoja(){
   c.innerHTML=`<div class="merchantKicker" style="color:var(--green-dark)">🏪 Minha loja</div><div class="detailTitle">${escHtml(lojaAtual.nome)}</div><div style="font-size:11px;color:var(--ink-soft)">📍 ${escHtml(lojaAtual.cidade)} · ${escHtml(lojaAtual.endereco_retirada||'Endereço de retirada não informado')}</div><div class="lojaStatGrid"><div class="lojaStat"><b>${Number(lojaAtual.qtd_produtos||0)}</b><span>Produtos</span></div><div class="lojaStat"><b>${Number(lojaAtual.pedidos_abertos||0)}</b><span>Pedidos abertos</span></div><div class="lojaStat"><b>${Number(lojaAtual.vendas_concluidas||0)}</b><span>Vendas concluídas</span></div></div><div class="feeBox"><strong>Financeiro</strong><br>Vendas concluídas: <strong>${formatPrice(f.vendas_valor||0)}</strong><br>Comissão Vendaí: <strong>${taxaVendai.toFixed(0)}%</strong><br>Comissão recebida/registrada: <strong>${formatPrice(f.comissao_paga||0)}</strong><br>Líquido-base dos produtos: <strong>${formatPrice(f.liquido_total||0)}</strong><br><span style="font-size:10px">O valor final recebido pode variar conforme as tarifas do Mercado Pago.</span></div><div class="feeBox"><strong>Entrega</strong><br>${lojaAtual.entrega_flash_ativa?'⚡ Entrega Flash ativa':'Entrega Flash desativada'} · ${lojaAtual.retirada_loja_ativa?'🏪 retirada ativa':'retirada desativada'} · ${lojaAtual.entrega_propria_ativa?'🚚 entrega própria ativa':'entrega própria desativada'}</div><div class="feeBox"><strong>Mercado Pago</strong><br>${mp.conectado?`<span style="color:var(--green-dark)">✓ Conectado para pagamento online e split.</span><br><button class="secondary" style="margin-top:8px" onclick="desconectarMercadoPago()">Desconectar Mercado Pago</button>`:`<span style="color:#8B6500">Conecte para receber pedidos pagos online.</span><br><button class="publishBtn" style="margin-top:8px" onclick="conectarMercadoPago()">Conectar Mercado Pago</button>`}</div><div class="lojaToolbar"><button onclick="abrirNovoProdutoLoja()">＋ Novo produto</button><button onclick="renderPedidosLoja()">📦 Pedidos (${pedidos.filter(p=>['novo','aceito'].includes(p.status)).length})</button><button onclick="renderProdutosMinhaLoja()">🛍️ Produtos</button><button onclick="renderEditarLoja()">✏️ Dados/entrega</button><button onclick="renderComprasUsuario()">🧾 Minhas compras</button><button style="background:#FBE9E9;color:var(--danger)" onclick="excluirMinhaLoja()">🗑️ Excluir loja</button></div><div id="lojaPainelLista"></div>`;
   window._pedidosLoja=pedidos;renderPedidosLoja();
 }
+
+function pedidoUiMeta(id){
+  try{return JSON.parse(localStorage.getItem('vendai_pedido_ui_'+id)||'{}')||{};}catch(e){return {};}
+}
+function salvarPedidoUiMeta(id,patch){
+  const next={...pedidoUiMeta(id),...patch};
+  localStorage.setItem('vendai_pedido_ui_'+id, JSON.stringify(next));
+  return next;
+}
+function marcarPedidoPronto(id,pronto){
+  salvarPedidoUiMeta(id,{pronto:!!pronto});
+  showToast(pronto?'Produto marcado como pronto ✓':'Marcação de produto pronto removida');
+  renderPedidosLoja();
+}
+function editarObservacaoPedidoLoja(id){
+  const meta=pedidoUiMeta(id);
+  const atual=meta.nota||'';
+  const nota=prompt('Digite uma observação interna para este pedido. Ex.: separar capa e carregador, confirmar cor, combinar horário.', atual);
+  if(nota===null)return;
+  salvarPedidoUiMeta(id,{nota:String(nota||'').trim()});
+  showToast('Observação do pedido atualizada ✓');
+  renderPedidosLoja();
+}
+async function cancelarPedidoLoja(id){
+  const o=(window._pedidosLoja||[]).find(x=>x.id===id); if(!o)return;
+  if(o.pagamento_status==='pago'){
+    if(!confirm('Cancelar este pedido e solicitar o estorno total no Mercado Pago?'))return;
+    try{await vendaiMP('refund_reject',{pedido_id:id});showToast('Pedido cancelado e estorno solicitado ✓');await openLojaPainel();}catch(e){showToast('Não consegui cancelar com estorno agora');}
+    return;
+  }
+  if(!confirm('Cancelar este pedido?'))return;
+  const r=await sb.rpc('vendai_responder_pedido_v2',{p_token:currentSessionToken,p_pedido_id:id,p_aceitar:false});
+  if(r.error){showToast('Não consegui cancelar o pedido');return;}
+  showToast('Pedido cancelado ✓');
+  await openLojaPainel();
+}
+async function solicitarDevolucaoPedido(id){
+  const motivo=prompt('Explique o defeito ou problema do produto para solicitar a devolução.');
+  if(motivo===null)return;
+  const texto=String(motivo||'').trim();
+  if(texto.length<5){showToast('Descreva melhor o motivo da devolução');return;}
+  const meta=salvarPedidoUiMeta(id,{devolucao:true,devolucao_motivo:texto,devolucao_data:new Date().toISOString()});
+  const msg='SOLICITAÇÃO DE DEVOLUÇÃO - Pedido '+id+'\nMotivo: '+texto;
+  try{await sb.rpc('vendai_enviar_suporte',{p_token:currentSessionToken||null,p_tipo:'problema',p_mensagem:msg,p_pagina:location.href,p_user_agent:navigator.userAgent});}catch(e){}
+  showToast('Solicitação de devolução enviada ✓');
+  renderComprasUsuario();
+}
 function renderPedidosLoja(){
   const box=document.getElementById('lojaPainelLista');if(!box)return;const pedidos=window._pedidosLoja||[];box.innerHTML='<div class="detailTitle" style="font-size:14px;margin-bottom:9px">Pedidos recebidos</div>';
   if(!pedidos.length){box.innerHTML+='<div class="shopEmpty">Sua loja ainda não recebeu pedidos.</div>';return;}
@@ -2887,20 +2940,30 @@ function renderPedidosLoja(){
     return map[s]||{label:nomeStatusEntrega(s)||'Status da entrega',step:0};
   };
   pedidos.forEach(o=>{
+    const meta=pedidoUiMeta(o.id); const pronto=!!meta.pronto; const nota=String(meta.nota||'').trim();
     const el=document.createElement('div');el.className='lojaRow';
     const st={novo:'Novo pedido',aceito:'Aceito',recusado:'Recusado',cancelado:'Cancelado',concluido:'Concluído'}[o.status]||o.status;
     const pago=o.pagamento_status==='pago';let actions='';let flashPanel='';
     if(o.status==='novo')actions=`<button class="btnOk" onclick="responderPedidoLoja('${o.id}',true)">Aceitar</button><button class="btnDanger" onclick="responderPedidoLoja('${o.id}',false)">${pago?'Recusar e estornar':'Recusar'}</button>`;
+    if(o.status==='aceito'){
+      actions += `<button class="btnGhost" onclick="gerarEtiquetaPedidoLoja('${o.id}')">🏷️ Etiqueta</button>`;
+      actions += `<button class="btnGhost" onclick="editarObservacaoPedidoLoja('${o.id}')">Editar</button>`;
+      actions += `<button class="btnWarn" onclick="cancelarPedidoLoja('${o.id}')">${pago?'Cancelar + estornar':'Cancelar'}</button>`;
+      actions += pronto ? `<button class="btnGhost" onclick="marcarPedidoPronto('${o.id}',false)">Desfazer pronto</button>` : `<button class="btnOk" onclick="marcarPedidoPronto('${o.id}',true)">Produto pronto</button>`;
+    }
     if(o.status==='aceito'&&pago&&o.entrega_tipo!=='entrega_flash')actions+=`<button class="btnOk" onclick="concluirPedidoLoja('${o.id}')">Concluir venda</button>`;
+    if(o.status==='concluido')actions+=`<button class="btnGhost" onclick="gerarEtiquetaPedidoLoja('${o.id}')">🏷️ Reimprimir etiqueta</button>`;
     if(o.entrega_tipo==='entrega_flash'){
       const fs=statusFlashInfo(o);
       let principal='';
       if(o.status==='aceito'&&pago&&!o.entrega_flash_pedido_id){
-        principal=`<div class="flashDeliveryHint"><strong>Produto pronto?</strong> Toque abaixo somente quando ele estiver separado e pronto para o motorista retirar.</div><button class="flashMainBtn" onclick="chamarEntregaFlashLoja('${o.id}')">🚚 SOLICITAR MOTORISTA</button>`;
+        principal=pronto
+          ? `<div class="flashDeliveryHint"><strong>Produto pronto.</strong> Agora você já pode chamar o motorista.</div><button class="flashMainBtn" onclick="chamarEntregaFlashLoja('${o.id}')">🚚 SOLICITAR MOTORISTA</button>`
+          : `<div class="flashDeliveryHint"><strong>Produto pronto?</strong> Marque abaixo quando ele estiver separado e pronto para retirada.</div><button class="flashMainBtn" onclick="marcarPedidoPronto('${o.id}',true)">📦 DEIXAR PRODUTO PRONTO</button>`;
       }else if(o.status==='novo'){
         principal='<div class="flashDeliveryHint">Primeiro aceite o pedido. Depois do pagamento aprovado, o botão para solicitar o motorista será liberado.</div>';
       }else if(o.status==='aceito'&&!pago){
-        principal='<div class="flashDeliveryHint">Aguardando o pagamento ser aprovado para liberar a solicitação do motorista.</div>';
+        principal=`<div class="flashDeliveryHint">${pronto?'Produto já separado. ':' '}Aguardando o pagamento ser aprovado para liberar a solicitação do motorista.</div>`;
       }else if(o.status==='aceito'&&o.entrega_flash_pedido_id&&o.entrega_status==='entregue'){
         principal=`<button class="flashMainBtn" onclick="concluirPedidoLoja('${o.id}')">✅ CONCLUIR VENDA</button>`;
       }else if(o.entrega_flash_pedido_id){
@@ -2909,9 +2972,42 @@ function renderPedidosLoja(){
       const steps=['Solicitado','A caminho','Coletado','Entregue'].map((x,i)=>`<div class="flashStep ${fs.step>=i+1?'on':''}">${x}</div>`).join('');
       flashPanel=`<div class="flashDeliveryPanel"><div class="flashDeliveryHead"><div class="flashDeliveryTitle">⚡ Entrega Flash</div><div class="flashDeliveryStatus">${fs.label}</div></div>${principal}<div class="flashProgress">${steps}</div></div>`;
     }
-    el.innerHTML=`<div class="lojaRowTop"><div><div class="lojaRowTitle">${escHtml(o.produto_titulo)} × ${o.quantidade}</div><div class="lojaRowMeta">Cliente: ${escHtml(o.comprador_nome)} · ${st}<br>Produto: ${formatPrice(o.subtotal)} · Frete: ${formatPrice(o.frete_valor||0)} · <strong>Total: ${formatPrice(o.total_pagamento||o.subtotal)}</strong><br>Pagamento: <strong>${escHtml(o.pagamento_status)}</strong> · Comissão: ${formatPrice(o.taxa_valor)}<br>${nomeEntrega(o.entrega_tipo)}${o.entrega_tipo==='entrega_flash'?` · ${nomeVeiculo(o.frete_veiculo)}`:''}${o.entrega_motorista_nome?`<br>Entregador: ${escHtml(o.entrega_motorista_nome)}`:''}${o.endereco_entrega?`<br>Destino: ${escHtml(o.endereco_entrega)}`:''}</div></div></div>${o.observacao?`<div class="lojaRowMeta" style="margin-top:6px">Obs.: ${escHtml(o.observacao)}</div>`:''}${flashPanel}<div class="lojaRowActions">${actions}</div>`;
+    const stateTags=(pronto?'<div class="orderStateTag ready">📦 Produto pronto</div>':'') + ((o.status==='aceito'&&!pago)?'<div class="orderStateTag return">💳 Aguardando pagamento</div>':'');
+    el.innerHTML=`<div class="lojaRowTop"><div><div class="lojaRowTitle">${escHtml(o.produto_titulo)} × ${o.quantidade}</div><div class="lojaRowMeta">Cliente: ${escHtml(o.comprador_nome)} · ${st}<br>Produto: ${formatPrice(o.subtotal)} · Frete: ${formatPrice(o.frete_valor||0)} · <strong>Total: ${formatPrice(o.total_pagamento||o.subtotal)}</strong><br>Pagamento: <strong>${escHtml(o.pagamento_status)}</strong> · Comissão: ${formatPrice(o.taxa_valor)}<br>${nomeEntrega(o.entrega_tipo)}${o.entrega_tipo==='entrega_flash'?` · ${nomeVeiculo(o.frete_veiculo)}`:''}${o.entrega_motorista_nome?`<br>Entregador: ${escHtml(o.entrega_motorista_nome)}`:''}${o.endereco_entrega?`<br>Destino: ${escHtml(o.endereco_entrega)}`:''}</div>${stateTags}</div></div>${o.observacao?`<div class="lojaRowMeta" style="margin-top:6px">Obs. do cliente: ${escHtml(o.observacao)}</div>`:''}${nota?`<div class="orderNoteBox"><strong>Anotação da loja:</strong> ${escHtml(nota)}</div>`:''}${flashPanel}<div class="lojaRowActions">${actions}</div>`;
     box.appendChild(el);
   });
+}
+
+function gerarEtiquetaPedidoLoja(id){
+  const o=(window._pedidosLoja||[]).find(x=>x.id===id); if(!o){showToast('Pedido não encontrado');return;}
+  const short=String(o.id||'').slice(0,8).toUpperCase();
+  const loja=lojaAtual?.nome||'Vendaí';
+  const origem=[lojaAtual?.endereco_retirada,lojaAtual?.cidade].filter(Boolean).join(' · ');
+  const entrega=nomeEntrega(o.entrega_tipo)||'Pedido';
+  const destino=[o.endereco_entrega,o.complemento_entrega,o.referencia_entrega].filter(Boolean).join(' · ');
+  const data=o.criado_em?new Date(o.criado_em).toLocaleString('pt-BR'):'—';
+  const meta=pedidoUiMeta(o.id); const nota=String(meta.nota||'').trim();
+  const seguro=(v)=>escHtml(String(v??''));
+  const w=window.open('','_blank','width=760,height=900');
+  if(!w){showToast('Permita abrir a janela para gerar a etiqueta');return;}
+  w.document.write(`<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Etiqueta ${seguro(short)}</title><style>
+    *{box-sizing:border-box}body{margin:0;background:#eef4ef;font-family:Arial,sans-serif;color:#15251b}.wrap{max-width:105mm;margin:18px auto;background:#fff;border:2px solid #173d2b;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.08)}
+    .head{background:#0f6b3d;color:#fff;padding:15px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-size:22px;font-weight:900}.brand span{color:#ffd33d}.code{background:#fff;color:#173d2b;border-radius:10px;padding:8px 10px;font-size:15px;font-weight:900}
+    .body{padding:16px}.k{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#66776d;font-weight:800;margin-bottom:3px}.v{font-size:15px;font-weight:800;line-height:1.35}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:13px}.box{border:1.5px solid #dce7df;border-radius:12px;padding:10px 11px;background:#fbfdfb}.box.full{grid-column:1/-1}.product{font-size:20px;font-weight:900;color:#0f6b3d}.qty{display:inline-block;background:#fff2b8;border-radius:999px;padding:5px 9px;margin-left:6px;font-size:12px;color:#4e4300}.status{display:inline-block;background:#e7f7ed;color:#11673b;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:800}
+    .foot{border-top:2px dashed #cfd9d2;padding:12px 16px 15px;font-size:10px;color:#64746a;line-height:1.45}.actions{max-width:105mm;margin:10px auto 30px;display:flex;gap:10px}.actions button{flex:1;border:0;border-radius:12px;padding:13px;font-weight:800;font-size:14px;cursor:pointer}.print{background:#ffd33d;color:#1d2c23}.close{background:#173d2b;color:#fff}
+    @media print{body{background:#fff}.wrap{margin:0;max-width:none;width:100%;box-shadow:none;border-radius:0}.actions{display:none}@page{size:100mm 150mm;margin:5mm}}
+  </style></head><body><div class="wrap"><div class="head"><div class="brand">Venda<span>í</span></div><div class="code">PEDIDO #${seguro(short)}</div></div><div class="body">
+    <div class="row"><div class="box full"><div class="k">Produto</div><div class="product">${seguro(o.produto_titulo)} <span class="qty">Qtd. ${seguro(o.quantidade)}</span></div></div></div>
+    <div class="row"><div class="box"><div class="k">Cliente</div><div class="v">${seguro(o.comprador_nome)}</div></div><div class="box"><div class="k">Criado em</div><div class="v">${seguro(data)}</div></div></div>
+    <div class="row"><div class="box"><div class="k">Loja</div><div class="v">${seguro(loja)}</div></div><div class="box"><div class="k">Entrega</div><div class="v">${seguro(entrega)}</div></div></div>
+    ${origem?`<div class="row"><div class="box full"><div class="k">Retirada / origem</div><div class="v">${seguro(origem)}</div></div></div>`:''}
+    ${destino?`<div class="row"><div class="box full"><div class="k">Destino</div><div class="v">${seguro(destino)}</div></div></div>`:''}
+    ${o.entrega_motorista_nome?`<div class="row"><div class="box full"><div class="k">Motorista</div><div class="v">${seguro(o.entrega_motorista_nome)}${o.entrega_motorista_telefone?' · '+seguro(o.entrega_motorista_telefone):''}</div></div></div>`:''}
+    ${o.observacao?`<div class="row"><div class="box full"><div class="k">Observação do cliente</div><div class="v">${seguro(o.observacao)}</div></div></div>`:''}
+    ${nota?`<div class="row"><div class="box full"><div class="k">Anotação da loja</div><div class="v">${seguro(nota)}</div></div></div>`:''}
+    <div class="row"><div class="box"><div class="k">Pagamento</div><div class="v">${seguro(o.pagamento_status)}</div></div><div class="box"><div class="k">Status</div><div class="v"><span class="status">${seguro(o.status)}</span></div></div></div>
+  </div><div class="foot">Etiqueta de separação do pedido. Confira produto, quantidade, cliente e endereço antes de liberar a retirada ou entrega.</div></div><div class="actions"><button class="print" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button><button class="close" onclick="window.close()">Fechar</button></div></body></html>`);
+  w.document.close();
 }
 async function responderPedidoLoja(id,aceitar){
   const o=(window._pedidosLoja||[]).find(x=>x.id===id);if(!o)return;
@@ -3027,7 +3123,7 @@ function abrirProdutoLoja(id){
   if(p.entrega_flash_ativa)opts.push('<option value="entrega_flash">⚡ Entrega Flash</option>');
   if(p.retirada_loja_ativa)opts.push('<option value="retirada_loja">🏪 Retirar na loja</option>');
   if(p.entrega_propria_ativa)opts.push('<option value="entrega_propria">🚚 Entrega própria da loja</option>');
-  c.innerHTML=`${foto?`<img src="${escHtml(foto)}" style="width:100%;max-height:280px;object-fit:cover;border-radius:15px;margin-bottom:12px">`:''}<div class="merchantKicker" style="color:var(--green-dark)">🏪 ${escHtml(p.loja_nome)}</div><div class="detailTitle">${escHtml(p.titulo)}</div><div class="detailPrice">${formatPrice(p.preco)}</div><div class="detailMeta">${escHtml(p.loja_cidade)} · estoque ${p.estoque}</div><div class="detailDesc">${escHtml(p.descricao||'Sem descrição.')}</div><div class="feeBox">A comissão de ${taxaVendai.toFixed(0)}% é cobrada do lojista. Se escolher Entrega Flash, o frete aparece antes de pagar e é cobrado junto com o produto.</div><label>Quantidade</label><input id="compraQtdLoja" type="number" min="1" max="${p.estoque}" value="1" onchange="ultimaCotacaoFlash=null"><label>Como quer receber?</label><select id="compraEntregaTipo" onchange="atualizarCamposEntregaCompra()">${opts.join('')}</select><div id="compraFlashCampos" style="display:none"><label>Endereço de entrega</label><input id="compraEndereco" type="text" autocomplete="off" placeholder="Rua, número, bairro, cidade ou CEP"><div class="tinyHint">Conforme você vai preenchendo, o sistema já tenta localizar o endereço automaticamente.</div><div id="compraEnderecoSugestoes" class="addressSuggestBox" style="display:none"></div><div id="compraEnderecoStatus" class="locationStatus"></div><label class="ruralToggle"><input id="compraZonaRural" type="checkbox"><span>🚜 Entrega em zona rural / sítio / fazenda</span></label><div id="compraZonaRuralBox" class="addressAssist" style="display:none"><strong>Dica para zona rural:</strong><br>Digite estrada, km, bairro rural, nome do sítio/fazenda e cidade para melhorar a localização.</div><label>Complemento (opcional)</label><input id="compraComplemento" type="text" placeholder="Apto, bloco, galpão..."><label>Referência (opcional)</label><input id="compraReferencia" type="text" placeholder="Portaria, comércio próximo..."><button class="flashCalcBtn" onclick="calcularFreteCompra()"><span class="icon">⚡</span><span><div>Calcular Entrega Flash</div><small>Frete, rota e disponibilidade</small></span></button></div><div id="compraCotacao" class="feeBox" style="margin-top:10px"></div><label>Observação para a loja (opcional)</label><textarea id="compraObsLoja" placeholder="Cor, tamanho, horário..."></textarea><button class="publishBtn" id="compraFinalBtn" onclick="criarPedidoProdutoLoja()">🛒 Ir para pagamento</button>`;
+  c.innerHTML=`${foto?`<img src="${escHtml(foto)}" style="width:100%;max-height:280px;object-fit:cover;border-radius:15px;margin-bottom:12px">`:''}<div class="merchantKicker" style="color:var(--green-dark)">🏪 ${escHtml(p.loja_nome)}</div><div class="detailTitle">${escHtml(p.titulo)}</div><div class="detailPrice">${formatPrice(p.preco)}</div><div class="detailMeta">${escHtml(p.loja_cidade)} · estoque ${p.estoque}</div><div class="detailDesc">${escHtml(p.descricao||'Sem descrição.')}</div><div class="feeBox">A comissão de ${taxaVendai.toFixed(0)}% é cobrada do lojista. Se escolher Entrega Flash, o frete aparece antes de pagar e é cobrado junto com o produto.</div><label>Quantidade</label><input id="compraQtdLoja" type="number" min="1" max="${p.estoque}" value="1" onchange="ultimaCotacaoFlash=null"><label>Como quer receber?</label><select id="compraEntregaTipo" onchange="atualizarCamposEntregaCompra()">${opts.join('')}</select><div id="compraFlashCampos" style="display:none"><label>Endereço de entrega</label><input id="compraEndereco" type="text" autocomplete="off" placeholder="Rua, número, bairro, cidade ou CEP"><div class="tinyHint">Conforme você vai preenchendo, o sistema já tenta localizar o endereço automaticamente.</div><div id="compraEnderecoSugestoes" class="addressSuggestBox" style="display:none"></div><div id="compraEnderecoStatus" class="locationStatus"></div><label class="ruralToggle"><input id="compraZonaRural" type="checkbox"><span>🚜 Entrega em zona rural / sítio / fazenda</span></label><div id="compraZonaRuralBox" class="addressAssist" style="display:none"><strong>Dica para zona rural:</strong><br>Digite estrada, km, bairro rural, nome do sítio/fazenda e cidade para melhorar a localização.</div><label>Complemento (opcional)</label><input id="compraComplemento" type="text" placeholder="Apto, bloco, galpão..."><label>Referência (opcional)</label><input id="compraReferencia" type="text" placeholder="Portaria, comércio próximo..."><button class="flashCalcBtn" onclick="calcularFreteCompra()"><span class="icon">⚡</span><span><div>Calcular Entrega Flash</div><small>Frete, rota e disponibilidade</small></span></button></div><div id="compraCotacao" class="feeBox" style="margin-top:10px"></div><label>Observação para a loja (opcional)</label><textarea id="compraObsLoja" placeholder="Cor, tamanho, horário..."></textarea><button class="publishBtn" id="compraFinalBtn" onclick="criarPedidoProdutoLoja()">🛒 Comprar agora</button>`;
   document.getElementById('lojaProdutoDetailOverlay').classList.add('show');
   atualizarCamposEntregaCompra();
   ligarAutoEnderecoCompra();
@@ -3070,12 +3166,36 @@ async function criarPedidoProdutoLoja(){
   }catch(e){
     const m=String(e.message||'');
     showToast(m.includes('sem_motorista')?'Não há Entrega Flash disponível nessa região agora':m.includes('mercadopago')?'A loja ainda não conectou o Mercado Pago':m.includes('endereco')?'Não consegui localizar o endereço':'Não consegui criar o pedido');
-    btn.disabled=false;btn.textContent='🛒 Ir para pagamento';
+    btn.disabled=false;btn.textContent='🛒 Comprar agora';
   }
 }
 async function renderComprasUsuario(){
-  const box=document.getElementById('lojaPainelLista');if(!box)return;box.innerHTML='<div class="detailTitle" style="font-size:14px">Minhas compras em lojas</div><div class="shopEmpty">Carregando...</div>';const r=await sb.rpc('vendai_loja_pedidos_comprador_v2',{p_token:currentSessionToken});if(r.error){box.innerHTML='<div class="shopEmpty">Não consegui carregar suas compras.</div>';return;}const ds=r.data||[];box.innerHTML='<div class="detailTitle" style="font-size:14px;margin-bottom:9px">Minhas compras em lojas</div>';if(!ds.length){box.innerHTML+='<div class="shopEmpty">Você ainda não fez pedidos em lojas.</div>';return;}ds.forEach(o=>{const e=document.createElement('div');e.className='lojaRow';const continua=o.pagamento_status==='aguardando_pagamento'&&o.mp_checkout_url?`<button class="btnOk" onclick="location.href='${escHtml(o.mp_checkout_url)}'">Continuar pagamento</button>`:'';e.innerHTML=`<div class="lojaRowTitle">${escHtml(o.produto_titulo)} × ${o.quantidade}</div><div class="lojaRowMeta">${escHtml(o.loja_nome)} · Produto ${formatPrice(o.subtotal)} · Frete ${formatPrice(o.frete_valor||0)} · <strong>Total ${formatPrice(o.total_pagamento||o.subtotal)}</strong><br>Pagamento: ${escHtml(o.pagamento_status)} · Pedido: ${escHtml(o.status)}<br>${nomeEntrega(o.entrega_tipo)}${o.entrega_tipo==='entrega_flash'?` · <strong>${nomeStatusEntrega(o.entrega_status)}</strong>`:''}${o.entrega_motorista_nome?`<br>Entregador: ${escHtml(o.entrega_motorista_nome)}`:''}</div><div class="lojaRowActions">${continua}</div>`;box.appendChild(e);});
+  const box=document.getElementById('lojaPainelLista');if(!box)return;
+  box.innerHTML='<div class="detailTitle" style="font-size:14px">Minhas compras em lojas</div><div class="shopEmpty">Carregando...</div>';
+  const r=await sb.rpc('vendai_loja_pedidos_comprador_v2',{p_token:currentSessionToken});
+  if(r.error){box.innerHTML='<div class="shopEmpty">Não consegui carregar suas compras.</div>';return;}
+  const ds=r.data||[];
+  box.innerHTML='<div class="detailTitle" style="font-size:14px;margin-bottom:9px">Minhas compras em lojas</div>';
+  if(!ds.length){box.innerHTML+='<div class="shopEmpty">Você ainda não fez pedidos em lojas.</div>';return;}
+  ds.forEach(o=>{
+    const meta=pedidoUiMeta(o.id); const devolucao=!!meta.devolucao;
+    const e=document.createElement('div');e.className='lojaRow';
+    let actions='';
+    if(o.pagamento_status==='aguardando_pagamento'&&o.mp_checkout_url) actions += `<button class="btnOk" onclick="location.href='${escHtml(o.mp_checkout_url)}'">Comprar agora</button>`;
+    if(['pago','aprovado'].includes(String(o.pagamento_status||'')) || ['aceito','concluido'].includes(String(o.status||''))) actions += devolucao ? `<button class="btnGhost" disabled>Devolução solicitada</button>` : `<button class="btnWarn" onclick="solicitarDevolucaoPedido('${o.id}')">Solicitar devolução</button>`;
+    e.innerHTML=`<div class="lojaRowTitle">${escHtml(o.produto_titulo)} × ${o.quantidade}</div><div class="lojaRowMeta">${escHtml(o.loja_nome)} · Produto ${formatPrice(o.subtotal)} · Frete ${formatPrice(o.frete_valor||0)} · <strong>Total ${formatPrice(o.total_pagamento||o.subtotal)}</strong><br>Pagamento: ${escHtml(o.pagamento_status)} · Pedido: ${escHtml(o.status)}<br>${nomeEntrega(o.entrega_tipo)}${o.entrega_tipo==='entrega_flash'?` · <strong>${nomeStatusEntrega(o.entrega_status)}</strong>`:''}${o.entrega_motorista_nome?`<br>Entregador: ${escHtml(o.entrega_motorista_nome)}`:''}</div>${devolucao?`<div class="orderNoteBox"><strong>Devolução solicitada:</strong> ${escHtml(meta.devolucao_motivo||'aguardando análise')}</div>`:''}<div class="lojaRowActions">${actions}</div>`;
+    box.appendChild(e);
+  });
 }
+
+
+function syncFloatingUi(){
+  const btn=document.querySelector('.rolinhoFloat');
+  if(!btn)return;
+  const anyOpen=document.querySelectorAll('.overlay.show').length>0;
+  btn.style.display=anyOpen?'none':'flex';
+}
+setInterval(syncFloatingUi,300);
 
 restaurarSessao();
 carregarPrecoDestaque();

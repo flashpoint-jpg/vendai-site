@@ -1278,9 +1278,25 @@
   @media (min-width:760px){
     .heroProductsReal{width:min(100%, 320px);}
   }
+
+  /* Chama pro Rolinho — trocas entre usuários */
+  .rolinhoHome{margin:14px 12px 2px;padding:14px 15px;border-radius:22px;background:linear-gradient(135deg,#123F2D 0%,#178A52 58%,#27B96B 100%);color:#fff;display:flex;align-items:center;gap:12px;box-shadow:0 10px 24px rgba(18,63,45,.16);overflow:hidden;position:relative}
+  .rolinhoHome:after{content:"";position:absolute;width:130px;height:130px;border-radius:50%;right:-46px;top:-56px;background:rgba(255,255,255,.08)}
+  .rolinhoIcon{width:46px;height:46px;border-radius:15px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:25px;flex:0 0 auto;border:1px solid rgba(255,255,255,.16)}
+  .rolinhoCopy{min-width:0;flex:1;position:relative;z-index:1}.rolinhoTitle{font-size:15px;font-weight:900;letter-spacing:-.2px}.rolinhoSub{font-size:11.5px;line-height:1.35;opacity:.88;margin-top:2px}
+  .rolinhoBtn{position:relative;z-index:1;border:0;border-radius:999px;background:#FFD64A;color:#203228;padding:9px 12px;font-size:11px;font-weight:900;white-space:nowrap;cursor:pointer}
+  .rolinhoBadge{position:absolute;right:8px;top:8px;border-radius:999px;background:#153F2F;color:#fff;font-size:9.5px;font-weight:900;padding:4px 7px;box-shadow:0 3px 8px rgba(0,0,0,.12)}
+  .rolinhoTag{display:inline-flex;align-items:center;gap:5px;border-radius:999px;background:#E6F8EC;color:#146B3E;border:1px solid #CBECD7;padding:6px 10px;font-size:11.5px;font-weight:850;margin:10px 0 2px}
+  .rolinhoFormBox{margin:12px 0 2px;padding:12px;border-radius:15px;background:#F0FAF4;border:1.5px solid #D6F0E0;display:flex;align-items:flex-start;gap:10px;cursor:pointer}
+  .rolinhoFormBox input{width:18px;height:18px;margin:1px 0 0;accent-color:#159653;flex:0 0 auto}.rolinhoFormTitle{font-size:13px;font-weight:850;color:#175D3B}.rolinhoFormSub{font-size:11.5px;color:#5A7466;line-height:1.35;margin-top:2px}
+  .rolinhoChatBtn{background:#E9F8EF!important;color:#17633E!important;border:1.5px solid #CDEBD8!important}
+  .rolinhoFloat{position:fixed;right:14px;bottom:92px;z-index:70;border:0;border-radius:999px;background:#FFD64A;color:#173B2B;box-shadow:0 8px 22px rgba(0,0,0,.18);padding:10px 14px;font-size:12px;font-weight:900;display:flex;align-items:center;gap:6px;cursor:pointer}
+  .rolinhoFloat:active{transform:scale(.97)}
+  @media(min-width:700px){.rolinhoHome{margin-left:40px;margin-right:40px;padding:16px 18px}.rolinhoTitle{font-size:17px}.rolinhoSub{font-size:12.5px}}
 </style>
 </head>
 <body>
+<!-- Vendaí Rolinho visível v20260910-8 -->
 <div id="app">
 
   <header>
@@ -1310,6 +1326,15 @@
       <input id="searchInput" type="text" placeholder="Buscar celular, carro, móveis..." autocomplete="off">
     </div>
   </header>
+
+  <section class="rolinhoHome" aria-label="Chama pro Rolinho, área de trocas">
+    <div class="rolinhoIcon">🔄</div>
+    <div class="rolinhoCopy">
+      <div class="rolinhoTitle">Chama pro Rolinho</div>
+      <div class="rolinhoSub">Quer trocar em vez de comprar? Veja anúncios que aceitam proposta de troca.</div>
+    </div>
+    <button class="rolinhoBtn" type="button" onclick="abrirRolinho()">Ver trocas</button>
+  </section>
 
   <section class="installHero" id="installHero" aria-label="Instalar aplicativo Vendaí">
     <div class="installAppIcon"><img src="/icon-192.png" alt="Ícone do Vendaí" width="46" height="46"></div>
@@ -1347,6 +1372,7 @@
     </div>
     <div class="chipRow" id="chipRow"></div>
   </section>
+
 
   <main>
     <div class="supportHome" onclick="openSupportSheet()">
@@ -1392,7 +1418,7 @@
       <div class="storeProductsGrid" id="storeProductsGrid"></div>
     </section>
 
-    <div class="feedTitle">Perto de você</div>
+    <div class="feedTitle" id="feedTitle">Perto de você</div>
     <div class="grid" id="grid"></div>
     <div class="empty" id="emptyState" style="display:none;">Nenhum anúncio encontrado por aqui ainda.</div>
   </main>
@@ -1400,6 +1426,8 @@
   <div class="fab">
     <button onclick="openPostSheet()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" style="vertical-align:-2px;margin-right:5px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Anunciar</button>
   </div>
+
+  <button class="rolinhoFloat" type="button" onclick="abrirRolinho()" aria-label="Abrir trocas">🔄 Trocas</button>
 
   <nav>
     <button class="active"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 11.2 12 4l8.5 7.2"/><path d="M5.8 9.9V19a1 1 0 0 0 1 1h3.4v-5.6h3.6V20h3.4a1 1 0 0 0 1-1V9.9"/></svg></span>Início</button>
@@ -1545,6 +1573,12 @@
       <label>Preço (R$)</label>
       <input type="number" id="fPrice" placeholder="Ex: 350">
 
+
+      <label class="rolinhoFormBox" for="fTroca">
+        <input type="checkbox" id="fTroca">
+        <span><span class="rolinhoFormTitle">🔄 Chama pro Rolinho</span><span class="rolinhoFormSub">Marque se você aceita receber propostas de troca por este item. O preço vira uma referência de valor.</span></span>
+      </label>
+
       <label>Categoria</label>
       <select id="fCategory">
         <option value="moveis">🛋️ Móveis</option>
@@ -1687,6 +1721,7 @@ const CITIES = [
 let activeCity = 'toda';
 let ads = [];
 let activeCategory = 'todos';
+let activeRolinho = false;
 let searchTerm = '';
 let currentUser = null;
 let pendingAction = null;
@@ -1893,7 +1928,7 @@ async function entrar(){
   else if(pendingAction === 'buy_loja' && produtoLojaAtual){ pendingAction=null; abrirProdutoLoja(produtoLojaAtual.id); }
   else if(pendingAction === 'chat' && pendingChat){
     pendingAction=null; const c=pendingChat; pendingChat=null;
-    iniciarChat(c.anuncioId,c.titulo,c.outroId,c.outroNome);
+    iniciarChat(c.anuncioId,c.titulo,c.outroId,c.outroNome,c.prefill||'');
   }
 }
 
@@ -2017,6 +2052,7 @@ function renderChips(){
     chip.innerHTML = `<span class="chipIcon" style="--chip-bg:${cat.bg}">${cat.icon}</span><span class="chipLabel">${cat.label}</span>`;
     chip.onclick = () => {
       activeCategory = cat.id;
+      activeRolinho = false;
       renderChips();
       renderGrid();
       document.getElementById('grid')?.scrollIntoView({behavior:'smooth',block:'start'});
@@ -2027,6 +2063,22 @@ function renderChips(){
 
 function openCategories(){
   document.getElementById('categorySection')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+
+const ROLINHO_MARKER='[ROLINHO]';
+function aceitaTroca(ad){ return String(ad?.descricao||'').includes(ROLINHO_MARKER); }
+function descricaoSemRolinho(texto){ return String(texto||'').replaceAll(ROLINHO_MARKER,'').trim(); }
+function abrirRolinho(){
+  activeRolinho=true;
+  activeCategory='todos';
+  renderChips();
+  renderGrid();
+  document.getElementById('grid')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function sairRolinho(){
+  activeRolinho=false;
+  renderGrid();
 }
 
 function formatPrice(n){
@@ -2057,8 +2109,12 @@ function renderGrid(){
     const matchCat = activeCategory==='todos' || ad.categoria===activeCategory;
     const matchSearch = ad.titulo.toLowerCase().includes(searchTerm.toLowerCase());
     const matchCity = activeCity==='toda' || ad.cidade.includes(activeCity);
-    return matchCat && matchSearch && matchCity;
+    const matchRolinho = !activeRolinho || aceitaTroca(ad);
+    return matchCat && matchSearch && matchCity && matchRolinho;
   });
+  const feedTitle=document.getElementById('feedTitle');
+  if(feedTitle) feedTitle.innerHTML=activeRolinho ? '🔄 Chama pro Rolinho <button type="button" onclick="sairRolinho()" style="margin-left:7px;border:0;background:#EEF6F0;color:#24613E;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:800;vertical-align:2px;">Ver todos</button>' : 'Perto de você';
+  if(empty) empty.textContent=activeRolinho ? 'Ainda não há anúncios aceitando troca por aqui.' : 'Nenhum anúncio encontrado por aqui ainda.';
 
   if(filtered.length===0){
     empty.style.display = 'block';
@@ -2076,6 +2132,7 @@ function renderGrid(){
           ? `<img src="${ad.fotos[0]}" style="width:100%;height:100%;object-fit:cover;">`
           : CATEGORY_ICON[ad.categoria]}
         ${ad.destaque ? '<div style="position:absolute; top:8px; left:8px; background:var(--yellow); border-radius:8px; font-size:9.5px; font-weight:700; padding:3px 7px; color:var(--ink);">🔥 Destaque</div>' : ''}
+        ${aceitaTroca(ad) ? '<div class="rolinhoBadge">🔄 Aceita troca</div>' : ''}
       </div>
       <div class="cardBody">
         <div class="cardTitle">${ad.titulo}</div>
@@ -2111,7 +2168,8 @@ function openDetail(id){
     <div class="detailTitle" style="margin-top:14px;">${escHtml(ad.titulo)}</div>
     <div class="detailPrice">${formatPrice(ad.preco)}</div>
     <div class="detailMeta">${escHtml(ad.cidade)} · publicado ${tempoDecorrido(ad.criado_em)}</div>
-    <div class="detailDesc">${escHtml(ad.descricao || 'Sem descrição.')}</div>
+    ${aceitaTroca(ad) ? '<div class="rolinhoTag">🔄 Aceita troca • Chama pro Rolinho</div>' : ''}
+    <div class="detailDesc">${escHtml(descricaoSemRolinho(ad.descricao) || 'Sem descrição.')}</div>
     <div class="sellerRow">
       <div class="sellerAvatar">🙂</div>
       <div>
@@ -2121,8 +2179,9 @@ function openDetail(id){
     </div>
     <div class="btnRow">
       <div class="btnPrimary" onclick="iniciarChatFromDetail()">💬 Chamar no chat</div>
-      <div class="btnGhost" onclick="showToast('Denúncia registrada (simulação)')">🚩 Denunciar</div>
+      ${aceitaTroca(ad) ? '<div class="btnGhost rolinhoChatBtn" onclick="iniciarRolinhoFromDetail()">🔄 Chama pro Rolinho</div>' : '<div class="btnGhost" onclick="showToast(\'Denúncia registrada (simulação)\')">🚩 Denunciar</div>'}
     </div>
+    ${aceitaTroca(ad) ? '<div style="font-size:10.5px;color:var(--ink-soft);margin-top:8px;text-align:center;">Combine a troca pelo chat. O Vendaí não recebe nem guarda o item.</div>' : ''}
     ${(currentUser && currentUser.id===ad.vendedor_id) ? `<div class="publishBtn" style="margin-top:12px;background:#EAF2FF;border:1.5px solid #D6E4FA;box-shadow:none;color:#275FA8;" onclick="editarAnuncio('${ad.id}')">✏️ Editar este anúncio</div>` : ''}
     ${(!ad.destaque && currentUser && currentUser.id===ad.vendedor_id) ? `<div class="publishBtn" style="margin-top:9px; background:var(--card); border:1.5px solid #E2E9E3; box-shadow:none; color:var(--green-dark);" onclick="destacarAnuncio('${ad.id}')">🏷️ Destacar este anúncio — ${formatMoneyCharge(PRECO_DESTAQUE)}</div>` : ''}
   `;
@@ -2133,6 +2192,12 @@ function iniciarChatFromDetail(){
   const ad = window._anuncioAtual;
   if(!ad) return;
   iniciarChat(ad.id, ad.titulo, ad.vendedor_id || '', ad.vendedor_nome || 'Anônimo');
+}
+
+function iniciarRolinhoFromDetail(){
+  const ad=window._anuncioAtual;
+  if(!ad)return;
+  iniciarChat(ad.id, ad.titulo, ad.vendedor_id || '', ad.vendedor_nome || 'Anônimo', 'Oi! Vi que você aceita troca. O que você teria interesse em receber nesse rolinho?');
 }
 
 function selecionarFotoDetalhe(index){
@@ -2308,6 +2373,7 @@ function resetPostForm(){
   document.getElementById('fTitle').value='';
   document.getElementById('fPrice').value='';
   document.getElementById('fCategory').value='moveis';
+  document.getElementById('fTroca').checked=false;
   document.getElementById('fDesc').value='';
   const cidadeAtual=CITIES.find(c=>c.id===activeCity && c.id!=='toda');
   document.getElementById('fCity').value=cidadeAtual ? cidadeAtual.label : 'Muzambinho, MG';
@@ -2338,7 +2404,8 @@ function editarAnuncio(id){
   document.getElementById('fTitle').value=ad.titulo||'';
   document.getElementById('fPrice').value=ad.preco||'';
   document.getElementById('fCategory').value=ad.categoria||'outros';
-  document.getElementById('fDesc').value=ad.descricao||'';
+  document.getElementById('fTroca').checked=aceitaTroca(ad);
+  document.getElementById('fDesc').value=descricaoSemRolinho(ad.descricao)||'';
   document.getElementById('fCity').value=ad.cidade||'Muzambinho, MG';
   document.getElementById('fFoto').value='';
   document.getElementById('btnPublicar').textContent='Salvar alterações';
@@ -2361,6 +2428,8 @@ async function publishAd(){
   const preco=parseFloat(document.getElementById('fPrice').value);
   const categoria=document.getElementById('fCategory').value;
   const descricao=document.getElementById('fDesc').value.trim();
+  const rolinho=!!document.getElementById('fTroca')?.checked;
+  const descricaoPersistida=rolinho ? `${ROLINHO_MARKER}\n${descricao}`.trim() : descricao;
   const cidade=document.getElementById('fCity').value.trim();
   if(titulo.length<3 || !Number.isFinite(preco) || preco<=0){ showToast('Revise o título e o preço'); return; }
   if(!cidade){ showToast('Informe a localização do anúncio'); return; }
@@ -2387,19 +2456,19 @@ async function publishAd(){
     if(editAdId){
       result=await sb.rpc('vendai_editar_anuncio_seguro',{
         p_token:currentSessionToken,p_id:editAdId,p_titulo:titulo,p_preco:preco,p_categoria:categoria,
-        p_descricao:descricao||'',p_cidade:cidade,p_fotos:fotosFinais
+        p_descricao:descricaoPersistida||'',p_cidade:cidade,p_fotos:fotosFinais
       });
     }else{
       result=await sb.rpc('vendai_publicar_anuncio',{
         p_token:currentSessionToken,p_titulo:titulo,p_preco:preco,p_categoria:categoria,
-        p_descricao:descricao||'',p_cidade:cidade,p_fotos:fotosFinais
+        p_descricao:descricaoPersistida||'',p_cidade:cidade,p_fotos:fotosFinais
       });
     }
     if(result.error) throw result.error;
 
     const eraEdicao=!!editAdId;
     resetPostForm();
-    closeSheet('postOverlay'); activeCategory='todos'; renderChips();
+    closeSheet('postOverlay'); activeCategory='todos'; activeRolinho=false; renderChips();
     await carregarAnuncios();
     if(eraEdicao && currentUser) await renderProfile();
     showToast(eraEdicao?'Anúncio atualizado ✓':'Anúncio publicado ✓');
@@ -2465,15 +2534,16 @@ function previewFotos(){
   renderFotoPreview();
 }
 
-async function iniciarChat(anuncioId, titulo, outroId, outroNome){
+async function iniciarChat(anuncioId, titulo, outroId, outroNome, prefill=''){
   if(!currentUser || !currentSessionToken){
-    pendingChat={anuncioId,titulo,outroId,outroNome}; pendingAction='chat'; openLoginSheet(); return;
+    pendingChat={anuncioId,titulo,outroId,outroNome,prefill}; pendingAction='chat'; openLoginSheet(); return;
   }
   if(!outroId){ showToast('Não consegui identificar o vendedor deste anúncio'); return; }
   if(outroId===currentUser.id){ showToast('Esse é o seu próprio anúncio 🙂'); return; }
   currentChat={anuncioId,titulo,outroId,outroNome};
   document.getElementById('chatHeader').textContent=outroNome+' · '+titulo;
   closeSheet('detailOverlay'); closeSheet('conversasOverlay'); document.getElementById('chatOverlay').classList.add('show');
+  const chatInput=document.getElementById('chatInput'); if(chatInput && prefill) chatInput.value=prefill;
   await carregarMensagens(); if(chatPollingInterval) clearInterval(chatPollingInterval); chatPollingInterval=setInterval(carregarMensagens,3000);
 }
 

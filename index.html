@@ -13,6 +13,8 @@
 <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
 <link rel="apple-touch-icon" href="/icon-192.png">
 <link rel="preload" href="/icon-192.png" as="image">
+<link rel="preconnect" href="https://rgcclordmqjmwuzrrfbd.supabase.co">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <title>Vendaí — compre, venda e negocie</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -256,6 +258,17 @@
     object-position:center;
     display:block;
   }
+  .heroTileIcon{
+    width:100%; height:100%;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .heroTileIcon svg{ width:44%; height:44%; }
+  .heroTile.t1 .heroTileIcon{ background:linear-gradient(135deg,#2CC773,#0F6B3B); }
+  .heroTile.t2 .heroTileIcon{ background:linear-gradient(135deg,#FFD666,#E8A800); }
+  .heroTile.t3 .heroTileIcon{ background:linear-gradient(135deg,#17854A,#0B4A2A); }
+  .heroTile.t4 .heroTileIcon{ background:linear-gradient(135deg,#1EA35A,#12703E); }
+  .heroTile.t1 .heroTileIcon svg, .heroTile.t3 .heroTileIcon svg, .heroTile.t4 .heroTileIcon svg{ stroke:#fff; }
+  .heroTile.t2 .heroTileIcon svg{ stroke:#5C4200; }
   .heroTile span{
     position:absolute;
     left:6px;
@@ -542,7 +555,8 @@
     cursor:pointer;
   }
   nav button.active{ color: var(--green); font-weight:700; }
-  nav button .ic{ font-size:19px; }
+  nav button .ic{ width:21px; height:21px; display:inline-flex; }
+  nav button .ic svg{ width:100%; height:100%; display:block; }
 
   /* Overlays */
   .overlay{
@@ -1061,13 +1075,13 @@
     backdrop-filter:saturate(150%) blur(12px);
   }
   nav button{padding:5px 4px 3px;min-height:49px;font-size:9.5px;font-weight:650;gap:2px;border-radius:14px;position:relative;}
-  nav button .ic{font-size:19px;line-height:1;}
+  nav button .ic{width:21px;height:21px;line-height:1;}
   nav button.active{color:var(--green-dark);background:var(--green-soft);}
   nav button:nth-child(3){
-    margin-top:-22px;min-height:62px;max-width:74px;background:var(--green);color:#fff !important;
-    border:5px solid #fff;border-radius:22px;box-shadow:0 9px 20px rgba(24,163,91,.26);font-weight:800;
+    margin-top:-22px;min-height:62px;max-width:74px;background:linear-gradient(135deg,#27BF6B,var(--green-dark));color:#fff !important;
+    border:5px solid #fff;border-radius:22px;box-shadow:0 9px 20px rgba(24,163,91,.32);font-weight:800;
   }
-  nav button:nth-child(3) .ic{font-size:24px;}
+  nav button:nth-child(3) .ic{width:25px;height:25px;}
   .msgBadge{top:1px !important;right:18% !important;}
 
   .sheet{border-radius:26px 26px 0 0;padding:16px 17px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -20px 50px rgba(8,35,22,.12);}
@@ -1144,16 +1158,26 @@
     <div class="topRow">
       <div class="logoGroup">
         <svg class="logoMark" width="34" height="34" viewBox="0 0 40 40" aria-label="Vendaí">
-          <rect x="2" y="2" width="36" height="36" rx="12" fill="var(--green)"/>
-          <path d="M13 16 L20 27 L27 16" stroke="var(--yellow)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          <circle cx="27" cy="13" r="3" fill="var(--yellow)"/>
+          <defs>
+            <linearGradient id="logoBg" x1="4" y1="2" x2="36" y2="38" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#27BF6B"/>
+              <stop offset="1" stop-color="#12703E"/>
+            </linearGradient>
+            <linearGradient id="logoMarkGrad" x1="12" y1="13" x2="28" y2="27" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#FFC93C"/>
+              <stop offset="1" stop-color="#E8A800"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="36" height="36" rx="12" fill="url(#logoBg)"/>
+          <path d="M12.5 15.5 L20 27.5 L27.5 15.5" stroke="url(#logoMarkGrad)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <circle cx="27.5" cy="12.3" r="3.1" fill="url(#logoMarkGrad)"/>
         </svg>
         <div class="logo">Vend<em>aí</em></div>
       </div>
-      <button class="location" onclick="openLocationSheet()" id="locationBtn">📍 Toda a região ▾</button>
+      <button class="location" onclick="openLocationSheet()" id="locationBtn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:2px;"><path d="M12 21s7-6.4 7-11.6A7 7 0 0 0 5 9.4C5 14.6 12 21 12 21Z"/><circle cx="12" cy="9.4" r="2.4"/></svg> Toda a região <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:1px;margin-left:1px;"><polyline points="6 9 12 15 18 9"/></svg></button>
     </div>
     <div class="searchBar">
-      <span>⌕</span>
+      <span style="display:inline-flex;color:var(--ink-soft);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="10.8" cy="10.8" r="6.8"/><line x1="20" y1="20" x2="15.6" y2="15.6"/></svg></span>
       <input id="searchInput" type="text" placeholder="Buscar celular, carro, móveis..." autocomplete="off">
     </div>
   </header>
@@ -1164,27 +1188,27 @@
       <div class="installTitle">Leve o Vendaí no celular</div>
       <div class="installSub">Android • app leve • acesso rápido</div>
     </div>
-    <button class="installBtn" type="button" onclick="instalarVendaI()">⬇ Instalar app</button>
+    <button class="installBtn" type="button" onclick="instalarVendaI()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M12 4v11"/><polyline points="7.5 11 12 15.5 16.5 11"/><line x1="5" y1="20" x2="19" y2="20"/></svg>Instalar app</button>
   </section>
   <div class="apkNote" id="apkNote">Se o Android pedir autorização, permita instalar apps deste navegador para concluir a instalação.</div>
 
   <section class="heroTop" aria-label="Comprar, vender e negociar">
     <div class="heroInner">
       <div class="heroCopy">
-        <div class="heroEyebrow">✨ Marketplace perto de você</div>
+        <div class="heroEyebrow"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px;margin-right:1px;"><path d="M12 2 14 9 21 12 14 15 12 22 10 15 3 12 10 9Z"/></svg> Marketplace perto de você</div>
         <h1 class="heroTitle">Compre bem.<br><em>Venda rápido.</em></h1>
         <div class="heroText">Celular, carro, casa, eletrônicos e muito mais. Anuncie grátis e negocie direto pelo chat.</div>
         <div class="heroActions">
-          <button class="heroPrimary" onclick="openPostSheet()">＋ Anunciar grátis</button>
+          <button class="heroPrimary" onclick="openPostSheet()"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" style="vertical-align:-1px;margin-right:3px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Anunciar grátis</button>
           <button class="heroSecondary" onclick="document.getElementById('grid').scrollIntoView({behavior:'smooth'})">Explorar</button>
         </div>
       </div>
       <div class="heroVisual" aria-hidden="true">
         <div class="heroMosaic">
-          <div class="heroTile t1" data-icon="📱"><img loading="eager" fetchpriority="low" decoding="async" src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=280&q=58" alt="" onerror="this.style.display='none'"><span>Celular</span></div>
-          <div class="heroTile t2" data-icon="⌚"><img loading="eager" fetchpriority="low" decoding="async" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=280&q=58" alt="" onerror="this.style.display='none'"><span>Relógio</span></div>
-          <div class="heroTile t3" data-icon="🚗"><img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=280&q=58" alt="" onerror="this.style.display='none'"><span>Carro</span></div>
-          <div class="heroTile t4" data-icon="🏠"><img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=280&q=58" alt="" onerror="this.style.display='none'"><span>Casa</span></div>
+          <div class="heroTile t1"><div class="heroTileIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.4"/><line x1="10.3" y1="18.4" x2="13.7" y2="18.4"/></svg></div><span>Celular</span></div>
+          <div class="heroTile t2"><div class="heroTileIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7.3" width="10" height="9.4" rx="2.6"/><path d="M9.3 7.3V4.6a1 1 0 0 1 1-1h3.4a1 1 0 0 1 1 1v2.7"/><path d="M9.3 16.7v2.7a1 1 0 0 0 1 1h3.4a1 1 0 0 0 1-1v-2.7"/><line x1="12" y1="10.2" x2="12" y2="12.4"/><line x1="12" y1="12.4" x2="13.6" y2="13.4"/></svg></div><span>Relógio</span></div>
+          <div class="heroTile t3"><div class="heroTileIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 15.5 5 10a2 2 0 0 1 1.9-1.4h10.2A2 2 0 0 1 19 10l1.5 5.5"/><rect x="2.8" y="15.5" width="18.4" height="4.3" rx="1.4"/><circle cx="7" cy="19.8" r="1.3"/><circle cx="17" cy="19.8" r="1.3"/></svg></div><span>Carro</span></div>
+          <div class="heroTile t4"><div class="heroTileIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.3 11.6 12 4.2l8.7 7.4"/><path d="M5.6 10.3V19a1 1 0 0 0 1 1H17.4a1 1 0 0 0 1-1v-8.7"/><rect x="10.2" y="13.4" width="3.6" height="6.6"/></svg></div><span>Casa</span></div>
         </div>
       </div>
     </div>
@@ -1250,15 +1274,15 @@
   </main>
 
   <div class="fab">
-    <button onclick="openPostSheet()">＋ Anunciar</button>
+    <button onclick="openPostSheet()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" style="vertical-align:-2px;margin-right:5px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Anunciar</button>
   </div>
 
   <nav>
-    <button class="active"><span class="ic">🏠</span>Início</button>
-    <button onclick="openCategories()"><span class="ic">🗂️</span>Categorias</button>
-    <button onclick="openPostSheet()" aria-label="Anunciar"><span class="ic">＋</span>Anunciar</button>
-    <button class="navMsgBtn" onclick="abrirConversas()"><span class="ic">💬</span><span class="msgBadge" id="msgBadge">0</span>Conversas</button>
-    <button onclick="openProfileSheet()"><span class="ic">👤</span>Perfil</button>
+    <button class="active"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 11.2 12 4l8.5 7.2"/><path d="M5.8 9.9V19a1 1 0 0 0 1 1h3.4v-5.6h3.6V20h3.4a1 1 0 0 0 1-1V9.9"/></svg></span>Início</button>
+    <button onclick="openCategories()"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.6" y="3.6" width="7" height="7" rx="1.7"/><rect x="13.4" y="3.6" width="7" height="7" rx="1.7"/><rect x="3.6" y="13.4" width="7" height="7" rx="1.7"/><rect x="13.4" y="13.4" width="7" height="7" rx="1.7"/></svg></span>Categorias</button>
+    <button onclick="openPostSheet()" aria-label="Anunciar"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>Anunciar</button>
+    <button class="navMsgBtn" onclick="abrirConversas()"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.8h16a1 1 0 0 1 1 1V15a1 1 0 0 1-1 1H9.2L5 19.6V16H4a1 1 0 0 1-1-1V6.8a1 1 0 0 1 1-1Z"/></svg></span><span class="msgBadge" id="msgBadge">0</span>Conversas</button>
+    <button onclick="openProfileSheet()"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.3" r="3.5"/><path d="M4.7 20c1-3.7 4-5.7 7.3-5.7s6.3 2 7.3 5.7"/></svg></span>Perfil</button>
   </nav>
 
   <!-- Lightbox de fotos -->

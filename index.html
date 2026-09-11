@@ -1468,11 +1468,39 @@
   }
   .partnerBtn.primary{background:var(--green-dark);color:#fff;}
   .partnerBtn.secondary{background:#F2F6F3;color:var(--ink);border:1px solid #E1E8E3;}
+  .partnerCard{grid-template-columns:96px 1fr;padding:11px;gap:11px;align-items:center;}
+  .partnerLogoBox{width:96px;height:56px;padding:4px;border-radius:12px;}
+  .partnerLogoBox img{width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;display:block;}
+  .merchantIntroCompact{margin:16px 0 8px;background:linear-gradient(145deg,#FFFFFF 0%,#F5FBF7 100%);border:1px solid #DDEAE1;border-radius:22px;padding:16px;color:var(--ink);box-shadow:0 10px 24px rgba(18,40,28,.08);position:relative;overflow:hidden;}
+  .merchantIntroCompact:after{display:none;}
+  .merchantIntroCompact .merchantKicker{color:var(--green-dark);margin-bottom:7px;}
+  .merchantIntroCompact .merchantTitle{color:var(--ink);font-size:22px;max-width:none;}
+  .merchantIntroCompact .merchantText{color:var(--ink-soft);font-size:13px;max-width:none;margin-top:6px;}
+  .merchantMiniList{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 10px;}
+  .merchantMiniList span{display:inline-flex;align-items:center;gap:6px;background:#EDF7F1;color:#17633E;border:1px solid #D4E8DC;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:780;}
+  .merchantIntroCompact .merchantCta{margin-top:10px;}
+  .merchantIntroCompact .merchantCta .secondary{background:#EFF4F1;color:var(--green-dark);border:1px solid #DFE7E2;}
+  .merchantIntroCompact .merchantCta .primary{box-shadow:none;}
   @media (max-width:380px){
-    .partnerCard{grid-template-columns:92px 1fr;padding:10px;gap:10px;}
-    .partnerLogoBox{width:92px;height:68px;}
+    .partnerCard{grid-template-columns:84px 1fr;padding:10px;gap:9px;}
+    .partnerLogoBox{width:84px;height:50px;padding:3px;}
     .partnersTitle{font-size:19px;}
+    .merchantIntroCompact .merchantTitle{font-size:19px;}
   }
+
+
+  .likeChip{position:absolute;top:8px;right:8px;z-index:3;display:inline-flex;align-items:center;gap:5px;border:none;border-radius:999px;background:rgba(255,255,255,.96);color:var(--ink);padding:5px 9px;font-size:10.8px;font-weight:850;box-shadow:0 8px 18px rgba(0,0,0,.18);cursor:pointer;}
+  .likeChip .heart{font-size:12px;line-height:1;}
+  .likeChip.active{background:#FFF2F5;color:#C23E63;}
+  .likeChip.detailLike{position:static;box-shadow:none;background:#F6FAF7;border:1px solid #E1E8E3;padding:8px 12px;font-size:12px;}
+  .detailLikeRow{display:flex;align-items:center;gap:8px;margin-top:8px;}
+  .detailLikeHint{font-size:10.8px;color:var(--ink-soft);}
+  .partnersSection{margin:12px 12px 10px;}
+  .partnersHeader{margin-bottom:11px;}
+  .partnerMeta{font-size:10.8px;}
+  .partnerActions{gap:6px;}
+  .partnerBtn.share{background:#F3F7F4;color:var(--green-dark);border:1px solid #DFE7E2;}
+  .rolinhoHome,.rolinhoFloat{display:none !important;}
 
 </style>
 </head>
@@ -1524,14 +1552,34 @@
     </div>
   </section>
 
-  <section class="rolinhoHome" aria-label="Chama pro Rolinho, área de trocas">
-    <div class="rolinhoIcon">🔄</div>
-    <div class="rolinhoCopy">
-      <div class="rolinhoTitle">Chama pro Rolinho</div>
-      <div class="rolinhoSub">Quer trocar em vez de comprar? Veja anúncios que aceitam proposta de troca.</div>
+
+
+
+  <section class="partnersSection" id="parceirosHome" aria-label="Parceiros oficiais do Vendaí">
+    <div class="partnersHeader">
+      <div class="partnersKicker">🤝 Parceiros oficiais</div>
+      <div class="partnersTitle">Parceiro em destaque</div>
+      <div class="partnersSub">Veja quem já faz parte da rede oficial de parceiros do Vendaí.</div>
     </div>
-    <button class="rolinhoBtn" type="button" onclick="abrirRolinho()">Ver trocas</button>
+    <div class="partnersTrack">
+      <article class="partnerCard" id="partner-otica-myrian">
+        <div class="partnerLogoBox">
+          <img src="/parceiro-otica-myrian-logo-transparent.png?v=20260911d" alt="Logotipo da Ótica Myrian" loading="lazy" decoding="async">
+        </div>
+        <div class="partnerInfo">
+          <div class="partnerVerified">✓ Parceiro oficial Vendaí</div>
+          <div class="partnerName">Ótica Myrian</div>
+          <div class="partnerMeta">Ótica • Muzambinho/MG<br>Rua José Cardoso, 104</div>
+          <div class="partnerActions">
+            <button class="partnerBtn primary" type="button" onclick="window.location.href='tel:+553535712540'">Ligar</button>
+            <button class="partnerBtn share" type="button" onclick="compartilharParceiro('partner-otica-myrian','Ótica Myrian')">Enviar link ao parceiro</button>
+          </div>
+        </div>
+      </article>
+    </div>
   </section>
+
+
 
   <section class="installHero" id="installHero" aria-label="Instalar aplicativo Vendaí">
     <div class="installAppIcon"><img src="/icon-192.png" alt="Ícone do Vendaí" width="46" height="46"></div>
@@ -1560,30 +1608,6 @@
     </div>
   </section>
 
-
-
-  <section class="partnersSection" id="parceirosHome" aria-label="Parceiros oficiais do Vendaí">
-    <div class="partnersHeader">
-      <div class="partnersKicker">🤝 Parceiros oficiais</div>
-      <div class="partnersTitle">Quem fortalece o Vendaí na região</div>
-      <div class="partnersSub">Conheça empresas parceiras que apoiam o comércio local e fazem parte da rede Vendaí.</div>
-    </div>
-    <div class="partnersTrack">
-      <article class="partnerCard">
-        <div class="partnerLogoBox">
-          <img src="/parceiro-otica-myrian-logo-premium.png?v=20260911b" alt="Logotipo da Ótica Myrian" loading="lazy" decoding="async">
-        </div>
-        <div class="partnerInfo">
-          <div class="partnerVerified">✓ Parceiro oficial Vendaí</div>
-          <div class="partnerName">Ótica Myrian</div>
-          <div class="partnerMeta">Ótica • Muzambinho/MG<br>Rua José Cardoso, 104</div>
-          <div class="partnerActions">
-            <button class="partnerBtn primary" type="button" onclick="window.location.href='tel:+553535712540'">Ligar para o parceiro</button>
-          </div>
-        </div>
-      </article>
-    </div>
-  </section>
 
   <section class="categorySection" id="categorySection" aria-label="Categorias do marketplace">
     <div class="categoryHeader">
@@ -1616,25 +1640,6 @@
     </div>
 
 
-
-    <section class="merchantIntro" id="lojistaHome">
-      <div class="merchantKicker">🏪 Área para lojistas</div>
-      <div class="merchantTitle">Sua loja e seus produtos dentro do Vendaí</div>
-      <div class="merchantText">Cadastre sua loja, publique seu estoque e receba pedidos de clientes da região. O pagamento online passa pelo Mercado Pago conectado à loja. O Vendaí separa <strong><span id="merchantFeePct">8%</span> de comissão automaticamente</strong> e, quando o cliente escolher Entrega Flash, o frete é calculado antes do pagamento.</div>
-      <div class="merchantSteps">
-        <div class="merchantStep"><b>1. Crie a loja</b>Nome, cidade e WhatsApp.</div>
-        <div class="merchantStep"><b>2. Cadastre produtos</b>Foto, preço e estoque.</div>
-        <div class="merchantStep"><b>3. Receba pedidos</b>Aceite e prepare o produto.</div>
-        <div class="merchantStep"><b>4. Entregue e receba</b>Entrega Flash, retirada na loja ou entrega própria.</div>
-      </div>
-      <div class="merchantCta">
-        <button class="primary" onclick="abrirCadastroLoja()">Cadastrar sua loja</button>
-        <button class="secondary" onclick="abrirAcessoLoja()">Acessar sua loja</button>
-        <button class="secondary" onclick="abrirComoFuncionaLojista()">Como funciona</button>
-      </div>
-      <div class="merchantFine">Exemplo: produto de R$ 100 + frete de R$ 18. A comissão de <span id="merchantFeeExamplePct">8%</span> incide só sobre o produto. No pagamento, o Vendaí separa sua comissão e o valor do frete; o lojista recebe a parte dele do produto conforme as regras do Mercado Pago. O Entrega Flash só é chamado quando o lojista marcar o produto como pronto.</div>
-    </section>
-
     <section class="storeSection" id="lojasSection" style="display:none;">
       <div class="storeSectionHead"><div><div class="storeSectionTitle">Lojas no Vendaí</div><div class="storeSectionSub">Produtos de comércios da região</div></div></div>
       <div class="storeRail" id="storeRail"></div>
@@ -1644,13 +1649,30 @@
     <div class="feedTitle" id="feedTitle">Perto de você</div>
     <div class="grid" id="grid"></div>
     <div class="empty" id="emptyState" style="display:none;">Nenhum anúncio encontrado por aqui ainda.</div>
+
+
+
+
+    <section class="merchantIntro merchantIntroCompact" id="lojistaHome">
+      <div class="merchantKicker">🏪 Área para lojistas</div>
+      <div class="merchantTitle">Vendaí para lojas</div>
+      <div class="merchantText">Cadastre sua loja, anuncie seus produtos e receba pedidos da região. Comissão de <strong><span id="merchantFeePct">8%</span></strong> sobre o produto.</div>
+      <div class="merchantMiniList">
+        <span>Cadastro rápido</span>
+        <span>Produtos e estoque</span>
+        <span>Pedidos no painel</span>
+        <span>Entrega Flash opcional</span>
+      </div>
+      <div class="merchantCta">
+        <button class="primary" onclick="abrirCadastroLoja()">Cadastrar sua loja</button>
+        <button class="secondary" onclick="abrirAcessoLoja()">Acessar sua loja</button>
+      </div>
+    </section>
   </main>
 
   <div class="fab">
     <button onclick="openPostSheet()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" style="vertical-align:-2px;margin-right:5px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Anunciar</button>
   </div>
-
-  <button class="rolinhoFloat" type="button" onclick="abrirRolinho()" aria-label="Abrir trocas">🔄 Trocas</button>
 
   <nav>
     <button class="active"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 11.2 12 4l8.5 7.2"/><path d="M5.8 9.9V19a1 1 0 0 0 1 1h3.4v-5.6h3.6V20h3.4a1 1 0 0 0 1-1V9.9"/></svg></span>Início</button>
@@ -2030,6 +2052,7 @@ async function restaurarSessao(){
     currentSessionToken = s.token;
     currentUser = data[0];
     iniciarMonitorMensagens();
+  try{ if('Notification' in window && Notification.permission==='default') Notification.requestPermission(); }catch(e){}
   }catch(e){
     console.warn('Sessão inválida', e);
     localStorage.removeItem('vendai_sessao');
@@ -2126,6 +2149,9 @@ async function ativarNotificacoes(){
   }
   showToast('Alertas de mensagem ativados 🔔');
 }
+
+document.addEventListener('pointerdown', prepararSom, {once:true});
+
 
 function openLoginSheet(mode='cliente'){
   const title=document.getElementById('loginTitle');
@@ -2234,6 +2260,7 @@ async function entrar(){
   currentSessionToken = u.sessao_token;
   salvarSessao();
   iniciarMonitorMensagens();
+  try{ if('Notification' in window && Notification.permission==='default') await Notification.requestPermission(); }catch(e){}
   document.getElementById('lPin').value='';
   closeSheet('loginOverlay');
   await carregarAnuncios();
@@ -2409,6 +2436,93 @@ function formatMoneyCharge(n){
   return 'R$ ' + Number(n).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
 }
 
+
+function getLikesState(){
+  try{
+    if(!window._vendaiLikes) window._vendaiLikes = JSON.parse(localStorage.getItem('vendai_likes') || '{}');
+  }catch(e){ window._vendaiLikes = {}; }
+  return window._vendaiLikes;
+}
+
+function saveLikesState(){
+  try{ localStorage.setItem('vendai_likes', JSON.stringify(getLikesState())); }catch(e){}
+}
+
+function likesExtraCount(adId){
+  const state = getLikesState();
+  const entry = state[adId] || { liked:false, extra:0 };
+  return Number(entry.extra || 0);
+}
+
+function isLiked(adId){
+  const state = getLikesState();
+  return !!(state[adId] && state[adId].liked);
+}
+
+function getLikeCount(adId){
+  const ad = ads.find(a=>String(a.id)===String(adId));
+  const base = Number(ad?.curtidas || ad?.likes || 0);
+  return Math.max(0, base + likesExtraCount(String(adId)));
+}
+
+function renderLikeButtonHtml(adId, extraClass=''){
+  const liked = isLiked(String(adId));
+  const heart = liked ? '❤' : '♡';
+  const klass = `likeChip ${extraClass || ''} ${liked ? 'active' : ''}`.trim();
+  return `<button type="button" class="${klass}" data-like-id="${String(adId)}" onclick="toggleLike('${String(adId).replace(/'/g, "\'")}', event)" aria-label="Curtir anúncio"><span class="heart">${heart}</span><span class="count">${getLikeCount(String(adId))}</span></button>`;
+}
+
+function updateLikeUi(adId){
+  document.querySelectorAll(`[data-like-id="${CSS.escape(String(adId))}"]`).forEach(btn=>{
+    const liked = isLiked(String(adId));
+    btn.classList.toggle('active', liked);
+    const heart = btn.querySelector('.heart');
+    const count = btn.querySelector('.count');
+    if(heart) heart.textContent = liked ? '❤' : '♡';
+    if(count) count.textContent = getLikeCount(String(adId));
+  });
+}
+
+function toggleLike(adId, ev){
+  if(ev){ ev.preventDefault(); ev.stopPropagation(); }
+  const id = String(adId);
+  const state = getLikesState();
+  const entry = state[id] || { liked:false, extra:0 };
+  if(entry.liked){
+    entry.liked = false;
+    entry.extra = Math.max(0, Number(entry.extra || 0) - 1);
+    showToast('Curtida removida');
+  }else{
+    entry.liked = true;
+    entry.extra = Number(entry.extra || 0) + 1;
+    showToast('Você curtiu este anúncio ❤️');
+  }
+  state[id] = entry;
+  saveLikesState();
+  updateLikeUi(id);
+}
+
+function partnerShareLink(anchorId){
+  const base = location.href.split('#')[0];
+  return `${base}#${anchorId || 'parceirosHome'}`;
+}
+
+async function compartilharParceiro(anchorId, nome){
+  const link = partnerShareLink(anchorId);
+  const texto = `Olá! Sua loja foi incluída como parceira oficial no Vendaí. Veja aqui: ${link}`;
+  if(navigator.share){
+    try{
+      await navigator.share({ title:`Parceiro oficial Vendaí • ${nome || 'Parceiro'}`, text:texto, url:link });
+      showToast('Link do parceiro pronto para envio ✓');
+      return;
+    }catch(e){ if(String(e?.name||'')==='AbortError') return; }
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    try{ await navigator.clipboard.writeText(texto); showToast('Link copiado. Agora é só enviar ao parceiro ✓'); return; }catch(e){}
+  }
+  window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank');
+}
+
 function tempoDecorrido(dataISO){
   const diffMs = Date.now() - new Date(dataISO).getTime();
   const min = Math.floor(diffMs/60000);
@@ -2453,6 +2567,7 @@ function renderGrid(){
           : CATEGORY_ICON[ad.categoria]}
         ${ad.destaque ? '<div style="position:absolute; top:8px; left:8px; background:var(--yellow); border-radius:8px; font-size:9.5px; font-weight:700; padding:3px 7px; color:var(--ink);">🔥 Destaque</div>' : ''}
         ${aceitaTroca(ad) ? '<div class="rolinhoBadge">🔄 Aceita troca</div>' : ''}
+        ${renderLikeButtonHtml(ad.id)}
       </div>
       <div class="cardBody">
         <div class="cardTitle">${ad.titulo}</div>
@@ -2488,6 +2603,7 @@ function openDetail(id){
     <div class="detailTitle" style="margin-top:14px;">${escHtml(ad.titulo)}</div>
     <div class="detailPrice">${formatPrice(ad.preco)}</div>
     <div class="detailMeta">${escHtml(ad.cidade)} · publicado ${tempoDecorrido(ad.criado_em)}</div>
+    <div class="detailLikeRow">${renderLikeButtonHtml(ad.id,'detailLike')}<div class="detailLikeHint">Veja quantas pessoas curtiram este anúncio</div></div>
     ${aceitaTroca(ad) ? '<div class="rolinhoTag">🔄 Aceita troca • Chama pro Rolinho</div>' : ''}
     <div class="detailDesc">${escHtml(descricaoSemRolinho(ad.descricao) || 'Sem descrição.')}</div>
     <div class="sellerRow">
@@ -2937,6 +3053,7 @@ async function responderOferta(ofertaId, aceitar){
   if(error){ console.error(error); showToast('Não consegui responder a oferta'); return; }
   showToast(aceitar?'Oferta aceita ✓':'Oferta recusada');
   await carregarMensagens();
+  showToast('Mensagem enviada ✓. A outra pessoa recebe aviso no app.');
 }
 
 async function fazerOferta(){
@@ -3260,7 +3377,21 @@ function gerarEtiquetaPedidoLoja(id){
     .body{padding:16px}.k{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#66776d;font-weight:800;margin-bottom:3px}.v{font-size:15px;font-weight:800;line-height:1.35}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:13px}.box{border:1.5px solid #dce7df;border-radius:12px;padding:10px 11px;background:#fbfdfb}.box.full{grid-column:1/-1}.product{font-size:20px;font-weight:900;color:#0f6b3d}.qty{display:inline-block;background:#fff2b8;border-radius:999px;padding:5px 9px;margin-left:6px;font-size:12px;color:#4e4300}.status{display:inline-block;background:#e7f7ed;color:#11673b;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:800}
     .foot{border-top:2px dashed #cfd9d2;padding:12px 16px 15px;font-size:10px;color:#64746a;line-height:1.45}.actions{max-width:105mm;margin:10px auto 30px;display:flex;gap:10px}.actions button{flex:1;border:0;border-radius:12px;padding:13px;font-weight:800;font-size:14px;cursor:pointer}.print{background:#ffd33d;color:#1d2c23}.close{background:#173d2b;color:#fff}
     @media print{body{background:#fff}.wrap{margin:0;max-width:none;width:100%;box-shadow:none;border-radius:0}.actions{display:none}@page{size:100mm 150mm;margin:5mm}}
-  </style></head><body><div class="wrap"><div class="head"><div class="brand">Venda<span>í</span></div><div class="code">PEDIDO #${seguro(short)}</div></div><div class="body">
+  
+  .likeChip{position:absolute;top:8px;right:8px;z-index:3;display:inline-flex;align-items:center;gap:5px;border:none;border-radius:999px;background:rgba(255,255,255,.96);color:var(--ink);padding:5px 9px;font-size:10.8px;font-weight:850;box-shadow:0 8px 18px rgba(0,0,0,.18);cursor:pointer;}
+  .likeChip .heart{font-size:12px;line-height:1;}
+  .likeChip.active{background:#FFF2F5;color:#C23E63;}
+  .likeChip.detailLike{position:static;box-shadow:none;background:#F6FAF7;border:1px solid #E1E8E3;padding:8px 12px;font-size:12px;}
+  .detailLikeRow{display:flex;align-items:center;gap:8px;margin-top:8px;}
+  .detailLikeHint{font-size:10.8px;color:var(--ink-soft);}
+  .partnersSection{margin:12px 12px 10px;}
+  .partnersHeader{margin-bottom:11px;}
+  .partnerMeta{font-size:10.8px;}
+  .partnerActions{gap:6px;}
+  .partnerBtn.share{background:#F3F7F4;color:var(--green-dark);border:1px solid #DFE7E2;}
+  .rolinhoHome,.rolinhoFloat{display:none !important;}
+
+</style></head><body><div class="wrap"><div class="head"><div class="brand">Venda<span>í</span></div><div class="code">PEDIDO #${seguro(short)}</div></div><div class="body">
     <div class="row"><div class="box full"><div class="k">Produto</div><div class="product">${seguro(o.produto_titulo)} <span class="qty">Qtd. ${seguro(o.quantidade)}</span></div></div></div>
     <div class="row"><div class="box"><div class="k">Cliente</div><div class="v">${seguro(o.comprador_nome)}</div></div><div class="box"><div class="k">Criado em</div><div class="v">${seguro(data)}</div></div></div>
     <div class="row"><div class="box"><div class="k">Loja</div><div class="v">${seguro(loja)}</div></div><div class="box"><div class="k">Entrega</div><div class="v">${seguro(entrega)}</div></div></div>

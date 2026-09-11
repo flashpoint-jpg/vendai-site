@@ -381,32 +381,31 @@
   .chipIcon{
     width:52px;height:52px;
     border-radius:16px;
-    display:grid;place-items:center;
-    font-size:24px;
+    display:flex;align-items:center;justify-content:center;
     background:var(--chip-bg,#EEF6F1);
-    border:1px solid rgba(18,112,62,.06);
-    box-shadow:0 4px 10px rgba(18,40,28,.05);
+    border:none;
+    box-shadow:0 5px 12px rgba(18,40,28,.14);
     transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;
   }
+  .chipIcon svg{ width:50%; height:50%; }
   .chipLabel{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;}
   .chip:active{transform:scale(.97);}
   .chip.active{color:var(--green-dark);}
   .chip.active .chipIcon{
-    border:2px solid var(--green);
-    box-shadow:0 6px 14px rgba(30,163,90,.17);
-    transform:translateY(-1px);
+    box-shadow:0 6px 16px rgba(18,40,28,.22);
+    transform:translateY(-2px) scale(1.04);
   }
   .chip.active .chipLabel{font-weight:850;}
   @media (max-width:380px){
     .categorySection{margin-left:12px;margin-right:12px;padding:12px 10px;}
     .chipRow{gap:9px 4px;}
-    .chipIcon{width:48px;height:48px;border-radius:15px;font-size:22px;}
+    .chipIcon{width:48px;height:48px;border-radius:15px;}
     .chip{font-size:9.8px;}
   }
   @media (min-width:760px){
     .categorySection{margin-left:40px;margin-right:40px;padding:17px 20px;}
     .chipRow{grid-template-columns:repeat(8,minmax(0,1fr));gap:14px;}
-    .chipIcon{width:58px;height:58px;font-size:26px;}
+    .chipIcon{width:58px;height:58px;}
     .chip{font-size:11px;}
   }
 
@@ -1320,10 +1319,10 @@
           <svg class="burstSpark s1" viewBox="0 0 24 24" fill="#FFC93C"><path d="M12 2 14 9 21 12 14 15 12 22 10 15 3 12 10 9Z"/></svg>
           <svg class="burstSpark s2" viewBox="0 0 24 24" fill="#FFC93C"><path d="M12 2 14 9 21 12 14 15 12 22 10 15 3 12 10 9Z"/></svg>
           <svg class="burstSpark s3" viewBox="0 0 24 24" fill="#fff"><circle cx="12" cy="12" r="9"/></svg>
-          <div class="heroTile t1"><div class="heroTileIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.4"/><line x1="10.3" y1="18.4" x2="13.7" y2="18.4"/></svg></div><span>Celular</span></div>
+          <div class="heroTile t1"><div class="heroTileIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="3.2" width="10" height="17.6" rx="2.2"/><line x1="10.4" y1="17.6" x2="13.6" y2="17.6"/></svg></div><span>Celular</span></div>
           <div class="heroTile t2"><div class="heroTileIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7.3" width="10" height="9.4" rx="2.6"/><path d="M9.3 7.3V4.6a1 1 0 0 1 1-1h3.4a1 1 0 0 1 1 1v2.7"/><path d="M9.3 16.7v2.7a1 1 0 0 0 1 1h3.4a1 1 0 0 0 1-1v-2.7"/><line x1="12" y1="10.2" x2="12" y2="12.4"/><line x1="12" y1="12.4" x2="13.6" y2="13.4"/></svg></div><span>Relógio</span></div>
           <div class="heroTile t3"><div class="heroTileIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 15.5 5 10a2 2 0 0 1 1.9-1.4h10.2A2 2 0 0 1 19 10l1.5 5.5"/><rect x="2.8" y="15.5" width="18.4" height="4.3" rx="1.4"/><circle cx="7" cy="19.8" r="1.3"/><circle cx="17" cy="19.8" r="1.3"/></svg></div><span>Carro</span></div>
-          <div class="heroTile t4"><div class="heroTileIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.3 11.6 12 4.2l8.7 7.4"/><path d="M5.6 10.3V19a1 1 0 0 0 1 1H17.4a1 1 0 0 0 1-1v-8.7"/><rect x="10.2" y="13.4" width="3.6" height="6.6"/></svg></div><span>Casa</span></div>
+          <div class="heroTile t4"><div class="heroTileIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="17" r="2.6"/><circle cx="18" cy="17" r="2.6"/><path d="M8.4 17h5.2l2-5.4h3.4"/><path d="M6 17 9 10h3.2l2 3.6"/><path d="M9 10h3.6"/></svg></div><span>Moto</span></div>
           <svg class="burstBox" viewBox="0 0 120 84">
             <defs>
               <linearGradient id="boxFront" x1="0" y1="0" x2="0" y2="1">
@@ -1645,15 +1644,29 @@ const SUPABASE_URL = 'https://rgcclordmqjmwuzrrfbd.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_g5Tcimge2aiMX8JE3ml1dg_6zbR3uXi';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+const ICON_SVG = {
+  sparkle:'<path d="M12 2 14 9 21 12 14 15 12 22 10 15 3 12 10 9Z"/>',
+  sofa:'<path d="M5 12V9a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3"/><path d="M3.5 12h17a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v2h-2v-2H6.5v2h-2v-2h-1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1Z"/>',
+  phone:'<rect x="7" y="3.2" width="10" height="17.6" rx="2.2"/><line x1="10.4" y1="17.6" x2="13.6" y2="17.6"/>',
+  moto:'<circle cx="6" cy="17" r="2.6"/><circle cx="18" cy="17" r="2.6"/><path d="M8.4 17h5.2l2-5.4h3.4"/><path d="M6 17 9 10h3.2l2 3.6"/><path d="M9 10h3.6"/>',
+  shirt:'<path d="M8.5 3.5 12 5.3l3.5-1.8 3.3 3.3-2.3 2.3v9.9a1 1 0 0 1-1 1H9.5a1 1 0 0 1-1-1V9.1L6.2 6.8Z"/>',
+  house:'<path d="M3.3 11.6 12 4.2l8.7 7.4"/><path d="M5.6 10.3V19a1 1 0 0 0 1 1H17.4a1 1 0 0 0 1-1v-8.7"/><rect x="10.2" y="13.4" width="3.6" height="6.6"/>',
+  bottle:'<path d="M10 3.5h4"/><path d="M11 3.5v2.3"/><path d="M13 3.5v2.3"/><rect x="9" y="5.8" width="6" height="3" rx="1"/><path d="M9.6 8.8h4.8l.6 9.4a2 2 0 0 1-2 2.1h-2a2 2 0 0 1-2-2.1Z"/><line x1="9.4" y1="12.5" x2="14.6" y2="12.5"/><line x1="9.55" y1="15.5" x2="14.45" y2="15.5"/>',
+  grid:'<rect x="3.6" y="3.6" width="7" height="7" rx="1.7"/><rect x="13.4" y="3.6" width="7" height="7" rx="1.7"/><rect x="3.6" y="13.4" width="7" height="7" rx="1.7"/><rect x="13.4" y="13.4" width="7" height="7" rx="1.7"/>',
+};
+function chipSvg(name){
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ICON_SVG[name]}</svg>`;
+}
+
 const CATEGORIES = [
-  {id:'todos', label:'Todos', icon:'✨', bg:'#E7F7ED'},
-  {id:'moveis', label:'Móveis', icon:'🛋️', bg:'#EAF7EE'},
-  {id:'eletronicos', label:'Eletrônicos', icon:'📱', bg:'#EAF2FF'},
-  {id:'veiculos', label:'Veículos', icon:'🏍️', bg:'#FFF0EC'},
-  {id:'roupas', label:'Moda', icon:'👕', bg:'#F2ECFF'},
-  {id:'casa', label:'Casa', icon:'🏠', bg:'#FFF4E5'},
-  {id:'bebe', label:'Bebê', icon:'🍼', bg:'#FFF0F4'},
-  {id:'outros', label:'Outros', icon:'▦', bg:'#EEF1F0'},
+  {id:'todos', label:'Todos', icon:chipSvg('sparkle'), bg:'#1EA35A'},
+  {id:'moveis', label:'Móveis', icon:chipSvg('sofa'), bg:'#2FA36B'},
+  {id:'eletronicos', label:'Eletrônicos', icon:chipSvg('phone'), bg:'#3B82F6'},
+  {id:'veiculos', label:'Veículos', icon:chipSvg('moto'), bg:'#F0575D'},
+  {id:'roupas', label:'Moda', icon:chipSvg('shirt'), bg:'#8B5FBF'},
+  {id:'casa', label:'Casa', icon:chipSvg('house'), bg:'#F5A623'},
+  {id:'bebe', label:'Bebê', icon:chipSvg('bottle'), bg:'#F072A0'},
+  {id:'outros', label:'Outros', icon:chipSvg('grid'), bg:'#6B7280'},
 ];
 
 const CATEGORY_ICON = {moveis:'🛋️', eletronicos:'📱', veiculos:'🚗', roupas:'👕', casa:'🏠', bebe:'🍼', outros:'📦'};

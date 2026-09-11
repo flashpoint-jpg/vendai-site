@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vendai-pwa-rolinho-20260910-8';
+const CACHE_NAME = 'vendai-pwa-lojista-flash-20260910-9';
 const APP_SHELL = [
   '/',
   '/index.html',

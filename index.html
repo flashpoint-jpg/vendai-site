@@ -1145,6 +1145,13 @@
   .lojaStatGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.lojaStat{border-radius:13px;background:#F3F7F4;padding:10px}.lojaStat b{display:block;font-size:17px;color:var(--green-dark)}.lojaStat span{font-size:9.5px;color:var(--ink-soft)}
   .lojaToolbar{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 14px}.lojaToolbar button{border:0;border-radius:999px;padding:8px 11px;font-size:10.5px;font-weight:800;cursor:pointer;background:var(--green-soft);color:var(--green-dark)}
   .lojaRow{border:1px solid #E3EAE5;border-radius:14px;padding:11px;margin-bottom:9px;background:var(--card)}.lojaRowTop{display:flex;justify-content:space-between;gap:10px}.lojaRowTitle{font-size:12.5px;font-weight:850}.lojaRowMeta{font-size:10px;color:var(--ink-soft);margin-top:3px;line-height:1.35}.lojaRowActions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.lojaRowActions button{border:0;border-radius:9px;padding:7px 9px;font-size:10px;font-weight:800;cursor:pointer}.btnOk{background:var(--green-soft);color:var(--green-dark)}.btnWarn{background:#FFF4D9;color:#8B6500}.btnDanger{background:#FBE9E9;color:var(--danger)}
+  .flashDeliveryPanel{margin-top:10px;padding:12px;border-radius:14px;border:1px solid #CFE3D5;background:linear-gradient(145deg,#F4FBF6,#EAF7EE)}
+  .flashDeliveryHead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}.flashDeliveryTitle{font-size:11px;font-weight:900;color:var(--green-dark)}
+  .flashDeliveryStatus{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:5px 8px;font-size:9px;font-weight:850;background:#fff;border:1px solid #D8E9DD;color:#335C48}
+  .flashDeliveryHint{font-size:9.5px;color:var(--ink-soft);line-height:1.4;margin:5px 0 8px}
+  .flashMainBtn{width:100%;border:0;border-radius:12px;padding:12px 13px;font-size:12px;font-weight:950;cursor:pointer;background:linear-gradient(145deg,#10A85A,#078743);color:#fff;box-shadow:0 7px 16px rgba(8,135,67,.18)}
+  .flashMainBtn:active{transform:scale(.99)}
+  .flashProgress{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:9px}.flashStep{border-radius:9px;background:#fff;border:1px solid #E0EAE3;padding:6px 4px;text-align:center;font-size:8px;color:#7B8D83;line-height:1.2}.flashStep.on{background:#E7F6EC;color:#087D40;border-color:#BFE2CA;font-weight:850}
   .feeBox{background:#F3F7F4;border:1px solid #DDE8E0;border-radius:14px;padding:11px;margin:10px 0;font-size:11px;line-height:1.45}.feeBox strong{color:var(--green-dark)}
   .shopEmpty{font-size:11px;color:var(--ink-soft);padding:12px;border:1px dashed #D7E0DA;border-radius:12px;text-align:center}
   @media(max-width:520px){.merchantSteps{grid-template-columns:repeat(2,1fr)}.storeProductsGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.merchantIntro{padding:15px}.merchantTitle{font-size:18px}}
@@ -2819,8 +2826,46 @@ async function renderPainelLoja(){
 function renderPedidosLoja(){
   const box=document.getElementById('lojaPainelLista');if(!box)return;const pedidos=window._pedidosLoja||[];box.innerHTML='<div class="detailTitle" style="font-size:14px;margin-bottom:9px">Pedidos recebidos</div>';
   if(!pedidos.length){box.innerHTML+='<div class="shopEmpty">Sua loja ainda não recebeu pedidos.</div>';return;}
-  pedidos.forEach(o=>{const el=document.createElement('div');el.className='lojaRow';const st={novo:'Novo pedido',aceito:'Aceito',recusado:'Recusado',cancelado:'Cancelado',concluido:'Concluído'}[o.status]||o.status;const pago=o.pagamento_status==='pago';let actions='';if(o.status==='novo')actions=`<button class="btnOk" onclick="responderPedidoLoja('${o.id}',true)">Aceitar</button><button class="btnDanger" onclick="responderPedidoLoja('${o.id}',false)">${pago?'Recusar e estornar':'Recusar'}</button>`;if(o.status==='aceito'&&pago&&o.entrega_tipo==='entrega_flash'&&!o.entrega_flash_pedido_id)actions+=`<button class="btnOk" onclick="chamarEntregaFlashLoja('${o.id}')">⚡ Produto pronto — chamar Entrega Flash</button>`;if(o.status==='aceito'&&pago&&o.entrega_tipo!=='entrega_flash')actions+=`<button class="btnOk" onclick="concluirPedidoLoja('${o.id}')">Concluir venda</button>`;
-    el.innerHTML=`<div class="lojaRowTop"><div><div class="lojaRowTitle">${escHtml(o.produto_titulo)} × ${o.quantidade}</div><div class="lojaRowMeta">Cliente: ${escHtml(o.comprador_nome)} · ${st}<br>Produto: ${formatPrice(o.subtotal)} · Frete: ${formatPrice(o.frete_valor||0)} · <strong>Total: ${formatPrice(o.total_pagamento||o.subtotal)}</strong><br>Pagamento: <strong>${escHtml(o.pagamento_status)}</strong> · Comissão: ${formatPrice(o.taxa_valor)}<br>${nomeEntrega(o.entrega_tipo)}${o.entrega_tipo==='entrega_flash'?` · ${nomeStatusEntrega(o.entrega_status)} · ${nomeVeiculo(o.frete_veiculo)}`:''}${o.entrega_motorista_nome?`<br>Entregador: ${escHtml(o.entrega_motorista_nome)}`:''}${o.endereco_entrega?`<br>Destino: ${escHtml(o.endereco_entrega)}`:''}</div></div></div>${o.observacao?`<div class="lojaRowMeta" style="margin-top:6px">Obs.: ${escHtml(o.observacao)}</div>`:''}<div class="lojaRowActions">${actions}</div>`;box.appendChild(el);});
+  const statusFlashInfo=(o)=>{
+    const s=o.entrega_status||(o.entrega_flash_pedido_id?'buscando':'nao_solicitada');
+    const map={
+      nao_solicitada:{label:'⏳ Aguardando solicitação',step:0},
+      aguardando_pagamento:{label:'💳 Aguardando pagamento',step:0},
+      buscando:{label:'🔎 Aguardando motorista',step:1},
+      entregador_a_caminho_da_loja:{label:'🏍️ Motorista a caminho',step:2},
+      coletado:{label:'📦 Produto coletado',step:3},
+      a_caminho:{label:'🚚 A caminho do cliente',step:3},
+      entregue:{label:'✅ Entregue',step:4},
+      cancelada:{label:'⚠️ Entrega cancelada',step:0}
+    };
+    return map[s]||{label:nomeStatusEntrega(s)||'Status da entrega',step:0};
+  };
+  pedidos.forEach(o=>{
+    const el=document.createElement('div');el.className='lojaRow';
+    const st={novo:'Novo pedido',aceito:'Aceito',recusado:'Recusado',cancelado:'Cancelado',concluido:'Concluído'}[o.status]||o.status;
+    const pago=o.pagamento_status==='pago';let actions='';let flashPanel='';
+    if(o.status==='novo')actions=`<button class="btnOk" onclick="responderPedidoLoja('${o.id}',true)">Aceitar</button><button class="btnDanger" onclick="responderPedidoLoja('${o.id}',false)">${pago?'Recusar e estornar':'Recusar'}</button>`;
+    if(o.status==='aceito'&&pago&&o.entrega_tipo!=='entrega_flash')actions+=`<button class="btnOk" onclick="concluirPedidoLoja('${o.id}')">Concluir venda</button>`;
+    if(o.entrega_tipo==='entrega_flash'){
+      const fs=statusFlashInfo(o);
+      let principal='';
+      if(o.status==='aceito'&&pago&&!o.entrega_flash_pedido_id){
+        principal=`<div class="flashDeliveryHint"><strong>Produto pronto?</strong> Toque abaixo somente quando ele estiver separado e pronto para o motorista retirar.</div><button class="flashMainBtn" onclick="chamarEntregaFlashLoja('${o.id}')">🚚 SOLICITAR MOTORISTA</button>`;
+      }else if(o.status==='novo'){
+        principal='<div class="flashDeliveryHint">Primeiro aceite o pedido. Depois do pagamento aprovado, o botão para solicitar o motorista será liberado.</div>';
+      }else if(o.status==='aceito'&&!pago){
+        principal='<div class="flashDeliveryHint">Aguardando o pagamento ser aprovado para liberar a solicitação do motorista.</div>';
+      }else if(o.status==='aceito'&&o.entrega_flash_pedido_id&&o.entrega_status==='entregue'){
+        principal=`<button class="flashMainBtn" onclick="concluirPedidoLoja('${o.id}')">✅ CONCLUIR VENDA</button>`;
+      }else if(o.entrega_flash_pedido_id){
+        principal='<div class="flashDeliveryHint">A entrega já foi solicitada. O status abaixo atualiza conforme o motorista avança.</div>';
+      }
+      const steps=['Solicitado','A caminho','Coletado','Entregue'].map((x,i)=>`<div class="flashStep ${fs.step>=i+1?'on':''}">${x}</div>`).join('');
+      flashPanel=`<div class="flashDeliveryPanel"><div class="flashDeliveryHead"><div class="flashDeliveryTitle">⚡ Entrega Flash</div><div class="flashDeliveryStatus">${fs.label}</div></div>${principal}<div class="flashProgress">${steps}</div></div>`;
+    }
+    el.innerHTML=`<div class="lojaRowTop"><div><div class="lojaRowTitle">${escHtml(o.produto_titulo)} × ${o.quantidade}</div><div class="lojaRowMeta">Cliente: ${escHtml(o.comprador_nome)} · ${st}<br>Produto: ${formatPrice(o.subtotal)} · Frete: ${formatPrice(o.frete_valor||0)} · <strong>Total: ${formatPrice(o.total_pagamento||o.subtotal)}</strong><br>Pagamento: <strong>${escHtml(o.pagamento_status)}</strong> · Comissão: ${formatPrice(o.taxa_valor)}<br>${nomeEntrega(o.entrega_tipo)}${o.entrega_tipo==='entrega_flash'?` · ${nomeVeiculo(o.frete_veiculo)}`:''}${o.entrega_motorista_nome?`<br>Entregador: ${escHtml(o.entrega_motorista_nome)}`:''}${o.endereco_entrega?`<br>Destino: ${escHtml(o.endereco_entrega)}`:''}</div></div></div>${o.observacao?`<div class="lojaRowMeta" style="margin-top:6px">Obs.: ${escHtml(o.observacao)}</div>`:''}${flashPanel}<div class="lojaRowActions">${actions}</div>`;
+    box.appendChild(el);
+  });
 }
 async function responderPedidoLoja(id,aceitar){
   const o=(window._pedidosLoja||[]).find(x=>x.id===id);if(!o)return;

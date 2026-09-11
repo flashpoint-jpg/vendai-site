@@ -1505,7 +1505,10 @@
 
   /* ===== Visual limpo + nova marca Vendaí Entrega Flash ===== */
   .brandLogoGroup{min-width:0;display:flex;align-items:center;overflow:visible;}
+  .headerBrandBlock{display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-width:0;}
   .brandLogoFull{display:block;width:168px;height:auto;max-height:70px;object-fit:contain;object-position:left center;filter:drop-shadow(0 4px 8px rgba(12,64,36,.14));}
+  .headerBrandTagline{display:inline-flex;align-items:center;gap:6px;padding:4px 9px;border-radius:999px;background:#EDF7F1;border:1px solid #D6E9DC;color:#163A2B;font-size:10px;font-weight:900;letter-spacing:.2px;line-height:1.1;box-shadow:0 3px 10px rgba(18,40,28,.05);}
+  .headerBrandTagline:before{content:'•';font-size:12px;color:#17904F;}
   .logoMark,.logo{display:none!important;}
 
   /* Menos blocos na tela inicial */
@@ -1575,6 +1578,7 @@
 
   @media(max-width:520px){
     .brandLogoFull{width:148px;max-height:62px;}
+    .headerBrandTagline{font-size:9px;padding:4px 8px;}
     .location{max-width:43%;padding:6px 8px;font-size:10.5px;}
     .partnersSection{margin-left:12px;margin-right:12px;}
     .partnerCard{grid-template-columns:122px minmax(0,1fr);gap:9px;}
@@ -1585,6 +1589,7 @@
   }
   @media(min-width:760px){
     .brandLogoFull{width:220px;max-height:82px;}
+    .headerBrandTagline{font-size:10.5px;}
     .partnersSection{margin-left:40px;margin-right:40px;}
     .partnerCard{grid-template-columns:180px minmax(0,1fr);}
     .partnerLogoBox{width:180px;height:100px;}
@@ -1596,7 +1601,7 @@
   /* ===== 11/09/2026 — desktop como site, celular como app ===== */
   .desktopSiteNav{display:none;}
   html,body{overscroll-behavior-x:none;}
-  #app{touch-action:pan-y;}
+  #app{touch-action:auto;}
 
   @media (max-width:759px){
     html,body{width:100%;max-width:100%;overflow-x:hidden;}
@@ -1635,7 +1640,8 @@
 
 
   @media (max-width:759px){
-    html,body{touch-action:pan-x pan-y;overscroll-behavior-y:contain;}
+    html,body{touch-action:auto;overscroll-behavior-y:contain;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+    #app{touch-action:auto;}
     input,textarea,select{font-size:16px;}
   }
 
@@ -1653,11 +1659,12 @@
   .mlPrimary,.merchantBottomBtns button{background:#0F6B3D;color:#fff;box-shadow:0 7px 18px rgba(15,107,61,.18)}
   .mlSecondary{background:#FFC93C;color:#3B3218}.mlGhost{background:#F1F5F2;color:#174D34;border:1px solid #DFE8E1!important}
   .merchantLandingTrust{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;color:#60756A;font-size:10.5px;font-weight:750}
-  .merchantLandingVisual{min-height:270px;border-radius:18px;background:linear-gradient(145deg,#0F6B3D,#1E9B58);position:relative;overflow:hidden;padding:20px;display:flex;align-items:flex-end;justify-content:center}
+  .merchantLandingVisual{min-height:270px;border-radius:18px;background:linear-gradient(145deg,#0F6B3D,#1E9B58);position:relative;overflow:hidden;padding:16px;display:grid;grid-template-rows:auto 1fr;gap:10px}
   .merchantLandingVisual:after{content:'';position:absolute;width:210px;height:210px;border-radius:50%;border:38px solid rgba(255,255,255,.06);right:-75px;top:-60px}
-  .merchantVisualBrand{position:absolute;left:16px;right:16px;top:16px;background:rgba(255,255,255,.94);border-radius:14px;padding:10px 12px;z-index:2;box-shadow:0 10px 28px rgba(0,0,0,.12)}
-  .merchantVisualBrand img{width:135px;max-height:54px;object-fit:contain;object-position:left center;display:block;margin-bottom:4px}.merchantVisualBrand strong{display:block;color:#174D34;font-size:12px}.merchantVisualBrand small{display:block;color:#66766D;font-size:9.5px;margin-top:2px}
-  .merchantVisualProducts{position:relative;z-index:1;width:min(260px,100%);max-height:190px;object-fit:contain;filter:drop-shadow(0 14px 16px rgba(0,0,0,.22))}
+  .merchantVisualBrand{position:relative;display:flex;align-items:center;gap:10px;z-index:2;background:rgba(15,77,52,.14);border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:10px 12px;box-shadow:none;backdrop-filter:blur(2px)}
+  .merchantVisualBrand img{width:64px;height:64px;flex:0 0 64px;object-fit:contain;display:block;margin:0}.merchantVisualBrandText{min-width:0}.merchantVisualBrand strong{display:block;color:#FFFFFF;font-size:13px;line-height:1.2}.merchantVisualBrand small{display:block;color:rgba(255,255,255,.86);font-size:10px;margin-top:3px;line-height:1.35}
+  .merchantVisualProductsWrap{position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:center;min-height:150px;padding-top:4px}
+  .merchantVisualProducts{position:relative;z-index:1;width:min(260px,100%);max-height:172px;object-fit:contain;filter:drop-shadow(0 14px 16px rgba(0,0,0,.22))}
   .merchantBenefitsTitle{padding:20px 22px 10px;font-size:18px;font-weight:950;color:#1D3225}
   .merchantBenefitsGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding:0 22px 22px}.merchantBenefitsGrid article{display:flex;gap:10px;align-items:flex-start;background:#F8FBF9;border:1px solid #E4ECE6;border-radius:14px;padding:13px}.merchantBenefitIcon{width:38px;height:38px;flex:0 0 38px;border-radius:11px;display:grid;place-items:center;background:#FFF0A9;font-size:18px}.merchantBenefitsGrid strong{display:block;color:#21392A;font-size:12px}.merchantBenefitsGrid p{margin:4px 0 0;color:#708078;font-size:10.5px;line-height:1.42}
   .merchantHow{padding:19px 22px;background:#FAFCFA;border-top:1px solid #EEF2EF;border-bottom:1px solid #EEF2EF}.merchantHowTitle{font-size:17px;font-weight:950;text-align:center;margin-bottom:14px}.merchantSteps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.merchantSteps>div{text-align:center;padding:10px}.merchantSteps b{width:29px;height:29px;border-radius:50%;display:grid;place-items:center;margin:0 auto 7px;background:#177745;color:#fff;font-size:12px}.merchantSteps strong{display:block;font-size:11.5px;color:#22372A}.merchantSteps span{display:block;margin-top:4px;font-size:9.8px;line-height:1.35;color:#79867F}
@@ -1670,7 +1677,7 @@
   .supportSheet{height:min(82vh,720px);display:flex;flex-direction:column;padding-bottom:14px}.supportSheet>div[id^="support"]{min-height:0}.supportChatHead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:12px;padding-right:30px}.supportChatSub{font-size:11.5px;line-height:1.45;color:var(--ink-soft)}.supportNewBtn,.supportBack{border:0;border-radius:10px;background:#EAF6EE;color:#17633E;padding:8px 10px;font-weight:850;font-size:10.5px;cursor:pointer}.supportTickets{display:flex;flex-direction:column;gap:8px;max-height:58vh;overflow:auto}.supportTicket{width:100%;text-align:left;border:1px solid #E3EAE5;background:#fff;border-radius:14px;padding:11px 12px;cursor:pointer}.supportTicket.hasNew{border-color:#8BC7A2;box-shadow:0 0 0 2px #E6F5EB}.supportTicketTop,.supportTicketFoot{display:flex;align-items:center;justify-content:space-between;gap:10px}.supportTicketTop strong{font-size:12px;color:#233A2B}.supportTicketMsg{font-size:10.8px;color:#65756D;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:6px 0}.supportTicketFoot{font-size:9px;color:#8A9690}.supportTicketFoot b{color:#148046}.supportTicketStatus,.supportChatStatus{display:inline-flex;border-radius:999px;background:#EEF2EF;padding:4px 7px;font-size:8.8px;font-weight:900;text-transform:uppercase;color:#66756D}.supportTicketStatus.novo,.supportChatStatus.novo{background:#FFF1C7;color:#826000}.supportTicketStatus.em_atendimento,.supportChatStatus.em_atendimento{background:#E6F3FF;color:#24608E}.supportTicketStatus.resolvido,.supportChatStatus.resolvido{background:#E4F5EA;color:#14673B}.supportLoading,.supportEmpty{text-align:center;padding:28px 12px;color:#7A8780;font-size:11.5px;line-height:1.5}.supportConversationTop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}.supportChatMessages{height:48vh;overflow:auto;background:#F6F9F7;border:1px solid #E7ECE8;border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:8px}.supportBubble{max-width:84%;border-radius:14px;padding:9px 11px;font-size:11.5px;line-height:1.42;box-shadow:0 2px 7px rgba(0,0,0,.03)}.supportBubble.user{align-self:flex-end;background:#146F42;color:white;border-bottom-right-radius:5px}.supportBubble.admin{align-self:flex-start;background:white;color:#24362B;border:1px solid #E0E7E2;border-bottom-left-radius:5px}.supportBubble small{display:block;margin-top:5px;font-size:8.5px;opacity:.72}.supportComposer{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;margin-top:9px}.supportComposer textarea{margin:0;min-height:48px;max-height:100px;resize:vertical}.supportComposer button{border:0;border-radius:11px;background:#0F6B3D;color:white;font-weight:900;padding:0 15px;cursor:pointer}
 
   @media(max-width:759px){
-    .merchantLanding{margin:8px 12px 7px;border-radius:18px}.merchantLandingHero{grid-template-columns:1fr;padding:16px;gap:12px}.merchantLanding h1{font-size:26px;letter-spacing:-.8px}.merchantLandingCopy>p{font-size:12px;margin:9px 0 12px}.merchantLandingActions button{width:100%;padding:11px 12px}.merchantLandingTrust{gap:7px;font-size:9.4px}.merchantLandingVisual{min-height:220px;padding:14px}.merchantVisualBrand img{width:120px}.merchantVisualProducts{max-height:140px;margin-top:58px}.merchantBenefitsTitle{padding:16px 14px 9px;font-size:15px}.merchantBenefitsGrid{grid-template-columns:1fr 1fr;padding:0 14px 16px;gap:7px}.merchantBenefitsGrid article{display:block;padding:10px}.merchantBenefitIcon{width:34px;height:34px;margin-bottom:7px}.merchantHow{padding:15px 10px}.merchantHowTitle{font-size:15px}.merchantSteps{grid-template-columns:1fr 1fr;gap:3px}.merchantSteps>div{padding:8px 4px}.merchantFeeStrip{margin:12px 14px;grid-template-columns:42px minmax(0,1fr);padding:12px;gap:10px}.merchantFeeIcon{width:40px;height:40px;font-size:19px}.merchantLocalStrong{grid-column:1/-1;border-left:0;border-top:1px solid rgba(255,255,255,.25);padding:9px 0 0}.merchantBottomCta{display:block;padding:14px}.merchantBottomBtns{margin-top:10px}.merchantBottomBtns button{flex:1}.supportSheet{height:86vh}.supportChatHead{display:block}.supportNewBtn{margin-top:9px}.supportChatMessages{height:52vh}.supportComposer{grid-template-columns:1fr}.supportComposer button{min-height:42px}
+    .merchantLanding{margin:8px 12px 7px;border-radius:18px}.merchantLandingHero{grid-template-columns:1fr;padding:16px;gap:12px}.merchantLanding h1{font-size:26px;letter-spacing:-.8px}.merchantLandingCopy>p{font-size:12px;margin:9px 0 12px}.merchantLandingActions button{width:100%;padding:11px 12px}.merchantLandingTrust{gap:7px;font-size:9.4px}.merchantLandingVisual{min-height:220px;padding:14px;gap:9px}.merchantVisualBrand{padding:9px 10px;gap:8px}.merchantVisualBrand img{width:52px;height:52px;flex-basis:52px}.merchantVisualBrand strong{font-size:12px}.merchantVisualBrand small{font-size:9.5px}.merchantVisualProductsWrap{min-height:132px}.merchantVisualProducts{max-height:132px;margin-top:0}.merchantBenefitsTitle{padding:16px 14px 9px;font-size:15px}.merchantBenefitsGrid{grid-template-columns:1fr 1fr;padding:0 14px 16px;gap:7px}.merchantBenefitsGrid article{display:block;padding:10px}.merchantBenefitIcon{width:34px;height:34px;margin-bottom:7px}.merchantHow{padding:15px 10px}.merchantHowTitle{font-size:15px}.merchantSteps{grid-template-columns:1fr 1fr;gap:3px}.merchantSteps>div{padding:8px 4px}.merchantFeeStrip{margin:12px 14px;grid-template-columns:42px minmax(0,1fr);padding:12px;gap:10px}.merchantFeeIcon{width:40px;height:40px;font-size:19px}.merchantLocalStrong{grid-column:1/-1;border-left:0;border-top:1px solid rgba(255,255,255,.25);padding:9px 0 0}.merchantBottomCta{display:block;padding:14px}.merchantBottomBtns{margin-top:10px}.merchantBottomBtns button{flex:1}.supportSheet{height:86vh}.supportChatHead{display:block}.supportNewBtn{margin-top:9px}.supportChatMessages{height:52vh}.supportComposer{grid-template-columns:1fr}.supportComposer button{min-height:42px}
   }
   @media(min-width:760px){
     .merchantLanding{margin-left:clamp(28px,4vw,72px);margin-right:clamp(28px,4vw,72px);margin-top:18px}.merchantLandingHero{padding:clamp(24px,3vw,42px)}.supportSheet{width:min(760px,calc(100vw - 80px));margin:auto;border-radius:22px;max-height:82vh}
@@ -1685,7 +1692,10 @@
   <header>
     <div class="topRow">
       <div class="logoGroup brandLogoGroup">
-        <img class="brandLogoFull" src="/vendai-logo-novo.png?v=20260911-newbrand" alt="Vendaí Entrega Flash">
+        <div class="headerBrandBlock">
+          <img class="brandLogoFull" src="/vendai-logo-novo.png?v=20260911-newbrand" alt="Vendaí Entrega Flash">
+          <div class="headerBrandTagline">Compre e venda perto de você</div>
+        </div>
       </div>
       <button class="location" onclick="openLocationSheet()" id="locationBtn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:2px;"><path d="M12 21s7-6.4 7-11.6A7 7 0 0 0 5 9.4C5 14.6 12 21 12 21Z"/><circle cx="12" cy="9.4" r="2.4"/></svg> Toda a região <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:1px;margin-left:1px;"><polyline points="6 9 12 15 18 9"/></svg></button>
     </div>
@@ -1722,8 +1732,16 @@
         <div class="merchantLandingTrust"><span>✓ Cadastro simples</span><span>✓ Divulgação regional</span><span>✓ Você controla sua loja</span></div>
       </div>
       <div class="merchantLandingVisual" aria-hidden="true">
-        <div class="merchantVisualBrand"><img src="/vendai-logo-novo.png?v=20260911-newbrand" alt=""><strong>Compre de lojas da sua região</strong><small>Produtos, ofertas e negócios perto de você.</small></div>
-        <img class="merchantVisualProducts" src="/hero-products.png?v=20260910-real1" alt="" decoding="async">
+        <div class="merchantVisualBrand">
+          <img src="/vendai-icon-novo.png?v=20260911-newbrand" alt="">
+          <div class="merchantVisualBrandText">
+            <strong>Compre de lojas da sua região</strong>
+            <small>Produtos, ofertas e negócios perto de você.</small>
+          </div>
+        </div>
+        <div class="merchantVisualProductsWrap">
+          <img class="merchantVisualProducts" src="/hero-products.png?v=20260910-real1" alt="" decoding="async">
+        </div>
       </div>
     </div>
 
@@ -2149,13 +2167,6 @@ function bloquearZoomMobile(){
   });
   document.addEventListener('touchmove',e=>{
     if(mobileLike() && e.touches && e.touches.length>1) e.preventDefault();
-  },{passive:false});
-  let ultimoToque=0;
-  document.addEventListener('touchend',e=>{
-    if(!mobileLike()) return;
-    const agora=Date.now();
-    if(agora-ultimoToque<=300) e.preventDefault();
-    ultimoToque=agora;
   },{passive:false});
 }
 bloquearZoomMobile();

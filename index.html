@@ -1627,12 +1627,14 @@
   /* ===== 11/09/2026 — desktop como site, celular como app ===== */
   .desktopSiteNav{display:none;}
   html,body{overscroll-behavior-x:none;}
-  #app{touch-action:manipulation;}
+  body.scroll-lock{overflow:hidden !important;height:100dvh !important;}
+  #app{touch-action:auto;}
 
   @media (max-width:759px){
-    html,body{width:100%;max-width:100%;overflow-x:hidden;}
-    body{display:flex;justify-content:center;background:var(--bg);}
-    #app{width:100%;max-width:430px;min-height:100dvh;overflow-x:hidden;}
+    html,body{width:100%;max-width:100%;overflow-x:hidden;overflow-y:auto;touch-action:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-y:auto;}
+    body{display:flex;justify-content:center;background:var(--bg);min-height:100dvh;}
+    #app{width:100%;max-width:430px;min-height:100dvh;overflow-x:hidden;overflow-y:visible;touch-action:auto;}
+    main{flex:1 1 auto;min-height:0;}
     header{width:100%;}
     /* Evita o zoom automático ao tocar em campos no celular */
     input,textarea,select{font-size:16px!important;}
@@ -1669,8 +1671,8 @@
 
 
   @media (max-width:759px){
-    html,body{touch-action:manipulation;overscroll-behavior-y:contain;overflow-y:auto;-webkit-overflow-scrolling:touch;}
-    #app{touch-action:manipulation;}
+    html,body{touch-action:auto;overscroll-behavior-y:auto;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+    #app{touch-action:auto;}
     input,textarea,select{font-size:16px;}
   }
 
@@ -2203,38 +2205,23 @@ function bloquearZoomMobile(){
   },{passive:false});
 }
 bloquearZoomMobile();
+window.addEventListener('load',()=>{ if(!document.querySelector('.overlay.show')) document.body.classList.remove('scroll-lock'); });
 
-// Trava a rolagem da página de fundo enquanto qualquer tela (login, categorias
-// dentro de sheets, perfil, etc.) estiver aberta — sem isso, o gesto de rolar
-// dentro da tela aberta também rolava a home escondida atrás dela.
+// Trava a rolagem da página de fundo somente enquanto alguma tela sobreposta estiver aberta.
+// Aqui usamos uma classe simples no body para evitar o bug de a página principal ficar
+// permanentemente travada depois de fechar uma sheet no celular.
 (function travarScrollComOverlayAberto(){
-  let scrollSalvo = 0;
-  let travado = false;
-  function travar(){
-    scrollSalvo = window.scrollY || window.pageYOffset || 0;
-    document.body.style.position = 'fixed';
-    document.body.style.top = (-scrollSalvo) + 'px';
-    document.body.style.left = '0';
-    document.body.style.right = '0';
-    document.body.style.width = '100%';
-  }
-  function destravar(){
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.left = '';
-    document.body.style.right = '';
-    document.body.style.width = '';
-    window.scrollTo(0, scrollSalvo);
-  }
   function verificar(){
     const aberto = !!document.querySelector('.overlay.show');
-    if(aberto && !travado){ travado = true; travar(); }
-    else if(!aberto && travado){ travado = false; destravar(); }
+    document.body.classList.toggle('scroll-lock', aberto);
   }
   const observador = new MutationObserver(verificar);
   document.querySelectorAll('.overlay').forEach(el=>{
     observador.observe(el, {attributes:true, attributeFilter:['class']});
   });
+  window.addEventListener('pageshow', verificar);
+  document.addEventListener('visibilitychange', verificar);
+  verificar();
 })();
 
 const SUPABASE_URL = 'https://rgcclordmqjmwuzrrfbd.supabase.co';

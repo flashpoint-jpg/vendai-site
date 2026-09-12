@@ -446,8 +446,9 @@
   }
   .cardPrice{
     font-family:'Fredoka', sans-serif;
-    font-weight:600;
-    font-size:16px;
+    font-weight:800;
+    font-size:17.5px;
+    letter-spacing:-.2px;
     color: var(--green-dark);
     margin-bottom:4px;
   }
@@ -640,6 +641,11 @@
     background: var(--card);
     color: var(--ink);
     outline:none;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  input[type=text]:focus, input[type=number]:focus, select:focus, textarea:focus{
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(30,163,90,.15);
   }
   textarea{ resize:vertical; min-height:70px; }
   .photoBox{
@@ -1789,6 +1795,21 @@
     touch-action:manipulation;
   }
 
+
+  /* ===== Vendaí 12/09/2026 — Planos + monetização automática ===== */
+  .planSummary{margin:12px 0;padding:14px;border:1px solid #DCE8E0;border-radius:16px;background:linear-gradient(135deg,#F8FCF9,#EEF8F2);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .planSummaryMain{min-width:0;flex:1}.planSummaryMain small{display:block;color:var(--ink-soft);font-size:10px;font-weight:800}.planSummaryMain strong{display:block;color:var(--green-dark);font-size:17px;margin:2px 0}.planSummaryMeta{font-size:10.5px;line-height:1.45;color:var(--ink-soft)}
+  .planSummaryActions{display:flex;gap:7px;flex-wrap:wrap}.planSummaryActions button{border:0;border-radius:10px;padding:9px 11px;font:800 10.5px Inter,sans-serif;cursor:pointer}.planSummaryActions .main{background:var(--green-dark);color:#fff}.planSummaryActions .gold{background:var(--yellow);color:#2C361F}.planSummaryActions .soft{background:#fff;color:var(--green-dark);border:1px solid #D9E6DD}
+  .planCards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0}.planCard{position:relative;border:1px solid #E0E8E2;border-radius:18px;background:#fff;padding:15px;box-shadow:0 6px 18px rgba(18,52,34,.05)}.planCard.current{border-color:#79B791;box-shadow:0 0 0 2px #E5F4EA}.planCard.recommended{border-color:#E7C658;background:linear-gradient(180deg,#FFFDF5,#fff)}
+  .planBadge{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;background:#EAF6EE;color:#17633E;font-size:9px;font-weight:950;letter-spacing:.2px}.planCard.recommended .planBadge{background:#FFF0B5;color:#735900}.planName{font-size:16px;font-weight:950;color:#1B3426;margin:8px 0 2px}.planPrice{font-size:23px;font-weight:950;color:var(--green-dark)}.planPrice small{font-size:10px;font-weight:700;color:var(--ink-soft)}.planDesc{font-size:10.5px;line-height:1.45;color:var(--ink-soft);min-height:46px;margin:8px 0}.planBenefits{font-size:10.5px;line-height:1.55;color:#415C4D;margin:9px 0 12px}.planBenefits div{margin:3px 0}.planBtn{width:100%;border:0;border-radius:11px;padding:10px 11px;background:var(--green-dark);color:#fff;font-weight:900;cursor:pointer}.planBtn.secondary{background:#F2F6F3;color:var(--green-dark);border:1px solid #DCE6DF}.planBtn.gold{background:var(--yellow);color:#2E351E}
+  .storeCard.storeFeatured{border-color:#E6C75E;box-shadow:0 8px 22px rgba(184,145,22,.12)}.storePlanTag{display:inline-flex;margin-top:5px;padding:3px 6px;border-radius:999px;background:#EEF7F1;color:#17633E;font-size:8px;font-weight:900}.storeFeatured .storePlanTag{background:#FFF1B9;color:#725800}.productPaidTag{position:absolute;top:7px;right:7px;background:#FFD24A;color:#4D3B00;border-radius:999px;padding:4px 7px;font-size:8px;font-weight:950;z-index:2}
+  .productHighlightStatus{display:inline-flex;align-items:center;gap:4px;margin-top:5px;padding:4px 7px;border-radius:999px;background:#FFF4C9;color:#735800;font-size:9px;font-weight:850}.highlightChoiceGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.highlightChoice{border:1px solid #E2E9E3;border-radius:14px;background:#fff;padding:13px 9px;text-align:center;cursor:pointer}.highlightChoice strong{display:block;font-size:14px;color:var(--green-dark)}.highlightChoice span{display:block;font-size:10px;color:var(--ink-soft);margin-top:3px}.highlightChoice em{display:block;font-style:normal;font-size:16px;font-weight:950;color:#1F3829;margin-top:7px}
+  .monetPixCard{background:#fff;border:1px solid #E1E9E3;border-radius:18px;padding:15px;margin:12px 0}.monetPixQr{text-align:center;margin:12px 0}.monetPixQr img{width:220px;max-width:75vw;border:1px solid #E2E8E4;border-radius:14px;padding:9px;background:#fff}.monetPixCode{width:100%;min-height:82px;border:1px solid #DDE6E0;border-radius:12px;background:#F7FAF8;padding:10px;font-size:10.5px;line-height:1.35;word-break:break-all}.monetStatus{text-align:center;margin:10px 0 0;font-size:11px;font-weight:850;color:var(--green-dark)}
+  @media(max-width:680px){.planCards{grid-template-columns:1fr}.planDesc{min-height:0}.highlightChoiceGrid{grid-template-columns:1fr}.planSummary{align-items:flex-start}.planSummaryActions{width:100%}.planSummaryActions button{flex:1}}
+
+
+  /* ===== CORREÇÃO — última seção não pode ficar atrás do menu fixo de baixo ===== */
+  .partnersSection{padding-bottom:calc(94px + env(safe-area-inset-bottom)) !important;}
 </style>
 </head>
 <body>
@@ -1937,7 +1958,7 @@
 
     <div class="merchantBottomCta">
       <div><strong>Pronto para vender mais?</strong><span>Cadastre sua loja e comece a aparecer para clientes da sua região.</span></div>
-      <div class="merchantBottomBtns"><button type="button" onclick="abrirCadastroLoja()">Cadastrar loja</button><button class="outline" type="button" onclick="openSupportSheet()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4 5.8h16a1 1 0 0 1 1 1V15a1 1 0 0 1-1 1h-9.6L6 19.6V16H4a1 1 0 0 1-1-1V6.8a1 1 0 0 1 1-1Z"/></svg> Falar com o suporte</button></div>
+      <div class="merchantBottomBtns"><button type="button" onclick="abrirCadastroLoja()">Cadastrar loja</button><button class="outline" type="button" onclick="abrirPlanosVenda()">Planos para lojistas</button><button class="outline" type="button" onclick="openSupportSheet()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4 5.8h16a1 1 0 0 1 1 1V15a1 1 0 0 1-1 1h-9.6L6 19.6V16H4a1 1 0 0 1-1-1V6.8a1 1 0 0 1 1-1Z"/></svg> Falar com o suporte</button></div>
     </div>
   </section>
 
@@ -1949,6 +1970,7 @@
     </div>
     <div class="merchantAccessActions">
       <button class="create" type="button" onclick="abrirCadastroLoja()">Cadastrar sua loja</button>
+      <button class="access" type="button" onclick="abrirPlanosVenda()">Ver planos</button>
       <button class="access" type="button" onclick="abrirAcessoLoja()">Acessar sua loja</button>
     </div>
   </section>
@@ -3706,6 +3728,11 @@ let lojaProdutoOrigemAnuncioId=null;
 let produtoLojaAtual=null;
 let taxaVendai=8;
 let ultimaCotacaoFlash=null;
+let planosVendai=[];
+let planoLojaAtual=null;
+let precosMonetizacao={produto24:4.90,produto3d:9.90,produto7d:19.90,loja7d:29.90};
+let monetizacaoCobrancaId=null;
+let monetizacaoPollTimer=null;
 
 function escHtml(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
 function nomeVeiculo(v){return ({bicicleta:'Bicicleta',moto:'Moto',carro:'Carro',carroaberto:'Carro aberto',fiorino:'Fiorino',van:'Van',caminhao:'Caminhão'})[v]||v||'Moto';}
@@ -3718,25 +3745,40 @@ async function vendaiEntrega(action,body={}){
 }
 async function carregarMarketplaceLojas(){
   try{
-    const [cfg,ls,ps]=await Promise.all([sb.rpc('vendai_loja_config_publica'),sb.rpc('vendai_lojas_publicas'),sb.rpc('vendai_produtos_loja_publicos_v2',{p_loja_id:null})]);
+    const [cfg,ls,ps,pls,mon]=await Promise.all([
+      sb.rpc('vendai_loja_config_publica'),
+      sb.rpc('vendai_lojas_publicas_v3'),
+      sb.rpc('vendai_produtos_loja_publicos_v4',{p_loja_id:null}),
+      sb.rpc('vendai_planos_publicos'),
+      sb.rpc('vendai_config_monetizacao_publica')
+    ]);
     if(cfg.data?.[0]?.taxa_comissao!=null) taxaVendai=Number(cfg.data[0].taxa_comissao);
     const pctTxt=(Number.isInteger(taxaVendai)?taxaVendai.toFixed(0):taxaVendai.toFixed(1))+'%';
     const feeA=document.getElementById('merchantFeePct'),feeB=document.getElementById('merchantFeeExamplePct'); if(feeA)feeA.textContent=pctTxt;if(feeB)feeB.textContent=pctTxt;
-    lojasPublicas=ls.data||[]; produtosLojas=ps.data||[]; renderMarketplaceLojas();
-  }catch(e){console.warn('Lojas indisponíveis',e);}
+    lojasPublicas=ls.data||[]; produtosLojas=ps.data||[]; planosVendai=pls.data||[];
+    const m=mon.data?.[0]||{};
+    precosMonetizacao={produto24:Number(m.preco_produto_24h??4.90),produto3d:Number(m.preco_produto_3d??9.90),produto7d:Number(m.preco_produto_7d??19.90),loja7d:Number(m.preco_loja_7d??29.90)};
+    renderMarketplaceLojas();
+  }catch(e){console.warn('Lojas/planos indisponíveis',e);}
 }
 function renderMarketplaceLojas(){
   const section=document.getElementById('lojasSection'),rail=document.getElementById('storeRail'),grid=document.getElementById('storeProductsGrid');
   if(!section||!rail||!grid)return;
   if(!lojasPublicas.length&&!produtosLojas.length){section.style.display='none';return;}
   section.style.display='block';rail.innerHTML='';grid.innerHTML='';
-  lojasPublicas.slice(0,12).forEach(l=>{const el=document.createElement('div');el.className='storeCard';el.onclick=()=>filtrarLojaPublica(l.id,l.nome);el.innerHTML=`<div class="storeLogo">${l.logo_url?`<img src="${escHtml(l.logo_url)}" alt="">`:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M3.5 9 4.6 4h14.8L20.5 9"/><path d="M4.5 9v9.3a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V9"/><path d="M9.6 19.3v-5.2h4.8v5.2"/><line x1="3.5" y1="9" x2="20.5" y2="9"/></svg>'}</div><div class="storeName">${escHtml(l.nome)}</div><div class="storeCity"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M12 21s7-6.4 7-11.6A7 7 0 0 0 5 9.4C5 14.6 12 21 12 21Z"/><circle cx="12" cy="9.4" r="2.4"/></svg> ${escHtml(l.cidade)}</div><div class="storeCount">${Number(l.qtd_produtos||0)} produto${Number(l.qtd_produtos||0)===1?'':'s'}</div>`;rail.appendChild(el);});
-  produtosLojas.slice(0,10).forEach(p=>grid.appendChild(cardProdutoLoja(p)));
+  lojasPublicas.slice(0,12).forEach(l=>{
+    const el=document.createElement('div');el.className='storeCard'+(l.destaque_ativo?' storeFeatured':'');el.onclick=()=>filtrarLojaPublica(l.id,l.nome);
+    const tag=l.destaque_ativo?'⭐ Loja em destaque':(l.plano_slug==='premium'?'PREMIUM':l.plano_slug==='pro'?'PRO':'Loja');
+    el.innerHTML=`<div class="storeLogo">${l.logo_url?`<img src="${escHtml(l.logo_url)}" alt="">`:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3.5 9 4.6 4h14.8L20.5 9"/><path d="M4.5 9v9.3a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V9"/></svg>'}</div><div class="storeName">${escHtml(l.nome)}</div><div class="storeCity">📍 ${escHtml(l.cidade)}</div><div class="storeCount">${Number(l.qtd_produtos||0)} produto${Number(l.qtd_produtos||0)===1?'':'s'}</div><div class="storePlanTag">${escHtml(tag)}</div>`;
+    rail.appendChild(el);
+  });
+  produtosLojas.slice(0,12).forEach(p=>grid.appendChild(cardProdutoLoja(p)));
 }
 function cardProdutoLoja(p){
   const el=document.createElement('div');el.className='storeProductCard';el.onclick=()=>abrirProdutoLoja(p.id);const foto=p.fotos?.[0];
-  const entrega=p.entrega_flash_ativa?'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M13 2 4.4 14h5.7l-1 8L20.6 10h-5.9Z"/></svg> Entrega Flash':(p.retirada_loja_ativa?'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M3.5 9 4.6 4h14.8L20.5 9"/><path d="M4.5 9v9.3a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V9"/><path d="M9.6 19.3v-5.2h4.8v5.2"/><line x1="3.5" y1="9" x2="20.5" y2="9"/></svg> Retirada':'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><rect x="2.6" y="7.6" width="10.2" height="8.4" rx="1"/><path d="M12.8 10.6h3.5l3.3 3.3v2h-6.8"/><circle cx="6.6" cy="17.1" r="1.6"/><circle cx="15.6" cy="17.1" r="1.6"/></svg> Entrega da loja');
-  el.innerHTML=`<div class="storeProductImg">${foto?`<img src="${escHtml(foto)}" alt="">`:(CATEGORY_ICON[p.categoria]||'📦')}<span class="officialBadge"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M3.5 9 4.6 4h14.8L20.5 9"/><path d="M4.5 9v9.3a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V9"/><path d="M9.6 19.3v-5.2h4.8v5.2"/><line x1="3.5" y1="9" x2="20.5" y2="9"/></svg> Loja</span></div><div class="storeProductBody"><div class="storeProductTitle">${escHtml(p.titulo)}</div><div class="storeProductPrice">${formatPrice(p.preco)}</div><div class="storeProductMeta">${escHtml(p.loja_nome)} · ${escHtml(p.loja_cidade)}<br>${entrega}</div></div>`;return el;
+  const entrega=p.entrega_flash_ativa?'⚡ Entrega Flash':(p.retirada_loja_ativa?'🏪 Retirada':'🚚 Entrega da loja');
+  const plan=p.plano_slug==='premium'?'PREMIUM':p.plano_slug==='pro'?'PRO':'Loja';
+  el.innerHTML=`<div class="storeProductImg">${foto?`<img src="${escHtml(foto)}" alt="">`:(CATEGORY_ICON[p.categoria]||'📦')}<span class="officialBadge">🏪 ${escHtml(plan)}</span>${p.destaque_ativo?'<span class="productPaidTag">🔥 Destaque</span>':''}</div><div class="storeProductBody"><div class="storeProductTitle">${escHtml(p.titulo)}</div><div class="storeProductPrice">${formatPrice(p.preco)}</div><div class="storeProductMeta">${escHtml(p.loja_nome)} · ${escHtml(p.loja_cidade)}<br>${entrega}</div></div>`;return el;
 }
 function filtrarLojaPublica(lojaId,nome){const grid=document.getElementById('storeProductsGrid');if(!grid)return;const itens=produtosLojas.filter(p=>p.loja_id===lojaId);grid.innerHTML='';itens.forEach(p=>grid.appendChild(cardProdutoLoja(p)));if(!itens.length)grid.innerHTML='<div class="shopEmpty" style="grid-column:1/-1">Essa loja ainda não tem produtos disponíveis.</div>';showToast(`Vitrine: ${nome}`);grid.scrollIntoView({behavior:'smooth',block:'start'});}
 function abrirComoFuncionaLojista(){
@@ -3771,25 +3813,27 @@ async function salvarLoja(){
 }
 async function renderPainelLoja(){
   const c=document.getElementById('lojaContent');
-  if(lojaAtual?.status==='excluida'){c.innerHTML=`<div class="merchantKicker" style="color:var(--danger)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M3.5 9 4.6 4h14.8L20.5 9"/><path d="M4.5 9v9.3a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V9"/><path d="M9.6 19.3v-5.2h4.8v5.2"/><line x1="3.5" y1="9" x2="20.5" y2="9"/></svg> Loja encerrada</div><div class="detailTitle">${escHtml(lojaAtual.nome)}</div><div class="feeBox">Sua loja foi removida da vitrine. O histórico de pedidos, pagamentos e comissões foi preservado.</div><button class="publishBtn" onclick="reativarMinhaLoja()">Reativar minha loja</button><button class="secondary" style="width:100%;margin-top:8px" onclick="renderComprasUsuario()">Ver minhas compras</button>`;return;}
-  const [pr,ord,fin,mpr]=await Promise.all([sb.rpc('vendai_loja_meus_produtos_v2',{p_token:currentSessionToken}),sb.rpc('vendai_loja_pedidos_lojista_v2',{p_token:currentSessionToken}),sb.rpc('vendai_loja_financeiro',{p_token:currentSessionToken}),sb.rpc('vendai_loja_mp_status',{p_token:currentSessionToken})]);
+  if(lojaAtual?.status==='excluida'){c.innerHTML=`<div class="merchantKicker" style="color:var(--danger)">🏪 Loja encerrada</div><div class="detailTitle">${escHtml(lojaAtual.nome)}</div><div class="feeBox">Sua loja foi removida da vitrine. O histórico de pedidos, pagamentos e comissões foi preservado.</div><button class="publishBtn" onclick="reativarMinhaLoja()">Reativar minha loja</button><button class="secondary" style="width:100%;margin-top:8px" onclick="renderComprasUsuario()">Ver minhas compras</button>`;return;}
+  const [pr,ord,fin,mpr,plr]=await Promise.all([
+    sb.rpc('vendai_loja_meus_produtos_v4',{p_token:currentSessionToken}),
+    sb.rpc('vendai_loja_pedidos_lojista_v2',{p_token:currentSessionToken}),
+    sb.rpc('vendai_loja_financeiro',{p_token:currentSessionToken}),
+    sb.rpc('vendai_loja_mp_status',{p_token:currentSessionToken}),
+    sb.rpc('vendai_loja_plano_status',{p_token:currentSessionToken})
+  ]);
   lojaProdutosMeus=pr.data||[];const pedidos=ord.data||[];const f=fin.data?.[0]||{};const mp=mpr.data?.[0]||{conectado:false};
-  c.innerHTML=`<div class="merchantKicker" style="color:var(--green-dark)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M3.5 9 4.6 4h14.8L20.5 9"/><path d="M4.5 9v9.3a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V9"/><path d="M9.6 19.3v-5.2h4.8v5.2"/><line x1="3.5" y1="9" x2="20.5" y2="9"/></svg> Minha loja</div><div class="detailTitle">${escHtml(lojaAtual.nome)}</div><div style="font-size:11px;color:var(--ink-soft)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M12 21s7-6.4 7-11.6A7 7 0 0 0 5 9.4C5 14.6 12 21 12 21Z"/><circle cx="12" cy="9.4" r="2.4"/></svg> ${escHtml(lojaAtual.cidade)} · ${escHtml(lojaAtual.endereco_retirada||'Endereço de retirada não informado')}</div><div class="lojaStatGrid"><div class="lojaStat"><b>${Number(lojaAtual.qtd_produtos||0)}</b><span>Produtos</span></div><div class="lojaStat"><b>${Number(lojaAtual.pedidos_abertos||0)}</b><span>Pedidos abertos</span></div><div class="lojaStat"><b>${Number(lojaAtual.vendas_concluidas||0)}</b><span>Vendas concluídas</span></div></div><div class="feeBox"><strong>Financeiro</strong><br>Vendas concluídas: <strong>${formatPrice(f.vendas_valor||0)}</strong><br>Comissão Vendaí: <strong>${taxaVendai.toFixed(0)}%</strong><br>Comissão recebida/registrada: <strong>${formatPrice(f.comissao_paga||0)}</strong><br>Líquido-base dos produtos: <strong>${formatPrice(f.liquido_total||0)}</strong><br><span style="font-size:10px">O valor final recebido pode variar conforme as tarifas do Mercado Pago.</span></div><div class="feeBox"><strong>Entrega</strong><br>${lojaAtual.entrega_flash_ativa?'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M13 2 4.4 14h5.7l-1 8L20.6 10h-5.9Z"/></svg> Entrega Flash ativa':'Entrega Flash desativada'} · ${lojaAtual.retirada_loja_ativa?'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M3.5 9 4.6 4h14.8L20.5 9"/><path d="M4.5 9v9.3a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V9"/><path d="M9.6 19.3v-5.2h4.8v5.2"/><line x1="3.5" y1="9" x2="20.5" y2="9"/></svg> retirada ativa':'retirada desativada'} · ${lojaAtual.entrega_propria_ativa?'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><rect x="2.6" y="7.6" width="10.2" height="8.4" rx="1"/><path d="M12.8 10.6h3.5l3.3 3.3v2h-6.8"/><circle cx="6.6" cy="17.1" r="1.6"/><circle cx="15.6" cy="17.1" r="1.6"/></svg> entrega própria ativa':'entrega própria desativada'}</div><div class="feeBox"><strong>Mercado Pago</strong><br>${mp.conectado?`<span style="color:var(--green-dark)">✓ Conectado para pagamento online e split.</span><br><button class="secondary" style="margin-top:8px" onclick="desconectarMercadoPago()">Desconectar Mercado Pago</button>`:`<span style="color:#8B6500">Conecte para receber pedidos pagos online.</span><br><button class="publishBtn" style="margin-top:8px" onclick="conectarMercadoPago()">Conectar Mercado Pago</button>`}</div><div class="lojaToolbar"><button onclick="abrirNovoProdutoLoja()">＋ Novo produto</button><button onclick="renderPedidosLoja()">📦 Pedidos (${pedidos.filter(p=>['novo','aceito'].includes(p.status)).length})</button><button onclick="renderProdutosMinhaLoja()">🛍️ Produtos</button><button onclick="renderEditarLoja()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4.2 19.8 4.8 16.4 15.6 5.6a1.7 1.7 0 0 1 2.4 0l1.4 1.4a1.7 1.7 0 0 1 0 2.4L8.6 20.2Z"/><line x1="13.7" y1="7.5" x2="17.5" y2="11.3"/></svg> Dados/entrega</button><button onclick="renderComprasUsuario()">🧾 Minhas compras</button><button style="background:#FBE9E9;color:var(--danger)" onclick="excluirMinhaLoja()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4.5 7h15"/><path d="M9.5 7V4.7a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1V7"/><path d="M6.6 7 7.5 19.3a1.5 1.5 0 0 0 1.5 1.4h6a1.5 1.5 0 0 0 1.5-1.4L17.4 7"/><line x1="10.3" y1="10.4" x2="10.3" y2="16.8"/><line x1="13.7" y1="10.4" x2="13.7" y2="16.8"/></svg> Excluir loja</button></div><div id="lojaPainelLista"></div>`;
+  planoLojaAtual=plr.data?.[0]||{plano_slug:'gratis',plano_nome:'Vendaí Grátis',plano_selo:'Grátis',destaques_mes:0,destaques_usados:0,destaques_restantes:0,loja_destaque:false};
+  const validade=planoLojaAtual.validade?new Date(planoLojaAtual.validade).toLocaleDateString('pt-BR'):'';
+  const planoMeta=planoLojaAtual.plano_slug==='gratis'?'Plano gratuito sem mensalidade':`Válido até ${validade} · ${Number(planoLojaAtual.destaques_restantes||0)} de ${Number(planoLojaAtual.destaques_mes||0)} destaques restantes neste mês`;
+  const lojaDestaqueTxt=planoLojaAtual.loja_destaque?'⭐ Sua loja já recebe destaque pelo plano Premium':`Destaque avulso da loja: ${formatPrice(precosMonetizacao.loja7d)} por 7 dias`;
+  c.innerHTML=`<div class="merchantKicker" style="color:var(--green-dark)">🏪 Minha loja</div><div class="detailTitle">${escHtml(lojaAtual.nome)}</div><div style="font-size:11px;color:var(--ink-soft)">📍 ${escHtml(lojaAtual.cidade)} · ${escHtml(lojaAtual.endereco_retirada||'Endereço de retirada não informado')}</div>
+  <div class="planSummary"><div class="planSummaryMain"><small>SEU PLANO</small><strong>${escHtml(planoLojaAtual.plano_nome||'Vendaí Grátis')}</strong><div class="planSummaryMeta">${escHtml(planoMeta)}<br>${escHtml(lojaDestaqueTxt)}</div></div><div class="planSummaryActions"><button class="main" onclick="renderPlanosLoja()">Ver planos</button>${!planoLojaAtual.loja_destaque?`<button class="gold" onclick="comprarDestaqueLoja()">Destacar loja</button>`:''}</div></div>
+  <div class="lojaStatGrid"><div class="lojaStat"><b>${Number(lojaAtual.qtd_produtos||0)}</b><span>Produtos</span></div><div class="lojaStat"><b>${Number(lojaAtual.pedidos_abertos||0)}</b><span>Pedidos abertos</span></div><div class="lojaStat"><b>${Number(lojaAtual.vendas_concluidas||0)}</b><span>Vendas concluídas</span></div></div>
+  <div class="feeBox"><strong>Financeiro</strong><br>Vendas concluídas: <strong>${formatPrice(f.vendas_valor||0)}</strong><br>Comissão Vendaí: <strong>${taxaVendai.toFixed(0)}%</strong><br>Comissão recebida/registrada: <strong>${formatPrice(f.comissao_paga||0)}</strong><br>Líquido-base dos produtos: <strong>${formatPrice(f.liquido_total||0)}</strong><br><span style="font-size:10px">A comissão continua em todos os planos e também na retirada na loja. O valor final pode variar conforme tarifas do Mercado Pago.</span></div>
+  <div class="feeBox"><strong>Entrega</strong><br>${lojaAtual.entrega_flash_ativa?'⚡ Entrega Flash ativa':'Entrega Flash desativada'} · ${lojaAtual.retirada_loja_ativa?'🏪 retirada ativa':'retirada desativada'} · ${lojaAtual.entrega_propria_ativa?'🚚 entrega própria ativa':'entrega própria desativada'}</div>
+  <div class="feeBox"><strong>Mercado Pago</strong><br>${mp.conectado?`<span style="color:var(--green-dark)">✓ Conectado para pagamento online e split.</span><br><button class="secondary" style="margin-top:8px" onclick="desconectarMercadoPago()">Desconectar Mercado Pago</button>`:`<span style="color:#8B6500">Conecte para receber pedidos pagos online.</span><br><button class="publishBtn" style="margin-top:8px" onclick="conectarMercadoPago()">Conectar Mercado Pago</button>`}</div>
+  <div class="lojaToolbar"><button onclick="abrirNovoProdutoLoja()">＋ Novo produto</button><button onclick="renderPedidosLoja()">📦 Pedidos (${pedidos.filter(p=>['novo','aceito'].includes(p.status)).length})</button><button onclick="renderProdutosMinhaLoja()">🛍️ Produtos</button><button onclick="renderPlanosLoja()">⭐ Plano e destaques</button><button onclick="renderEditarLoja()">✏️ Dados/entrega</button><button onclick="renderComprasUsuario()">🧾 Minhas compras</button><button style="background:#FBE9E9;color:var(--danger)" onclick="excluirMinhaLoja()">🗑️ Excluir loja</button></div><div id="lojaPainelLista"></div>`;
   window._pedidosLoja=pedidos;renderPedidosLoja();
-}
-
-function pedidoUiMeta(id){
-  try{return JSON.parse(localStorage.getItem('vendai_pedido_ui_'+id)||'{}')||{};}catch(e){return {};}
-}
-function salvarPedidoUiMeta(id,patch){
-  const next={...pedidoUiMeta(id),...patch};
-  localStorage.setItem('vendai_pedido_ui_'+id, JSON.stringify(next));
-  return next;
-}
-function marcarPedidoPronto(id,pronto){
-  salvarPedidoUiMeta(id,{pronto:!!pronto});
-  showToast(pronto?'Produto marcado como pronto ✓':'Marcação de produto pronto removida');
-  renderPedidosLoja();
 }
 function editarObservacaoPedidoLoja(id){
   const meta=pedidoUiMeta(id);
@@ -3923,7 +3967,17 @@ async function responderPedidoLoja(id,aceitar){
 }
 async function chamarEntregaFlashLoja(id){if(!confirm('O produto está realmente pronto para retirada? Ao confirmar, o Entrega Flash começa a procurar motorista.'))return;try{const r=await vendaiEntrega('dispatch',{pedido_id:id});showToast(r.entrega?.ja_criado?'Entrega já estava aberta':'Entrega Flash acionado ✓');await openLojaPainel();}catch(e){const m=String(e.message||'');showToast(m.includes('pedido_nao_liberado')?'Aceite o pedido e aguarde o pagamento aprovado antes de chamar a entrega':'Não consegui chamar o Entrega Flash');}}
 async function concluirPedidoLoja(id){if(!confirm('Confirmar que este pedido foi entregue/retirado e a venda está concluída?'))return;const r=await sb.rpc('vendai_loja_concluir_pedido_v2',{p_token:currentSessionToken,p_pedido_id:id});if(r.error){showToast(String(r.error.message||'').includes('entrega_ainda')?'A Entrega Flash ainda não marcou como entregue':'Não consegui concluir a venda');return;}showToast('Venda concluída ✓');await openLojaPainel();}
-function renderProdutosMinhaLoja(){const box=document.getElementById('lojaPainelLista');if(!box)return;box.innerHTML='<div class="detailTitle" style="font-size:14px;margin-bottom:9px">Meus produtos</div>';if(!lojaProdutosMeus.length){box.innerHTML+='<div class="shopEmpty">Cadastre seu primeiro produto.</div>';return;}lojaProdutosMeus.forEach(p=>{const el=document.createElement('div');el.className='lojaRow';el.innerHTML=`<div class="lojaRowTitle">${escHtml(p.titulo)}</div><div class="lojaRowMeta">${formatPrice(p.preco)} · estoque ${p.estoque} · ${p.status}<br>Entrega Flash: ${nomeVeiculo(p.veiculo_entrega)}</div><div class="lojaRowActions"><button class="btnOk" onclick="editarProdutoLoja('${p.id}')">Editar</button>${p.status==='ativo'?`<button class="btnWarn" onclick="statusProdutoLoja('${p.id}','pausado')">Pausar</button>`:`<button class="btnOk" onclick="statusProdutoLoja('${p.id}','ativo')">Ativar</button>`}<button class="btnDanger" onclick="statusProdutoLoja('${p.id}','removido')">Remover</button></div>`;box.appendChild(el);});}
+function renderProdutosMinhaLoja(){
+  const box=document.getElementById('lojaPainelLista');if(!box)return;
+  const rest=Number(planoLojaAtual?.destaques_restantes||0);
+  box.innerHTML=`<div class="detailTitle" style="font-size:14px;margin-bottom:4px">Meus produtos</div><div class="tinyHint" style="margin-bottom:9px">${rest>0?`Seu plano tem ${rest} destaque(s) de 7 dias disponível(is) neste mês.`:'Você pode comprar destaque avulso a qualquer momento.'}</div>`;
+  if(!lojaProdutosMeus.length){box.innerHTML+='<div class="shopEmpty">Cadastre seu primeiro produto.</div>';return;}
+  lojaProdutosMeus.forEach(p=>{
+    const el=document.createElement('div');el.className='lojaRow';
+    const destaque=p.destaque&&p.destaque_expira_em?`<div class="productHighlightStatus">🔥 Destacado até ${new Date(p.destaque_expira_em).toLocaleDateString('pt-BR')}</div>`:'';
+    el.innerHTML=`<div class="lojaRowTitle">${escHtml(p.titulo)}</div><div class="lojaRowMeta">${formatPrice(p.preco)} · estoque ${p.estoque} · ${p.status}<br>Entrega Flash: ${nomeVeiculo(p.veiculo_entrega)}${destaque}</div><div class="lojaRowActions"><button class="btnOk" onclick="editarProdutoLoja('${p.id}')">Editar</button>${p.status==='ativo'?`<button class="btnWarn" onclick="statusProdutoLoja('${p.id}','pausado')">Pausar</button>`:`<button class="btnOk" onclick="statusProdutoLoja('${p.id}','ativo')">Ativar</button>`}${p.status==='ativo'&&rest>0?`<button class="btnOk" onclick="usarDestaquePlano('${p.id}')">⭐ Usar destaque do plano</button>`:''}${p.status==='ativo'?`<button class="btnWarn" onclick="abrirDestaqueProdutoLoja('${p.id}')">🔥 Comprar destaque</button>`:''}<button class="btnDanger" onclick="statusProdutoLoja('${p.id}','removido')">Remover</button></div>`;box.appendChild(el);
+  });
+}
 function renderFotosProdutoLojaPreview(){
   const box=document.getElementById('lpFotoPreview'); if(!box)return;
   box.innerHTML='';
@@ -4156,6 +4210,94 @@ async function renderComprasUsuario(){
   });
 }
 
+
+
+async function garantirDadosMonetizacao(){
+  if(planosVendai.length)return;
+  try{
+    const [pls,mon]=await Promise.all([sb.rpc('vendai_planos_publicos'),sb.rpc('vendai_config_monetizacao_publica')]);
+    planosVendai=pls.data||[];const m=mon.data?.[0]||{};
+    precosMonetizacao={produto24:Number(m.preco_produto_24h??4.90),produto3d:Number(m.preco_produto_3d??9.90),produto7d:Number(m.preco_produto_7d??19.90),loja7d:Number(m.preco_loja_7d??29.90)};
+  }catch(e){console.warn('monetização indisponível',e);}
+}
+function formatPlanoBeneficios(p){
+  const itens=['✓ Venda pelo Vendaí com retirada ou Entrega Flash'];
+  if(Number(p.destaques_mes||0)>0)itens.push(`✓ ${Number(p.destaques_mes)} destaque(s) de produto por mês`);
+  if(Number(p.prioridade||0)>0)itens.push(`✓ Prioridade ${Number(p.prioridade)>=40?'maior':'moderada'} nas buscas`);
+  if(p.loja_destaque)itens.push('✓ Loja em destaque enquanto o plano estiver ativo');
+  if(p.slug!=='gratis')itens.push('✓ Selo do plano na vitrine');
+  return itens.map(x=>`<div>${x}</div>`).join('');
+}
+async function abrirPlanosVenda(){
+  await garantirDadosMonetizacao();
+  document.getElementById('lojaOverlay').classList.add('show');
+  const c=document.getElementById('lojaContent');c.innerHTML='<div class="detailTitle">Planos para lojistas</div><div class="shopEmpty">Carregando...</div>';
+  if(currentSessionToken){
+    try{const lr=await sb.rpc('vendai_minha_loja_v2',{p_token:currentSessionToken});if(lr.data?.[0]){lojaAtual=lr.data[0];const pr=await sb.rpc('vendai_loja_plano_status',{p_token:currentSessionToken});planoLojaAtual=pr.data?.[0]||null;}}catch(e){}
+  }
+  renderPlanosLoja();
+}
+function renderPlanosLoja(){
+  const c=document.getElementById('lojaContent');if(!c)return;
+  const atual=planoLojaAtual?.plano_slug||'gratis';
+  const cards=(planosVendai||[]).map(p=>{
+    const current=atual===p.slug;
+    const preco=Number(p.preco_mensal||0);
+    let btn='';
+    if(current)btn='<button class="planBtn secondary" disabled>Plano atual</button>';
+    else if(p.slug==='gratis')btn=lojaAtual?`<button class="planBtn secondary" onclick="showToast('O plano Grátis não tem mensalidade. Para voltar ao Grátis, fale com o suporte ou aguarde o plano atual vencer.')">Grátis</button>`:`<button class="planBtn secondary" onclick="abrirCadastroLoja()">Começar grátis</button>`;
+    else btn=lojaAtual&&currentSessionToken?`<button class="planBtn ${p.slug==='premium'?'gold':''}" onclick="assinarPlanoLoja('${p.slug}')">Assinar por ${formatPrice(preco)}</button>`:`<button class="planBtn ${p.slug==='premium'?'gold':''}" onclick="abrirCadastroLoja()">Criar loja e assinar</button>`;
+    return `<div class="planCard ${current?'current ':''}${p.slug==='premium'?'recommended':''}"><span class="planBadge">${escHtml(p.selo||p.nome)}</span><div class="planName">${escHtml(p.nome)}</div><div class="planPrice">${preco?formatPrice(preco):'Grátis'}${preco?'<small> / 30 dias</small>':''}</div><div class="planDesc">${escHtml(p.descricao||'')}</div><div class="planBenefits">${formatPlanoBeneficios(p)}</div>${btn}</div>`;
+  }).join('');
+  const avulso=lojaAtual?`<div class="feeBox"><strong>Destaques avulsos</strong><br>Produto: 24h ${formatPrice(precosMonetizacao.produto24)} · 3 dias ${formatPrice(precosMonetizacao.produto3d)} · 7 dias ${formatPrice(precosMonetizacao.produto7d)}<br>Loja em destaque por 7 dias: <strong>${formatPrice(precosMonetizacao.loja7d)}</strong><br><button class="secondary" style="margin-top:8px" onclick="comprarDestaqueLoja()">Destacar minha loja</button></div>`:'';
+  c.innerHTML=`<div class="merchantKicker" style="color:var(--green-dark)">⭐ Venda mais aparecendo mais</div><div class="detailTitle">Planos para lojistas</div><div class="tinyHint">A comissão sobre as vendas continua em todos os planos. A mensalidade serve para aumentar visibilidade e liberar benefícios.</div><div class="planCards">${cards}</div>${avulso}${lojaAtual?'<button class="secondary" style="width:100%;margin-top:8px" onclick="openLojaPainel()">← Voltar ao painel da loja</button>':''}`;
+}
+async function chamarMonetizacaoPix(action,body={}){
+  const resp=await fetch(`${SUPABASE_URL}/functions/v1/vendai-monetizacao-pix?action=${encodeURIComponent(action)}`,{method:'POST',headers:{apikey:SUPABASE_KEY,'Content-Type':'application/json'},body:JSON.stringify({token:currentSessionToken,...body})});
+  const j=await resp.json().catch(()=>({}));if(!resp.ok){const e=new Error(j.error||'falha_monetizacao');e.detalhe=j.detalhe;throw e;}return j;
+}
+async function assinarPlanoLoja(slug){
+  const p=planosVendai.find(x=>x.slug===slug);if(!p)return;
+  if(!confirm(`Assinar ${p.nome} por ${formatPrice(p.preco_mensal)} por 30 dias? O plano não altera a comissão sobre as vendas.`))return;
+  await iniciarPagamentoMonetizacao({tipo:'plano',plano_slug:slug},p.nome);
+}
+async function comprarDestaqueLoja(){
+  if(!currentSessionToken||!lojaAtual){showToast('Entre na sua loja primeiro');return;}
+  if(!confirm(`Destacar sua loja por 7 dias por ${formatPrice(precosMonetizacao.loja7d)}?`))return;
+  await iniciarPagamentoMonetizacao({tipo:'destaque_loja'},'Loja em destaque — 7 dias');
+}
+function abrirDestaqueProdutoLoja(id){
+  const p=lojaProdutosMeus.find(x=>x.id===id);if(!p)return;const box=document.getElementById('lojaPainelLista');if(!box)return;
+  box.innerHTML=`<div class="detailTitle" style="font-size:15px">Destacar ${escHtml(p.titulo)}</div><div class="tinyHint">O produto sobe na vitrine e aparece antes dos produtos comuns. A ativação ocorre somente após a confirmação do PIX.</div><div class="highlightChoiceGrid"><button class="highlightChoice" onclick="comprarDestaqueProduto('${id}','24h')"><strong>24 horas</strong><span>Destaque rápido</span><em>${formatPrice(precosMonetizacao.produto24)}</em></button><button class="highlightChoice" onclick="comprarDestaqueProduto('${id}','3d')"><strong>3 dias</strong><span>Mais tempo visível</span><em>${formatPrice(precosMonetizacao.produto3d)}</em></button><button class="highlightChoice" onclick="comprarDestaqueProduto('${id}','7d')"><strong>7 dias</strong><span>Maior exposição</span><em>${formatPrice(precosMonetizacao.produto7d)}</em></button></div><button class="secondary" style="width:100%" onclick="renderProdutosMinhaLoja()">← Voltar aos produtos</button>`;
+}
+async function comprarDestaqueProduto(id,pacote){
+  const mapa={"24h":precosMonetizacao.produto24,"3d":precosMonetizacao.produto3d,"7d":precosMonetizacao.produto7d};
+  if(!confirm(`Gerar PIX de ${formatPrice(mapa[pacote])} para destacar este produto?`))return;
+  await iniciarPagamentoMonetizacao({tipo:'destaque_produto',produto_id:id,pacote},'Destaque de produto');
+}
+async function usarDestaquePlano(id){
+  if(!confirm('Usar 1 destaque incluído no seu plano? Ele deixa o produto em destaque por 7 dias.'))return;
+  const r=await sb.rpc('vendai_loja_usar_destaque_plano',{p_token:currentSessionToken,p_produto_id:id});
+  if(r.error){const m=String(r.error.message||'');showToast(m.includes('limite')?'Você já usou todos os destaques do mês':m.includes('plano_sem')?'Seu plano não inclui destaques':'Não consegui ativar o destaque');return;}
+  showToast('Produto destacado por 7 dias ✓');await carregarMarketplaceLojas();await openLojaPainel();renderProdutosMinhaLoja();
+}
+async function iniciarPagamentoMonetizacao(payload,titulo){
+  if(!currentSessionToken){showToast('Entre na sua conta primeiro');return;}
+  if(monetizacaoPollTimer){clearInterval(monetizacaoPollTimer);monetizacaoPollTimer=null;}
+  const c=document.getElementById('lojaContent');document.getElementById('lojaOverlay').classList.add('show');c.innerHTML=`<div class="detailTitle">${escHtml(titulo)}</div><div class="shopEmpty">Gerando PIX seguro...</div>`;
+  try{
+    const r=await chamarMonetizacaoPix('create',payload);monetizacaoCobrancaId=r.cobranca_id;
+    const qr=r.qr_code_base64?`<div class="monetPixQr"><img src="data:image/png;base64,${r.qr_code_base64}" alt="QR Code PIX"></div>`:'';
+    c.innerHTML=`<div class="merchantKicker" style="color:var(--green-dark)">PIX Vendaí</div><div class="detailTitle">${escHtml(titulo)}</div><div class="monetPixCard"><div style="font-size:12px;color:var(--ink-soft)">Valor</div><div class="detailPrice">${formatPrice(r.valor)}</div>${qr}<div style="font-size:11px;color:var(--ink-soft);margin-bottom:6px">PIX copia e cola:</div><textarea id="monetPixCode" class="monetPixCode" readonly></textarea><button class="publishBtn" style="margin-top:8px" onclick="copiarPixMonetizacao()">Copiar código PIX</button><div class="monetStatus" id="monetStatus">⏳ Aguardando confirmação do pagamento...</div></div><div class="highlightNotice">O plano ou destaque só será ativado após o Mercado Pago confirmar o pagamento.</div><button class="secondary" style="width:100%;margin-top:8px" onclick="openLojaPainel()">Voltar ao painel</button>`;
+    const ta=document.getElementById('monetPixCode');if(ta)ta.value=r.copia_cola||'';iniciarPollMonetizacao();
+  }catch(e){console.error(e);c.innerHTML=`<div class="detailTitle">Não consegui gerar o PIX</div><div class="feeBox">Tente novamente em alguns instantes.</div><button class="secondary" style="width:100%" onclick="openLojaPainel()">Voltar</button>`;}
+}
+async function copiarPixMonetizacao(){const el=document.getElementById('monetPixCode');if(!el?.value)return;try{await navigator.clipboard.writeText(el.value);showToast('PIX copiado ✓');}catch(e){el.select();document.execCommand('copy');showToast('PIX copiado ✓');}}
+function iniciarPollMonetizacao(){
+  if(monetizacaoPollTimer)clearInterval(monetizacaoPollTimer);
+  const verificar=async()=>{if(!monetizacaoCobrancaId)return;try{const r=await chamarMonetizacaoPix('status',{cobranca_id:monetizacaoCobrancaId});const st=document.getElementById('monetStatus');if(r.pago){if(st)st.textContent='✅ Pagamento confirmado! Benefício ativado.';clearInterval(monetizacaoPollTimer);monetizacaoPollTimer=null;monetizacaoCobrancaId=null;await carregarMarketplaceLojas();setTimeout(()=>openLojaPainel(),900);}else if(['rejeitado','cancelado','expirado','estornado','invalido'].includes(r.status)){if(st)st.textContent='⚠️ Pagamento '+r.status+'.';clearInterval(monetizacaoPollTimer);monetizacaoPollTimer=null;}}catch(e){console.warn('status monetização',e);}};
+  verificar();monetizacaoPollTimer=setInterval(verificar,4000);
+}
 
 function syncFloatingUi(){
   const btn=document.querySelector('.rolinhoFloat');

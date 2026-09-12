@@ -1711,6 +1711,49 @@
     .merchantLanding{margin-left:clamp(28px,4vw,72px);margin-right:clamp(28px,4vw,72px);margin-top:18px}.merchantLandingHero{padding:clamp(24px,3vw,42px)}.supportSheet{width:min(760px,calc(100vw - 80px));margin:auto;border-radius:22px;max-height:82vh}
   }
 
+
+  /* ===== CORREÇÃO 11/09/2026 — scroll vertical no celular ===== */
+  html, body{
+    height:auto !important;
+    min-height:100% !important;
+    overflow-y:auto !important;
+  }
+  body{
+    min-height:100dvh !important;
+  }
+  #app{
+    height:auto !important;
+    min-height:100dvh !important;
+    overflow-y:visible !important;
+  }
+  @media (max-width:759px){
+    html, body{
+      overflow-x:hidden !important;
+      overflow-y:auto !important;
+      overscroll-behavior-y:auto !important;
+      -webkit-overflow-scrolling:touch;
+      touch-action:manipulation !important;
+    }
+    #app{
+      overflow-x:hidden !important;
+      overflow-y:visible !important;
+      touch-action:manipulation !important;
+    }
+    .chipRow,.galleryThumbs{
+      touch-action:pan-x pan-y;
+      -webkit-overflow-scrolling:touch;
+    }
+  }
+  body.overlay-open{
+    overflow:hidden !important;
+  }
+  .overlay.show .sheet{
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;
+    touch-action:pan-y;
+  }
+
 </style>
 </head>
 <body>
@@ -2196,37 +2239,20 @@ function bloquearZoomMobile(){
 }
 bloquearZoomMobile();
 
-// Trava a rolagem da página de fundo enquanto qualquer tela (login, categorias
-// dentro de sheets, perfil, etc.) estiver aberta — sem isso, o gesto de rolar
-// dentro da tela aberta também rolava a home escondida atrás dela.
-(function travarScrollComOverlayAberto(){
-  let scrollSalvo = 0;
-  let travado = false;
-  function travar(){
-    scrollSalvo = window.scrollY || window.pageYOffset || 0;
-    document.body.style.position = 'fixed';
-    document.body.style.top = (-scrollSalvo) + 'px';
-    document.body.style.left = '0';
-    document.body.style.right = '0';
-    document.body.style.width = '100%';
-  }
-  function destravar(){
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.left = '';
-    document.body.style.right = '';
-    document.body.style.width = '';
-    window.scrollTo(0, scrollSalvo);
-  }
+// Trava somente o fundo quando uma tela sobreposta estiver aberta.
+// Não fixa mais o BODY com position:fixed, porque isso podia deixar a home sem scroll no celular.
+(function controlarScrollComOverlay(){
   function verificar(){
-    const aberto = !!document.querySelector('.overlay.show');
-    if(aberto && !travado){ travado = true; travar(); }
-    else if(!aberto && travado){ travado = false; destravar(); }
+    const aberto = Array.from(document.querySelectorAll('.overlay.show')).some(el=>{
+      return getComputedStyle(el).display !== 'none';
+    });
+    document.body.classList.toggle('overlay-open', aberto);
   }
   const observador = new MutationObserver(verificar);
   document.querySelectorAll('.overlay').forEach(el=>{
-    observador.observe(el, {attributes:true, attributeFilter:['class']});
+    observador.observe(el, {attributes:true, attributeFilter:['class','style']});
   });
+  verificar();
 })();
 
 const SUPABASE_URL = 'https://rgcclordmqjmwuzrrfbd.supabase.co';

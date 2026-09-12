@@ -1411,7 +1411,8 @@
   .rolinhoIcon{width:46px;height:46px;border-radius:15px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:25px;flex:0 0 auto;border:1px solid rgba(255,255,255,.16)}
   .rolinhoCopy{min-width:0;flex:1;position:relative;z-index:1}.rolinhoTitle{font-size:15px;font-weight:900;letter-spacing:-.2px}.rolinhoSub{font-size:11.5px;line-height:1.35;opacity:.88;margin-top:2px}
   .rolinhoBtn{position:relative;z-index:1;border:0;border-radius:999px;background:#FFD64A;color:#203228;padding:9px 12px;font-size:11px;font-weight:900;white-space:nowrap;cursor:pointer}
-  .rolinhoBadge{position:absolute;right:8px;top:8px;border-radius:999px;background:#153F2F;color:#fff;font-size:9.5px;font-weight:900;padding:4px 7px;box-shadow:0 3px 8px rgba(0,0,0,.12)}
+  .rolinhoBadge{position:absolute;right:8px;top:46px;border-radius:999px;background:#153F2F;color:#fff;font-size:9.5px;font-weight:900;padding:4px 7px;box-shadow:0 3px 8px rgba(0,0,0,.12)}
+  @keyframes thumbShimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
   .rolinhoTag{display:inline-flex;align-items:center;gap:5px;border-radius:999px;background:#E6F8EC;color:#146B3E;border:1px solid #CBECD7;padding:6px 10px;font-size:11.5px;font-weight:850;margin:10px 0 2px}
   .rolinhoFormBox{margin:12px 0 2px;padding:12px;border-radius:15px;background:#F0FAF4;border:1.5px solid #D6F0E0;display:flex;align-items:flex-start;gap:10px;cursor:pointer}
   .rolinhoFormBox input{width:18px;height:18px;margin:1px 0 0;accent-color:#159653;flex:0 0 auto}.rolinhoFormTitle{font-size:13px;font-weight:850;color:#175D3B}.rolinhoFormSub{font-size:11.5px;color:#5A7466;line-height:1.35;margin-top:2px}
@@ -2029,6 +2030,21 @@
     </section>
 
     <div class="feedTitle" id="feedTitle">Perto de você</div>
+    <div id="feedToolbar" style="display:flex; gap:8px; padding:0 12px 10px; align-items:center;">
+      <select id="sortSelect" onchange="renderGrid()" style="flex:1; border:1px solid #E1E6E2; border-radius:10px; padding:8px 10px; font-size:12.5px; background:#fff; color:var(--ink); font-weight:700;">
+        <option value="recentes">Mais recentes</option>
+        <option value="barato">Menor preço</option>
+        <option value="caro">Maior preço</option>
+      </select>
+      <select id="priceFilterSelect" onchange="renderGrid()" style="flex:1; border:1px solid #E1E6E2; border-radius:10px; padding:8px 10px; font-size:12.5px; background:#fff; color:var(--ink); font-weight:700;">
+        <option value="0">Qualquer preço</option>
+        <option value="50">Até R$ 50</option>
+        <option value="100">Até R$ 100</option>
+        <option value="300">Até R$ 300</option>
+        <option value="1000">Até R$ 1.000</option>
+        <option value="3000">Até R$ 3.000</option>
+      </select>
+    </div>
     <div class="grid" id="grid"></div>
     <div class="empty" id="emptyState" style="display:none;">Nenhum anúncio encontrado por aqui ainda.</div>
   </main><section class="merchantLanding" id="vendaExplica" aria-label="Conheça o Vendaí">
@@ -3175,13 +3191,23 @@ function renderGrid(){
   const empty = document.getElementById('emptyState');
   grid.innerHTML = '';
 
-  const filtered = ads.filter(ad=>{
+  let filtered = ads.filter(ad=>{
     const matchCat = activeCategory==='todos' || ad.categoria===activeCategory;
     const matchSearch = ad.titulo.toLowerCase().includes(searchTerm.toLowerCase());
     const matchCity = activeCity==='toda' || ad.cidade.includes(activeCity);
     const matchRolinho = !activeRolinho || aceitaTroca(ad);
-    return matchCat && matchSearch && matchCity && matchRolinho;
+    const priceMax = Number(document.getElementById('priceFilterSelect')?.value || 0);
+    const matchPrice = !priceMax || Number(ad.preco) <= priceMax;
+    return matchCat && matchSearch && matchCity && matchRolinho && matchPrice;
   });
+
+  const sortMode = document.getElementById('sortSelect')?.value || 'recentes';
+  filtered = filtered.slice().sort((a,b)=>{
+    if(sortMode==='barato') return Number(a.preco) - Number(b.preco);
+    if(sortMode==='caro') return Number(b.preco) - Number(a.preco);
+    return new Date(b.criado_em) - new Date(a.criado_em);
+  });
+
   const feedTitle=document.getElementById('feedTitle');
   if(feedTitle) feedTitle.innerHTML=activeRolinho ? '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4 8h12.5"/><path d="M13.5 4.8 16.8 8l-3.3 3.2"/><path d="M20 16H7.5"/><path d="M10.5 19.2 7.2 16l3.3-3.2"/></svg> Chama pro Rolinho <button type="button" onclick="sairRolinho()" style="margin-left:7px;border:0;background:#EEF6F0;color:#24613E;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:800;vertical-align:2px;">Ver todos</button>' : 'Perto de você';
   if(empty) empty.textContent=activeRolinho ? 'Ainda não há anúncios aceitando troca por aqui.' : 'Nenhum anúncio encontrado por aqui ainda.';
@@ -3196,27 +3222,45 @@ function renderGrid(){
     const card = document.createElement('div');
     card.className = 'card';
     card.onclick = () => openDetail(ad.id);
+    const isNovo = (Date.now() - new Date(ad.criado_em).getTime()) < 24*60*60*1000;
+    const numFotos = (ad.fotos && ad.fotos.length) || 0;
     card.innerHTML = `
       <div class="thumb" style="background:${CATEGORY_COLOR[ad.categoria]}; position:relative; padding:0; overflow:hidden;">
-        ${ad.fotos && ad.fotos.length>0
-          ? `<img src="${ad.fotos[0]}" style="width:100%;height:100%;object-fit:cover;">`
+        ${numFotos>0
+          ? `<div class="thumbSkeleton" style="position:absolute; inset:0; background:linear-gradient(90deg,#eee,#f5f5f5,#eee); background-size:200% 100%; animation:thumbShimmer 1.2s infinite;"></div>
+             <img src="${ad.fotos[0]}" loading="lazy" style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1;" onload="this.previousElementSibling.style.display='none';">`
           : CATEGORY_ICON[ad.categoria]}
-        ${ad.destaque ? '<div style="position:absolute; top:8px; left:8px; background:var(--yellow); border-radius:8px; font-size:9.5px; font-weight:700; padding:3px 7px; color:var(--ink);">🔥 Destaque</div>' : ''}
+        ${ad.destaque ? '<div style="position:absolute; top:8px; left:8px; background:var(--yellow); border-radius:8px; font-size:9.5px; font-weight:700; padding:3px 7px; color:var(--ink);">🔥 Destaque</div>'
+          : (isNovo ? '<div style="position:absolute; top:8px; left:8px; background:#2E8B57; border-radius:8px; font-size:9.5px; font-weight:700; padding:3px 7px; color:#fff;">✨ Novo</div>' : '')}
         ${aceitaTroca(ad) ? '<div class="rolinhoBadge"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4 8h12.5"/><path d="M13.5 4.8 16.8 8l-3.3 3.2"/><path d="M20 16H7.5"/><path d="M10.5 19.2 7.2 16l3.3-3.2"/></svg> Aceita troca</div>' : ''}
         ${renderFavoriteButtonHtml(ad.id,'card')}
+        ${numFotos>1 ? `<div style="position:absolute; bottom:6px; right:6px; background:rgba(0,0,0,.6); color:#fff; font-size:9.5px; font-weight:700; padding:2px 6px; border-radius:999px; z-index:2;">📷 1/${numFotos}</div>` : ''}
       </div>
       <div class="cardBody">
         <div class="cardTitle">${ad.titulo}</div>
         <div class="cardPrice">${formatPrice(ad.preco)}</div>
         <div class="cardBottomMeta">
           <div class="cardMeta">${ad.cidade} · ${tempoDecorrido(ad.criado_em)}</div>
-          ${renderLikeButtonHtml(ad.id,'cardLike')}
+          <div style="display:flex; gap:4px; align-items:center;">
+            <button type="button" onclick="compartilharWhatsApp('${String(ad.id)}', event)" title="Compartilhar no WhatsApp" style="border:0;background:transparent;font-size:15px;cursor:pointer;line-height:1;padding:2px;">📤</button>
+            ${renderLikeButtonHtml(ad.id,'cardLike')}
+          </div>
         </div>
       </div>
     `;
     grid.appendChild(card);
   });
 }
+
+function compartilharWhatsApp(adId, event){
+  if(event) event.stopPropagation();
+  const ad = ads.find(a=>String(a.id)===String(adId));
+  if(!ad) return;
+  const url = location.origin + location.pathname + '?ad=' + encodeURIComponent(adId);
+  const texto = `Olha esse anúncio no Vendaí: ${ad.titulo} - ${formatPrice(ad.preco)}\n${url}`;
+  window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank');
+}
+
 
 function openDetail(id){
   const ad = ads.find(a=>String(a.id)===String(id));

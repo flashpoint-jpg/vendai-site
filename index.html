@@ -1939,7 +1939,12 @@
     <div class="searchBar">
       <span style="display:inline-flex;color:var(--ink-soft);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="10.8" cy="10.8" r="6.8"/><line x1="20" y1="20" x2="15.6" y2="15.6"/></svg></span>
       <input id="searchInput" type="text" placeholder="Buscar celular, carro, móveis..." autocomplete="off">
+      <button type="button" id="salvarBuscaBtn" onclick="salvarBuscaAtual()" style="display:none;border:0;background:transparent;color:var(--green-dark);font-size:15px;cursor:pointer;padding:2px 4px;" title="Salvar essa busca">🔔</button>
     </div>
+    <button type="button" id="alertasBtn" onclick="abrirAlertas()" style="position:relative;border:0;background:transparent;color:var(--ink-soft);cursor:pointer;padding:4px 6px;">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 5 2 6.4 2 6.4H4S6 13 6 8Z"/><path d="M10.3 19.6a1.9 1.9 0 0 0 3.4 0"/></svg>
+      <span id="alertasBadge" style="display:none;position:absolute;top:0;right:0;background:#D64545;color:#fff;font-size:9px;font-weight:800;border-radius:999px;padding:1px 4px;min-width:14px;text-align:center;">0</span>
+    </button>
     <div class="desktopSiteNav" aria-label="Navegação do site">
       <button type="button" onclick="fecharCategorias()">Início</button>
       <button type="button" onclick="openCategories()">Categorias</button>
@@ -2177,6 +2182,36 @@
         <input type="text" id="chatInput" placeholder="Escreva sua mensagem..." style="flex:1;" onkeydown="if(event.key==='Enter') enviarMensagem()">
         <button style="background:var(--green); color:#fff; border:none; border-radius:12px; padding:0 16px; font-weight:700; cursor:pointer;" onclick="enviarMensagem()">Enviar</button>
       </div>
+    </div>
+  </div>
+
+  <!-- Avaliar vendedor sheet -->
+  <div class="overlay" id="avaliarOverlay" onclick="closeOverlayBg(event,'avaliarOverlay')">
+    <div class="sheet" style="position:relative;" onclick="event.stopPropagation()">
+      <button class="closeBtn" onclick="closeSheet('avaliarOverlay')">✕</button>
+      <div class="sheetHandle"></div>
+      <div class="detailTitle" style="margin-bottom:10px;">Avaliar vendedor</div>
+      <label>Nota</label>
+      <select id="avaliarNota" style="width:100%;border:1px solid #E1E6E2;border-radius:10px;padding:10px;font-size:14px;margin-bottom:10px;">
+        <option value="5">⭐⭐⭐⭐⭐ Excelente</option>
+        <option value="4">⭐⭐⭐⭐ Muito bom</option>
+        <option value="3">⭐⭐⭐ Bom</option>
+        <option value="2">⭐⭐ Regular</option>
+        <option value="1">⭐ Ruim</option>
+      </select>
+      <label>Comentário (opcional)</label>
+      <textarea id="avaliarComentario" maxlength="500" placeholder="Como foi negociar com essa pessoa?" style="width:100%;min-height:70px;border:1px solid #E1E6E2;border-radius:10px;padding:10px;font-size:13.5px;"></textarea>
+      <button class="publishBtn" style="margin-top:12px;" onclick="enviarAvaliacaoVendedor()">Enviar avaliação</button>
+    </div>
+  </div>
+
+  <!-- Alertas de busca sheet -->
+  <div class="overlay" id="alertasOverlay" onclick="closeOverlayBg(event,'alertasOverlay')">
+    <div class="sheet" style="position:relative;" onclick="event.stopPropagation()">
+      <button class="closeBtn" onclick="closeSheet('alertasOverlay')">✕</button>
+      <div class="sheetHandle"></div>
+      <div class="detailTitle" style="margin-bottom:12px;">🔔 Alertas de busca</div>
+      <div id="listaAlertas"></div>
     </div>
   </div>
 
@@ -2710,7 +2745,8 @@ function iniciarMonitorMensagens(){
   if(inboxPollingInterval) clearInterval(inboxPollingInterval);
   inboxPrimeiraLeitura = true;
   checarMensagensNovas();
-  inboxPollingInterval = setInterval(checarMensagensNovas, 3500);
+  checarAlertasNovos();
+  inboxPollingInterval = setInterval(()=>{ checarMensagensNovas(); checarAlertasNovos(); }, 3500);
 }
 
 async function ativarNotificacoes(){
@@ -3242,7 +3278,9 @@ function renderGrid(){
         <div class="cardBottomMeta">
           <div class="cardMeta">${ad.cidade} · ${tempoDecorrido(ad.criado_em)}</div>
           <div style="display:flex; gap:4px; align-items:center;">
-            <button type="button" onclick="compartilharWhatsApp('${String(ad.id)}', event)" title="Compartilhar no WhatsApp" style="border:0;background:transparent;font-size:15px;cursor:pointer;line-height:1;padding:2px;">📤</button>
+            <button type="button" onclick="compartilharWhatsApp('${String(ad.id)}', event)" title="Compartilhar no WhatsApp" style="border:0;background:transparent;cursor:pointer;line-height:1;padding:2px;display:flex;align-items:center;">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="#25D366"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.87 9.87 0 0 0 4.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2zm5.9 14.03c-.25.7-1.45 1.34-2 1.42-.51.08-1.16.11-1.87-.12-.43-.14-.98-.32-1.69-.63-2.97-1.28-4.9-4.27-5.05-4.47-.15-.2-1.21-1.61-1.21-3.07 0-1.46.77-2.18 1.04-2.48.27-.29.6-.37.8-.37.2 0 .4 0 .57.01.18.01.43-.07.67.51.25.6.85 2.07.92 2.22.07.15.12.33.02.53-.1.2-.15.32-.3.5-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.3.77 1.27 1.66 2.06 1.14 1.02 2.1 1.34 2.4 1.49.3.15.47.13.65-.08.18-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.28.1 1.75.83 2.05 .98.3.15.5.23.57.35.08.13.08.75-.17 1.45z"/></svg>
+            </button>
             ${renderLikeButtonHtml(ad.id,'cardLike')}
           </div>
         </div>
@@ -3292,10 +3330,11 @@ function openDetail(id){
     <div class="detailDesc">${escHtml(descricaoSemRolinho(ad.descricao) || 'Sem descrição.')}</div>
     <div class="sellerRow">
       <div class="sellerAvatar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><circle cx="12" cy="8.3" r="3.4"/><path d="M4.9 19.6c1-3.6 3.9-5.5 7.1-5.5s6.1 1.9 7.1 5.5"/></svg></div>
-      <div>
+      <div style="flex:1;min-width:0;">
         <div class="sellerName">${escHtml(ad.vendedor_nome || 'Anônimo')}</div>
-        <div class="sellerLoc">${escHtml(ad.cidade)}</div>
+        <div class="sellerLoc" id="sellerRatingLine">${escHtml(ad.cidade)}</div>
       </div>
+      ${(ad.vendedor_id) ? `<button type="button" onclick="abrirAvaliarVendedor('${String(ad.vendedor_id)}','${String(ad.id)}')" style="border:1px solid #E2E9E3;background:#fff;border-radius:999px;padding:6px 12px;font-size:11px;font-weight:700;color:var(--green-dark);cursor:pointer;white-space:nowrap;">⭐ Avaliar</button>` : ''}
     </div>
     <div class="btnRow">
       <div class="btnPrimary" onclick="iniciarChatFromDetail()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4 5.8h16a1 1 0 0 1 1 1V15a1 1 0 0 1-1 1h-9.6L6 19.6V16H4a1 1 0 0 1-1-1V6.8a1 1 0 0 1 1-1Z"/></svg> Chamar no chat</div>
@@ -3306,6 +3345,43 @@ function openDetail(id){
     ${(!ad.destaque && currentUser && currentUser.id===ad.vendedor_id) ? `<div class="publishBtn" style="margin-top:9px; background:var(--card); border:1.5px solid #E2E9E3; box-shadow:none; color:var(--green-dark);" onclick="destacarAnuncio('${ad.id}')">🏷️ Destacar este anúncio — ${formatMoneyCharge(PRECO_DESTAQUE)}</div>` : ''}
   `;
   document.getElementById('detailOverlay').classList.add('show');
+  if(ad.vendedor_id) carregarNotaVendedor(ad.vendedor_id, ad.cidade);
+}
+
+async function carregarNotaVendedor(vendedorId, cidade){
+  try{
+    const { data, error } = await sb.rpc('vendai_perfil_publico', { p_usuario_id: vendedorId });
+    const linha = document.getElementById('sellerRatingLine');
+    if(!linha || error || !data || !data[0]) return;
+    const p = data[0];
+    if(p.total_avaliacoes>0){
+      linha.innerHTML = `${escHtml(cidade)} · ⭐ ${Number(p.nota_media).toFixed(1)} (${p.total_avaliacoes})`;
+    }
+  }catch(e){}
+}
+
+function abrirAvaliarVendedor(vendedorId, anuncioId){
+  if(!currentUser || !currentSessionToken){ openLoginSheet(); return; }
+  if(currentUser.id === vendedorId){ showToast('Você não pode avaliar a si mesmo'); return; }
+  window._avaliarAlvo = { vendedorId, anuncioId };
+  document.getElementById('avaliarNota').value = '5';
+  document.getElementById('avaliarComentario').value = '';
+  document.getElementById('avaliarOverlay').classList.add('show');
+}
+
+async function enviarAvaliacaoVendedor(){
+  const alvo = window._avaliarAlvo;
+  if(!alvo || !currentSessionToken) return;
+  const nota = Number(document.getElementById('avaliarNota').value);
+  const comentario = document.getElementById('avaliarComentario').value.trim();
+  const { error } = await sb.rpc('vendai_avaliar_vendedor', {
+    p_token: currentSessionToken, p_anuncio_id: alvo.anuncioId, p_vendedor_id: alvo.vendedorId,
+    p_nota: nota, p_comentario: comentario || null
+  });
+  closeSheet('avaliarOverlay');
+  if(error){ showToast('Não deu pra enviar a avaliação'); return; }
+  showToast('Avaliação enviada, obrigado! ⭐');
+  carregarNotaVendedor(alvo.vendedorId, document.getElementById('sellerRatingLine')?.textContent?.split('·')[0]?.trim() || '');
 }
 
 function iniciarChatFromDetail(){
@@ -3968,8 +4044,55 @@ function showToast(msg){
 
 document.getElementById('searchInput').addEventListener('input', (e)=>{
   searchTerm = e.target.value;
+  const btn = document.getElementById('salvarBuscaBtn');
+  if(btn) btn.style.display = searchTerm.trim().length>=2 ? 'inline-flex' : 'none';
   renderGrid();
 });
+
+async function salvarBuscaAtual(){
+  const termo = searchTerm.trim();
+  if(!termo) return;
+  if(!currentUser || !currentSessionToken){ openLoginSheet(); return; }
+  const { error } = await sb.rpc('vendai_salvar_busca', { p_token: currentSessionToken, p_termo: termo });
+  if(error){ showToast('Não consegui salvar essa busca'); return; }
+  showToast(`🔔 Vamos te avisar quando surgir "${termo}"`);
+}
+
+async function abrirAlertas(){
+  if(!currentUser || !currentSessionToken){ openLoginSheet(); return; }
+  const box = document.getElementById('listaAlertas');
+  box.innerHTML = '<div style="padding:20px;text-align:center;color:var(--ink-soft);">Carregando...</div>';
+  document.getElementById('alertasOverlay').classList.add('show');
+  const { data, error } = await sb.rpc('vendai_meus_alertas', { p_token: currentSessionToken });
+  if(error || !data || data.length===0){
+    box.innerHTML = '<div style="padding:20px;text-align:center;color:var(--ink-soft);">Nenhum alerta ainda. Salve uma busca (🔔 na barra de pesquisa) pra ser avisado quando surgir algo novo.</div>';
+  } else {
+    box.innerHTML = data.map(a => `
+      <div class="sellerRow" style="cursor:pointer;margin-bottom:10px;" onclick="closeSheet('alertasOverlay'); openDetail('${a.anuncio_id}')">
+        <div class="sellerAvatar" style="background:${a.anuncio_titulo?'var(--green-soft)':'#eee'};">🔔</div>
+        <div style="flex:1;min-width:0;">
+          <div class="sellerName" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escHtml(a.anuncio_titulo || 'Anúncio removido')}</div>
+          <div class="sellerLoc">${a.anuncio_preco!=null?formatPrice(a.anuncio_preco):''} · busca: "${escHtml(a.termo)}"</div>
+        </div>
+      </div>`).join('');
+  }
+  await sb.rpc('vendai_marcar_alertas_lidos', { p_token: currentSessionToken });
+  atualizarBadgeAlertas(0);
+}
+
+function atualizarBadgeAlertas(n){
+  const b = document.getElementById('alertasBadge');
+  if(!b) return;
+  if(n>0){ b.style.display='block'; b.textContent = n>9?'9+':String(n); }
+  else b.style.display='none';
+}
+
+async function checarAlertasNovos(){
+  if(!currentUser || !currentSessionToken) return;
+  const { data, error } = await sb.rpc('vendai_contar_alertas_nao_lidos', { p_token: currentSessionToken });
+  if(error) return;
+  atualizarBadgeAlertas(data || 0);
+}
 
 document.addEventListener('pointerdown', ()=>prepararSom(), { once:true });
 

@@ -1031,6 +1031,27 @@
   }
   .searchBar input{font-size:14px;}
 
+  .quickPitch{
+    margin:12px 16px 0;padding:14px 15px;border-radius:18px;
+    background:#EAF6EE;border:1px solid #CDEAD6;
+    display:flex;flex-direction:column;gap:10px;
+  }
+  .quickPitchText strong{display:block;font-size:14px;font-weight:850;color:var(--green-dark);letter-spacing:-.2px;margin-bottom:2px;}
+  .quickPitchText span{display:block;font-size:11.5px;color:var(--ink-soft);}
+  .quickPitchActions{display:flex;gap:8px;}
+  .quickPitchPrimary{
+    flex:1;border:0;border-radius:12px;padding:11px 10px;
+    background:var(--green);color:#fff;font-weight:850;font-size:12.5px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;gap:5px;
+    box-shadow:0 7px 16px rgba(30,163,90,.28);
+  }
+  .quickPitchPrimary:active{transform:scale(.97);}
+  .quickPitchGhost{
+    flex:0 0 auto;border:1px solid #CDEAD6;border-radius:12px;padding:11px 13px;
+    background:#fff;color:var(--green-dark);font-weight:750;font-size:12px;cursor:pointer;
+  }
+  @media(min-width:760px){.quickPitch{margin-left:clamp(28px,4vw,72px);margin-right:clamp(28px,4vw,72px);flex-direction:row;align-items:center;justify-content:space-between;}.quickPitchActions{flex:0 0 auto;}}
+
   .installHero{
     margin:12px 16px 0;
     display:flex;align-items:center;gap:11px;
@@ -1758,6 +1779,15 @@
     touch-action:pan-y;
   }
 
+  /* ===== CORREÇÃO — botões selecionando texto em vez de responder ao toque ===== */
+  button, .lojaToolbar button, .lojaRowActions button{
+    -webkit-user-select:none;
+    user-select:none;
+    -webkit-touch-callout:none;
+    -webkit-tap-highlight-color:transparent;
+    touch-action:manipulation;
+  }
+
 </style>
 </head>
 <body>
@@ -1796,7 +1826,71 @@
     </button>
   </header>
 
-  <section class="merchantLanding" id="vendaExplica" aria-label="Conheça o Vendaí">
+  
+  <section class="quickPitch" aria-label="Compre e venda perto de você">
+    <div class="quickPitchText">
+      <strong>Compre, venda ou troque usados perto de você</strong>
+      <span>Anuncie grátis em poucos minutos.</span>
+    </div>
+    <div class="quickPitchActions">
+      <button class="quickPitchPrimary" type="button" onclick="openPostSheet()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Anunciar grátis</button>
+      <button class="quickPitchGhost" type="button" onclick="document.getElementById('vendaExplica').scrollIntoView({behavior:'smooth'})">Tenho uma loja</button>
+    </div>
+  </section>
+
+<section class="installHero" id="installHero" aria-label="Instalar aplicativo Vendaí">
+    <div class="installAppIcon"><img src="/icon-192.png?v=20260911-newbrand" alt="Ícone do Vendaí Entrega Flash" width="46" height="46"></div>
+    <div class="installCopy">
+      <div class="installTitle">Leve o Vendaí no celular</div>
+      <div class="installSub">Android • app leve • acesso rápido</div>
+    </div>
+    <button class="installBtn" type="button" onclick="instalarVendaI()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M12 4v11"/><polyline points="7.5 11 12 15.5 16.5 11"/><line x1="5" y1="20" x2="19" y2="20"/></svg>Instalar app</button>
+  </section>
+  <div class="apkNote" id="apkNote">Se o Android pedir autorização, permita instalar apps deste navegador para concluir a instalação.</div>
+
+
+
+  <section class="categorySection" id="categorySection" aria-label="Categorias do marketplace">
+    <div class="categoryHeader">
+      <div>
+        <div class="categoryTitle">Categorias</div>
+        <div class="categoryHint">Encontre mais rápido o que procura</div>
+      </div>
+    </div>
+    <div class="chipRow" id="chipRow"></div>
+  </section>
+
+
+  <main>
+    <div class="supportHome" onclick="openSupportSheet()">
+      <div class="supportHomeIcon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M4 5.8h16a1 1 0 0 1 1 1V15a1 1 0 0 1-1 1h-9.6L6 19.6V16H4a1 1 0 0 1-1-1V6.8a1 1 0 0 1 1-1Z"/></svg></div>
+      <div class="supportHomeText">
+        <div class="supportHomeTitle">Central de suporte Vendaí</div>
+        <div class="supportHomeSub">Dúvidas, problemas ou sugestões? Fale com a equipe pelo chat.</div>
+      </div>
+      <div class="supportHomeArrow">›</div>
+    </div>
+
+    <div class="infoBanner" id="infoBanner">
+      <button class="infoClose" onclick="document.getElementById('infoBanner').style.display='none'">✕</button>
+      <div class="infoTitle">Como funciona o Vendaí</div>
+      <div class="infoStep"><span class="stepNum">1</span> Anuncie grátis</div>
+      <div class="infoStep"><span class="stepNum">2</span> Converse pelo chat</div>
+      <div class="infoStep"><span class="stepNum">3</span> Receba e faça ofertas</div>
+      <div class="infoNote">🌱 Estamos testando a versão gratuita por enquanto</div>
+    </div>
+
+
+    <section class="storeSection" id="lojasSection" style="display:none;">
+      <div class="storeSectionHead"><div><div class="storeSectionTitle">Lojas no Vendaí</div><div class="storeSectionSub">Produtos de comércios da região</div></div></div>
+      <div class="storeRail" id="storeRail"></div>
+      <div class="storeProductsGrid" id="storeProductsGrid"></div>
+    </section>
+
+    <div class="feedTitle" id="feedTitle">Perto de você</div>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="emptyState" style="display:none;">Nenhum anúncio encontrado por aqui ainda.</div>
+  </main><section class="merchantLanding" id="vendaExplica" aria-label="Conheça o Vendaí">
     <div class="merchantLandingHero">
       <div class="merchantLandingCopy">
         <div class="merchantLandingBadge"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M12 21s7-6.4 7-11.6A7 7 0 0 0 5 9.4C5 14.6 12 21 12 21Z"/><circle cx="12" cy="9.4" r="2.4"/></svg> COMPRE E VENDA PERTO DE VOCÊ</div>
@@ -1887,59 +1981,7 @@
 
 
 
-  <section class="installHero" id="installHero" aria-label="Instalar aplicativo Vendaí">
-    <div class="installAppIcon"><img src="/icon-192.png?v=20260911-newbrand" alt="Ícone do Vendaí Entrega Flash" width="46" height="46"></div>
-    <div class="installCopy">
-      <div class="installTitle">Leve o Vendaí no celular</div>
-      <div class="installSub">Android • app leve • acesso rápido</div>
-    </div>
-    <button class="installBtn" type="button" onclick="instalarVendaI()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M12 4v11"/><polyline points="7.5 11 12 15.5 16.5 11"/><line x1="5" y1="20" x2="19" y2="20"/></svg>Instalar app</button>
-  </section>
-  <div class="apkNote" id="apkNote">Se o Android pedir autorização, permita instalar apps deste navegador para concluir a instalação.</div>
-
-
-
-  <section class="categorySection" id="categorySection" aria-label="Categorias do marketplace">
-    <div class="categoryHeader">
-      <div>
-        <div class="categoryTitle">Categorias</div>
-        <div class="categoryHint">Encontre mais rápido o que procura</div>
-      </div>
-    </div>
-    <div class="chipRow" id="chipRow"></div>
-  </section>
-
-
-  <main>
-    <div class="supportHome" onclick="openSupportSheet()">
-      <div class="supportHomeIcon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M4 5.8h16a1 1 0 0 1 1 1V15a1 1 0 0 1-1 1h-9.6L6 19.6V16H4a1 1 0 0 1-1-1V6.8a1 1 0 0 1 1-1Z"/></svg></div>
-      <div class="supportHomeText">
-        <div class="supportHomeTitle">Central de suporte Vendaí</div>
-        <div class="supportHomeSub">Dúvidas, problemas ou sugestões? Fale com a equipe pelo chat.</div>
-      </div>
-      <div class="supportHomeArrow">›</div>
-    </div>
-
-    <div class="infoBanner" id="infoBanner">
-      <button class="infoClose" onclick="document.getElementById('infoBanner').style.display='none'">✕</button>
-      <div class="infoTitle">Como funciona o Vendaí</div>
-      <div class="infoStep"><span class="stepNum">1</span> Anuncie grátis</div>
-      <div class="infoStep"><span class="stepNum">2</span> Converse pelo chat</div>
-      <div class="infoStep"><span class="stepNum">3</span> Receba e faça ofertas</div>
-      <div class="infoNote">🌱 Estamos testando a versão gratuita por enquanto</div>
-    </div>
-
-
-    <section class="storeSection" id="lojasSection" style="display:none;">
-      <div class="storeSectionHead"><div><div class="storeSectionTitle">Lojas no Vendaí</div><div class="storeSectionSub">Produtos de comércios da região</div></div></div>
-      <div class="storeRail" id="storeRail"></div>
-      <div class="storeProductsGrid" id="storeProductsGrid"></div>
-    </section>
-
-    <div class="feedTitle" id="feedTitle">Perto de você</div>
-    <div class="grid" id="grid"></div>
-    <div class="empty" id="emptyState" style="display:none;">Nenhum anúncio encontrado por aqui ainda.</div>
-  </main>
+  
 
   <div class="fab">
     <button onclick="openPostSheet()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" style="vertical-align:-2px;margin-right:5px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Anunciar</button>

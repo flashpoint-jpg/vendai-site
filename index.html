@@ -1886,6 +1886,36 @@
     .installSub{font-size:9px!important;}
     .installBtn{min-height:36px!important;padding:8px 9px!important;font-size:10px!important;}
   }
+
+
+  /* Favoritos + vistos recentemente */
+  .discoveryShortcuts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 14px;}
+  .discoveryShortcut{min-width:0;border:1px solid #E2EAE5;background:#fff;border-radius:15px;padding:10px 11px;display:flex;align-items:center;gap:9px;text-align:left;cursor:pointer;box-shadow:0 3px 12px rgba(18,52,34,.04);color:var(--ink);font-family:inherit;}
+  .discoveryShortcut:active{transform:scale(.985);background:#F8FBF9;}
+  .discoveryShortcutIcon{width:33px;height:33px;flex:0 0 33px;border-radius:11px;display:grid;place-items:center;background:var(--green-soft);color:var(--green-dark);font-size:16px;font-weight:900;}
+  .discoveryShortcutText{min-width:0;flex:1;}
+  .discoveryShortcutText strong{display:block;font-size:11.8px;line-height:1.15;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .discoveryShortcutText small{display:block;margin-top:2px;font-size:9.8px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .discoveryShortcutArrow{font-size:18px;color:#95A39B;line-height:1;}
+  .favoriteCardBtn{position:absolute;top:8px;right:8px;z-index:4;width:32px;height:32px;border:0;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.96);color:#65736B;font-size:18px;line-height:1;box-shadow:0 6px 16px rgba(0,0,0,.15);cursor:pointer;padding:0;}
+  .favoriteCardBtn.active{background:#FFF5CC;color:#8B6500;}
+  .detailFavoriteBtn{border:1px solid #DFE8E2;border-radius:999px;background:#fff;color:var(--green-dark);padding:8px 12px;font-family:inherit;font-size:11.5px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:6px;}
+  .detailFavoriteBtn.active{background:#FFF7D9;border-color:#F0D77A;color:#725400;}
+  .detailQuickActions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px;}
+  .detailQuickActions .detailLikeHint{font-size:10.5px;color:var(--ink-soft);flex:1;min-width:130px;}
+  .savedList{display:flex;flex-direction:column;gap:9px;margin-top:12px;}
+  .savedItem{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid #E5ECE7;border-radius:15px;padding:9px;cursor:pointer;box-shadow:0 3px 12px rgba(18,52,34,.04);}
+  .savedItem:active{transform:scale(.99);background:#F9FBFA;}
+  .savedItemThumb{width:62px;height:62px;flex:0 0 62px;border-radius:12px;overflow:hidden;display:grid;place-items:center;font-size:24px;background:#EFF4F1;}
+  .savedItemThumb img{width:100%;height:100%;object-fit:cover;display:block;}
+  .savedItemBody{min-width:0;flex:1;}
+  .savedItemTitle{font-size:12.5px;font-weight:800;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink);}
+  .savedItemPrice{font-size:13.5px;font-weight:900;color:var(--green-dark);margin-top:4px;}
+  .savedItemMeta{font-size:9.8px;color:var(--ink-soft);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .savedItemRemove{flex:0 0 auto;width:31px;height:31px;border:0;border-radius:10px;background:#FFF7D9;color:#795B00;font-size:16px;cursor:pointer;}
+  .savedEmpty{padding:34px 14px;text-align:center;color:var(--ink-soft);font-size:12.5px;line-height:1.5;}
+  @media(max-width:380px){.discoveryShortcut{padding:9px 8px;gap:7px}.discoveryShortcutIcon{width:30px;height:30px;flex-basis:30px}.discoveryShortcutText strong{font-size:10.8px}.discoveryShortcutText small{font-size:9px}}
+
 </style>
 </head>
 <body>
@@ -1976,6 +2006,19 @@
       <div class="infoStep"><span class="stepNum">2</span> Converse pelo chat</div>
       <div class="infoStep"><span class="stepNum">3</span> Receba e faça ofertas</div>
       <div class="infoNote">🌱 Estamos testando a versão gratuita por enquanto</div>
+    </div>
+
+    <div class="discoveryShortcuts" id="discoveryShortcuts" aria-label="Atalhos pessoais">
+      <button class="discoveryShortcut" type="button" onclick="openSavedItems('favorites')">
+        <span class="discoveryShortcutIcon">♥</span>
+        <span class="discoveryShortcutText"><strong>Favoritos</strong><small id="favoritesCount">Nenhum salvo</small></span>
+        <span class="discoveryShortcutArrow">›</span>
+      </button>
+      <button class="discoveryShortcut" type="button" onclick="openSavedItems('recent')">
+        <span class="discoveryShortcutIcon">◷</span>
+        <span class="discoveryShortcutText"><strong>Vistos recentemente</strong><small id="recentCount">Nenhum visto</small></span>
+        <span class="discoveryShortcutArrow">›</span>
+      </button>
     </div>
 
 
@@ -2243,6 +2286,18 @@
       <div id="profileContent"></div>
     </div>
   </div>
+
+
+
+  <!-- Favoritos e vistos recentemente -->
+  <div class="overlay" id="savedOverlay" onclick="closeOverlayBg(event,'savedOverlay')">
+    <div class="sheet" style="position:relative;" onclick="event.stopPropagation()">
+      <button class="closeBtn" onclick="closeSheet('savedOverlay')">✕</button>
+      <div class="sheetHandle"></div>
+      <div id="savedContent"></div>
+    </div>
+  </div>
+
 
   <!-- Detail sheet -->
   <div class="overlay" id="detailOverlay" onclick="closeOverlayBg(event,'detailOverlay')">
@@ -2886,6 +2941,7 @@ async function carregarAnuncios(){
   }
   ads = data || [];
   renderGrid();
+  renderQuickAccessCounts();
 }
 
 function renderChips(){
@@ -3019,6 +3075,69 @@ function toggleLike(adId, ev){
   updateLikeUi(id);
 }
 
+
+
+function getFavoriteIds(){
+  try{const raw=JSON.parse(localStorage.getItem('vendai_favorites')||'[]');return Array.isArray(raw)?raw.map(String):[];}catch(e){return [];}
+}
+function saveFavoriteIds(ids){
+  try{localStorage.setItem('vendai_favorites',JSON.stringify([...new Set(ids.map(String))].slice(0,100)));}catch(e){}
+}
+function isFavorite(adId){return getFavoriteIds().includes(String(adId));}
+function renderFavoriteButtonHtml(adId,mode='card'){
+  const fav=isFavorite(adId), id=String(adId).replace(/'/g,"\'");
+  if(mode==='detail')return `<button type="button" class="detailFavoriteBtn ${fav?'active':''}" data-favorite-id="${String(adId)}" onclick="toggleFavorite('${id}',event)" aria-label="${fav?'Remover dos favoritos':'Salvar nos favoritos'}"><span class="favIcon">${fav?'★':'☆'}</span><span class="favLabel">${fav?'Favoritado':'Favoritar'}</span></button>`;
+  return `<button type="button" class="favoriteCardBtn ${fav?'active':''}" data-favorite-id="${String(adId)}" onclick="toggleFavorite('${id}',event)" aria-label="${fav?'Remover dos favoritos':'Salvar nos favoritos'}" title="${fav?'Remover dos favoritos':'Salvar nos favoritos'}">${fav?'★':'☆'}</button>`;
+}
+function updateFavoriteUi(adId){
+  const fav=isFavorite(adId);
+  document.querySelectorAll(`[data-favorite-id="${CSS.escape(String(adId))}"]`).forEach(btn=>{
+    btn.classList.toggle('active',fav);
+    if(btn.classList.contains('detailFavoriteBtn')){
+      const icon=btn.querySelector('.favIcon'),label=btn.querySelector('.favLabel');
+      if(icon)icon.textContent=fav?'★':'☆'; if(label)label.textContent=fav?'Favoritado':'Favoritar';
+    }else btn.textContent=fav?'★':'☆';
+    btn.setAttribute('aria-label',fav?'Remover dos favoritos':'Salvar nos favoritos');
+  });
+}
+function toggleFavorite(adId,ev){
+  if(ev){ev.preventDefault();ev.stopPropagation();}
+  const id=String(adId);let ids=getFavoriteIds();
+  if(ids.includes(id)){ids=ids.filter(x=>x!==id);showToast('Removido dos favoritos');}
+  else{ids=[id,...ids.filter(x=>x!==id)];showToast('Salvo nos favoritos ★');}
+  saveFavoriteIds(ids);updateFavoriteUi(id);renderQuickAccessCounts();
+  if(document.getElementById('savedOverlay')?.classList.contains('show')&&window._savedMode==='favorites')renderSavedItems('favorites');
+}
+function getRecentIds(){
+  try{const raw=JSON.parse(localStorage.getItem('vendai_recent_views')||'[]');return Array.isArray(raw)?raw.map(String):[];}catch(e){return [];}
+}
+function rememberRecent(adId){
+  const id=String(adId);let ids=getRecentIds().filter(x=>x!==id);ids.unshift(id);ids=ids.slice(0,12);
+  try{localStorage.setItem('vendai_recent_views',JSON.stringify(ids));}catch(e){}
+  renderQuickAccessCounts();
+}
+function renderQuickAccessCounts(){
+  const f=document.getElementById('favoritesCount'),r=document.getElementById('recentCount');
+  const fc=getFavoriteIds().length,rc=getRecentIds().length;
+  if(f)f.textContent=fc?`${fc} salvo${fc===1?'':'s'}`:'Nenhum salvo';
+  if(r)r.textContent=rc?`${rc} visto${rc===1?'':'s'}`:'Nenhum visto';
+}
+function findAdBySavedId(id){return ads.find(a=>String(a.id)===String(id));}
+function openSavedItems(mode){window._savedMode=mode==='favorites'?'favorites':'recent';renderSavedItems(window._savedMode);document.getElementById('savedOverlay').classList.add('show');}
+function renderSavedItems(mode){
+  const c=document.getElementById('savedContent');if(!c)return;
+  let ids=mode==='favorites'?getFavoriteIds():getRecentIds();const validIds=ids.filter(id=>!!findAdBySavedId(id));
+  if(validIds.length!==ids.length){if(mode==='favorites')saveFavoriteIds(validIds);else try{localStorage.setItem('vendai_recent_views',JSON.stringify(validIds.slice(0,12)));}catch(e){} ids=validIds;renderQuickAccessCounts();}
+  const title=mode==='favorites'?'Favoritos':'Vistos recentemente';
+  const subtitle=mode==='favorites'?'Seus anúncios salvos para encontrar de novo rapidamente.':'Os últimos anúncios que você abriu neste aparelho.';
+  c.innerHTML=`<div class="detailTitle" style="margin-bottom:3px;">${title}</div><div style="font-size:11.5px;color:var(--ink-soft);line-height:1.4;">${subtitle}</div><div class="savedList" id="savedList"></div>`;
+  const list=document.getElementById('savedList');
+  if(!ids.length){list.innerHTML=`<div class="savedEmpty">${mode==='favorites'?'Você ainda não salvou nenhum anúncio.<br>Toque na estrela ☆ de um produto para guardar aqui.':'Você ainda não abriu nenhum anúncio recentemente.'}</div>`;return;}
+  ids.forEach(id=>{const ad=findAdBySavedId(id);if(!ad)return;const item=document.createElement('div');item.className='savedItem';item.onclick=()=>openSavedAd(ad.id);const thumb=(ad.fotos&&ad.fotos[0])?`<img src="${escHtml(ad.fotos[0])}" alt="">`:CATEGORY_ICON[ad.categoria];const rid=String(ad.id).replace(/'/g,"\'");item.innerHTML=`<div class="savedItemThumb" style="background:${CATEGORY_COLOR[ad.categoria]};">${thumb}</div><div class="savedItemBody"><div class="savedItemTitle">${escHtml(ad.titulo)}</div><div class="savedItemPrice">${formatPrice(ad.preco)}</div><div class="savedItemMeta">${escHtml(ad.cidade)}</div></div>${mode==='favorites'?`<button class="savedItemRemove" type="button" aria-label="Remover dos favoritos" onclick="toggleFavorite('${rid}',event)">★</button>`:''}`;list.appendChild(item);});
+}
+function openSavedAd(id){closeSheet('savedOverlay');setTimeout(()=>openDetail(id),80);}
+
+
 function partnerShareLink(anchorId){
   const base = location.href.split('#')[0];
   return `${base}#${anchorId || 'parceirosHome'}`;
@@ -3084,6 +3203,7 @@ function renderGrid(){
           : CATEGORY_ICON[ad.categoria]}
         ${ad.destaque ? '<div style="position:absolute; top:8px; left:8px; background:var(--yellow); border-radius:8px; font-size:9.5px; font-weight:700; padding:3px 7px; color:var(--ink);">🔥 Destaque</div>' : ''}
         ${aceitaTroca(ad) ? '<div class="rolinhoBadge"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4 8h12.5"/><path d="M13.5 4.8 16.8 8l-3.3 3.2"/><path d="M20 16H7.5"/><path d="M10.5 19.2 7.2 16l3.3-3.2"/></svg> Aceita troca</div>' : ''}
+        ${renderFavoriteButtonHtml(ad.id,'card')}
       </div>
       <div class="cardBody">
         <div class="cardTitle">${ad.titulo}</div>
@@ -3099,8 +3219,9 @@ function renderGrid(){
 }
 
 function openDetail(id){
-  const ad = ads.find(a=>a.id===id);
+  const ad = ads.find(a=>String(a.id)===String(id));
   if(!ad) return;
+  rememberRecent(ad.id);
   window._anuncioAtual = ad;
   window._fotoAtual = 0;
   const content = document.getElementById('detailContent');
@@ -3122,7 +3243,7 @@ function openDetail(id){
     <div class="detailTitle" style="margin-top:14px;">${escHtml(ad.titulo)}</div>
     <div class="detailPrice">${formatPrice(ad.preco)}</div>
     <div class="detailMeta">${escHtml(ad.cidade)} · publicado ${tempoDecorrido(ad.criado_em)}</div>
-    <div class="detailLikeRow">${renderLikeButtonHtml(ad.id,'detailLike')}<div class="detailLikeHint">Veja quantas pessoas curtiram este anúncio</div></div>
+    <div class="detailQuickActions">${renderLikeButtonHtml(ad.id,'detailLike')}${renderFavoriteButtonHtml(ad.id,'detail')}<div class="detailLikeHint">Curta ou salve para encontrar este anúncio depois.</div></div>
     ${aceitaTroca(ad) ? '<div class="rolinhoTag"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4 8h12.5"/><path d="M13.5 4.8 16.8 8l-3.3 3.2"/><path d="M20 16H7.5"/><path d="M10.5 19.2 7.2 16l3.3-3.2"/></svg> Aceita troca • Chama pro Rolinho</div>' : ''}
     <div class="detailDesc">${escHtml(descricaoSemRolinho(ad.descricao) || 'Sem descrição.')}</div>
     <div class="sellerRow">
@@ -4411,6 +4532,7 @@ setInterval(syncFloatingUi,300);
 restaurarSessao();
 carregarPrecoDestaque();
 renderChips();
+renderQuickAccessCounts();
 carregarAnuncios();
 carregarMarketplaceLojas();
 try{const qp=new URLSearchParams(location.search);if(qp.get('mp')==='conectado')setTimeout(()=>showToast('Mercado Pago conectado ✓'),500);if(qp.get('pagamento')==='sucesso')setTimeout(()=>showToast('Pagamento enviado. Assim que o Mercado Pago confirmar, a loja verá como pago.'),500);if(qp.get('pagamento')==='pendente')setTimeout(()=>showToast('Pagamento pendente no Mercado Pago.'),500);}catch(e){}

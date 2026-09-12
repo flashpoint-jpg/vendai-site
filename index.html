@@ -1845,6 +1845,47 @@
 
   /* ===== CORREÇÃO — última seção não pode ficar atrás do menu fixo de baixo ===== */
   .partnersSection{padding-bottom:calc(94px + env(safe-area-inset-bottom)) !important;}
+
+  /* ===== Instalar app — destaque discreto e mais visível ===== */
+  .installHero{
+    border:1px solid rgba(255,255,255,.16);
+    box-shadow:0 8px 20px rgba(13,105,58,.16);
+  }
+  .installCopy{padding-right:2px;}
+  .installTitle{
+    display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+    font-size:12.8px!important;font-weight:900!important;line-height:1.15;
+  }
+  .installSub{
+    margin-top:3px;font-size:9.8px!important;color:rgba(255,255,255,.82)!important;
+    white-space:normal!important;overflow:visible!important;text-overflow:clip!important;
+  }
+  .installFreeBadge{
+    display:inline-flex;align-items:center;justify-content:center;
+    min-height:18px;padding:2px 6px;border-radius:999px;
+    background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
+    color:#fff;font-size:8px;font-weight:900;letter-spacing:.35px;
+  }
+  .installBtn{
+    min-height:38px!important;padding:9px 12px!important;
+    display:inline-flex;align-items:center;justify-content:center;gap:5px;
+    background:#FFD24A!important;color:#243019!important;
+    font-size:10.8px!important;font-weight:950!important;letter-spacing:.15px;
+    border:1px solid rgba(255,255,255,.34)!important;
+    box-shadow:0 5px 12px rgba(0,0,0,.12)!important;
+  }
+  .installHero.installAttention .installBtn{animation:vendaiInstallPulse 1.2s ease-in-out 2;}
+  @keyframes vendaiInstallPulse{
+    0%,100%{transform:scale(1);box-shadow:0 5px 12px rgba(0,0,0,.12);}
+    50%{transform:scale(1.045);box-shadow:0 7px 16px rgba(0,0,0,.18);}
+  }
+  @media(max-width:380px){
+    .installHero{padding:9px 9px!important;gap:7px!important;}
+    .installAppIcon{width:38px!important;height:38px!important;}
+    .installTitle{font-size:11.5px!important;gap:4px;}
+    .installSub{font-size:9px!important;}
+    .installBtn{min-height:36px!important;padding:8px 9px!important;font-size:10px!important;}
+  }
 </style>
 </head>
 <body>
@@ -1896,12 +1937,12 @@
   </section>
 
 <section class="installHero" id="installHero" aria-label="Instalar aplicativo Vendaí">
-    <div class="installAppIcon"><img src="/icon-192.png?v=20260911-newbrand" alt="Ícone do Vendaí Entrega Flash" width="46" height="46"></div>
+    <div class="installAppIcon"><img src="/icon-192.png?v=20260911-newbrand" alt="Ícone do Vendaí" width="46" height="46"></div>
     <div class="installCopy">
-      <div class="installTitle">Leve o Vendaí no celular</div>
-      <div class="installSub">Android • app leve • acesso rápido</div>
+      <div class="installTitle">Instale o Vendaí no celular <span class="installFreeBadge">GRÁTIS</span></div>
+      <div class="installSub">Acesso rápido • leve • sem procurar o site</div>
     </div>
-    <button class="installBtn" type="button" onclick="instalarVendaI()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M12 4v11"/><polyline points="7.5 11 12 15.5 16.5 11"/><line x1="5" y1="20" x2="19" y2="20"/></svg>Instalar app</button>
+    <button class="installBtn" type="button" onclick="instalarVendaI()" aria-label="Instalar aplicativo Vendaí"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><polyline points="7.5 11 12 15.5 16.5 11"/><line x1="5" y1="20" x2="19" y2="20"/></svg><span>INSTALAR</span></button>
   </section>
   <div class="apkNote" id="apkNote">Se o Android pedir autorização, permita instalar apps deste navegador para concluir a instalação.</div>
 
@@ -3727,6 +3768,31 @@ window.addEventListener('appinstalled', ()=>{
   const box=document.getElementById('installHero');
   if(box) box.style.display='none';
 });
+
+// Mantém o convite visível no navegador e esconde quando o Vendaí já está aberto como app.
+(function prepararConviteInstalacao(){
+  const box=document.getElementById('installHero');
+  if(!box) return;
+
+  const jaComoApp = window.matchMedia && window.matchMedia('(display-mode: standalone)').matches;
+  const iosStandalone = window.navigator.standalone === true;
+  if(jaComoApp || iosStandalone){
+    box.style.display='none';
+    return;
+  }
+
+  try{
+    const chave='vendai_install_attention_v1';
+    if(!localStorage.getItem(chave)){
+      box.classList.add('installAttention');
+      setTimeout(()=> box.classList.remove('installAttention'), 2600);
+      localStorage.setItem(chave,'1');
+    }
+  }catch(e){
+    box.classList.add('installAttention');
+    setTimeout(()=> box.classList.remove('installAttention'), 2600);
+  }
+})();
 
 function showToast(msg){
   const toast = document.getElementById('toast');

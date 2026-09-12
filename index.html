@@ -685,6 +685,29 @@
     color: var(--green-dark);
   }
   button.secondary:active{ background:#EEF4F0; }
+
+  /* Botão de destaque avulso da loja */
+  .storeHighlightBtn{
+    width:100%;
+    max-width:100%;
+    margin-top:10px;
+    min-height:48px;
+    padding:12px 16px;
+    border:0;
+    border-radius:13px;
+    background:var(--green-dark);
+    color:#fff;
+    font-family:'Inter',sans-serif;
+    font-size:14px;
+    font-weight:850;
+    line-height:1.2;
+    text-align:center;
+    white-space:normal;
+    overflow-wrap:anywhere;
+    cursor:pointer;
+    box-shadow:0 7px 16px rgba(18,112,62,.22);
+  }
+  .storeHighlightBtn:active{ transform:scale(.985); background:#0B5C33; }
   .publishBtn:active{ transform: scale(0.98); }
 
   .flashCalcBtn{
@@ -4261,7 +4284,7 @@ function renderPlanosLoja(){
     else btn=lojaAtual&&currentSessionToken?`<button class="planBtn ${p.slug==='premium'?'gold':''}" onclick="assinarPlanoLoja('${p.slug}')">Assinar por ${formatPrice(preco)}</button>`:`<button class="planBtn ${p.slug==='premium'?'gold':''}" onclick="abrirCadastroLoja()">Criar loja e assinar</button>`;
     return `<div class="planCard ${current?'current ':''}${p.slug==='premium'?'recommended':''}"><span class="planBadge">${escHtml(p.selo||p.nome)}</span><div class="planName">${escHtml(p.nome)}</div><div class="planPrice">${preco?formatPrice(preco):'Grátis'}${preco?'<small> / 30 dias</small>':''}</div><div class="planDesc">${escHtml(p.descricao||'')}</div><div class="planBenefits">${formatPlanoBeneficios(p)}</div>${btn}</div>`;
   }).join('');
-  const avulso=lojaAtual?`<div class="feeBox"><strong>Destaques avulsos</strong><br>Produto: 24h ${formatPrice(precosMonetizacao.produto24)} · 3 dias ${formatPrice(precosMonetizacao.produto3d)} · 7 dias ${formatPrice(precosMonetizacao.produto7d)}<br>Loja em destaque por 7 dias: <strong>${formatPrice(precosMonetizacao.loja7d)}</strong><br><button class="secondary" style="margin-top:8px" onclick="comprarDestaqueLoja()">Destacar minha loja</button></div>`:'';
+  const avulso=lojaAtual?`<div class="feeBox"><strong>Destaques avulsos</strong><br>Produto: 24h ${formatPrice(precosMonetizacao.produto24)} · 3 dias ${formatPrice(precosMonetizacao.produto3d)} · 7 dias ${formatPrice(precosMonetizacao.produto7d)}<br>Loja em destaque por 7 dias: <strong>${formatPrice(precosMonetizacao.loja7d)}</strong><br><button class="storeHighlightBtn" onclick="comprarDestaqueLoja()">Destacar minha loja</button></div>`:'';
   c.innerHTML=`<div class="merchantKicker" style="color:var(--green-dark)">⭐ Venda mais aparecendo mais</div><div class="detailTitle">Planos para lojistas</div><div class="tinyHint">A comissão sobre as vendas continua em todos os planos. A mensalidade serve para aumentar visibilidade e liberar benefícios.</div><div class="planCards">${cards}</div>${avulso}${lojaAtual?'<button class="secondary" style="width:100%;margin-top:8px" onclick="openLojaPainel()">← Voltar ao painel da loja</button>':''}`;
 }
 async function chamarMonetizacaoPix(action,body={}){

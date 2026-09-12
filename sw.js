@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vendai-home-suporte-20260911-6';
+const CACHE_NAME = 'vendai-planos-destaques-20260912-1';
 const APP_SHELL = [
   '/',
   '/index.html',

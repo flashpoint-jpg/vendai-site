@@ -673,6 +673,18 @@
     color: var(--ink);
     box-shadow: 0 6px 16px rgba(232,168,0,0.35);
   }
+  button.secondary{
+    background: var(--card);
+    border: 1.5px solid #D8E3DC;
+    border-radius: var(--radius-sm);
+    padding: 13px 0;
+    font-family:'Inter', sans-serif;
+    font-weight:700;
+    font-size:13.5px;
+    cursor:pointer;
+    color: var(--green-dark);
+  }
+  button.secondary:active{ background:#EEF4F0; }
   .publishBtn:active{ transform: scale(0.98); }
 
   .flashCalcBtn{
@@ -2870,7 +2882,7 @@ function sairRolinho(){
 }
 
 function formatPrice(n){
-  return 'R$ ' + Number(n).toLocaleString('pt-BR', {minimumFractionDigits:0});
+  return 'R$ ' + Number(n).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
 }
 
 function formatMoneyCharge(n){

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vendai-home-suporte-20260911-5';
+const CACHE_NAME = 'vendai-home-suporte-20260911-6';
 const APP_SHELL = [
   '/',
   '/index.html',
@@ -11,6 +11,7 @@ const APP_SHELL = [
   '/hero-products.png',
   '/parceiro-otica-myrian-logo-transparent.png',
   '/vendai-logo-novo.png',
+  '/vendai-logo-topo.png',
   '/vendai-icon-novo.png'
 ];
 

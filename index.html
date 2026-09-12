@@ -1393,6 +1393,18 @@
     #detailOverlay .sheet,#lojaOverlay .sheet,#lojaProdutoOverlay .sheet,#lojaProdutoDetailOverlay .sheet{width:min(880px,calc(100vw - 64px))}
     .rolinhoFloat{right:clamp(28px,4vw,72px)}
   }
+
+  /* Tela de Categorias isolada — some com a parte comercial/institucional da home
+     para a categoria abrir como uma tela própria, cheia e alinhada, sem corte. */
+  body.modoCategorias .merchantLanding,
+  body.modoCategorias .merchantAccessBar,
+  body.modoCategorias .partnersSection,
+  body.modoCategorias .partnerQuickLink,
+  body.modoCategorias .installHero,
+  body.modoCategorias #apkNote,
+  body.modoCategorias .supportHome,
+  body.modoCategorias #infoBanner,
+  body.modoCategorias #lojasSection{ display:none !important; }
   /* Acabamento de site para quem usa mouse (não interfere no toque do celular) */
   @media (hover:hover) and (pointer:fine){
     .card{transition:transform .14s ease, box-shadow .14s ease;}
@@ -1633,10 +1645,13 @@
     html,body{width:100%;max-width:none;min-width:100%;background:#F6FAF7;overflow-x:hidden;}
     body{display:block;}
     #app{width:100%;max-width:none;min-height:100vh;background:#F6FAF7;}
-    header{position:sticky;top:0;width:100%;padding:14px clamp(28px,4vw,72px) 12px;background:rgba(255,255,255,.98);}
-    .topRow{margin-bottom:8px;}
-    .brandLogoFull{width:210px;max-height:78px;}
-    .searchBar{max-width:none;margin-top:4px;}
+    header{position:sticky;top:0;width:100%;padding:16px clamp(28px,4vw,72px) 0;background:linear-gradient(180deg,#FFFFFF 0%,#F7FBF8 100%);border-bottom:1px solid #E4EDE6;box-shadow:0 2px 14px rgba(18,40,28,.04);}
+    header:after{content:'';display:block;height:4px;margin-top:14px;background:linear-gradient(90deg,var(--green-dark),var(--green) 45%,var(--yellow) 100%);}
+    .topRow{margin-bottom:12px;max-width:1440px;margin-left:auto;margin-right:auto;}
+    .brandLogoFull{width:190px;max-height:66px;}
+    .searchBar{max-width:640px;margin:0 auto 0 0;}
+    .desktopSiteNav{max-width:1440px;margin:10px auto 0;}
+    .partnerQuickLink{max-width:1440px;margin-left:auto;margin-right:auto;}
     .desktopSiteNav{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap;}
     .desktopSiteNav button{border:1px solid #DDE7E0;background:#fff;color:var(--green-dark);border-radius:10px;padding:8px 12px;font:800 11px 'Inter',sans-serif;cursor:pointer;}
     .desktopSiteNav button.primary{background:var(--green-dark);color:#fff;border-color:var(--green-dark);}
@@ -1710,7 +1725,7 @@
     <div class="topRow">
       <div class="logoGroup brandLogoGroup">
         <div class="headerBrandBlock">
-          <img class="brandLogoFull" src="/vendai-logo-novo.png?v=20260911-newbrand" alt="Vendaí Entrega Flash">
+          <img class="brandLogoFull" src="/vendai-logo-topo.png?v=20260911-topo" alt="Vendaí Entrega Flash">
           <div class="headerBrandTagline">Compre e venda perto de você</div>
         </div>
       </div>
@@ -1721,7 +1736,7 @@
       <input id="searchInput" type="text" placeholder="Buscar celular, carro, móveis..." autocomplete="off">
     </div>
     <div class="desktopSiteNav" aria-label="Navegação do site">
-      <button type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})">Início</button>
+      <button type="button" onclick="fecharCategorias()">Início</button>
       <button type="button" onclick="openCategories()">Categorias</button>
       <button type="button" class="primary" onclick="openPostSheet()">＋ Anunciar</button>
       <button type="button" onclick="document.getElementById('parceirosHome')?.scrollIntoView({behavior:'smooth',block:'start'})">Parceiros</button>
@@ -1892,8 +1907,8 @@
   </div>
 
   <nav>
-    <button class="active"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 11.2 12 4l8.5 7.2"/><path d="M5.8 9.9V19a1 1 0 0 0 1 1h3.4v-5.6h3.6V20h3.4a1 1 0 0 0 1-1V9.9"/></svg></span>Início</button>
-    <button onclick="openCategories()"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.6" y="3.6" width="7" height="7" rx="1.7"/><rect x="13.4" y="3.6" width="7" height="7" rx="1.7"/><rect x="3.6" y="13.4" width="7" height="7" rx="1.7"/><rect x="13.4" y="13.4" width="7" height="7" rx="1.7"/></svg></span>Categorias</button>
+    <button id="navInicio" class="active" onclick="fecharCategorias()"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 11.2 12 4l8.5 7.2"/><path d="M5.8 9.9V19a1 1 0 0 0 1 1h3.4v-5.6h3.6V20h3.4a1 1 0 0 0 1-1V9.9"/></svg></span>Início</button>
+    <button id="navCategorias" onclick="openCategories()"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.6" y="3.6" width="7" height="7" rx="1.7"/><rect x="13.4" y="3.6" width="7" height="7" rx="1.7"/><rect x="3.6" y="13.4" width="7" height="7" rx="1.7"/><rect x="13.4" y="13.4" width="7" height="7" rx="1.7"/></svg></span>Categorias</button>
     <button onclick="openPostSheet()" aria-label="Anunciar"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>Anunciar</button>
     <button class="navMsgBtn" onclick="abrirConversas()"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.8h16a1 1 0 0 1 1 1V15a1 1 0 0 1-1 1H9.2L5 19.6V16H4a1 1 0 0 1-1-1V6.8a1 1 0 0 1 1-1Z"/></svg></span><span class="msgBadge" id="msgBadge">0</span>Conversas</button>
     <button onclick="openProfileSheet()"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.3" r="3.5"/><path d="M4.7 20c1-3.7 4-5.7 7.3-5.7s6.3 2 7.3 5.7"/></svg></span>Perfil</button>
@@ -2688,14 +2703,30 @@ function renderChips(){
       activeRolinho = false;
       renderChips();
       renderGrid();
-      document.getElementById('grid')?.scrollIntoView({behavior:'smooth',block:'start'});
+      if(!document.body.classList.contains('modoCategorias')){
+        document.getElementById('grid')?.scrollIntoView({behavior:'smooth',block:'start'});
+      }
     };
     row.appendChild(chip);
   });
 }
 
+function atualizarNavAtiva(tela){
+  document.getElementById('navInicio')?.classList.toggle('active', tela==='inicio');
+  document.getElementById('navCategorias')?.classList.toggle('active', tela==='categorias');
+}
+
+// Categorias agora abre como uma tela própria e cheia (sem misturar com o
+// conteúdo comercial/institucional da home), igual às outras abas do menu.
 function openCategories(){
-  document.getElementById('categorySection')?.scrollIntoView({behavior:'smooth',block:'start'});
+  document.body.classList.add('modoCategorias');
+  window.scrollTo({top:0, behavior:'auto'});
+  atualizarNavAtiva('categorias');
+}
+function fecharCategorias(){
+  document.body.classList.remove('modoCategorias');
+  window.scrollTo({top:0, behavior:'auto'});
+  atualizarNavAtiva('inicio');
 }
 
 

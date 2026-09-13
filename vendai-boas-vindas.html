@@ -119,11 +119,12 @@
     <h3>Como acessar sua loja</h3>
     <ol class="passos-acesso">
       <li>Toque no botão abaixo pra abrir o Vendaí</li>
-      <li>Toque em <b>"Minha conta"</b></li>
-      <li>Entre com seu WhatsApp e o PIN <b id="pinInstrucao">—</b></li>
+      <li>Toque em <b>"Acessar minha loja"</b></li>
+      <li>Digite seu WhatsApp e seu nome <b>exatamente</b> como foi cadastrado</li>
+      <li id="pinInstrucaoItem"><span id="pinInstrucao"></span></li>
     </ol>
     <a class="btn-acessar" id="linkAcessar" href="https://vendai.entregaflash.app.br/">Entrar na minha conta</a>
-    <p class="aviso-pin">Esse PIN é temporário — depois de entrar, você pode trocar ele no seu perfil.</p>
+    <p class="aviso-pin">É rapidinho — leva menos de 1 minuto pra criar seu acesso.</p>
   </section>
 
   <section>
@@ -180,10 +181,10 @@ async function carregar(){
   produtosCache = produtos || [];
 
   const pinInstrucao = document.getElementById("pinInstrucao");
-  if (usuario && usuario.criado_via_lancamento && usuario.telefone) {
-    pinInstrucao.textContent = usuario.telefone.slice(-4);
+  if (usuario && usuario.criado_via_lancamento) {
+    pinInstrucao.textContent = "Escolha um PIN de 4 a 6 números na hora";
   } else {
-    pinInstrucao.textContent = "que você já usa";
+    pinInstrucao.textContent = "Digite o PIN que você já usa";
   }
 
   document.getElementById("carregando").style.display = "none";

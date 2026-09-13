@@ -66,6 +66,9 @@
   .copiar{margin-top:10px;background:var(--amarelo-500);color:#3A2A00;border:none;padding:10px 16px;
     border-radius:10px;font-weight:700;cursor:pointer;font-size:13.5px;}
   .links a{display:block;font-size:13.5px;color:var(--verde-700);margin-top:6px;word-break:break-all;}
+  .btn-whatsapp{display:block;text-align:center;background:#25D366;color:#fff !important;text-decoration:none;
+    font-weight:700;padding:12px;border-radius:10px;margin-top:12px;font-size:14.5px;}
+  .btn-whatsapp:active{background:#1DA851;}
   #erro{display:none;color:var(--erro);background:#FBEAE8;border:1px solid var(--erro);
     padding:10px 14px;border-radius:10px;font-size:13.5px;margin-top:14px;}
 
@@ -263,10 +266,14 @@ document.getElementById("form").addEventListener("submit", async (e) => {
     const linkLoja = URL_BASE_LOJA + lojaId;
     let msg = `Oi, ${nomeLojista}! Já deixei sua loja "${nomeLoja}" cadastrada no Vendaí 🎉\n\n`;
     msg += `Sua loja: ${linkLoja}\n\n`;
+    msg += `📋 SEUS DADOS DE ACESSO\n`;
+    msg += `WhatsApp: ${telefone}\n`;
     if (usuarioNovo) {
-      msg += `Pra acessar, entra com seu WhatsApp e escolhe um PIN de 4 a 6 números na hora — é só na primeira vez.\n\n`;
+      msg += `Nome (digite EXATAMENTE assim): ${nomeLojista}\n`;
+      msg += `PIN: escolha um de 4 a 6 números na hora, é só na primeira vez\n\n`;
+      msg += `É importante digitar o nome bem igualzinho ao de cima, senão o sistema não deixa entrar. Depois, se quiser trocar o PIN, é só ir no seu perfil dentro do Vendaí.\n\n`;
     } else {
-      msg += `É só entrar com seu número de WhatsApp e o PIN de sempre pra mexer nela.\n\n`;
+      msg += `PIN: o mesmo que você já usa\n\n`;
     }
     if (testeExpiraEm) {
       const dataFmt = new Date(testeExpiraEm).toLocaleDateString("pt-BR");
@@ -275,8 +282,12 @@ document.getElementById("form").addEventListener("submit", async (e) => {
     msg += `Se não quiser continuar, é só me avisar que eu tiro do ar sem problema nenhum!`;
 
     document.getElementById("mensagemPronta").value = msg;
+    const linkWhats = `https://wa.me/55${telefone}?text=${encodeURIComponent(msg)}`;
     const linksExtra = document.getElementById("linksExtra");
-    linksExtra.innerHTML = `<a href="${linkLoja}" target="_blank">Ver loja pública →</a>`;
+    linksExtra.innerHTML = `
+      <a class="btn-whatsapp" href="${linkWhats}" target="_blank">Enviar no WhatsApp →</a>
+      <a href="${linkLoja}" target="_blank">Ver loja pública →</a>
+    `;
     document.getElementById("resultado").style.display = "block";
     document.getElementById("resultado").scrollIntoView({ behavior: "smooth" });
     document.getElementById("form").reset();

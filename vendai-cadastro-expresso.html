@@ -7,26 +7,31 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root{
-    --verde-900:#123425;
-    --verde-700:#1F7A4C;
-    --verde-500:#2FA968;
-    --verde-100:#E7F5EC;
-    --amarelo-500:#F0AA1F;
-    --amarelo-100:#FDF1DA;
+    --verde-900:#0F5C34;
+    --verde-700:#1C8A4C;
+    --verde-500:#28A85B;
+    --verde-100:#EAF7EE;
+    --amarelo-500:#F5C518;
+    --amarelo-100:#FEF6DA;
     --grafite:#20241F;
-    --bg:#FAF9F5;
+    --bg:#FFFFFF;
     --branco:#FFFFFF;
-    --borda:#DEE3DC;
+    --borda:#E1E7E2;
     --erro:#C0392B;
   }
   *{box-sizing:border-box;}
   body{
     margin:0; background:var(--bg); color:var(--grafite);
     font-family:"Segoe UI",system-ui,-apple-system,sans-serif;
-    padding:24px 16px 80px;
+    padding:0 0 80px;
   }
-  .wrap{max-width:640px;margin:0 auto;}
-  header{margin-bottom:28px;}
+  .wrap{max-width:640px;margin:0 auto;padding:0 16px;}
+  .marca{
+    background:var(--verde-700);color:#fff;padding:18px 16px;margin-bottom:24px;
+    display:flex;align-items:center;gap:8px;font-size:20px;font-weight:800;
+  }
+  .marca .raio{color:var(--amarelo-500);font-size:22px;}
+  header{margin-bottom:28px;padding:0 16px;}
   header .tag{
     display:inline-block;background:var(--verde-100);color:var(--verde-700);
     font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:20px;margin-bottom:10px;
@@ -66,6 +71,7 @@
 </style>
 </head>
 <body>
+<div class="marca">VendA<span class="raio">í</span> <span style="font-weight:400;font-size:13px;opacity:.85;margin-left:4px;">· cadastro expresso</span></div>
 <div class="wrap">
   <header>
     <span class="tag">Kit de lançamento</span>
@@ -190,72 +196,32 @@ document.getElementById("form").addEventListener("submit", async (e) => {
     const nomeLojista = document.getElementById("nomeLojista").value.trim();
     const nomeLoja = document.getElementById("nomeLoja").value.trim();
     const cidade = document.getElementById("cidade").value.trim();
-    const cnpj = document.getElementById("cnpj").value.trim() || null;
-    const descricaoLoja = document.getElementById("descricaoLoja").value.trim() || null;
-    const logoUrl = document.getElementById("logoUrl").value.trim() || null;
+    const cnpj = document.getElementById("cnpj").value.trim();
+    const descricaoLoja = document.getElementById("descricaoLoja").value.trim();
+    const logoUrl = document.getElementById("logoUrl").value.trim();
     const planoTeste = document.getElementById("planoTeste").value;
-    const diasTeste = parseInt(document.getElementById("diasTeste").value || "0", 10);
-
-    // 1. usuário já existe?
-    let { data: usuarioExistente, error: errBusca } = await sb
-      .from("vendai_usuarios").select("id").eq("telefone", telefone).maybeSingle();
-    if (errBusca) throw errBusca;
-
-    let usuarioId, usuarioNovo = false, pinGerado = null;
-
-    if (usuarioExistente) {
-      usuarioId = usuarioExistente.id;
-    } else {
-      // PIN simples pro primeiro acesso: os 4 últimos dígitos do WhatsApp
-      pinGerado = telefone.slice(-4);
-      const { data: novoUsuario, error: errCriar } = await sb
-        .from("vendai_usuarios")
-        .insert({ telefone, nome: nomeLojista, criado_via_lancamento: true, pin_hash: pinGerado })
-        .select("id").single();
-      if (errCriar) throw errCriar;
-      usuarioId = novoUsuario.id;
-      usuarioNovo = true;
-    }
-
-    // 2. calcula fim do teste grátis
-    let testeExpiraEm = null;
-    if (diasTeste > 0 && planoTeste !== "gratis") {
-      testeExpiraEm = new Date(Date.now() + diasTeste * 24 * 60 * 60 * 1000).toISOString();
-    }
-
-    // 3. cria a loja
-    const { data: loja, error: errLoja } = await sb.from("vendai_lojas").insert({
-      usuario_id: usuarioId,
-      nome: nomeLoja,
-      cidade,
-      whatsapp: telefone,
-      descricao: descricaoLoja,
-      logo_url: logoUrl,
-      cnpj,
-      status: "ativo",
-      origem_cadastro: "lancamento",
-      teste_gratis_plano_slug: planoTeste !== "gratis" ? planoTeste : null,
-      teste_gratis_expira_em: testeExpiraEm
-    }).select("id").single();
-    if (errLoja) throw errLoja;
-    const lojaId = loja.id;
-
-    // 4. produto de cortesia (se preenchido)
+    const diasTeste = document.getElementById("diasTeste").value;
     const produtoTitulo = document.getElementById("produtoTitulo").value.trim();
-    if (produtoTitulo) {
-      const fotoUrl = document.getElementById("produtoFoto").value.trim();
-      await sb.from("vendai_produtos_loja").insert({
-        loja_id: lojaId,
-        titulo: produtoTitulo,
-        categoria: document.getElementById("produtoCategoria").value.trim() || null,
-        preco: parseFloat(document.getElementById("produtoPreco").value || "0") || null,
-        descricao: document.getElementById("produtoDescricao").value.trim() || null,
-        fotos: fotoUrl ? [fotoUrl] : [],
-        status: "ativo"
-      });
-    }
+    const produtoCategoria = document.getElementById("produtoCategoria").value.trim();
+    const produtoPreco = document.getElementById("produtoPreco").value;
+    const produtoDescricao = document.getElementById("produtoDescricao").value.trim();
+    const produtoFoto = document.getElementById("produtoFoto").value.trim();
 
-    // 5. monta mensagem pronta
+    const resp = await fetch("/api/cadastro-expresso", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        telefone, nomeLojista, nomeLoja, cidade, cnpj, descricaoLoja, logoUrl,
+        planoTeste, diasTeste, produtoTitulo, produtoCategoria, produtoPreco,
+        produtoDescricao, produtoFoto
+      })
+    });
+    const resultado = await resp.json();
+    if (!resp.ok) throw new Error(resultado.error || "Erro ao cadastrar");
+
+    const { lojaId, usuarioNovo, pinGerado, testeExpiraEm } = resultado;
+
+    // monta mensagem pronta
     const linkLoja = URL_BASE_LOJA + lojaId;
     let msg = `Oi, ${nomeLojista}! Já deixei sua loja "${nomeLoja}" cadastrada no Vendaí 🎉\n\n`;
     msg += `Sua loja: ${linkLoja}\n\n`;

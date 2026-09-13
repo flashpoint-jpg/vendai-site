@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vendaí — Cadastro Expresso de Loja Parceira</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{
+    --verde-900:#123425;
+    --verde-700:#1F7A4C;
+    --verde-500:#2FA968;
+    --verde-100:#E7F5EC;
+    --amarelo-500:#F0AA1F;
+    --amarelo-100:#FDF1DA;
+    --grafite:#20241F;
+    --bg:#FAF9F5;
+    --branco:#FFFFFF;
+    --borda:#DEE3DC;
+    --erro:#C0392B;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--grafite);
+    font-family:"Segoe UI",system-ui,-apple-system,sans-serif;
+    padding:24px 16px 80px;
+  }
+  .wrap{max-width:640px;margin:0 auto;}
+  header{margin-bottom:28px;}
+  header .tag{
+    display:inline-block;background:var(--verde-100);color:var(--verde-700);
+    font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:20px;margin-bottom:10px;
+  }
+  h1{font-size:24px;margin:0 0 6px;color:var(--verde-900);}
+  header p{margin:0;color:#5B6259;font-size:14.5px;line-height:1.5;}
+
+  fieldset{border:1px solid var(--borda);border-radius:14px;padding:18px;margin-bottom:18px;background:var(--branco);}
+  legend{padding:0 8px;font-weight:700;color:var(--verde-700);font-size:14px;}
+  label{display:block;font-size:13.5px;font-weight:600;margin:12px 0 5px;color:#3A3F38;}
+  label.first{margin-top:0;}
+  input, select, textarea{
+    width:100%;padding:10px 12px;border:1px solid var(--borda);border-radius:10px;
+    font-size:14.5px;font-family:inherit;background:#fff;color:var(--grafite);
+  }
+  input:focus, select:focus, textarea:focus{outline:2px solid var(--verde-500);outline-offset:1px;}
+  textarea{resize:vertical;min-height:60px;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .hint{font-size:12px;color:#828B80;margin-top:4px;}
+
+  button.principal{
+    width:100%;padding:14px;background:var(--verde-700);color:#fff;border:none;
+    border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;margin-top:6px;
+  }
+  button.principal:disabled{background:#9FB8A9;cursor:wait;}
+  button.principal:hover:not(:disabled){background:var(--verde-900);}
+
+  #resultado{display:none;margin-top:22px;border:1px solid var(--verde-500);background:var(--verde-100);
+    border-radius:14px;padding:18px;}
+  #resultado h2{margin:0 0 10px;font-size:16px;color:var(--verde-900);}
+  #resultado textarea{background:#fff;min-height:190px;font-family:ui-monospace,monospace;font-size:13px;}
+  .copiar{margin-top:10px;background:var(--amarelo-500);color:#3A2A00;border:none;padding:10px 16px;
+    border-radius:10px;font-weight:700;cursor:pointer;font-size:13.5px;}
+  .links a{display:block;font-size:13.5px;color:var(--verde-700);margin-top:6px;word-break:break-all;}
+  #erro{display:none;color:var(--erro);background:#FBEAE8;border:1px solid var(--erro);
+    padding:10px 14px;border-radius:10px;font-size:13.5px;margin-top:14px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="tag">Kit de lançamento</span>
+    <h1>Cadastro expresso de loja parceira</h1>
+    <p>Preenche isso na hora da visita (ou depois, sem o lojista do lado). No final sai um texto pronto pra mandar por WhatsApp com o link da loja já no ar e o acesso dele.</p>
+  </header>
+
+  <form id="form">
+    <fieldset>
+      <legend>Loja</legend>
+      <label class="first">Nome da loja</label>
+      <input type="text" id="nomeLoja" required placeholder="Ex: Oficina do Zé">
+
+      <div class="row2">
+        <div>
+          <label>Cidade</label>
+          <input type="text" id="cidade" required placeholder="Muzambinho">
+        </div>
+        <div>
+          <label>CNPJ (se tiver)</label>
+          <input type="text" id="cnpj" placeholder="opcional">
+        </div>
+      </div>
+
+      <label>Categoria principal</label>
+      <select id="categoriaLoja">
+        <option>Loja</option>
+        <option>Serviços</option>
+        <option>Oficina mecânica</option>
+        <option>Eletricista</option>
+        <option>Diarista</option>
+        <option>Outro</option>
+      </select>
+
+      <label>Descrição curta da loja</label>
+      <textarea id="descricaoLoja" placeholder="Ex: Peças e serviços automotivos em Muzambinho"></textarea>
+
+      <label>URL do logotipo (se já tiver pronto)</label>
+      <input type="url" id="logoUrl" placeholder="cole o link da imagem, ou deixa em branco">
+      <div class="hint">Sem link ainda? Deixa em branco — o painel mostra um selo com a inicial do nome até você trocar pela logo de verdade.</div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Lojista (dono)</legend>
+      <label class="first">Nome do lojista</label>
+      <input type="text" id="nomeLojista" required>
+
+      <label>WhatsApp do lojista (com DDD)</label>
+      <input type="tel" id="whatsapp" required placeholder="35 9XXXX-XXXX">
+      <div class="hint">Se esse número já tem conta no Vendaí, a loja é vinculada à conta existente. Se não tiver, criamos uma nova e geramos um link pra ele definir o próprio PIN.</div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Produto de cortesia (já entra publicado)</legend>
+      <label class="first">Título do produto/serviço</label>
+      <input type="text" id="produtoTitulo" placeholder="Ex: Troca de óleo">
+
+      <div class="row2">
+        <div>
+          <label>Categoria</label>
+          <input type="text" id="produtoCategoria" placeholder="Serviços">
+        </div>
+        <div>
+          <label>Preço (R$)</label>
+          <input type="number" id="produtoPreco" step="0.01" placeholder="80.00">
+        </div>
+      </div>
+
+      <label>Descrição</label>
+      <textarea id="produtoDescricao" placeholder="Descrição de exemplo pro lojista ver como fica um anúncio bonito"></textarea>
+
+      <label>URL da foto do produto (opcional)</label>
+      <input type="url" id="produtoFoto" placeholder="cole o link da foto, se tiver">
+    </fieldset>
+
+    <fieldset>
+      <legend>Teste grátis de lançamento</legend>
+      <label class="first">Plano oferecido de graça no início</label>
+      <select id="planoTeste">
+        <option value="premium" selected>Vendaí Premium</option>
+        <option value="pro">Vendaí Pro</option>
+        <option value="gratis">Vendaí Grátis (sem teste)</option>
+      </select>
+
+      <label>Duração do teste (dias)</label>
+      <input type="number" id="diasTeste" value="30" min="0">
+    </fieldset>
+
+    <button type="submit" class="principal" id="btnEnviar">Cadastrar loja e gerar mensagem</button>
+    <div id="erro"></div>
+  </form>
+
+  <div id="resultado">
+    <h2>Loja criada! Mensagem pronta pra copiar e mandar no WhatsApp:</h2>
+    <textarea id="mensagemPronta" readonly></textarea>
+    <button class="copiar" id="btnCopiar" type="button">Copiar mensagem</button>
+    <div class="links" id="linksExtra"></div>
+  </div>
+</div>
+
+<script>
+// ⚠️ Troca pelas mesmas credenciais que você já usa no index.html / admin do Vendaí
+const SUPABASE_URL = "https://rgcclordmqjmwuzrrfbd.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_g5Tcimge2aiMX8JE3ml1dg_6zbR3uXi";
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ⚠️ Ajusta esses dois links pro caminho real do seu site
+const URL_BASE_LOJA = "https://vendai.entregaflash.app.br/loja.html?id="; // ajuste depois de ver a URL real da 1ª loja de teste
+
+function limparTelefone(v){ return v.replace(/\D/g, ""); }
+
+document.getElementById("form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById("btnEnviar");
+  const erroBox = document.getElementById("erro");
+  erroBox.style.display = "none";
+  btn.disabled = true;
+  btn.textContent = "Cadastrando...";
+
+  try {
+    const telefone = limparTelefone(document.getElementById("whatsapp").value);
+    const nomeLojista = document.getElementById("nomeLojista").value.trim();
+    const nomeLoja = document.getElementById("nomeLoja").value.trim();
+    const cidade = document.getElementById("cidade").value.trim();
+    const cnpj = document.getElementById("cnpj").value.trim() || null;
+    const descricaoLoja = document.getElementById("descricaoLoja").value.trim() || null;
+    const logoUrl = document.getElementById("logoUrl").value.trim() || null;
+    const planoTeste = document.getElementById("planoTeste").value;
+    const diasTeste = parseInt(document.getElementById("diasTeste").value || "0", 10);
+
+    // 1. usuário já existe?
+    let { data: usuarioExistente, error: errBusca } = await sb
+      .from("vendai_usuarios").select("id").eq("telefone", telefone).maybeSingle();
+    if (errBusca) throw errBusca;
+
+    let usuarioId, usuarioNovo = false, pinGerado = null;
+
+    if (usuarioExistente) {
+      usuarioId = usuarioExistente.id;
+    } else {
+      // PIN simples pro primeiro acesso: os 4 últimos dígitos do WhatsApp
+      pinGerado = telefone.slice(-4);
+      const { data: novoUsuario, error: errCriar } = await sb
+        .from("vendai_usuarios")
+        .insert({ telefone, nome: nomeLojista, criado_via_lancamento: true, pin_hash: pinGerado })
+        .select("id").single();
+      if (errCriar) throw errCriar;
+      usuarioId = novoUsuario.id;
+      usuarioNovo = true;
+    }
+
+    // 2. calcula fim do teste grátis
+    let testeExpiraEm = null;
+    if (diasTeste > 0 && planoTeste !== "gratis") {
+      testeExpiraEm = new Date(Date.now() + diasTeste * 24 * 60 * 60 * 1000).toISOString();
+    }
+
+    // 3. cria a loja
+    const { data: loja, error: errLoja } = await sb.from("vendai_lojas").insert({
+      usuario_id: usuarioId,
+      nome: nomeLoja,
+      cidade,
+      whatsapp: telefone,
+      descricao: descricaoLoja,
+      logo_url: logoUrl,
+      cnpj,
+      status: "ativo",
+      origem_cadastro: "lancamento",
+      teste_gratis_plano_slug: planoTeste !== "gratis" ? planoTeste : null,
+      teste_gratis_expira_em: testeExpiraEm
+    }).select("id").single();
+    if (errLoja) throw errLoja;
+    const lojaId = loja.id;
+
+    // 4. produto de cortesia (se preenchido)
+    const produtoTitulo = document.getElementById("produtoTitulo").value.trim();
+    if (produtoTitulo) {
+      const fotoUrl = document.getElementById("produtoFoto").value.trim();
+      await sb.from("vendai_produtos_loja").insert({
+        loja_id: lojaId,
+        titulo: produtoTitulo,
+        categoria: document.getElementById("produtoCategoria").value.trim() || null,
+        preco: parseFloat(document.getElementById("produtoPreco").value || "0") || null,
+        descricao: document.getElementById("produtoDescricao").value.trim() || null,
+        fotos: fotoUrl ? [fotoUrl] : [],
+        status: "ativo"
+      });
+    }
+
+    // 5. monta mensagem pronta
+    const linkLoja = URL_BASE_LOJA + lojaId;
+    let msg = `Oi, ${nomeLojista}! Já deixei sua loja "${nomeLoja}" cadastrada no Vendaí 🎉\n\n`;
+    msg += `Sua loja: ${linkLoja}\n\n`;
+    if (usuarioNovo) {
+      msg += `Pra acessar e mexer nela, entra com seu WhatsApp e o PIN ${pinGerado} (dá pra trocar depois no seu perfil).\n\n`;
+    } else {
+      msg += `É só entrar com seu número de WhatsApp e o PIN de sempre pra mexer nela.\n\n`;
+    }
+    if (testeExpiraEm) {
+      const dataFmt = new Date(testeExpiraEm).toLocaleDateString("pt-BR");
+      msg += `Você tá com o plano ${planoTeste === "premium" ? "Premium" : "Pro"} liberado de graça até ${dataFmt}, pra testar sem compromisso.\n\n`;
+    }
+    msg += `Se não quiser continuar, é só me avisar que eu tiro do ar sem problema nenhum!`;
+
+    document.getElementById("mensagemPronta").value = msg;
+    const linksExtra = document.getElementById("linksExtra");
+    linksExtra.innerHTML = `<a href="${linkLoja}" target="_blank">Ver loja pública →</a>`;
+    document.getElementById("resultado").style.display = "block";
+    document.getElementById("resultado").scrollIntoView({ behavior: "smooth" });
+    document.getElementById("form").reset();
+
+  } catch (err) {
+    console.error(err);
+    erroBox.textContent = "Deu erro ao cadastrar: " + (err.message || JSON.stringify(err));
+    erroBox.style.display = "block";
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Cadastrar loja e gerar mensagem";
+  }
+});
+
+document.getElementById("btnCopiar").addEventListener("click", () => {
+  const ta = document.getElementById("mensagemPronta");
+  ta.select();
+  document.execCommand("copy");
+  const btn = document.getElementById("btnCopiar");
+  const original = btn.textContent;
+  btn.textContent = "Copiado!";
+  setTimeout(() => btn.textContent = original, 1500);
+});
+</script>
+</body>
+</html>

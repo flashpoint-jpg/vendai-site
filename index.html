@@ -2874,7 +2874,8 @@ async function renderProfile(){
     <div class="profileSectionHint">Estes anúncios são suas vendas pessoais. Produtos profissionais ficam em <strong>Minha loja</strong>. Você pode copiar qualquer anúncio para a loja sem cadastrar tudo de novo.</div>
     <div id="meusAnunciosList" style="font-size:13px;color:var(--ink-soft);">Carregando...</div>`;
 
-  const { data, error } = await sb.rpc('vendai_meus_anuncios', { p_token: currentSessionToken });
+  const { data: dataBruta, error } = await sb.rpc('vendai_meus_anuncios', { p_token: currentSessionToken });
+  const data = (dataBruta||[]).filter(ad=>ad.status!=='removido');
   const list = document.getElementById('meusAnunciosList');
   if(error){ list.textContent='Não consegui carregar seus anúncios.'; return; }
   if(!data || data.length===0){ meusAnunciosCache=[]; list.textContent='Você ainda não publicou nenhum anúncio.'; return; }
@@ -3603,8 +3604,9 @@ async function publishAd(plano){
 async function obterIdUltimoAnuncioPublicado(){
   try{
     const {data,error}=await sb.rpc('vendai_meus_anuncios',{p_token:currentSessionToken});
-    if(error || !data || !data.length) return null;
-    return data.slice().sort((a,b)=>new Date(b.criado_em)-new Date(a.criado_em))[0].id;
+    const ativos=(data||[]).filter(ad=>ad.status!=='removido');
+    if(error || !ativos.length) return null;
+    return ativos.slice().sort((a,b)=>new Date(b.criado_em)-new Date(a.criado_em))[0].id;
   }catch(e){ return null; }
 }
 

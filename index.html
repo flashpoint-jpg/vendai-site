@@ -1801,6 +1801,25 @@
   .monetPixCard{background:#fff;border:1px solid #E1E9E3;border-radius:18px;padding:15px;margin:12px 0}.monetPixQr{text-align:center;margin:12px 0}.monetPixQr img{width:220px;max-width:75vw;border:1px solid #E2E8E4;border-radius:14px;padding:9px;background:#fff}.monetPixCode{width:100%;min-height:82px;border:1px solid #DDE6E0;border-radius:12px;background:#F7FAF8;padding:10px;font-size:10.5px;line-height:1.35;word-break:break-all}.monetStatus{text-align:center;margin:10px 0 0;font-size:11px;font-weight:850;color:var(--green-dark)}
   @media(max-width:680px){.planCards{grid-template-columns:1fr}.planDesc{min-height:0}.highlightChoiceGrid{grid-template-columns:1fr}.planSummary{align-items:flex-start}.planSummaryActions{width:100%}.planSummaryActions button{flex:1}}
 
+
+  /* ===== Vendaí 13/09/2026 — confirmações com identidade visual ===== */
+  .vendaiConfirmOverlay{position:fixed;inset:0;z-index:2147483000;background:rgba(12,32,22,.58);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .18s ease}
+  .vendaiConfirmOverlay.show{opacity:1;pointer-events:auto}
+  .vendaiConfirmCard{width:min(420px,94vw);background:#fff;border-radius:22px;box-shadow:0 24px 70px rgba(0,0,0,.28);overflow:hidden;transform:translateY(10px) scale(.98);transition:transform .18s ease;border:1px solid rgba(17,78,50,.08)}
+  .vendaiConfirmOverlay.show .vendaiConfirmCard{transform:translateY(0) scale(1)}
+  .vendaiConfirmHead{padding:18px 20px 14px;background:linear-gradient(135deg,#0B4F2D,#14683D);color:#fff}
+  .vendaiConfirmBrand{font-size:12px;font-weight:950;letter-spacing:.7px;text-transform:uppercase;opacity:.82;margin-bottom:5px}
+  .vendaiConfirmTitle{font-size:20px;font-weight:950;line-height:1.15}
+  .vendaiConfirmBody{padding:20px;color:#26352D;font-size:15px;line-height:1.5;font-weight:650}
+  .vendaiConfirmPrice{margin-top:12px;padding:12px 14px;border-radius:14px;background:#FFF6D8;color:#5F4A00;font-size:12px;font-weight:850}
+  .vendaiConfirmActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 20px 20px}
+  .vendaiConfirmBtn{border:0;border-radius:13px;padding:13px 12px;font:900 13px Inter,sans-serif;cursor:pointer;touch-action:manipulation}
+  .vendaiConfirmBtn.cancel{background:#EEF3F0;color:#3D5547}
+  .vendaiConfirmBtn.ok{background:#0B4F2D;color:#fff;box-shadow:0 7px 18px rgba(11,79,45,.18)}
+  .vendaiConfirmBtn.ok.gold{background:#F2C94C;color:#2F310F}
+  .vendaiConfirmBtn.ok.danger{background:#B3261E;color:#fff}
+  @media(max-width:420px){.vendaiConfirmCard{border-radius:20px}.vendaiConfirmBody{font-size:14px}.vendaiConfirmActions{grid-template-columns:1fr 1fr}}
+
 </style>
 </head>
 <body>
@@ -3744,6 +3763,42 @@ window.addEventListener('appinstalled', ()=>{
   if(box) box.style.display='none';
 });
 
+
+function vendaiConfirmacao(mensagem, opcoes={}){
+  return new Promise((resolve)=>{
+    const antigo=document.getElementById('vendaiConfirmOverlay');
+    if(antigo) antigo.remove();
+    const titulo=String(opcoes.titulo||'Confirmar ação');
+    const confirmar=String(opcoes.confirmar||'Confirmar');
+    const estilo=String(opcoes.estilo||'');
+    const detalhe=opcoes.detalhe?String(opcoes.detalhe):'';
+    const ov=document.createElement('div');
+    ov.id='vendaiConfirmOverlay';
+    ov.className='vendaiConfirmOverlay';
+    ov.innerHTML=`<div class="vendaiConfirmCard" role="dialog" aria-modal="true" aria-labelledby="vendaiConfirmTitle">
+      <div class="vendaiConfirmHead"><div class="vendaiConfirmBrand">Vendaí</div><div class="vendaiConfirmTitle" id="vendaiConfirmTitle"></div></div>
+      <div class="vendaiConfirmBody"><div id="vendaiConfirmMessage"></div>${detalhe?'<div class="vendaiConfirmPrice" id="vendaiConfirmDetail"></div>':''}</div>
+      <div class="vendaiConfirmActions"><button class="vendaiConfirmBtn cancel" type="button">Cancelar</button><button class="vendaiConfirmBtn ok ${estilo==='gold'?'gold':estilo==='danger'?'danger':''}" type="button"></button></div>
+    </div>`;
+    ov.querySelector('#vendaiConfirmTitle').textContent=titulo;
+    ov.querySelector('#vendaiConfirmMessage').textContent=String(mensagem||'');
+    const det=ov.querySelector('#vendaiConfirmDetail'); if(det) det.textContent=detalhe;
+    const cancel=ov.querySelector('.vendaiConfirmBtn.cancel');
+    const ok=ov.querySelector('.vendaiConfirmBtn.ok');
+    ok.textContent=confirmar;
+    let terminou=false;
+    const fim=(v)=>{if(terminou)return;terminou=true;ov.classList.remove('show');setTimeout(()=>ov.remove(),160);resolve(v);};
+    cancel.addEventListener('click',()=>fim(false));
+    ok.addEventListener('click',()=>fim(true));
+    ov.addEventListener('click',(e)=>{if(e.target===ov)fim(false);});
+    const esc=(e)=>{if(e.key==='Escape'){document.removeEventListener('keydown',esc);fim(false);}};
+    document.addEventListener('keydown',esc);
+    document.body.appendChild(ov);
+    requestAnimationFrame(()=>ov.classList.add('show'));
+    setTimeout(()=>ok.focus(),40);
+  });
+}
+
 function showToast(msg){
   const toast = document.getElementById('toast');
   document.getElementById('toastMsg').textContent = msg;
@@ -3843,7 +3898,7 @@ async function vendaiMP(action,body={}){
   const j=await resp.json().catch(()=>({}));if(!resp.ok)throw new Error(j.error||'falha_mercadopago');return j;
 }
 async function conectarMercadoPago(){try{const j=await vendaiMP('authorize');location.href=j.url;}catch(e){showToast(String(e.message).includes('nao_configurado')?'Falta configurar a aplicação Mercado Pago do Vendaí':'Não consegui iniciar a conexão Mercado Pago');}}
-async function desconectarMercadoPago(){if(!confirm('Desconectar o Mercado Pago desta loja? O botão Comprar online ficará indisponível.'))return;const r=await sb.rpc('vendai_loja_mp_desconectar',{p_token:currentSessionToken});if(r.error){showToast('Não consegui desconectar');return;}showToast('Mercado Pago desconectado');await openLojaPainel();}
+async function desconectarMercadoPago(){if(!(await vendaiConfirmacao('O botão Comprar online ficará indisponível até você conectar novamente.',{titulo:'Desconectar Mercado Pago',confirmar:'Desconectar',estilo:'danger'})))return;const r=await sb.rpc('vendai_loja_mp_desconectar',{p_token:currentSessionToken});if(r.error){showToast('Não consegui desconectar');return;}showToast('Mercado Pago desconectado');await openLojaPainel();}
 async function openLojaPainel(){
   if(!currentUser||!currentSessionToken){pendingAction='loja';openLoginSheet();return;}
   document.getElementById('lojaOverlay').classList.add('show');const c=document.getElementById('lojaContent');c.innerHTML='<div class="detailTitle">Área do lojista</div><div class="shopEmpty">Carregando sua loja...</div>';
@@ -3898,11 +3953,11 @@ function editarObservacaoPedidoLoja(id){
 async function cancelarPedidoLoja(id){
   const o=(window._pedidosLoja||[]).find(x=>x.id===id); if(!o)return;
   if(o.pagamento_status==='pago'){
-    if(!confirm('Cancelar este pedido e solicitar o estorno total no Mercado Pago?'))return;
+    if(!(await vendaiConfirmacao('O pedido será cancelado e o estorno total será solicitado no Mercado Pago.',{titulo:'Cancelar pedido',confirmar:'Cancelar pedido',estilo:'danger'})))return;
     try{await vendaiMP('refund_reject',{pedido_id:id});showToast('Pedido cancelado e estorno solicitado ✓');await openLojaPainel();}catch(e){showToast('Não consegui cancelar com estorno agora');}
     return;
   }
-  if(!confirm('Cancelar este pedido?'))return;
+  if(!(await vendaiConfirmacao('Deseja realmente cancelar este pedido?',{titulo:'Cancelar pedido',confirmar:'Cancelar pedido',estilo:'danger'})))return;
   const r=await sb.rpc('vendai_responder_pedido_v2',{p_token:currentSessionToken,p_pedido_id:id,p_aceitar:false});
   if(r.error){showToast('Não consegui cancelar o pedido');return;}
   showToast('Pedido cancelado ✓');
@@ -4011,13 +4066,13 @@ function gerarEtiquetaPedidoLoja(id){
 async function responderPedidoLoja(id,aceitar){
   const o=(window._pedidosLoja||[]).find(x=>x.id===id);if(!o)return;
   if(!aceitar&&o.pagamento_status==='pago'){
-    if(!confirm('O cliente já pagou. Recusar este pedido e solicitar o estorno total pelo Mercado Pago?'))return;
+    if(!(await vendaiConfirmacao('O cliente já pagou. Ao recusar, será solicitado o estorno total pelo Mercado Pago.',{titulo:'Recusar pedido',confirmar:'Recusar e estornar',estilo:'danger'})))return;
     try{await vendaiMP('refund_reject',{pedido_id:id});showToast('Pedido recusado e estorno solicitado ✓');await openLojaPainel();}catch(e){showToast('Não consegui concluir o estorno. Não entregue o produto; verifique o pagamento no painel.');}return;
   }
   const r=await sb.rpc('vendai_responder_pedido_v2',{p_token:currentSessionToken,p_pedido_id:id,p_aceitar:aceitar});if(r.error){showToast('Não consegui atualizar o pedido');return;}showToast(aceitar?'Pedido aceito ✓':'Pedido recusado');await openLojaPainel();
 }
-async function chamarEntregaFlashLoja(id){if(!confirm('O produto está realmente pronto para retirada? Ao confirmar, o Entrega Flash começa a procurar motorista.'))return;try{const r=await vendaiEntrega('dispatch',{pedido_id:id});showToast(r.entrega?.ja_criado?'Entrega já estava aberta':'Entrega Flash acionado ✓');await openLojaPainel();}catch(e){const m=String(e.message||'');showToast(m.includes('pedido_nao_liberado')?'Aceite o pedido e aguarde o pagamento aprovado antes de chamar a entrega':'Não consegui chamar o Entrega Flash');}}
-async function concluirPedidoLoja(id){if(!confirm('Confirmar que este pedido foi entregue/retirado e a venda está concluída?'))return;const r=await sb.rpc('vendai_loja_concluir_pedido_v2',{p_token:currentSessionToken,p_pedido_id:id});if(r.error){showToast(String(r.error.message||'').includes('entrega_ainda')?'A Entrega Flash ainda não marcou como entregue':'Não consegui concluir a venda');return;}showToast('Venda concluída ✓');await openLojaPainel();}
+async function chamarEntregaFlashLoja(id){if(!(await vendaiConfirmacao('Confirme somente se o produto já estiver pronto para retirada. O Entrega Flash começará a procurar um motorista.',{titulo:'Chamar Entrega Flash',confirmar:'Procurar motorista'})))return;try{const r=await vendaiEntrega('dispatch',{pedido_id:id});showToast(r.entrega?.ja_criado?'Entrega já estava aberta':'Entrega Flash acionado ✓');await openLojaPainel();}catch(e){const m=String(e.message||'');showToast(m.includes('pedido_nao_liberado')?'Aceite o pedido e aguarde o pagamento aprovado antes de chamar a entrega':'Não consegui chamar o Entrega Flash');}}
+async function concluirPedidoLoja(id){if(!(await vendaiConfirmacao('Confirme que o pedido foi entregue ou retirado e que a venda está concluída.',{titulo:'Concluir venda',confirmar:'Concluir venda'})))return;const r=await sb.rpc('vendai_loja_concluir_pedido_v2',{p_token:currentSessionToken,p_pedido_id:id});if(r.error){showToast(String(r.error.message||'').includes('entrega_ainda')?'A Entrega Flash ainda não marcou como entregue':'Não consegui concluir a venda');return;}showToast('Venda concluída ✓');await openLojaPainel();}
 function renderProdutosMinhaLoja(){
   const box=document.getElementById('lojaPainelLista');if(!box)return;
   const rest=Number(planoLojaAtual?.destaques_restantes||0);
@@ -4100,7 +4155,7 @@ async function salvarProdutoLoja(){
 async function statusProdutoLoja(id,status){const r=await sb.rpc('vendai_loja_status_produto',{p_token:currentSessionToken,p_id:id,p_status:status});if(r.error){showToast('Não consegui alterar o produto');return;}await carregarMarketplaceLojas();await openLojaPainel();renderProdutosMinhaLoja();}
 function renderEditarLoja(){const box=document.getElementById('lojaPainelLista');if(!box||!lojaAtual)return;box.innerHTML=`<div class="detailTitle" style="font-size:14px">Dados e entrega da loja</div><label>Nome da loja</label><input id="lojaENome" value="${escHtml(lojaAtual.nome)}"><label>Cidade</label><input id="lojaECidade" list="vendaiCityOptions" value="${escHtml(lojaAtual.cidade)}"><label>WhatsApp</label><input id="lojaEWhats" value="${escHtml(lojaAtual.whatsapp||'')}"><label>Endereço de retirada</label><input id="lojaEEndereco" value="${escHtml(lojaAtual.endereco_retirada||'')}" placeholder="Rua, número, bairro, cidade, CEP"><label>Complemento</label><input id="lojaEComplemento" value="${escHtml(lojaAtual.endereco_complemento||'')}"><label>Referência</label><input id="lojaEReferencia" value="${escHtml(lojaAtual.endereco_referencia||'')}"><label>Sobre a loja</label><textarea id="lojaEDesc">${escHtml(lojaAtual.descricao||'')}</textarea><div class="feeBox"><strong>Formas de entrega</strong><br><label style="display:block;margin:8px 0"><input id="lojaEFlash" type="checkbox" ${lojaAtual.entrega_flash_ativa?'checked':''}> <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M13 2 4.4 14h5.7l-1 8L20.6 10h-5.9Z"/></svg> Entrega Flash</label><label style="display:block;margin:8px 0"><input id="lojaERetirada" type="checkbox" ${lojaAtual.retirada_loja_ativa?'checked':''}> <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M3.5 9 4.6 4h14.8L20.5 9"/><path d="M4.5 9v9.3a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V9"/><path d="M9.6 19.3v-5.2h4.8v5.2"/><line x1="3.5" y1="9" x2="20.5" y2="9"/></svg> Retirada na loja</label><label style="display:block;margin:8px 0"><input id="lojaEPropria" type="checkbox" ${lojaAtual.entrega_propria_ativa?'checked':''}> <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><rect x="2.6" y="7.6" width="10.2" height="8.4" rx="1"/><path d="M12.8 10.6h3.5l3.3 3.3v2h-6.8"/><circle cx="6.6" cy="17.1" r="1.6"/><circle cx="15.6" cy="17.1" r="1.6"/></svg> Entrega própria</label></div><label>Nova logo (opcional)</label><input id="lojaELogo" type="file" accept="image/*"><button class="publishBtn" onclick="salvarEdicaoLoja()">Salvar dados</button>`;}
 async function salvarEdicaoLoja(){try{const flash=document.getElementById('lojaEFlash').checked,retirada=document.getElementById('lojaERetirada').checked,propria=document.getElementById('lojaEPropria').checked;if(!flash&&!retirada&&!propria){showToast('Escolha ao menos uma forma de entrega');return;}const endereco=document.getElementById('lojaEEndereco').value.trim();const mudouEndereco=endereco!==String(lojaAtual.endereco_retirada||'').trim();let geo={lat:lojaAtual.endereco_lat??null,lng:lojaAtual.endereco_lng??null};if(flash&&(mudouEndereco||geo.lat==null||geo.lng==null))geo=await geocodificarLojaSeNecessario(endereco,true);if(!flash)geo={lat:null,lng:null};const f=document.getElementById('lojaELogo').files?.[0],logo=f?await uploadVendai(f):null;const r=await sb.rpc('vendai_salvar_loja_v2',{p_token:currentSessionToken,p_nome:document.getElementById('lojaENome').value,p_cidade:document.getElementById('lojaECidade').value,p_whatsapp:document.getElementById('lojaEWhats').value,p_descricao:document.getElementById('lojaEDesc').value,p_logo_url:logo,p_endereco_retirada:endereco,p_endereco_complemento:document.getElementById('lojaEComplemento').value,p_endereco_referencia:document.getElementById('lojaEReferencia').value,p_endereco_lat:geo.lat,p_endereco_lng:geo.lng,p_entrega_flash_ativa:flash,p_retirada_loja_ativa:retirada,p_entrega_propria_ativa:propria});if(r.error)throw r.error;showToast('Loja atualizada ✓');await carregarMarketplaceLojas();await openLojaPainel();}catch(e){console.error(e);showToast(String(e.message).includes('endereco')?'Não consegui localizar o endereço':'Não consegui salvar os dados');}}
-async function excluirMinhaLoja(){if(!lojaAtual)return;if(!confirm('Excluir sua loja do Vendaí? Ela sairá da vitrine e os produtos serão pausados. O histórico de vendas e comissões será preservado.'))return;const r=await sb.rpc('vendai_excluir_minha_loja',{p_token:currentSessionToken});if(r.error){const m=String(r.error.message||'');showToast(m.includes('loja_tem_pedidos_abertos')?'Finalize ou recuse os pedidos abertos antes de excluir a loja.':'Não consegui excluir a loja.');return;}showToast('Loja excluída da vitrine');await carregarMarketplaceLojas();await openLojaPainel();}
+async function excluirMinhaLoja(){if(!lojaAtual)return;if(!(await vendaiConfirmacao('Sua loja sairá da vitrine e os produtos serão pausados. O histórico de vendas e comissões será preservado.',{titulo:'Excluir loja',confirmar:'Excluir loja',estilo:'danger'})))return;const r=await sb.rpc('vendai_excluir_minha_loja',{p_token:currentSessionToken});if(r.error){const m=String(r.error.message||'');showToast(m.includes('loja_tem_pedidos_abertos')?'Finalize ou recuse os pedidos abertos antes de excluir a loja.':'Não consegui excluir a loja.');return;}showToast('Loja excluída da vitrine');await carregarMarketplaceLojas();await openLojaPainel();}
 async function reativarMinhaLoja(){const r=await sb.rpc('vendai_reativar_minha_loja',{p_token:currentSessionToken});if(r.error){showToast('Não consegui reativar a loja.');return;}showToast('Loja reativada ✓');await carregarMarketplaceLojas();await openLojaPainel();}
 function atualizarCamposEntregaCompra(){
   const tipo=document.getElementById('compraEntregaTipo')?.value;
@@ -4309,12 +4364,12 @@ async function chamarMonetizacaoPix(action,body={}){
 }
 async function assinarPlanoLoja(slug){
   const p=planosVendai.find(x=>x.slug===slug);if(!p)return;
-  if(!confirm(`Assinar ${p.nome} por ${formatPrice(p.preco_mensal)} por 30 dias? O plano não altera a comissão sobre as vendas.`))return;
+  if(!(await vendaiConfirmacao(`O plano ${p.nome} ficará ativo por 30 dias. A comissão sobre as vendas continua normalmente.`,{titulo:'Assinar plano',confirmar:'Gerar PIX',estilo:'gold',detalhe:`Valor: ${formatPrice(p.preco_mensal)}`})))return;
   await iniciarPagamentoMonetizacao({tipo:'plano',plano_slug:slug},p.nome);
 }
 async function comprarDestaqueLoja(){
   if(!currentSessionToken||!lojaAtual){showToast('Entre na sua loja primeiro');return;}
-  if(!confirm(`Destacar sua loja por 7 dias por ${formatPrice(precosMonetizacao.loja7d)}?`))return;
+  if(!(await vendaiConfirmacao('Sua loja terá mais visibilidade no Vendaí durante 7 dias. O destaque só é ativado após a confirmação do pagamento.',{titulo:'Destacar sua loja',confirmar:'Gerar PIX',estilo:'gold',detalhe:`Valor: ${formatPrice(precosMonetizacao.loja7d)} · duração: 7 dias`})))return;
   await iniciarPagamentoMonetizacao({tipo:'destaque_loja'},'Loja em destaque — 7 dias');
 }
 function abrirDestaqueProdutoLoja(id){
@@ -4323,11 +4378,11 @@ function abrirDestaqueProdutoLoja(id){
 }
 async function comprarDestaqueProduto(id,pacote){
   const mapa={"24h":precosMonetizacao.produto24,"3d":precosMonetizacao.produto3d,"7d":precosMonetizacao.produto7d};
-  if(!confirm(`Gerar PIX de ${formatPrice(mapa[pacote])} para destacar este produto?`))return;
+  if(!(await vendaiConfirmacao('O produto aparecerá com mais destaque na vitrine após a confirmação do pagamento.',{titulo:'Destacar produto',confirmar:'Gerar PIX',estilo:'gold',detalhe:`Valor: ${formatPrice(mapa[pacote])}`})))return;
   await iniciarPagamentoMonetizacao({tipo:'destaque_produto',produto_id:id,pacote},'Destaque de produto');
 }
 async function usarDestaquePlano(id){
-  if(!confirm('Usar 1 destaque incluído no seu plano? Ele deixa o produto em destaque por 7 dias.'))return;
+  if(!(await vendaiConfirmacao('Será usado 1 destaque disponível no seu plano para deixar este produto em destaque por 7 dias.',{titulo:'Usar destaque do plano',confirmar:'Usar destaque',estilo:'gold'})))return;
   const r=await sb.rpc('vendai_loja_usar_destaque_plano',{p_token:currentSessionToken,p_produto_id:id});
   if(r.error){const m=String(r.error.message||'');showToast(m.includes('limite')?'Você já usou todos os destaques do mês':m.includes('plano_sem')?'Seu plano não inclui destaques':'Não consegui ativar o destaque');return;}
   showToast('Produto destacado por 7 dias ✓');await carregarMarketplaceLojas();await openLojaPainel();renderProdutosMinhaLoja();

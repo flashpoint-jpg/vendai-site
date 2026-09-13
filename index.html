@@ -5,6 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#0F6B3D">
 <meta name="description" content="Vendaí — marketplace local para vender, comprar, negociar e trocar produtos com pessoas da sua região.">
+<link rel="canonical" href="https://vendai.entregaflash.app.br/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Vendaí">
+<meta property="og:title" content="Vendaí — compre, venda e negocie perto de você">
+<meta property="og:description" content="Produtos, lojas e oportunidades da sua região em um só lugar.">
+<meta property="og:url" content="https://vendai.entregaflash.app.br/">
+<meta property="og:image" content="https://vendai.entregaflash.app.br/hero-products.png">
+<meta name="twitter:card" content="summary_large_image">
+<script>
+(function(){
+  try{
+    if(location.hostname==='vendai-site.vercel.app'){
+      location.replace('https://vendai.entregaflash.app.br'+location.pathname+location.search+location.hash);
+    }
+  }catch(e){}
+})();
+</script>
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -17,6 +34,7 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <title>Vendaí — compre, venda e negocie</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" onerror="window.__vendaiLibFalhou=true"></script>
+<script>const VENDAI_URL_OFICIAL='https://vendai.entregaflash.app.br';</script>
 <style>
   :root{
     --bg: #F6FAF7;
@@ -1820,6 +1838,15 @@
   .vendaiConfirmBtn.ok.danger{background:#B3261E;color:#fff}
   @media(max-width:420px){.vendaiConfirmCard{border-radius:20px}.vendaiConfirmBody{font-size:14px}.vendaiConfirmActions{grid-template-columns:1fr 1fr}}
 
+
+  /* ===== Vendaí 13/09/2026 — botões do painel da loja ===== */
+  .vendaiPanelBtn{appearance:none;-webkit-appearance:none;border:0;border-radius:13px;padding:12px 16px;font:900 13px 'Inter',sans-serif;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;touch-action:manipulation;transition:transform .1s ease,box-shadow .15s ease}
+  .vendaiPanelBtn:active{transform:scale(.98)}
+  .vendaiPanelBtn.gold{background:linear-gradient(135deg,#FFD65A,#F4BF2A);color:#3A310B;box-shadow:0 7px 18px rgba(220,171,32,.22)}
+  .vendaiPanelBtn.outline{background:#F1F7F3;color:var(--green-dark);border:1.5px solid #CFE0D5}
+  .vendaiPanelBtn.danger{background:#FDECEC;color:#B3261E;border:1px solid #F3C8C5}
+  .lojaRowActions .btnDanger{appearance:none;-webkit-appearance:none;border:1px solid #F3C8C5!important;border-radius:10px!important;background:#FDECEC!important;color:#B3261E!important;padding:8px 11px!important;font:850 11px 'Inter',sans-serif!important;cursor:pointer!important}
+
 </style>
 </head>
 <body>
@@ -3010,8 +3037,7 @@ function toggleLike(adId, ev){
 }
 
 function partnerShareLink(anchorId){
-  const base = location.href.split('#')[0];
-  return `${base}#${anchorId || 'parceirosHome'}`;
+  return `${VENDAI_URL_OFICIAL}/#${anchorId || 'parceirosHome'}`;
 }
 
 async function compartilharParceiro(anchorId, nome){
@@ -3124,7 +3150,7 @@ function openDetail(id){
     </div>
     <div class="btnRow">
       <div class="btnPrimary" onclick="iniciarChatFromDetail()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4 5.8h16a1 1 0 0 1 1 1V15a1 1 0 0 1-1 1h-9.6L6 19.6V16H4a1 1 0 0 1-1-1V6.8a1 1 0 0 1 1-1Z"/></svg> Perguntar ao vendedor</div>
-      ${aceitaTroca(ad) ? '<div class="btnGhost rolinhoChatBtn" onclick="iniciarRolinhoFromDetail()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4 8h12.5"/><path d="M13.5 4.8 16.8 8l-3.3 3.2"/><path d="M20 16H7.5"/><path d="M10.5 19.2 7.2 16l3.3-3.2"/></svg> Chama pro Rolinho</div>' : '<div class="btnGhost" onclick="showToast(\'Denúncia registrada (simulação)\')">🚩 Denunciar</div>'}
+      ${aceitaTroca(ad) ? '<div class="btnGhost rolinhoChatBtn" onclick="iniciarRolinhoFromDetail()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4 8h12.5"/><path d="M13.5 4.8 16.8 8l-3.3 3.2"/><path d="M20 16H7.5"/><path d="M10.5 19.2 7.2 16l3.3-3.2"/></svg> Chama pro Rolinho</div>' : '<div class="btnGhost" onclick="denunciarAnuncioAtual()">🚩 Denunciar</div>'}
     </div>
     ${aceitaTroca(ad) ? '<div style="font-size:10.5px;color:var(--ink-soft);margin-top:8px;text-align:center;">Combine a troca pelo chat. O Vendaí não recebe nem guarda o item.</div>' : ''}
     ${(currentUser && currentUser.id===ad.vendedor_id) ? `<div class="publishBtn" style="margin-top:12px;background:#EAF2FF;border:1.5px solid #D6E4FA;box-shadow:none;color:#275FA8;" onclick="editarAnuncio('${ad.id}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4.2 19.8 4.8 16.4 15.6 5.6a1.7 1.7 0 0 1 2.4 0l1.4 1.4a1.7 1.7 0 0 1 0 2.4L8.6 20.2Z"/><line x1="13.7" y1="7.5" x2="17.5" y2="11.3"/></svg> Editar este anúncio</div>` : ''}
@@ -3571,7 +3597,7 @@ async function responderOferta(ofertaId, aceitar){
 
 async function fazerOferta(){
   if(!currentChat || !currentSessionToken) return;
-  const valor=prompt('Qual valor você quer oferecer? (só números, ex: 400)'); if(!valor) return;
+  const valor=await vendaiEntrada('Digite o valor que você quer oferecer.',{titulo:'Fazer oferta',confirmar:'Enviar oferta',placeholder:'Ex.: 400',inputmode:'decimal'}); if(!valor) return;
   const num=parseFloat(valor.replace(',','.')); if(isNaN(num)||num<=0){ showToast('Valor inválido'); return; }
   const { error }=await sb.rpc('vendai_criar_oferta',{p_token:currentSessionToken,p_anuncio_id:currentChat.anuncioId,p_valor:num});
   if(error){ console.error(error); showToast('Não consegui enviar a oferta'); return; }
@@ -3764,6 +3790,64 @@ window.addEventListener('appinstalled', ()=>{
 });
 
 
+function vendaiEntrada(mensagem, opcoes={}){
+  return new Promise((resolve)=>{
+    const antigo=document.getElementById('vendaiInputOverlay');
+    if(antigo) antigo.remove();
+    const titulo=String(opcoes.titulo||'Vendaí');
+    const confirmar=String(opcoes.confirmar||'Continuar');
+    const placeholder=String(opcoes.placeholder||'');
+    const valor=String(opcoes.valor||'');
+    const multiline=opcoes.multiline===true;
+    const inputmode=String(opcoes.inputmode||'text');
+    const ov=document.createElement('div');
+    ov.id='vendaiInputOverlay';
+    ov.className='vendaiConfirmOverlay';
+    ov.innerHTML=`<div class="vendaiConfirmCard" role="dialog" aria-modal="true">
+      <div class="vendaiConfirmHead"><div class="vendaiConfirmBrand">Vendaí</div><div class="vendaiConfirmTitle"></div></div>
+      <div class="vendaiConfirmBody"><div class="vendaiInputMessage"></div><div class="vendaiInputField"></div></div>
+      <div class="vendaiConfirmActions"><button class="vendaiConfirmBtn cancel" type="button">Cancelar</button><button class="vendaiConfirmBtn ok" type="button"></button></div>
+    </div>`;
+    ov.querySelector('.vendaiConfirmTitle').textContent=titulo;
+    ov.querySelector('.vendaiInputMessage').textContent=String(mensagem||'');
+    const field=ov.querySelector('.vendaiInputField');
+    const control=document.createElement(multiline?'textarea':'input');
+    if(!multiline) control.type='text';
+    control.value=valor;
+    control.placeholder=placeholder;
+    control.setAttribute('inputmode',inputmode);
+    control.style.cssText='width:100%;margin-top:12px;border:1.5px solid #DDE8E0;border-radius:13px;padding:13px 14px;font:700 14px Inter,Arial,sans-serif;color:#16281D;background:#fff;outline:none;min-height:'+(multiline?'110px':'48px')+';resize:vertical;box-sizing:border-box';
+    field.appendChild(control);
+    ov.querySelector('.vendaiConfirmBtn.ok').textContent=confirmar;
+    const fechar=(valorFinal)=>{ try{ov.remove()}catch(e){} resolve(valorFinal); };
+    ov.querySelector('.cancel').onclick=()=>fechar(null);
+    ov.querySelector('.ok').onclick=()=>fechar(control.value);
+    ov.addEventListener('click',e=>{if(e.target===ov)fechar(null)});
+    control.addEventListener('keydown',e=>{
+      if(e.key==='Escape') fechar(null);
+      if(!multiline && e.key==='Enter'){e.preventDefault();fechar(control.value)}
+    });
+    document.body.appendChild(ov);
+    setTimeout(()=>control.focus(),50);
+  });
+}
+
+async function denunciarAnuncioAtual(){
+  const ad=window._anuncioAtual;
+  if(!ad) return;
+  const motivo=await vendaiEntrada('Conte em poucas palavras por que este anúncio precisa ser analisado.',{titulo:'Denunciar anúncio',confirmar:'Enviar denúncia',placeholder:'Ex.: informação falsa, produto proibido...',multiline:true});
+  if(motivo===null) return;
+  const texto=String(motivo||'').trim();
+  if(texto.length<5){ showToast('Explique um pouco melhor o motivo da denúncia.'); return; }
+  const mensagem=`DENÚNCIA DE ANÚNCIO
+ID: ${ad.id}
+Título: ${ad.titulo}
+Motivo: ${texto}`;
+  const {error}=await sb.rpc('vendai_enviar_suporte',{p_token:currentSessionToken||null,p_tipo:'problema',p_mensagem:mensagem,p_pagina:VENDAI_URL_OFICIAL+'/',p_user_agent:navigator.userAgent});
+  if(error){ console.error(error); showToast('Não consegui enviar a denúncia agora.'); return; }
+  showToast('Denúncia enviada para análise ✓');
+}
+
 function vendaiConfirmacao(mensagem, opcoes={}){
   return new Promise((resolve)=>{
     const antigo=document.getElementById('vendaiConfirmOverlay');
@@ -3894,7 +3978,7 @@ function abrirComoFuncionaLojista(){
 }
 
 async function vendaiMP(action,body={}){
-  const resp=await fetch(`${SUPABASE_URL}/functions/v1/vendai-mercadopago?action=${encodeURIComponent(action)}`,{method:'POST',headers:{apikey:SUPABASE_KEY,'Content-Type':'application/json'},body:JSON.stringify({token:currentSessionToken,return_url:location.origin+'/',...body})});
+  const resp=await fetch(`${SUPABASE_URL}/functions/v1/vendai-mercadopago?action=${encodeURIComponent(action)}`,{method:'POST',headers:{apikey:SUPABASE_KEY,'Content-Type':'application/json'},body:JSON.stringify({token:currentSessionToken,return_url:VENDAI_URL_OFICIAL+'/',...body})});
   const j=await resp.json().catch(()=>({}));if(!resp.ok)throw new Error(j.error||'falha_mercadopago');return j;
 }
 async function conectarMercadoPago(){try{const j=await vendaiMP('authorize');location.href=j.url;}catch(e){showToast(String(e.message).includes('nao_configurado')?'Falta configurar a aplicação Mercado Pago do Vendaí':'Não consegui iniciar a conexão Mercado Pago');}}
@@ -3919,7 +4003,7 @@ async function salvarLoja(){
 }
 async function renderPainelLoja(){
   const c=document.getElementById('lojaContent');
-  if(lojaAtual?.status==='excluida'){c.innerHTML=`<div class="merchantKicker" style="color:var(--danger)">🏪 Loja encerrada</div><div class="detailTitle">${escHtml(lojaAtual.nome)}</div><div class="feeBox">Sua loja foi removida da vitrine. O histórico de pedidos, pagamentos e comissões foi preservado.</div><button class="publishBtn" onclick="reativarMinhaLoja()">Reativar minha loja</button><button class="secondary" style="width:100%;margin-top:8px" onclick="renderComprasUsuario()">Ver minhas compras</button>`;return;}
+  if(lojaAtual?.status==='excluida'){c.innerHTML=`<div class="merchantKicker" style="color:var(--danger)">🏪 Loja encerrada</div><div class="detailTitle">${escHtml(lojaAtual.nome)}</div><div class="feeBox"><strong>Loja excluída.</strong><br>Ela não aparece mais para os clientes. O histórico de pedidos, pagamentos e comissões foi preservado.</div><button class="publishBtn" onclick="reativarMinhaLoja()">Reativar minha loja</button><button class="vendaiPanelBtn outline" style="width:100%;margin-top:10px;background:#EFF6F1!important;color:#0B4F2D!important;border:1.5px solid #C9DDD1!important;border-radius:13px!important;padding:13px 16px!important;font:900 13px 'Inter',sans-serif!important;min-height:46px!important" onclick="renderComprasUsuario()">🛍️ Ver minhas compras</button>`;return;}
   const [pr,ord,fin,mpr,plr]=await Promise.all([
     sb.rpc('vendai_loja_meus_produtos_v4',{p_token:currentSessionToken}),
     sb.rpc('vendai_loja_pedidos_lojista_v2',{p_token:currentSessionToken}),
@@ -3937,14 +4021,14 @@ async function renderPainelLoja(){
   <div class="lojaStatGrid"><div class="lojaStat"><b>${Number(lojaAtual.qtd_produtos||0)}</b><span>Produtos</span></div><div class="lojaStat"><b>${Number(lojaAtual.pedidos_abertos||0)}</b><span>Pedidos abertos</span></div><div class="lojaStat"><b>${Number(lojaAtual.vendas_concluidas||0)}</b><span>Vendas concluídas</span></div></div>
   <div class="feeBox"><strong>Financeiro</strong><br>Vendas concluídas: <strong>${formatPrice(f.vendas_valor||0)}</strong><br>Comissão Vendaí: <strong>${taxaVendai.toFixed(0)}%</strong><br>Comissão recebida/registrada: <strong>${formatPrice(f.comissao_paga||0)}</strong><br>Líquido-base dos produtos: <strong>${formatPrice(f.liquido_total||0)}</strong><br><span style="font-size:10px">A comissão continua em todos os planos e também na retirada na loja. O valor final pode variar conforme tarifas do Mercado Pago.</span></div>
   <div class="feeBox"><strong>Entrega</strong><br>${lojaAtual.entrega_flash_ativa?'⚡ Entrega Flash ativa':'Entrega Flash desativada'} · ${lojaAtual.retirada_loja_ativa?'🏪 retirada ativa':'retirada desativada'} · ${lojaAtual.entrega_propria_ativa?'🚚 entrega própria ativa':'entrega própria desativada'}</div>
-  <div class="feeBox"><strong>Mercado Pago</strong><br>${mp.conectado?`<span style="color:var(--green-dark)">✓ Conectado para pagamento online e split.</span><br><button class="secondary" style="margin-top:8px" onclick="desconectarMercadoPago()">Desconectar Mercado Pago</button>`:`<span style="color:#8B6500">Conecte para receber pedidos pagos online.</span><br><button class="publishBtn" style="margin-top:8px" onclick="conectarMercadoPago()">Conectar Mercado Pago</button>`}</div>
-  <div class="lojaToolbar"><button onclick="abrirNovoProdutoLoja()">＋ Novo produto</button><button onclick="renderPedidosLoja()">📦 Pedidos (${pedidos.filter(p=>['novo','aceito'].includes(p.status)).length})</button><button onclick="renderProdutosMinhaLoja()">🛍️ Produtos</button><button onclick="renderPlanosLoja()">⭐ Plano e destaques</button><button onclick="renderEditarLoja()">✏️ Dados/entrega</button><button onclick="renderComprasUsuario()">🧾 Minhas compras</button><button style="background:#FBE9E9;color:var(--danger)" onclick="excluirMinhaLoja()">🗑️ Excluir loja</button></div><div id="lojaPainelLista"></div>`;
+  <div class="feeBox"><strong>Mercado Pago</strong><br>${mp.conectado?`<span style="color:var(--green-dark)">✓ Conectado para pagamento online e split.</span><br><button class="vendaiPanelBtn danger" style="width:100%;margin-top:10px" onclick="desconectarMercadoPago()">Desconectar Mercado Pago</button>`:`<span style="color:#8B6500">Conecte para receber pedidos pagos online.</span><br><button class="publishBtn" style="margin-top:8px" onclick="conectarMercadoPago()">Conectar Mercado Pago</button>`}</div>
+  <div class="lojaToolbar"><button onclick="abrirNovoProdutoLoja()">＋ Novo produto</button><button onclick="renderPedidosLoja()">📦 Pedidos (${pedidos.filter(p=>['novo','aceito'].includes(p.status)).length})</button><button onclick="renderProdutosMinhaLoja()">🛍️ Produtos</button><button onclick="renderPlanosLoja()">⭐ Plano e destaques</button><button onclick="renderEditarLoja()">✏️ Dados/entrega</button><button onclick="renderComprasUsuario()">🧾 Minhas compras</button><button class="vendaiDeleteBtn" style="background:#FBE9E9;color:var(--danger);border:1px solid #F3C8C5" onclick="excluirMinhaLoja()">🗑️ Excluir loja</button></div><div id="lojaPainelLista"></div>`;
   window._pedidosLoja=pedidos;renderPedidosLoja();
 }
-function editarObservacaoPedidoLoja(id){
+async function editarObservacaoPedidoLoja(id){
   const meta=pedidoUiMeta(id);
   const atual=meta.nota||'';
-  const nota=prompt('Digite uma observação interna para este pedido. Ex.: separar capa e carregador, confirmar cor, combinar horário.', atual);
+  const nota=await vendaiEntrada('Digite uma observação interna para este pedido.',{titulo:'Observação do pedido',confirmar:'Salvar',placeholder:'Ex.: separar capa e carregador, confirmar cor, combinar horário.',valor:atual,multiline:true});
   if(nota===null)return;
   salvarPedidoUiMeta(id,{nota:String(nota||'').trim()});
   showToast('Observação do pedido atualizada ✓');
@@ -3964,7 +4048,7 @@ async function cancelarPedidoLoja(id){
   await openLojaPainel();
 }
 async function solicitarDevolucaoPedido(id){
-  const motivo=prompt('Explique o defeito ou problema do produto para solicitar a devolução.');
+  const motivo=await vendaiEntrada('Explique o defeito ou problema do produto para solicitar a devolução.',{titulo:'Solicitar devolução',confirmar:'Enviar solicitação',placeholder:'Descreva o problema...',multiline:true});
   if(motivo===null)return;
   const texto=String(motivo||'').trim();
   if(texto.length<5){showToast('Descreva melhor o motivo da devolução');return;}
@@ -4081,7 +4165,7 @@ function renderProdutosMinhaLoja(){
   lojaProdutosMeus.forEach(p=>{
     const el=document.createElement('div');el.className='lojaRow';
     const destaque=p.destaque&&p.destaque_expira_em?`<div class="productHighlightStatus">🔥 Destacado até ${new Date(p.destaque_expira_em).toLocaleDateString('pt-BR')}</div>`:'';
-    el.innerHTML=`<div class="lojaRowTitle">${escHtml(p.titulo)}</div><div class="lojaRowMeta">${formatPrice(p.preco)} · estoque ${p.estoque} · ${p.status}<br>Entrega Flash: ${nomeVeiculo(p.veiculo_entrega)}${destaque}</div><div class="lojaRowActions"><button class="btnOk" onclick="editarProdutoLoja('${p.id}')">Editar</button>${p.status==='ativo'?`<button class="btnWarn" onclick="statusProdutoLoja('${p.id}','pausado')">Pausar</button>`:`<button class="btnOk" onclick="statusProdutoLoja('${p.id}','ativo')">Ativar</button>`}${p.status==='ativo'&&rest>0?`<button class="btnOk" onclick="usarDestaquePlano('${p.id}')">⭐ Usar destaque do plano</button>`:''}${p.status==='ativo'?`<button class="btnWarn" onclick="abrirDestaqueProdutoLoja('${p.id}')">🔥 Comprar destaque</button>`:''}<button class="btnDanger" onclick="statusProdutoLoja('${p.id}','removido')">Remover</button></div>`;box.appendChild(el);
+    el.innerHTML=`<div class="lojaRowTitle">${escHtml(p.titulo)}</div><div class="lojaRowMeta">${formatPrice(p.preco)} · estoque ${p.estoque} · ${p.status}<br>Entrega Flash: ${nomeVeiculo(p.veiculo_entrega)}${destaque}</div><div class="lojaRowActions"><button class="btnOk" onclick="editarProdutoLoja('${p.id}')">Editar</button>${p.status==='ativo'?`<button class="btnWarn" onclick="statusProdutoLoja('${p.id}','pausado')">Pausar</button>`:`<button class="btnOk" onclick="statusProdutoLoja('${p.id}','ativo')">Ativar</button>`}${p.status==='ativo'&&rest>0?`<button class="btnOk" onclick="usarDestaquePlano('${p.id}')">⭐ Usar destaque do plano</button>`:''}${p.status==='ativo'?`<button class="btnWarn" onclick="abrirDestaqueProdutoLoja('${p.id}')">🔥 Comprar destaque</button>`:''}<button class="btnDanger" onclick="removerProdutoLoja('${p.id}')">🗑️ Remover</button></div>`;box.appendChild(el);
   });
 }
 function renderFotosProdutoLojaPreview(){
@@ -4152,10 +4236,44 @@ async function salvarProdutoLoja(){
   }catch(e){console.error(e);showToast('Não consegui salvar o produto');}
   finally{b.disabled=false;b.textContent='Salvar produto';}
 }
-async function statusProdutoLoja(id,status){const r=await sb.rpc('vendai_loja_status_produto',{p_token:currentSessionToken,p_id:id,p_status:status});if(r.error){showToast('Não consegui alterar o produto');return;}await carregarMarketplaceLojas();await openLojaPainel();renderProdutosMinhaLoja();}
+async function statusProdutoLoja(id,status){
+  const r=await sb.rpc('vendai_loja_status_produto',{p_token:currentSessionToken,p_id:id,p_status:status});
+  if(r.error||r.data!==true){showToast('Não consegui alterar o produto');return;}
+  const alvo=lojaProdutosMeus.find(x=>x.id===id); if(alvo) alvo.status=status;
+  showToast(status==='ativo'?'Produto ativado ✓':'Produto pausado ✓');
+  renderProdutosMinhaLoja();
+  await carregarMarketplaceLojas();
+}
+async function removerProdutoLoja(id){
+  const p=lojaProdutosMeus.find(x=>x.id===id); if(!p)return;
+  const ok=await vendaiConfirmacao(`O produto “${p.titulo}” será retirado da sua loja e não aparecerá mais para os clientes.`,{titulo:'Remover produto',confirmar:'Remover produto',estilo:'danger'});
+  if(!ok)return;
+  const r=await sb.rpc('vendai_loja_status_produto',{p_token:currentSessionToken,p_id:id,p_status:'removido'});
+  if(r.error||r.data!==true){showToast('Não consegui remover o produto. Tente novamente.');return;}
+  lojaProdutosMeus=lojaProdutosMeus.filter(x=>x.id!==id);
+  if(lojaAtual)lojaAtual.qtd_produtos=Math.max(0,Number(lojaAtual.qtd_produtos||0)-1);
+  renderProdutosMinhaLoja();
+  showToast('Produto removido da loja ✓');
+  await carregarMarketplaceLojas();
+}
 function renderEditarLoja(){const box=document.getElementById('lojaPainelLista');if(!box||!lojaAtual)return;box.innerHTML=`<div class="detailTitle" style="font-size:14px">Dados e entrega da loja</div><label>Nome da loja</label><input id="lojaENome" value="${escHtml(lojaAtual.nome)}"><label>Cidade</label><input id="lojaECidade" list="vendaiCityOptions" value="${escHtml(lojaAtual.cidade)}"><label>WhatsApp</label><input id="lojaEWhats" value="${escHtml(lojaAtual.whatsapp||'')}"><label>Endereço de retirada</label><input id="lojaEEndereco" value="${escHtml(lojaAtual.endereco_retirada||'')}" placeholder="Rua, número, bairro, cidade, CEP"><label>Complemento</label><input id="lojaEComplemento" value="${escHtml(lojaAtual.endereco_complemento||'')}"><label>Referência</label><input id="lojaEReferencia" value="${escHtml(lojaAtual.endereco_referencia||'')}"><label>Sobre a loja</label><textarea id="lojaEDesc">${escHtml(lojaAtual.descricao||'')}</textarea><div class="feeBox"><strong>Formas de entrega</strong><br><label style="display:block;margin:8px 0"><input id="lojaEFlash" type="checkbox" ${lojaAtual.entrega_flash_ativa?'checked':''}> <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M13 2 4.4 14h5.7l-1 8L20.6 10h-5.9Z"/></svg> Entrega Flash</label><label style="display:block;margin:8px 0"><input id="lojaERetirada" type="checkbox" ${lojaAtual.retirada_loja_ativa?'checked':''}> <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M3.5 9 4.6 4h14.8L20.5 9"/><path d="M4.5 9v9.3a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V9"/><path d="M9.6 19.3v-5.2h4.8v5.2"/><line x1="3.5" y1="9" x2="20.5" y2="9"/></svg> Retirada na loja</label><label style="display:block;margin:8px 0"><input id="lojaEPropria" type="checkbox" ${lojaAtual.entrega_propria_ativa?'checked':''}> <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><rect x="2.6" y="7.6" width="10.2" height="8.4" rx="1"/><path d="M12.8 10.6h3.5l3.3 3.3v2h-6.8"/><circle cx="6.6" cy="17.1" r="1.6"/><circle cx="15.6" cy="17.1" r="1.6"/></svg> Entrega própria</label></div><label>Nova logo (opcional)</label><input id="lojaELogo" type="file" accept="image/*"><button class="publishBtn" onclick="salvarEdicaoLoja()">Salvar dados</button>`;}
 async function salvarEdicaoLoja(){try{const flash=document.getElementById('lojaEFlash').checked,retirada=document.getElementById('lojaERetirada').checked,propria=document.getElementById('lojaEPropria').checked;if(!flash&&!retirada&&!propria){showToast('Escolha ao menos uma forma de entrega');return;}const endereco=document.getElementById('lojaEEndereco').value.trim();const mudouEndereco=endereco!==String(lojaAtual.endereco_retirada||'').trim();let geo={lat:lojaAtual.endereco_lat??null,lng:lojaAtual.endereco_lng??null};if(flash&&(mudouEndereco||geo.lat==null||geo.lng==null))geo=await geocodificarLojaSeNecessario(endereco,true);if(!flash)geo={lat:null,lng:null};const f=document.getElementById('lojaELogo').files?.[0],logo=f?await uploadVendai(f):null;const r=await sb.rpc('vendai_salvar_loja_v2',{p_token:currentSessionToken,p_nome:document.getElementById('lojaENome').value,p_cidade:document.getElementById('lojaECidade').value,p_whatsapp:document.getElementById('lojaEWhats').value,p_descricao:document.getElementById('lojaEDesc').value,p_logo_url:logo,p_endereco_retirada:endereco,p_endereco_complemento:document.getElementById('lojaEComplemento').value,p_endereco_referencia:document.getElementById('lojaEReferencia').value,p_endereco_lat:geo.lat,p_endereco_lng:geo.lng,p_entrega_flash_ativa:flash,p_retirada_loja_ativa:retirada,p_entrega_propria_ativa:propria});if(r.error)throw r.error;showToast('Loja atualizada ✓');await carregarMarketplaceLojas();await openLojaPainel();}catch(e){console.error(e);showToast(String(e.message).includes('endereco')?'Não consegui localizar o endereço':'Não consegui salvar os dados');}}
-async function excluirMinhaLoja(){if(!lojaAtual)return;if(!(await vendaiConfirmacao('Sua loja sairá da vitrine e os produtos serão pausados. O histórico de vendas e comissões será preservado.',{titulo:'Excluir loja',confirmar:'Excluir loja',estilo:'danger'})))return;const r=await sb.rpc('vendai_excluir_minha_loja',{p_token:currentSessionToken});if(r.error){const m=String(r.error.message||'');showToast(m.includes('loja_tem_pedidos_abertos')?'Finalize ou recuse os pedidos abertos antes de excluir a loja.':'Não consegui excluir a loja.');return;}showToast('Loja excluída da vitrine');await carregarMarketplaceLojas();await openLojaPainel();}
+async function excluirMinhaLoja(){
+  if(!lojaAtual)return;
+  const ok=await vendaiConfirmacao('Sua loja será retirada da vitrine agora e todos os produtos serão pausados. O histórico de vendas e comissões será preservado.',{titulo:'Excluir loja',confirmar:'Sim, excluir loja',estilo:'danger'});
+  if(!ok)return;
+  const r=await sb.rpc('vendai_excluir_minha_loja',{p_token:currentSessionToken});
+  if(r.error||r.data!==true){
+    const m=String(r.error?.message||'');
+    showToast(m.includes('loja_tem_pedido_pago_aberto')?'Existe um pedido já pago em aberto. Conclua ou faça o estorno antes de excluir a loja.':m.includes('loja_tem_pedidos_abertos')?'Finalize ou recuse os pedidos abertos antes de excluir a loja.':'Não consegui excluir a loja. Tente novamente.');
+    return;
+  }
+  lojaAtual={...lojaAtual,status:'excluida',qtd_produtos:0};
+  lojaProdutosMeus=[];
+  await carregarMarketplaceLojas();
+  showToast('Loja excluída da vitrine ✓');
+  const ov=document.getElementById('lojaOverlay'); if(ov)ov.classList.remove('show');
+}
 async function reativarMinhaLoja(){const r=await sb.rpc('vendai_reativar_minha_loja',{p_token:currentSessionToken});if(r.error){showToast('Não consegui reativar a loja.');return;}showToast('Loja reativada ✓');await carregarMarketplaceLojas();await openLojaPainel();}
 function atualizarCamposEntregaCompra(){
   const tipo=document.getElementById('compraEntregaTipo')?.value;
@@ -4355,8 +4473,8 @@ function renderPlanosLoja(){
     else btn=lojaAtual&&currentSessionToken?`<button class="planBtn ${p.slug==='premium'?'gold':''}" onclick="assinarPlanoLoja('${p.slug}')">Assinar por ${formatPrice(preco)}</button>`:`<button class="planBtn ${p.slug==='premium'?'gold':''}" onclick="abrirCadastroLoja()">Criar loja e assinar</button>`;
     return `<div class="planCard ${current?'current ':''}${p.slug==='premium'?'recommended':''}"><span class="planBadge">${escHtml(p.selo||p.nome)}</span><div class="planName">${escHtml(p.nome)}</div><div class="planPrice">${preco?formatPrice(preco):'Grátis'}${preco?'<small> / 30 dias</small>':''}</div><div class="planDesc">${escHtml(p.descricao||'')}</div><div class="planBenefits">${formatPlanoBeneficios(p)}</div>${btn}</div>`;
   }).join('');
-  const avulso=lojaAtual?`<div class="feeBox"><strong>Destaques avulsos</strong><br>Produto: 24h ${formatPrice(precosMonetizacao.produto24)} · 3 dias ${formatPrice(precosMonetizacao.produto3d)} · 7 dias ${formatPrice(precosMonetizacao.produto7d)}<br>Loja em destaque por 7 dias: <strong>${formatPrice(precosMonetizacao.loja7d)}</strong><br><button class="secondary" style="margin-top:8px" onclick="comprarDestaqueLoja()">Destacar minha loja</button></div>`:'';
-  c.innerHTML=`<div class="merchantKicker" style="color:var(--green-dark)">⭐ Venda mais aparecendo mais</div><div class="detailTitle">Planos para lojistas</div><div class="tinyHint">A comissão sobre as vendas continua em todos os planos. A mensalidade serve para aumentar visibilidade e liberar benefícios.</div><div class="planCards">${cards}</div>${avulso}${lojaAtual?'<button class="secondary" style="width:100%;margin-top:8px" onclick="openLojaPainel()">← Voltar ao painel da loja</button>':''}`;
+  const avulso=lojaAtual?`<div class="feeBox"><strong>Destaques avulsos</strong><br>Produto: 24h ${formatPrice(precosMonetizacao.produto24)} · 3 dias ${formatPrice(precosMonetizacao.produto3d)} · 7 dias ${formatPrice(precosMonetizacao.produto7d)}<br>Loja em destaque por 7 dias: <strong>${formatPrice(precosMonetizacao.loja7d)}</strong><br><button class="vendaiPanelBtn gold" style="width:100%;margin-top:12px" onclick="comprarDestaqueLoja()">⭐ Destacar minha loja</button></div>`:'';
+  c.innerHTML=`<div class="merchantKicker" style="color:var(--green-dark)">⭐ Venda mais aparecendo mais</div><div class="detailTitle">Planos para lojistas</div><div class="tinyHint">A comissão sobre as vendas continua em todos os planos. A mensalidade serve para aumentar visibilidade e liberar benefícios.</div><div class="planCards">${cards}</div>${avulso}${lojaAtual?'<button class="vendaiPanelBtn outline" style="width:100%;margin-top:10px" onclick="openLojaPainel()">← Voltar ao painel da loja</button>':''}`;
 }
 async function chamarMonetizacaoPix(action,body={}){
   const resp=await fetch(`${SUPABASE_URL}/functions/v1/vendai-monetizacao-pix?action=${encodeURIComponent(action)}`,{method:'POST',headers:{apikey:SUPABASE_KEY,'Content-Type':'application/json'},body:JSON.stringify({token:currentSessionToken,...body})});

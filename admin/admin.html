@@ -90,7 +90,7 @@ async function enviarLinkPinWhatsApp(telefone,nome,suporteId=''){
   }
   const d=Array.isArray(r.data)?r.data[0]:r.data;
   if(!d?.reset_token)return alert('O servidor não retornou o link de recuperação.');
-  const link=`${location.origin}/?redefinir-pin=${encodeURIComponent(d.reset_token)}`;
+  const link=`https://vendai.entregaflash.app.br/?redefinir-pin=${encodeURIComponent(d.reset_token)}`;
   const primeiro=String(d.nome||nome||'').trim().split(/\s+/)[0]||'Olá';
   const msg=`Olá, ${primeiro}! 🔐\n\nRecebemos seu pedido para redefinir o PIN do Vendaí.\n\nAbra este link seguro e escolha seu novo PIN:\n${link}\n\n⏱️ O link vale por 30 minutos e só pode ser usado uma vez.\n\nSe você não pediu essa alteração, ignore esta mensagem.`;
   try{await navigator.clipboard.writeText(link);}catch(e){}

@@ -1868,7 +1868,7 @@
     </div>
     <div class="searchBar">
       <span style="display:inline-flex;color:var(--ink-soft);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="10.8" cy="10.8" r="6.8"/><line x1="20" y1="20" x2="15.6" y2="15.6"/></svg></span>
-      <input id="searchInput" type="text" placeholder="Buscar celular, carro, móveis..." autocomplete="off">
+      <input id="searchInput" type="text" placeholder="Buscar celular, carro, oficina, diarista..." autocomplete="off">
     </div>
     <div class="desktopSiteNav" aria-label="Navegação do site">
       <button type="button" onclick="fecharCategorias()">Início</button>
@@ -1934,10 +1934,10 @@
     <div class="infoBanner" id="infoBanner">
       <button class="infoClose" onclick="document.getElementById('infoBanner').style.display='none'">✕</button>
       <div class="infoTitle">Vendaí em 3 passos</div>
-      <div class="infoStep"><span class="stepNum">1</span> Encontre produtos e lojas da sua região</div>
-      <div class="infoStep"><span class="stepNum">2</span> Anuncie grátis ou crie sua loja</div>
+      <div class="infoStep"><span class="stepNum">1</span> Encontre produtos, serviços (oficina, diarista, eletricista...) e lojas da sua região</div>
+      <div class="infoStep"><span class="stepNum">2</span> Anuncie grátis — produto ou serviço — ou crie sua loja</div>
       <div class="infoStep"><span class="stepNum">3</span> Negocie pelo chat e escolha como receber</div>
-      <div class="infoNote">⭐ Planos e destaques são opcionais e só ativam após a confirmação do pagamento.</div>
+      <div class="infoNote">⭐ Publicar é sempre grátis. Destaque, verificado e planos de loja são pagos e opcionais, e só ativam após a confirmação do pagamento.</div>
     </div>
 
 
@@ -2261,17 +2261,24 @@
       </label>
 
       <label>Categoria</label>
-      <select id="fCategory">
+      <select id="fCategory" onchange="atualizarCampoServico()">
         <option value="moveis">🛋️ Móveis</option>
         <option value="eletronicos">📱 Eletrônicos</option>
         <option value="veiculos">🚗 Veículos</option>
         <option value="roupas">👕 Moda</option>
         <option value="casa">🏠 Casa</option>
         <option value="bebe">🍼 Bebê</option>
+        <option value="servicos">🔧 Serviços</option>
         <option value="outros">📦 Outros</option>
       </select>
 
-      <label>Descrição</label>
+      <div id="fServicoBox" style="display:none;">
+        <label>Tipo de serviço</label>
+        <select id="fServicoTipo"></select>
+        <div class="tinyHint" style="margin:-6px 0 12px;">Isso ajuda quem procura oficina, diarista, eletricista etc. a te encontrar mais rápido.</div>
+      </div>
+
+      <label id="fDescLabel">Descrição</label>
       <textarea id="fDesc" placeholder="Conte o estado do item, tempo de uso, motivo da venda..."></textarea>
 
       <label>Localização</label>
@@ -2297,6 +2304,8 @@
       <input type="file" id="fFoto" accept="image/*" multiple style="display:none;" onchange="previewFotos()">
       <div id="fotoPreview" style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;"></div>
       <div class="photoEditHelp">Se escolher a foto errada, toque no <strong>✕</strong> da miniatura para remover. Na edição, você também pode apagar fotos antigas e colocar outras.</div>
+
+      <div class="feeBox" id="postFeeBox">Publicar é grátis, pra qualquer categoria — produto ou serviço. Depois de publicado, você pode destacar o anúncio pra aparecer no topo da busca por um valor pequeno via Pix.</div>
 
       <button class="publishBtn" id="btnPublicar" onclick="publishAd()">Publicar anúncio</button>
     </div>
@@ -2429,6 +2438,7 @@ const ICON_SVG = {
   house:'<path d="M3.3 11.6 12 4.2l8.7 7.4"/><path d="M5.6 10.3V19a1 1 0 0 0 1 1H17.4a1 1 0 0 0 1-1v-8.7"/><rect x="10.2" y="13.4" width="3.6" height="6.6"/>',
   bottle:'<path d="M10 3.5h4"/><path d="M11 3.5v2.3"/><path d="M13 3.5v2.3"/><rect x="9" y="5.8" width="6" height="3" rx="1"/><path d="M9.6 8.8h4.8l.6 9.4a2 2 0 0 1-2 2.1h-2a2 2 0 0 1-2-2.1Z"/><line x1="9.4" y1="12.5" x2="14.6" y2="12.5"/><line x1="9.55" y1="15.5" x2="14.45" y2="15.5"/>',
   grid:'<rect x="3.6" y="3.6" width="7" height="7" rx="1.7"/><rect x="13.4" y="3.6" width="7" height="7" rx="1.7"/><rect x="3.6" y="13.4" width="7" height="7" rx="1.7"/><rect x="13.4" y="13.4" width="7" height="7" rx="1.7"/>',
+  wrench:'<path d="M14.7 6.3a4 4 0 0 0-5.4 4.4L4 16l2 2 5.3-5.3a4 4 0 0 0 4.4-5.4l-2.6 2.6-2-2Z"/>',
 };
 function chipSvg(name){
   return `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ICON_SVG[name]}</svg>`;
@@ -2446,11 +2456,31 @@ const CATEGORIES = [
   {id:'roupas', label:'Moda', icon:chipSvg('shirt'), bg:'#8B5FBF'},
   {id:'casa', label:'Casa', icon:chipSvg('house'), bg:'#F5A623'},
   {id:'bebe', label:'Bebê', icon:chipSvg('bottle'), bg:'#F072A0'},
+  {id:'servicos', label:'Serviços', icon:chipSvg('wrench'), bg:'#0EA5A0'},
   {id:'outros', label:'Outros', icon:chipSvg('grid'), bg:'#6B7280'},
 ];
 
-const CATEGORY_ICON = {moveis:catBadgeSvg('sofa'), eletronicos:catBadgeSvg('phone'), veiculos:catBadgeSvg('moto'), roupas:catBadgeSvg('shirt'), casa:catBadgeSvg('house'), bebe:catBadgeSvg('bottle'), outros:catBadgeSvg('grid')};
-const CATEGORY_COLOR = {moveis:'#E7D9B8', eletronicos:'#CFE0D8', veiculos:'#EAC9B8', roupas:'#E3D2E0', casa:'#D8E2C4', bebe:'#F2DCC9', outros:'#DCD5C8'};
+const CATEGORY_ICON = {moveis:catBadgeSvg('sofa'), eletronicos:catBadgeSvg('phone'), veiculos:catBadgeSvg('moto'), roupas:catBadgeSvg('shirt'), casa:catBadgeSvg('house'), bebe:catBadgeSvg('bottle'), servicos:catBadgeSvg('wrench'), outros:catBadgeSvg('grid')};
+const CATEGORY_COLOR = {moveis:'#E7D9B8', eletronicos:'#CFE0D8', veiculos:'#EAC9B8', roupas:'#E3D2E0', casa:'#D8E2C4', bebe:'#F2DCC9', servicos:'#CFE7E5', outros:'#DCD5C8'};
+
+// Tipos de serviço (subcategoria) — usados só quando a categoria é "servicos"
+const SERVICE_TYPES = [
+  {id:'oficina', label:'🔧 Oficina mecânica'},
+  {id:'eletricista', label:'💡 Eletricista'},
+  {id:'encanador', label:'🔩 Encanador'},
+  {id:'pedreiro', label:'🧱 Pedreiro / Reforma'},
+  {id:'diarista', label:'🧹 Diarista / Faxina'},
+  {id:'jardinagem', label:'🌿 Jardinagem'},
+  {id:'beleza', label:'💇 Cabeleireiro(a) / Manicure'},
+  {id:'frete', label:'🚚 Frete / Mudança'},
+  {id:'aulas', label:'📚 Aulas particulares'},
+  {id:'informatica', label:'💻 Informática / Celular'},
+  {id:'costura', label:'🧵 Costura / Ajustes'},
+  {id:'outros_servicos', label:'🛠️ Outros serviços'},
+];
+const SERVICO_MARKER_RE=/\[SERVICO:([a-z_]+)\]\n?/;
+function tipoServico(ad){ const m=String(ad?.descricao||'').match(SERVICO_MARKER_RE); return m?m[1]:null; }
+function labelTipoServico(id){ const t=SERVICE_TYPES.find(s=>s.id===id); return t?t.label:''; }
 let PRECO_DESTAQUE = 5.90;
 
 const CITIES = [
@@ -2949,7 +2979,7 @@ function fecharCategorias(){
 
 const ROLINHO_MARKER='[ROLINHO]';
 function aceitaTroca(ad){ return String(ad?.descricao||'').includes(ROLINHO_MARKER); }
-function descricaoSemRolinho(texto){ return String(texto||'').replaceAll(ROLINHO_MARKER,'').trim(); }
+function descricaoSemRolinho(texto){ return String(texto||'').replaceAll(ROLINHO_MARKER,'').replace(SERVICO_MARKER_RE,'').trim(); }
 function abrirRolinho(){
   activeRolinho=true;
   activeCategory='todos';
@@ -3103,6 +3133,7 @@ function renderGrid(){
       </div>
       <div class="cardBody">
         <div class="cardTitle">${ad.titulo}</div>
+        ${ad.categoria==='servicos' && tipoServico(ad) ? `<div style="font-size:10.5px;font-weight:700;color:#0EA5A0;margin-top:1px;">${labelTipoServico(tipoServico(ad))}</div>` : ''}
         <div class="cardPrice">${formatPrice(ad.preco)}</div>
         <div class="cardBottomMeta">
           <div class="cardMeta">${ad.cidade} · ${tempoDecorrido(ad.criado_em)}</div>
@@ -3136,6 +3167,7 @@ function openDetail(id){
     ${galeria}
     ${temFotos ? '<div class="zoomHint">🔎 Toque na foto para ampliar em tela cheia</div>' : ''}
     <div class="detailTitle" style="margin-top:14px;">${escHtml(ad.titulo)}</div>
+    ${ad.categoria==='servicos' && tipoServico(ad) ? `<div style="display:inline-block;font-size:11.5px;font-weight:800;color:#0B7A76;background:#E4F5F3;border-radius:999px;padding:4px 10px;margin-top:4px;">${labelTipoServico(tipoServico(ad))}</div>` : ''}
     <div class="detailPrice">${formatPrice(ad.preco)}</div>
     <div class="detailMeta">${escHtml(ad.cidade)} · publicado ${tempoDecorrido(ad.criado_em)}</div>
     <div class="detailLikeRow">${renderLikeButtonHtml(ad.id,'detailLike')}<div class="detailLikeHint">Veja quantas pessoas curtiram este anúncio</div></div>
@@ -3337,6 +3369,24 @@ function fecharDestaquePix(){
   const o=document.getElementById('destaqueOverlay');if(o)o.classList.remove('show');
 }
 
+function popularSelectServico(selecionado){
+  const sel=document.getElementById('fServicoTipo');
+  if(!sel) return;
+  sel.innerHTML=SERVICE_TYPES.map(t=>`<option value="${t.id}">${t.label}</option>`).join('');
+  if(selecionado) sel.value=selecionado;
+}
+function atualizarCampoServico(){
+  const ehServico=document.getElementById('fCategory').value==='servicos';
+  const box=document.getElementById('fServicoBox');
+  const descLabel=document.getElementById('fDescLabel');
+  const fDesc=document.getElementById('fDesc');
+  const fPrice=document.getElementById('fPrice');
+  if(box) box.style.display=ehServico?'block':'none';
+  if(descLabel) descLabel.textContent=ehServico?'Descrição do serviço':'Descrição';
+  if(fDesc) fDesc.placeholder=ehServico?'Conte sua experiência, região que atende, horários...':'Conte o estado do item, tempo de uso, motivo da venda...';
+  if(fPrice) fPrice.placeholder=ehServico?'Ex: 80 (valor médio, pode combinar)':'Ex: 350';
+}
+
 function resetPostForm(){
   editAdId=null; editExistingFotos=[]; selectedFotos=[];
   document.getElementById('postFormTitle').textContent='Anunciar item';
@@ -3346,10 +3396,14 @@ function resetPostForm(){
   document.getElementById('fCategory').value='moveis';
   document.getElementById('fTroca').checked=false;
   document.getElementById('fDesc').value='';
+  popularSelectServico();
+  atualizarCampoServico();
   const cidadeAtual=CITIES.find(c=>c.id===activeCity && c.id!=='toda');
   document.getElementById('fCity').value=cidadeAtual ? cidadeAtual.label : 'Muzambinho, MG';
   document.getElementById('fFoto').value='';
   document.getElementById('btnPublicar').textContent='Publicar anúncio';
+  const feeBox=document.getElementById('postFeeBox');
+  if(feeBox) feeBox.innerHTML=`Publicar é grátis, pra qualquer categoria — produto ou serviço. Depois de publicado, você pode destacar o anúncio pra aparecer no topo da busca por <strong>${formatMoneyCharge(PRECO_DESTAQUE)}</strong> via Pix.`;
   renderFotoPreview();
 }
 
@@ -3377,6 +3431,8 @@ function editarAnuncio(id){
   document.getElementById('fCategory').value=ad.categoria||'outros';
   document.getElementById('fTroca').checked=aceitaTroca(ad);
   document.getElementById('fDesc').value=descricaoSemRolinho(ad.descricao)||'';
+  popularSelectServico(tipoServico(ad));
+  atualizarCampoServico();
   document.getElementById('fCity').value=ad.cidade||'Muzambinho, MG';
   document.getElementById('fFoto').value='';
   document.getElementById('btnPublicar').textContent='Salvar alterações';
@@ -3401,7 +3457,11 @@ async function publishAd(){
   const categoria=document.getElementById('fCategory').value;
   const descricao=document.getElementById('fDesc').value.trim();
   const rolinho=!!document.getElementById('fTroca')?.checked;
-  const descricaoPersistida=rolinho ? `${ROLINHO_MARKER}\n${descricao}`.trim() : descricao;
+  const ehServico=categoria==='servicos';
+  const tipoServicoEscolhido=ehServico ? document.getElementById('fServicoTipo').value : null;
+  let descricaoPersistida=descricao;
+  if(rolinho) descricaoPersistida=`${ROLINHO_MARKER}\n${descricaoPersistida}`.trim();
+  if(ehServico && tipoServicoEscolhido) descricaoPersistida=`[SERVICO:${tipoServicoEscolhido}]\n${descricaoPersistida}`.trim();
   const cidade=document.getElementById('fCity').value.trim();
   if(titulo.length<3 || !Number.isFinite(preco) || preco<=0){ showToast('Revise o título e o preço'); return; }
   if(!cidade){ showToast('Informe a localização do anúncio'); return; }

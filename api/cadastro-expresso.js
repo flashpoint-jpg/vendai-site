@@ -84,7 +84,7 @@ export default async function handler(req, res) {
         descricao: descricaoLoja || null,
         logo_url: logoUrl || null,
         cnpj: cnpj || null,
-        status: 'ativo',
+        status: 'ativa',
         origem_cadastro: 'lancamento',
         teste_gratis_plano_slug: planoTeste !== 'gratis' ? planoTeste : null,
         teste_gratis_expira_em: testeExpiraEm

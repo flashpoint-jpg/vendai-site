@@ -1906,7 +1906,7 @@
     </div>
     <button class="installBtn" type="button" onclick="instalarVendaI()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M12 4v11"/><polyline points="7.5 11 12 15.5 16.5 11"/><line x1="5" y1="20" x2="19" y2="20"/></svg>Instalar app</button>
   </section>
-  <div class="apkNote" id="apkNote">Se o Android pedir autorização, permita instalar apps deste navegador para concluir a instalação.</div>
+  <div class="apkNote" id="apkNote">No Android, toque em Instalar app para baixar o APK oficial do Vendaí. Se o sistema pedir autorização, permita a instalação pelo navegador.</div>
 
 
 
@@ -3759,7 +3759,26 @@ window.addEventListener('beforeinstallprompt', (event) => {
 
 async function instalarVendaI(){
   prepararSom();
-  // Se o navegador oferecer instalação PWA nativa, ela é a experiência mais limpa.
+
+  // No Android, baixa diretamente o APK oficial do Vendaí.
+  // Evita o instalador PWA do Chrome em aparelhos onde ele retorna
+  // "O app não foi instalado" após a confirmação.
+  const isAndroid = /Android/i.test(navigator.userAgent || '');
+  if(isAndroid){
+    const note = document.getElementById('apkNote');
+    if(note) note.classList.add('show');
+    showToast('Baixando o app Vendaí…');
+    const a=document.createElement('a');
+    a.href='/vendai.apk?v=android-direto-20260913';
+    a.download='vendai.apk';
+    a.rel='noopener';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    return;
+  }
+
+  // Em outros dispositivos compatíveis, mantém a instalação PWA nativa.
   if(deferredInstallPrompt){
     try{
       deferredInstallPrompt.prompt();
@@ -3771,12 +3790,13 @@ async function instalarVendaI(){
       }
     }catch(e){}
   }
-  // APK oficial de teste incluído no pacote.
+
+  // Fallback: baixa o APK caso não exista prompt PWA.
   const note = document.getElementById('apkNote');
   if(note) note.classList.add('show');
   showToast('Baixando o app Vendaí…');
   const a=document.createElement('a');
-  a.href='/vendai.apk?v=final-20260909';
+  a.href='/vendai.apk?v=android-direto-20260913';
   a.download='vendai.apk';
   a.rel='noopener';
   document.body.appendChild(a);

@@ -446,9 +446,8 @@
   }
   .cardPrice{
     font-family:'Fredoka', sans-serif;
-    font-weight:800;
-    font-size:17.5px;
-    letter-spacing:-.2px;
+    font-weight:600;
+    font-size:16px;
     color: var(--green-dark);
     margin-bottom:4px;
   }
@@ -641,11 +640,6 @@
     background: var(--card);
     color: var(--ink);
     outline:none;
-    transition:border-color .15s ease, box-shadow .15s ease;
-  }
-  input[type=text]:focus, input[type=number]:focus, select:focus, textarea:focus{
-    border-color: var(--green);
-    box-shadow: 0 0 0 3px rgba(30,163,90,.15);
   }
   textarea{ resize:vertical; min-height:70px; }
   .photoBox{
@@ -673,41 +667,6 @@
     color: var(--ink);
     box-shadow: 0 6px 16px rgba(232,168,0,0.35);
   }
-  button.secondary{
-    background: var(--card);
-    border: 1.5px solid #D8E3DC;
-    border-radius: var(--radius-sm);
-    padding: 13px 0;
-    font-family:'Inter', sans-serif;
-    font-weight:700;
-    font-size:13.5px;
-    cursor:pointer;
-    color: var(--green-dark);
-  }
-  button.secondary:active{ background:#EEF4F0; }
-
-  /* Botão de destaque avulso da loja */
-  .storeHighlightBtn{
-    width:100%;
-    max-width:100%;
-    margin-top:10px;
-    min-height:48px;
-    padding:12px 16px;
-    border:0;
-    border-radius:13px;
-    background:var(--green-dark);
-    color:#fff;
-    font-family:'Inter',sans-serif;
-    font-size:14px;
-    font-weight:850;
-    line-height:1.2;
-    text-align:center;
-    white-space:normal;
-    overflow-wrap:anywhere;
-    cursor:pointer;
-    box-shadow:0 7px 16px rgba(18,112,62,.22);
-  }
-  .storeHighlightBtn:active{ transform:scale(.985); background:#0B5C33; }
   .publishBtn:active{ transform: scale(0.98); }
 
   .flashCalcBtn{
@@ -1079,7 +1038,7 @@
   }
   .quickPitchText strong{display:block;font-size:14px;font-weight:850;color:var(--green-dark);letter-spacing:-.2px;margin-bottom:2px;}
   .quickPitchText span{display:block;font-size:11.5px;color:var(--ink-soft);}
-  .quickPitchActions{display:flex;gap:8px;}
+  .quickPitchActions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;width:100%;}
   .quickPitchPrimary{
     flex:1;border:0;border-radius:12px;padding:11px 10px;
     background:var(--green);color:#fff;font-weight:850;font-size:12.5px;cursor:pointer;
@@ -1088,11 +1047,11 @@
   }
   .quickPitchPrimary:active{transform:scale(.97);}
   .quickPitchGhost{
-    flex:0 0 auto;border:1.5px solid var(--green-dark);border-radius:12px;padding:11px 13px;
+    flex:1;border:1.5px solid var(--green-dark);border-radius:12px;padding:11px 8px;
     background:#fff;color:var(--green-dark);font-weight:800;font-size:12px;cursor:pointer;
   }
   .quickPitchGhost:active{background:var(--green-soft);}
-  @media(min-width:760px){.quickPitch{margin-left:clamp(28px,4vw,72px);margin-right:clamp(28px,4vw,72px);flex-direction:row;align-items:center;justify-content:space-between;}.quickPitchActions{flex:0 0 auto;}}
+  @media(min-width:760px){.quickPitch{margin-left:clamp(28px,4vw,72px);margin-right:clamp(28px,4vw,72px);flex-direction:row;align-items:center;justify-content:space-between;}.quickPitchActions{width:auto;min-width:390px;flex:0 0 auto;}}
 
   .installHero{
     margin:12px 16px 0;
@@ -1411,8 +1370,7 @@
   .rolinhoIcon{width:46px;height:46px;border-radius:15px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:25px;flex:0 0 auto;border:1px solid rgba(255,255,255,.16)}
   .rolinhoCopy{min-width:0;flex:1;position:relative;z-index:1}.rolinhoTitle{font-size:15px;font-weight:900;letter-spacing:-.2px}.rolinhoSub{font-size:11.5px;line-height:1.35;opacity:.88;margin-top:2px}
   .rolinhoBtn{position:relative;z-index:1;border:0;border-radius:999px;background:#FFD64A;color:#203228;padding:9px 12px;font-size:11px;font-weight:900;white-space:nowrap;cursor:pointer}
-  .rolinhoBadge{position:absolute;right:8px;top:46px;border-radius:999px;background:#153F2F;color:#fff;font-size:9.5px;font-weight:900;padding:4px 7px;box-shadow:0 3px 8px rgba(0,0,0,.12)}
-  @keyframes thumbShimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+  .rolinhoBadge{position:absolute;right:8px;top:8px;border-radius:999px;background:#153F2F;color:#fff;font-size:9.5px;font-weight:900;padding:4px 7px;box-shadow:0 3px 8px rgba(0,0,0,.12)}
   .rolinhoTag{display:inline-flex;align-items:center;gap:5px;border-radius:999px;background:#E6F8EC;color:#146B3E;border:1px solid #CBECD7;padding:6px 10px;font-size:11.5px;font-weight:850;margin:10px 0 2px}
   .rolinhoFormBox{margin:12px 0 2px;padding:12px;border-radius:15px;background:#F0FAF4;border:1.5px solid #D6F0E0;display:flex;align-items:flex-start;gap:10px;cursor:pointer}
   .rolinhoFormBox input{width:18px;height:18px;margin:1px 0 0;accent-color:#159653;flex:0 0 auto}.rolinhoFormTitle{font-size:13px;font-weight:850;color:#175D3B}.rolinhoFormSub{font-size:11.5px;color:#5A7466;line-height:1.35;margin-top:2px}
@@ -1837,85 +1795,11 @@
   .planSummaryMain{min-width:0;flex:1}.planSummaryMain small{display:block;color:var(--ink-soft);font-size:10px;font-weight:800}.planSummaryMain strong{display:block;color:var(--green-dark);font-size:17px;margin:2px 0}.planSummaryMeta{font-size:10.5px;line-height:1.45;color:var(--ink-soft)}
   .planSummaryActions{display:flex;gap:7px;flex-wrap:wrap}.planSummaryActions button{border:0;border-radius:10px;padding:9px 11px;font:800 10.5px Inter,sans-serif;cursor:pointer}.planSummaryActions .main{background:var(--green-dark);color:#fff}.planSummaryActions .gold{background:var(--yellow);color:#2C361F}.planSummaryActions .soft{background:#fff;color:var(--green-dark);border:1px solid #D9E6DD}
   .planCards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0}.planCard{position:relative;border:1px solid #E0E8E2;border-radius:18px;background:#fff;padding:15px;box-shadow:0 6px 18px rgba(18,52,34,.05)}.planCard.current{border-color:#79B791;box-shadow:0 0 0 2px #E5F4EA}.planCard.recommended{border-color:#E7C658;background:linear-gradient(180deg,#FFFDF5,#fff)}
-  .planBadge{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;background:#EAF6EE;color:#17633E;font-size:9px;font-weight:950;letter-spacing:.2px}.planCard.recommended .planBadge{background:#FFF0B5;color:#735900}.planName{font-size:16px;font-weight:950;color:#1B3426;margin:8px 0 2px}.planPrice{font-size:23px;font-weight:950;color:var(--green-dark)}.planPrice small{font-size:10px;font-weight:700;color:var(--ink-soft)}.planDesc{font-size:10.5px;line-height:1.45;color:var(--ink-soft);min-height:46px;margin:8px 0}.planBenefits{font-size:10.5px;line-height:1.55;color:#415C4D;margin:9px 0 12px}.planBenefits div{margin:3px 0}.planBtn{width:100%;border:0;border-radius:11px;padding:10px 11px;background:#12703E;background:var(--green-dark);color:#fff;font-weight:900;cursor:pointer;white-space:normal;word-break:break-word;line-height:1.25;text-align:center}.planBtn.secondary{background:#F2F6F3;color:var(--green-dark);border:1px solid #DCE6DF}.planBtn.gold{background:#FFC93C;background:var(--yellow);color:#2E351E}
+  .planBadge{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;background:#EAF6EE;color:#17633E;font-size:9px;font-weight:950;letter-spacing:.2px}.planCard.recommended .planBadge{background:#FFF0B5;color:#735900}.planName{font-size:16px;font-weight:950;color:#1B3426;margin:8px 0 2px}.planPrice{font-size:23px;font-weight:950;color:var(--green-dark)}.planPrice small{font-size:10px;font-weight:700;color:var(--ink-soft)}.planDesc{font-size:10.5px;line-height:1.45;color:var(--ink-soft);min-height:46px;margin:8px 0}.planBenefits{font-size:10.5px;line-height:1.55;color:#415C4D;margin:9px 0 12px}.planBenefits div{margin:3px 0}.planBtn{width:100%;border:0;border-radius:11px;padding:10px 11px;background:var(--green-dark);color:#fff;font-weight:900;cursor:pointer}.planBtn.secondary{background:#F2F6F3;color:var(--green-dark);border:1px solid #DCE6DF}.planBtn.gold{background:var(--yellow);color:#2E351E}
   .storeCard.storeFeatured{border-color:#E6C75E;box-shadow:0 8px 22px rgba(184,145,22,.12)}.storePlanTag{display:inline-flex;margin-top:5px;padding:3px 6px;border-radius:999px;background:#EEF7F1;color:#17633E;font-size:8px;font-weight:900}.storeFeatured .storePlanTag{background:#FFF1B9;color:#725800}.productPaidTag{position:absolute;top:7px;right:7px;background:#FFD24A;color:#4D3B00;border-radius:999px;padding:4px 7px;font-size:8px;font-weight:950;z-index:2}
   .productHighlightStatus{display:inline-flex;align-items:center;gap:4px;margin-top:5px;padding:4px 7px;border-radius:999px;background:#FFF4C9;color:#735800;font-size:9px;font-weight:850}.highlightChoiceGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.highlightChoice{border:1px solid #E2E9E3;border-radius:14px;background:#fff;padding:13px 9px;text-align:center;cursor:pointer}.highlightChoice strong{display:block;font-size:14px;color:var(--green-dark)}.highlightChoice span{display:block;font-size:10px;color:var(--ink-soft);margin-top:3px}.highlightChoice em{display:block;font-style:normal;font-size:16px;font-weight:950;color:#1F3829;margin-top:7px}
   .monetPixCard{background:#fff;border:1px solid #E1E9E3;border-radius:18px;padding:15px;margin:12px 0}.monetPixQr{text-align:center;margin:12px 0}.monetPixQr img{width:220px;max-width:75vw;border:1px solid #E2E8E4;border-radius:14px;padding:9px;background:#fff}.monetPixCode{width:100%;min-height:82px;border:1px solid #DDE6E0;border-radius:12px;background:#F7FAF8;padding:10px;font-size:10.5px;line-height:1.35;word-break:break-all}.monetStatus{text-align:center;margin:10px 0 0;font-size:11px;font-weight:850;color:var(--green-dark)}
   @media(max-width:680px){.planCards{grid-template-columns:1fr}.planDesc{min-height:0}.highlightChoiceGrid{grid-template-columns:1fr}.planSummary{align-items:flex-start}.planSummaryActions{width:100%}.planSummaryActions button{flex:1}}
-
-
-  /* ===== CORREÇÃO — última seção não pode ficar atrás do menu fixo de baixo ===== */
-  .partnersSection{padding-bottom:calc(94px + env(safe-area-inset-bottom)) !important;}
-
-  /* ===== Instalar app — destaque discreto e mais visível ===== */
-  .installHero{
-    border:1px solid rgba(255,255,255,.16);
-    box-shadow:0 8px 20px rgba(13,105,58,.16);
-  }
-  .installCopy{padding-right:2px;}
-  .installTitle{
-    display:flex;align-items:center;gap:6px;flex-wrap:wrap;
-    font-size:12.8px!important;font-weight:900!important;line-height:1.15;
-  }
-  .installSub{
-    margin-top:3px;font-size:9.8px!important;color:rgba(255,255,255,.82)!important;
-    white-space:normal!important;overflow:visible!important;text-overflow:clip!important;
-  }
-  .installFreeBadge{
-    display:inline-flex;align-items:center;justify-content:center;
-    min-height:18px;padding:2px 6px;border-radius:999px;
-    background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
-    color:#fff;font-size:8px;font-weight:900;letter-spacing:.35px;
-  }
-  .installBtn{
-    min-height:38px!important;padding:9px 12px!important;
-    display:inline-flex;align-items:center;justify-content:center;gap:5px;
-    background:#FFD24A!important;color:#243019!important;
-    font-size:10.8px!important;font-weight:950!important;letter-spacing:.15px;
-    border:1px solid rgba(255,255,255,.34)!important;
-    box-shadow:0 5px 12px rgba(0,0,0,.12)!important;
-  }
-  .installHero.installAttention .installBtn{animation:vendaiInstallPulse 1.2s ease-in-out 2;}
-  @keyframes vendaiInstallPulse{
-    0%,100%{transform:scale(1);box-shadow:0 5px 12px rgba(0,0,0,.12);}
-    50%{transform:scale(1.045);box-shadow:0 7px 16px rgba(0,0,0,.18);}
-  }
-  @media(max-width:380px){
-    .installHero{padding:9px 9px!important;gap:7px!important;}
-    .installAppIcon{width:38px!important;height:38px!important;}
-    .installTitle{font-size:11.5px!important;gap:4px;}
-    .installSub{font-size:9px!important;}
-    .installBtn{min-height:36px!important;padding:8px 9px!important;font-size:10px!important;}
-  }
-
-
-  /* Favoritos + vistos recentemente */
-  .discoveryShortcuts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 14px;}
-  .discoveryShortcut{min-width:0;border:1px solid #E2EAE5;background:#fff;border-radius:15px;padding:10px 11px;display:flex;align-items:center;gap:9px;text-align:left;cursor:pointer;box-shadow:0 3px 12px rgba(18,52,34,.04);color:var(--ink);font-family:inherit;}
-  .discoveryShortcut:active{transform:scale(.985);background:#F8FBF9;}
-  .discoveryShortcutIcon{width:33px;height:33px;flex:0 0 33px;border-radius:11px;display:grid;place-items:center;background:var(--green-soft);color:var(--green-dark);font-size:16px;font-weight:900;}
-  .discoveryShortcutText{min-width:0;flex:1;}
-  .discoveryShortcutText strong{display:block;font-size:11.8px;line-height:1.15;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .discoveryShortcutText small{display:block;margin-top:2px;font-size:9.8px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .discoveryShortcutArrow{font-size:18px;color:#95A39B;line-height:1;}
-  .favoriteCardBtn{position:absolute;top:8px;right:8px;z-index:4;width:32px;height:32px;border:0;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.96);color:#65736B;font-size:18px;line-height:1;box-shadow:0 6px 16px rgba(0,0,0,.15);cursor:pointer;padding:0;}
-  .favoriteCardBtn.active{background:#FFF5CC;color:#8B6500;}
-  .detailFavoriteBtn{border:1px solid #DFE8E2;border-radius:999px;background:#fff;color:var(--green-dark);padding:8px 12px;font-family:inherit;font-size:11.5px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:6px;}
-  .detailFavoriteBtn.active{background:#FFF7D9;border-color:#F0D77A;color:#725400;}
-  .detailQuickActions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px;}
-  .detailQuickActions .detailLikeHint{font-size:10.5px;color:var(--ink-soft);flex:1;min-width:130px;}
-  .savedList{display:flex;flex-direction:column;gap:9px;margin-top:12px;}
-  .savedItem{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid #E5ECE7;border-radius:15px;padding:9px;cursor:pointer;box-shadow:0 3px 12px rgba(18,52,34,.04);}
-  .savedItem:active{transform:scale(.99);background:#F9FBFA;}
-  .savedItemThumb{width:62px;height:62px;flex:0 0 62px;border-radius:12px;overflow:hidden;display:grid;place-items:center;font-size:24px;background:#EFF4F1;}
-  .savedItemThumb img{width:100%;height:100%;object-fit:cover;display:block;}
-  .savedItemBody{min-width:0;flex:1;}
-  .savedItemTitle{font-size:12.5px;font-weight:800;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink);}
-  .savedItemPrice{font-size:13.5px;font-weight:900;color:var(--green-dark);margin-top:4px;}
-  .savedItemMeta{font-size:9.8px;color:var(--ink-soft);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .savedItemRemove{flex:0 0 auto;width:31px;height:31px;border:0;border-radius:10px;background:#FFF7D9;color:#795B00;font-size:16px;cursor:pointer;}
-  .savedEmpty{padding:34px 14px;text-align:center;color:var(--ink-soft);font-size:12.5px;line-height:1.5;}
-  @media(max-width:380px){.discoveryShortcut{padding:9px 8px;gap:7px}.discoveryShortcutIcon{width:30px;height:30px;flex-basis:30px}.discoveryShortcutText strong{font-size:10.8px}.discoveryShortcutText small{font-size:9px}}
 
 </style>
 </head>
@@ -1939,12 +1823,7 @@
     <div class="searchBar">
       <span style="display:inline-flex;color:var(--ink-soft);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="10.8" cy="10.8" r="6.8"/><line x1="20" y1="20" x2="15.6" y2="15.6"/></svg></span>
       <input id="searchInput" type="text" placeholder="Buscar celular, carro, móveis..." autocomplete="off">
-      <button type="button" id="salvarBuscaBtn" onclick="salvarBuscaAtual()" style="display:none;border:0;background:transparent;color:var(--green-dark);font-size:15px;cursor:pointer;padding:2px 4px;" title="Salvar essa busca">🔔</button>
     </div>
-    <button type="button" id="alertasBtn" onclick="abrirAlertas()" style="position:relative;border:0;background:transparent;color:var(--ink-soft);cursor:pointer;padding:4px 6px;">
-      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 5 2 6.4 2 6.4H4S6 13 6 8Z"/><path d="M10.3 19.6a1.9 1.9 0 0 0 3.4 0"/></svg>
-      <span id="alertasBadge" style="display:none;position:absolute;top:0;right:0;background:#D64545;color:#fff;font-size:9px;font-weight:800;border-radius:999px;padding:1px 4px;min-width:14px;text-align:center;">0</span>
-    </button>
     <div class="desktopSiteNav" aria-label="Navegação do site">
       <button type="button" onclick="fecharCategorias()">Início</button>
       <button type="button" onclick="openCategories()">Categorias</button>
@@ -1963,22 +1842,23 @@
   
   <section class="quickPitch" aria-label="Compre e venda perto de você">
     <div class="quickPitchText">
-      <strong>Compre, venda ou troque usados perto de você</strong>
-      <span>Anuncie grátis em poucos minutos.</span>
+      <strong>Compre e venda perto de você</strong>
+      <span>Produtos, lojas e oportunidades da sua região em um só lugar.</span>
     </div>
     <div class="quickPitchActions">
-      <button class="quickPitchPrimary" type="button" onclick="openPostSheet()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Anunciar grátis</button>
-      <button class="quickPitchGhost" type="button" onclick="document.getElementById('vendaExplica').scrollIntoView({behavior:'smooth'})">Tenho uma loja</button>
+      <button class="quickPitchGhost" type="button" onclick="document.getElementById('categorySection').scrollIntoView({behavior:'smooth',block:'start'})">Comprar</button>
+      <button class="quickPitchPrimary" type="button" onclick="openPostSheet()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Anunciar</button>
+      <button class="quickPitchGhost" type="button" onclick="openProfileSheet()">Minha conta</button>
     </div>
   </section>
 
 <section class="installHero" id="installHero" aria-label="Instalar aplicativo Vendaí">
-    <div class="installAppIcon"><img src="/icon-192.png?v=20260911-newbrand" alt="Ícone do Vendaí" width="46" height="46"></div>
+    <div class="installAppIcon"><img src="/icon-192.png?v=20260911-newbrand" alt="Ícone do Vendaí Entrega Flash" width="46" height="46"></div>
     <div class="installCopy">
-      <div class="installTitle">Instale o Vendaí no celular <span class="installFreeBadge">GRÁTIS</span></div>
-      <div class="installSub">Acesso rápido • leve • sem procurar o site</div>
+      <div class="installTitle">Leve o Vendaí no celular</div>
+      <div class="installSub">Android • app leve • acesso rápido</div>
     </div>
-    <button class="installBtn" type="button" onclick="instalarVendaI()" aria-label="Instalar aplicativo Vendaí"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><polyline points="7.5 11 12 15.5 16.5 11"/><line x1="5" y1="20" x2="19" y2="20"/></svg><span>INSTALAR</span></button>
+    <button class="installBtn" type="button" onclick="instalarVendaI()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M12 4v11"/><polyline points="7.5 11 12 15.5 16.5 11"/><line x1="5" y1="20" x2="19" y2="20"/></svg>Instalar app</button>
   </section>
   <div class="apkNote" id="apkNote">Se o Android pedir autorização, permita instalar apps deste navegador para concluir a instalação.</div>
 
@@ -2007,24 +1887,11 @@
 
     <div class="infoBanner" id="infoBanner">
       <button class="infoClose" onclick="document.getElementById('infoBanner').style.display='none'">✕</button>
-      <div class="infoTitle">Como funciona o Vendaí</div>
-      <div class="infoStep"><span class="stepNum">1</span> Anuncie grátis</div>
-      <div class="infoStep"><span class="stepNum">2</span> Converse pelo chat</div>
-      <div class="infoStep"><span class="stepNum">3</span> Receba e faça ofertas</div>
-      <div class="infoNote">🌱 Estamos testando a versão gratuita por enquanto</div>
-    </div>
-
-    <div class="discoveryShortcuts" id="discoveryShortcuts" aria-label="Atalhos pessoais">
-      <button class="discoveryShortcut" type="button" onclick="openSavedItems('favorites')">
-        <span class="discoveryShortcutIcon">♥</span>
-        <span class="discoveryShortcutText"><strong>Favoritos</strong><small id="favoritesCount">Nenhum salvo</small></span>
-        <span class="discoveryShortcutArrow">›</span>
-      </button>
-      <button class="discoveryShortcut" type="button" onclick="openSavedItems('recent')">
-        <span class="discoveryShortcutIcon">◷</span>
-        <span class="discoveryShortcutText"><strong>Vistos recentemente</strong><small id="recentCount">Nenhum visto</small></span>
-        <span class="discoveryShortcutArrow">›</span>
-      </button>
+      <div class="infoTitle">Vendaí em 3 passos</div>
+      <div class="infoStep"><span class="stepNum">1</span> Encontre produtos e lojas da sua região</div>
+      <div class="infoStep"><span class="stepNum">2</span> Anuncie grátis ou crie sua loja</div>
+      <div class="infoStep"><span class="stepNum">3</span> Negocie pelo chat e escolha como receber</div>
+      <div class="infoNote">⭐ Planos e destaques são opcionais e só ativam após a confirmação do pagamento.</div>
     </div>
 
 
@@ -2035,21 +1902,6 @@
     </section>
 
     <div class="feedTitle" id="feedTitle">Perto de você</div>
-    <div id="feedToolbar" style="display:flex; gap:8px; padding:0 12px 10px; align-items:center;">
-      <select id="sortSelect" onchange="renderGrid()" style="flex:1; border:1px solid #E1E6E2; border-radius:10px; padding:8px 10px; font-size:12.5px; background:#fff; color:var(--ink); font-weight:700;">
-        <option value="recentes">Mais recentes</option>
-        <option value="barato">Menor preço</option>
-        <option value="caro">Maior preço</option>
-      </select>
-      <select id="priceFilterSelect" onchange="renderGrid()" style="flex:1; border:1px solid #E1E6E2; border-radius:10px; padding:8px 10px; font-size:12.5px; background:#fff; color:var(--ink); font-weight:700;">
-        <option value="0">Qualquer preço</option>
-        <option value="50">Até R$ 50</option>
-        <option value="100">Até R$ 100</option>
-        <option value="300">Até R$ 300</option>
-        <option value="1000">Até R$ 1.000</option>
-        <option value="3000">Até R$ 3.000</option>
-      </select>
-    </div>
     <div class="grid" id="grid"></div>
     <div class="empty" id="emptyState" style="display:none;">Nenhum anúncio encontrado por aqui ainda.</div>
   </main><section class="merchantLanding" id="vendaExplica" aria-label="Conheça o Vendaí">
@@ -2185,36 +2037,6 @@
     </div>
   </div>
 
-  <!-- Avaliar vendedor sheet -->
-  <div class="overlay" id="avaliarOverlay" onclick="closeOverlayBg(event,'avaliarOverlay')">
-    <div class="sheet" style="position:relative;" onclick="event.stopPropagation()">
-      <button class="closeBtn" onclick="closeSheet('avaliarOverlay')">✕</button>
-      <div class="sheetHandle"></div>
-      <div class="detailTitle" style="margin-bottom:10px;">Avaliar vendedor</div>
-      <label>Nota</label>
-      <select id="avaliarNota" style="width:100%;border:1px solid #E1E6E2;border-radius:10px;padding:10px;font-size:14px;margin-bottom:10px;">
-        <option value="5">⭐⭐⭐⭐⭐ Excelente</option>
-        <option value="4">⭐⭐⭐⭐ Muito bom</option>
-        <option value="3">⭐⭐⭐ Bom</option>
-        <option value="2">⭐⭐ Regular</option>
-        <option value="1">⭐ Ruim</option>
-      </select>
-      <label>Comentário (opcional)</label>
-      <textarea id="avaliarComentario" maxlength="500" placeholder="Como foi negociar com essa pessoa?" style="width:100%;min-height:70px;border:1px solid #E1E6E2;border-radius:10px;padding:10px;font-size:13.5px;"></textarea>
-      <button class="publishBtn" style="margin-top:12px;" onclick="enviarAvaliacaoVendedor()">Enviar avaliação</button>
-    </div>
-  </div>
-
-  <!-- Alertas de busca sheet -->
-  <div class="overlay" id="alertasOverlay" onclick="closeOverlayBg(event,'alertasOverlay')">
-    <div class="sheet" style="position:relative;" onclick="event.stopPropagation()">
-      <button class="closeBtn" onclick="closeSheet('alertasOverlay')">✕</button>
-      <div class="sheetHandle"></div>
-      <div class="detailTitle" style="margin-bottom:12px;">🔔 Alertas de busca</div>
-      <div id="listaAlertas"></div>
-    </div>
-  </div>
-
   <!-- Conversas sheet -->
   <div class="overlay" id="conversasOverlay" onclick="closeOverlayBg(event,'conversasOverlay')">
     <div class="sheet" style="position:relative;" onclick="event.stopPropagation()">
@@ -2305,13 +2127,28 @@
       <button class="closeBtn" onclick="closeSheet('forgotPinOverlay')">✕</button>
       <div class="sheetHandle"></div>
       <div class="detailTitle" style="margin-bottom:4px;">Esqueci meu PIN</div>
-      <div class="recoveryInfo">O mesmo PIN vale para a conta comum e para a loja. Informe os dados cadastrados. O pedido vai para o suporte para conferência antes da redefinição.</div>
+      <div class="recoveryInfo">O mesmo PIN vale para sua conta e sua loja. Informe os dados cadastrados. O suporte confere o pedido e envia pelo WhatsApp um link seguro, válido por 30 minutos, para você escolher o novo PIN.</div>
       <label>Telefone cadastrado</label>
       <input type="text" id="recTelefone" placeholder="DDD + número">
       <label>Nome cadastrado</label>
       <input type="text" id="recNome" placeholder="Seu nome">
       <button class="publishBtn" id="recEnviarBtn" onclick="solicitarRecuperacaoPin()">Solicitar recuperação</button>
       <div id="recStatus" style="display:none;margin-top:10px;padding:10px 12px;border-radius:10px;background:#EAF7EE;color:#17633E;font-size:11.5px;line-height:1.4;"></div>
+    </div>
+  </div>
+
+  <!-- Redefinição de PIN por link seguro enviado pelo suporte no WhatsApp -->
+  <div class="overlay" id="resetPinLinkOverlay" onclick="closeOverlayBg(event,'resetPinLinkOverlay')">
+    <div class="sheet" style="position:relative;" onclick="event.stopPropagation()">
+      <div class="sheetHandle"></div>
+      <div class="detailTitle" style="margin-bottom:4px;">Criar novo PIN</div>
+      <div class="recoveryInfo">Este link é de uso único e expira em 30 minutos. Escolha de 4 a 6 números que só você saiba.</div>
+      <label>Novo PIN</label>
+      <input type="password" inputmode="numeric" maxlength="6" id="resetPinNovo" placeholder="4 a 6 números" autocomplete="new-password">
+      <label>Confirmar novo PIN</label>
+      <input type="password" inputmode="numeric" maxlength="6" id="resetPinNovo2" placeholder="Repita o novo PIN" autocomplete="new-password">
+      <button class="publishBtn" id="resetPinSalvarBtn" onclick="salvarPinPeloLink()">Salvar novo PIN</button>
+      <div id="resetPinLinkStatus" style="display:none;margin-top:10px;padding:10px 12px;border-radius:10px;background:#EAF7EE;color:#17633E;font-size:11.5px;line-height:1.4;"></div>
     </div>
   </div>
 
@@ -2337,18 +2174,6 @@
       <div id="profileContent"></div>
     </div>
   </div>
-
-
-
-  <!-- Favoritos e vistos recentemente -->
-  <div class="overlay" id="savedOverlay" onclick="closeOverlayBg(event,'savedOverlay')">
-    <div class="sheet" style="position:relative;" onclick="event.stopPropagation()">
-      <button class="closeBtn" onclick="closeSheet('savedOverlay')">✕</button>
-      <div class="sheetHandle"></div>
-      <div id="savedContent"></div>
-    </div>
-  </div>
-
 
   <!-- Detail sheet -->
   <div class="overlay" id="detailOverlay" onclick="closeOverlayBg(event,'detailOverlay')">
@@ -2745,8 +2570,7 @@ function iniciarMonitorMensagens(){
   if(inboxPollingInterval) clearInterval(inboxPollingInterval);
   inboxPrimeiraLeitura = true;
   checarMensagensNovas();
-  checarAlertasNovos();
-  inboxPollingInterval = setInterval(()=>{ checarMensagensNovas(); checarAlertasNovos(); }, 3500);
+  inboxPollingInterval = setInterval(checarMensagensNovas, 3500);
 }
 
 async function ativarNotificacoes(){
@@ -2806,9 +2630,46 @@ async function solicitarRecuperacaoPin(){
   const r=await sb.rpc('vendai_solicitar_recuperacao_pin',{p_telefone:telefone,p_nome:nome});
   btn.disabled=false;btn.textContent='Solicitar recuperação';
   if(r.error){console.error(r.error);showToast('Não consegui enviar a recuperação agora');return;}
-  st.textContent='Solicitação enviada ✓ O suporte vai conferir o cadastro e orientar a redefinição do PIN.';st.style.display='block';
+  st.textContent='Solicitação enviada ✓ Após a conferência, o suporte enviará no seu WhatsApp um link seguro para você criar o novo PIN.';st.style.display='block';
   showToast('Pedido de recuperação enviado ✓');
 }
+let resetPinTokenAtual='';
+function inicializarRedefinicaoPinPeloLink(){
+  try{
+    const token=new URLSearchParams(location.search).get('redefinir-pin')||'';
+    if(!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(token))return false;
+    resetPinTokenAtual=token;
+    ['resetPinNovo','resetPinNovo2'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+    const st=document.getElementById('resetPinLinkStatus');if(st){st.style.display='none';st.textContent='';}
+    document.getElementById('resetPinLinkOverlay')?.classList.add('show');
+    return true;
+  }catch(e){return false;}
+}
+async function salvarPinPeloLink(){
+  const novo=String(document.getElementById('resetPinNovo')?.value||'').replace(/\D/g,'');
+  const novo2=String(document.getElementById('resetPinNovo2')?.value||'').replace(/\D/g,'');
+  const btn=document.getElementById('resetPinSalvarBtn');
+  const st=document.getElementById('resetPinLinkStatus');
+  if(!resetPinTokenAtual){showToast('Este link não é válido');return;}
+  if(!/^\d{4,6}$/.test(novo)){showToast('Use um PIN de 4 a 6 números');return;}
+  if(novo!==novo2){showToast('A confirmação do PIN não confere');return;}
+  btn.disabled=true;btn.textContent='Salvando...';
+  const r=await sb.rpc('vendai_redefinir_pin_por_link',{p_reset_token:resetPinTokenAtual,p_novo_pin:novo});
+  btn.disabled=false;btn.textContent='Salvar novo PIN';
+  if(r.error){
+    const m=String(r.error.message||'');
+    const aviso=m.includes('link_invalido_ou_expirado')?'Este link já foi usado ou expirou. Solicite um novo link ao suporte.':'Não consegui alterar o PIN agora. Tente novamente.';
+    if(st){st.textContent=aviso;st.style.display='block';st.style.background='#FBE9E9';st.style.color='#9B3131';}
+    showToast(aviso);return;
+  }
+  currentUser=null;currentSessionToken=null;localStorage.removeItem('vendai_sessao');
+  resetPinTokenAtual='';
+  try{const u=new URL(location.href);u.searchParams.delete('redefinir-pin');history.replaceState(null,'',u.pathname+(u.search||'')+(u.hash||''));}catch(e){}
+  if(st){st.textContent='PIN alterado com segurança ✓ Agora entre com seu telefone, nome e o novo PIN.';st.style.display='block';st.style.background='#EAF7EE';st.style.color='#17633E';}
+  showToast('Novo PIN salvo ✓');
+  setTimeout(()=>{closeSheet('resetPinLinkOverlay');openLoginSheet();},1200);
+}
+
 function openChangePin(){
   if(!currentUser||!currentSessionToken){openLoginSheet();return;}
   ['pinAtual','pinNovo','pinNovo2'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
@@ -2993,7 +2854,6 @@ async function carregarAnuncios(){
   }
   ads = data || [];
   renderGrid();
-  renderQuickAccessCounts();
 }
 
 function renderChips(){
@@ -3054,7 +2914,7 @@ function sairRolinho(){
 }
 
 function formatPrice(n){
-  return 'R$ ' + Number(n).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+  return 'R$ ' + Number(n).toLocaleString('pt-BR', {minimumFractionDigits:0});
 }
 
 function formatMoneyCharge(n){
@@ -3127,69 +2987,6 @@ function toggleLike(adId, ev){
   updateLikeUi(id);
 }
 
-
-
-function getFavoriteIds(){
-  try{const raw=JSON.parse(localStorage.getItem('vendai_favorites')||'[]');return Array.isArray(raw)?raw.map(String):[];}catch(e){return [];}
-}
-function saveFavoriteIds(ids){
-  try{localStorage.setItem('vendai_favorites',JSON.stringify([...new Set(ids.map(String))].slice(0,100)));}catch(e){}
-}
-function isFavorite(adId){return getFavoriteIds().includes(String(adId));}
-function renderFavoriteButtonHtml(adId,mode='card'){
-  const fav=isFavorite(adId), id=String(adId).replace(/'/g,"\'");
-  if(mode==='detail')return `<button type="button" class="detailFavoriteBtn ${fav?'active':''}" data-favorite-id="${String(adId)}" onclick="toggleFavorite('${id}',event)" aria-label="${fav?'Remover dos favoritos':'Salvar nos favoritos'}"><span class="favIcon">${fav?'★':'☆'}</span><span class="favLabel">${fav?'Favoritado':'Favoritar'}</span></button>`;
-  return `<button type="button" class="favoriteCardBtn ${fav?'active':''}" data-favorite-id="${String(adId)}" onclick="toggleFavorite('${id}',event)" aria-label="${fav?'Remover dos favoritos':'Salvar nos favoritos'}" title="${fav?'Remover dos favoritos':'Salvar nos favoritos'}">${fav?'★':'☆'}</button>`;
-}
-function updateFavoriteUi(adId){
-  const fav=isFavorite(adId);
-  document.querySelectorAll(`[data-favorite-id="${CSS.escape(String(adId))}"]`).forEach(btn=>{
-    btn.classList.toggle('active',fav);
-    if(btn.classList.contains('detailFavoriteBtn')){
-      const icon=btn.querySelector('.favIcon'),label=btn.querySelector('.favLabel');
-      if(icon)icon.textContent=fav?'★':'☆'; if(label)label.textContent=fav?'Favoritado':'Favoritar';
-    }else btn.textContent=fav?'★':'☆';
-    btn.setAttribute('aria-label',fav?'Remover dos favoritos':'Salvar nos favoritos');
-  });
-}
-function toggleFavorite(adId,ev){
-  if(ev){ev.preventDefault();ev.stopPropagation();}
-  const id=String(adId);let ids=getFavoriteIds();
-  if(ids.includes(id)){ids=ids.filter(x=>x!==id);showToast('Removido dos favoritos');}
-  else{ids=[id,...ids.filter(x=>x!==id)];showToast('Salvo nos favoritos ★');}
-  saveFavoriteIds(ids);updateFavoriteUi(id);renderQuickAccessCounts();
-  if(document.getElementById('savedOverlay')?.classList.contains('show')&&window._savedMode==='favorites')renderSavedItems('favorites');
-}
-function getRecentIds(){
-  try{const raw=JSON.parse(localStorage.getItem('vendai_recent_views')||'[]');return Array.isArray(raw)?raw.map(String):[];}catch(e){return [];}
-}
-function rememberRecent(adId){
-  const id=String(adId);let ids=getRecentIds().filter(x=>x!==id);ids.unshift(id);ids=ids.slice(0,12);
-  try{localStorage.setItem('vendai_recent_views',JSON.stringify(ids));}catch(e){}
-  renderQuickAccessCounts();
-}
-function renderQuickAccessCounts(){
-  const f=document.getElementById('favoritesCount'),r=document.getElementById('recentCount');
-  const fc=getFavoriteIds().length,rc=getRecentIds().length;
-  if(f)f.textContent=fc?`${fc} salvo${fc===1?'':'s'}`:'Nenhum salvo';
-  if(r)r.textContent=rc?`${rc} visto${rc===1?'':'s'}`:'Nenhum visto';
-}
-function findAdBySavedId(id){return ads.find(a=>String(a.id)===String(id));}
-function openSavedItems(mode){window._savedMode=mode==='favorites'?'favorites':'recent';renderSavedItems(window._savedMode);document.getElementById('savedOverlay').classList.add('show');}
-function renderSavedItems(mode){
-  const c=document.getElementById('savedContent');if(!c)return;
-  let ids=mode==='favorites'?getFavoriteIds():getRecentIds();const validIds=ids.filter(id=>!!findAdBySavedId(id));
-  if(validIds.length!==ids.length){if(mode==='favorites')saveFavoriteIds(validIds);else try{localStorage.setItem('vendai_recent_views',JSON.stringify(validIds.slice(0,12)));}catch(e){} ids=validIds;renderQuickAccessCounts();}
-  const title=mode==='favorites'?'Favoritos':'Vistos recentemente';
-  const subtitle=mode==='favorites'?'Seus anúncios salvos para encontrar de novo rapidamente.':'Os últimos anúncios que você abriu neste aparelho.';
-  c.innerHTML=`<div class="detailTitle" style="margin-bottom:3px;">${title}</div><div style="font-size:11.5px;color:var(--ink-soft);line-height:1.4;">${subtitle}</div><div class="savedList" id="savedList"></div>`;
-  const list=document.getElementById('savedList');
-  if(!ids.length){list.innerHTML=`<div class="savedEmpty">${mode==='favorites'?'Você ainda não salvou nenhum anúncio.<br>Toque na estrela ☆ de um produto para guardar aqui.':'Você ainda não abriu nenhum anúncio recentemente.'}</div>`;return;}
-  ids.forEach(id=>{const ad=findAdBySavedId(id);if(!ad)return;const item=document.createElement('div');item.className='savedItem';item.onclick=()=>openSavedAd(ad.id);const thumb=(ad.fotos&&ad.fotos[0])?`<img src="${escHtml(ad.fotos[0])}" alt="">`:CATEGORY_ICON[ad.categoria];const rid=String(ad.id).replace(/'/g,"\'");item.innerHTML=`<div class="savedItemThumb" style="background:${CATEGORY_COLOR[ad.categoria]};">${thumb}</div><div class="savedItemBody"><div class="savedItemTitle">${escHtml(ad.titulo)}</div><div class="savedItemPrice">${formatPrice(ad.preco)}</div><div class="savedItemMeta">${escHtml(ad.cidade)}</div></div>${mode==='favorites'?`<button class="savedItemRemove" type="button" aria-label="Remover dos favoritos" onclick="toggleFavorite('${rid}',event)">★</button>`:''}`;list.appendChild(item);});
-}
-function openSavedAd(id){closeSheet('savedOverlay');setTimeout(()=>openDetail(id),80);}
-
-
 function partnerShareLink(anchorId){
   const base = location.href.split('#')[0];
   return `${base}#${anchorId || 'parceirosHome'}`;
@@ -3227,23 +3024,13 @@ function renderGrid(){
   const empty = document.getElementById('emptyState');
   grid.innerHTML = '';
 
-  let filtered = ads.filter(ad=>{
+  const filtered = ads.filter(ad=>{
     const matchCat = activeCategory==='todos' || ad.categoria===activeCategory;
     const matchSearch = ad.titulo.toLowerCase().includes(searchTerm.toLowerCase());
     const matchCity = activeCity==='toda' || ad.cidade.includes(activeCity);
     const matchRolinho = !activeRolinho || aceitaTroca(ad);
-    const priceMax = Number(document.getElementById('priceFilterSelect')?.value || 0);
-    const matchPrice = !priceMax || Number(ad.preco) <= priceMax;
-    return matchCat && matchSearch && matchCity && matchRolinho && matchPrice;
+    return matchCat && matchSearch && matchCity && matchRolinho;
   });
-
-  const sortMode = document.getElementById('sortSelect')?.value || 'recentes';
-  filtered = filtered.slice().sort((a,b)=>{
-    if(sortMode==='barato') return Number(a.preco) - Number(b.preco);
-    if(sortMode==='caro') return Number(b.preco) - Number(a.preco);
-    return new Date(b.criado_em) - new Date(a.criado_em);
-  });
-
   const feedTitle=document.getElementById('feedTitle');
   if(feedTitle) feedTitle.innerHTML=activeRolinho ? '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4 8h12.5"/><path d="M13.5 4.8 16.8 8l-3.3 3.2"/><path d="M20 16H7.5"/><path d="M10.5 19.2 7.2 16l3.3-3.2"/></svg> Chama pro Rolinho <button type="button" onclick="sairRolinho()" style="margin-left:7px;border:0;background:#EEF6F0;color:#24613E;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:800;vertical-align:2px;">Ver todos</button>' : 'Perto de você';
   if(empty) empty.textContent=activeRolinho ? 'Ainda não há anúncios aceitando troca por aqui.' : 'Nenhum anúncio encontrado por aqui ainda.';
@@ -3258,31 +3045,20 @@ function renderGrid(){
     const card = document.createElement('div');
     card.className = 'card';
     card.onclick = () => openDetail(ad.id);
-    const isNovo = (Date.now() - new Date(ad.criado_em).getTime()) < 24*60*60*1000;
-    const numFotos = (ad.fotos && ad.fotos.length) || 0;
     card.innerHTML = `
       <div class="thumb" style="background:${CATEGORY_COLOR[ad.categoria]}; position:relative; padding:0; overflow:hidden;">
-        ${numFotos>0
-          ? `<div class="thumbSkeleton" style="position:absolute; inset:0; background:linear-gradient(90deg,#eee,#f5f5f5,#eee); background-size:200% 100%; animation:thumbShimmer 1.2s infinite;"></div>
-             <img src="${ad.fotos[0]}" loading="lazy" style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1;" onload="this.previousElementSibling.style.display='none';">`
+        ${ad.fotos && ad.fotos.length>0
+          ? `<img src="${ad.fotos[0]}" style="width:100%;height:100%;object-fit:cover;">`
           : CATEGORY_ICON[ad.categoria]}
-        ${ad.destaque ? '<div style="position:absolute; top:8px; left:8px; background:var(--yellow); border-radius:8px; font-size:9.5px; font-weight:700; padding:3px 7px; color:var(--ink);">🔥 Destaque</div>'
-          : (isNovo ? '<div style="position:absolute; top:8px; left:8px; background:#2E8B57; border-radius:8px; font-size:9.5px; font-weight:700; padding:3px 7px; color:#fff;">✨ Novo</div>' : '')}
+        ${ad.destaque ? '<div style="position:absolute; top:8px; left:8px; background:var(--yellow); border-radius:8px; font-size:9.5px; font-weight:700; padding:3px 7px; color:var(--ink);">🔥 Destaque</div>' : ''}
         ${aceitaTroca(ad) ? '<div class="rolinhoBadge"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4 8h12.5"/><path d="M13.5 4.8 16.8 8l-3.3 3.2"/><path d="M20 16H7.5"/><path d="M10.5 19.2 7.2 16l3.3-3.2"/></svg> Aceita troca</div>' : ''}
-        ${renderFavoriteButtonHtml(ad.id,'card')}
-        ${numFotos>1 ? `<div style="position:absolute; bottom:6px; right:6px; background:rgba(0,0,0,.6); color:#fff; font-size:9.5px; font-weight:700; padding:2px 6px; border-radius:999px; z-index:2;">📷 1/${numFotos}</div>` : ''}
       </div>
       <div class="cardBody">
         <div class="cardTitle">${ad.titulo}</div>
         <div class="cardPrice">${formatPrice(ad.preco)}</div>
         <div class="cardBottomMeta">
           <div class="cardMeta">${ad.cidade} · ${tempoDecorrido(ad.criado_em)}</div>
-          <div style="display:flex; gap:4px; align-items:center;">
-            <button type="button" onclick="compartilharWhatsApp('${String(ad.id)}', event)" title="Compartilhar no WhatsApp" style="border:0;background:transparent;cursor:pointer;line-height:1;padding:2px;display:flex;align-items:center;">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="#25D366"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.87 9.87 0 0 0 4.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2zm5.9 14.03c-.25.7-1.45 1.34-2 1.42-.51.08-1.16.11-1.87-.12-.43-.14-.98-.32-1.69-.63-2.97-1.28-4.9-4.27-5.05-4.47-.15-.2-1.21-1.61-1.21-3.07 0-1.46.77-2.18 1.04-2.48.27-.29.6-.37.8-.37.2 0 .4 0 .57.01.18.01.43-.07.67.51.25.6.85 2.07.92 2.22.07.15.12.33.02.53-.1.2-.15.32-.3.5-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.3.77 1.27 1.66 2.06 1.14 1.02 2.1 1.34 2.4 1.49.3.15.47.13.65-.08.18-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.28.1 1.75.83 2.05 .98.3.15.5.23.57.35.08.13.08.75-.17 1.45z"/></svg>
-            </button>
-            ${renderLikeButtonHtml(ad.id,'cardLike')}
-          </div>
+          ${renderLikeButtonHtml(ad.id,'cardLike')}
         </div>
       </div>
     `;
@@ -3290,20 +3066,9 @@ function renderGrid(){
   });
 }
 
-function compartilharWhatsApp(adId, event){
-  if(event) event.stopPropagation();
-  const ad = ads.find(a=>String(a.id)===String(adId));
-  if(!ad) return;
-  const url = location.origin + location.pathname + '?ad=' + encodeURIComponent(adId);
-  const texto = `Olha esse anúncio no Vendaí: ${ad.titulo} - ${formatPrice(ad.preco)}\n${url}`;
-  window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank');
-}
-
-
 function openDetail(id){
-  const ad = ads.find(a=>String(a.id)===String(id));
+  const ad = ads.find(a=>a.id===id);
   if(!ad) return;
-  rememberRecent(ad.id);
   window._anuncioAtual = ad;
   window._fotoAtual = 0;
   const content = document.getElementById('detailContent');
@@ -3325,16 +3090,15 @@ function openDetail(id){
     <div class="detailTitle" style="margin-top:14px;">${escHtml(ad.titulo)}</div>
     <div class="detailPrice">${formatPrice(ad.preco)}</div>
     <div class="detailMeta">${escHtml(ad.cidade)} · publicado ${tempoDecorrido(ad.criado_em)}</div>
-    <div class="detailQuickActions">${renderLikeButtonHtml(ad.id,'detailLike')}${renderFavoriteButtonHtml(ad.id,'detail')}<div class="detailLikeHint">Curta ou salve para encontrar este anúncio depois.</div></div>
+    <div class="detailLikeRow">${renderLikeButtonHtml(ad.id,'detailLike')}<div class="detailLikeHint">Veja quantas pessoas curtiram este anúncio</div></div>
     ${aceitaTroca(ad) ? '<div class="rolinhoTag"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4 8h12.5"/><path d="M13.5 4.8 16.8 8l-3.3 3.2"/><path d="M20 16H7.5"/><path d="M10.5 19.2 7.2 16l3.3-3.2"/></svg> Aceita troca • Chama pro Rolinho</div>' : ''}
     <div class="detailDesc">${escHtml(descricaoSemRolinho(ad.descricao) || 'Sem descrição.')}</div>
     <div class="sellerRow">
       <div class="sellerAvatar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><circle cx="12" cy="8.3" r="3.4"/><path d="M4.9 19.6c1-3.6 3.9-5.5 7.1-5.5s6.1 1.9 7.1 5.5"/></svg></div>
-      <div style="flex:1;min-width:0;">
+      <div>
         <div class="sellerName">${escHtml(ad.vendedor_nome || 'Anônimo')}</div>
-        <div class="sellerLoc" id="sellerRatingLine">${escHtml(ad.cidade)}</div>
+        <div class="sellerLoc">${escHtml(ad.cidade)}</div>
       </div>
-      ${(ad.vendedor_id) ? `<button type="button" onclick="abrirAvaliarVendedor('${String(ad.vendedor_id)}','${String(ad.id)}')" style="border:1px solid #E2E9E3;background:#fff;border-radius:999px;padding:6px 12px;font-size:11px;font-weight:700;color:var(--green-dark);cursor:pointer;white-space:nowrap;">⭐ Avaliar</button>` : ''}
     </div>
     <div class="btnRow">
       <div class="btnPrimary" onclick="iniciarChatFromDetail()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4 5.8h16a1 1 0 0 1 1 1V15a1 1 0 0 1-1 1h-9.6L6 19.6V16H4a1 1 0 0 1-1-1V6.8a1 1 0 0 1 1-1Z"/></svg> Chamar no chat</div>
@@ -3345,43 +3109,6 @@ function openDetail(id){
     ${(!ad.destaque && currentUser && currentUser.id===ad.vendedor_id) ? `<div class="publishBtn" style="margin-top:9px; background:var(--card); border:1.5px solid #E2E9E3; box-shadow:none; color:var(--green-dark);" onclick="destacarAnuncio('${ad.id}')">🏷️ Destacar este anúncio — ${formatMoneyCharge(PRECO_DESTAQUE)}</div>` : ''}
   `;
   document.getElementById('detailOverlay').classList.add('show');
-  if(ad.vendedor_id) carregarNotaVendedor(ad.vendedor_id, ad.cidade);
-}
-
-async function carregarNotaVendedor(vendedorId, cidade){
-  try{
-    const { data, error } = await sb.rpc('vendai_perfil_publico', { p_usuario_id: vendedorId });
-    const linha = document.getElementById('sellerRatingLine');
-    if(!linha || error || !data || !data[0]) return;
-    const p = data[0];
-    if(p.total_avaliacoes>0){
-      linha.innerHTML = `${escHtml(cidade)} · ⭐ ${Number(p.nota_media).toFixed(1)} (${p.total_avaliacoes})`;
-    }
-  }catch(e){}
-}
-
-function abrirAvaliarVendedor(vendedorId, anuncioId){
-  if(!currentUser || !currentSessionToken){ openLoginSheet(); return; }
-  if(currentUser.id === vendedorId){ showToast('Você não pode avaliar a si mesmo'); return; }
-  window._avaliarAlvo = { vendedorId, anuncioId };
-  document.getElementById('avaliarNota').value = '5';
-  document.getElementById('avaliarComentario').value = '';
-  document.getElementById('avaliarOverlay').classList.add('show');
-}
-
-async function enviarAvaliacaoVendedor(){
-  const alvo = window._avaliarAlvo;
-  if(!alvo || !currentSessionToken) return;
-  const nota = Number(document.getElementById('avaliarNota').value);
-  const comentario = document.getElementById('avaliarComentario').value.trim();
-  const { error } = await sb.rpc('vendai_avaliar_vendedor', {
-    p_token: currentSessionToken, p_anuncio_id: alvo.anuncioId, p_vendedor_id: alvo.vendedorId,
-    p_nota: nota, p_comentario: comentario || null
-  });
-  closeSheet('avaliarOverlay');
-  if(error){ showToast('Não deu pra enviar a avaliação'); return; }
-  showToast('Avaliação enviada, obrigado! ⭐');
-  carregarNotaVendedor(alvo.vendedorId, document.getElementById('sellerRatingLine')?.textContent?.split('·')[0]?.trim() || '');
 }
 
 function iniciarChatFromDetail(){
@@ -4010,31 +3737,6 @@ window.addEventListener('appinstalled', ()=>{
   if(box) box.style.display='none';
 });
 
-// Mantém o convite visível no navegador e esconde quando o Vendaí já está aberto como app.
-(function prepararConviteInstalacao(){
-  const box=document.getElementById('installHero');
-  if(!box) return;
-
-  const jaComoApp = window.matchMedia && window.matchMedia('(display-mode: standalone)').matches;
-  const iosStandalone = window.navigator.standalone === true;
-  if(jaComoApp || iosStandalone){
-    box.style.display='none';
-    return;
-  }
-
-  try{
-    const chave='vendai_install_attention_v1';
-    if(!localStorage.getItem(chave)){
-      box.classList.add('installAttention');
-      setTimeout(()=> box.classList.remove('installAttention'), 2600);
-      localStorage.setItem(chave,'1');
-    }
-  }catch(e){
-    box.classList.add('installAttention');
-    setTimeout(()=> box.classList.remove('installAttention'), 2600);
-  }
-})();
-
 function showToast(msg){
   const toast = document.getElementById('toast');
   document.getElementById('toastMsg').textContent = msg;
@@ -4044,55 +3746,8 @@ function showToast(msg){
 
 document.getElementById('searchInput').addEventListener('input', (e)=>{
   searchTerm = e.target.value;
-  const btn = document.getElementById('salvarBuscaBtn');
-  if(btn) btn.style.display = searchTerm.trim().length>=2 ? 'inline-flex' : 'none';
   renderGrid();
 });
-
-async function salvarBuscaAtual(){
-  const termo = searchTerm.trim();
-  if(!termo) return;
-  if(!currentUser || !currentSessionToken){ openLoginSheet(); return; }
-  const { error } = await sb.rpc('vendai_salvar_busca', { p_token: currentSessionToken, p_termo: termo });
-  if(error){ showToast('Não consegui salvar essa busca'); return; }
-  showToast(`🔔 Vamos te avisar quando surgir "${termo}"`);
-}
-
-async function abrirAlertas(){
-  if(!currentUser || !currentSessionToken){ openLoginSheet(); return; }
-  const box = document.getElementById('listaAlertas');
-  box.innerHTML = '<div style="padding:20px;text-align:center;color:var(--ink-soft);">Carregando...</div>';
-  document.getElementById('alertasOverlay').classList.add('show');
-  const { data, error } = await sb.rpc('vendai_meus_alertas', { p_token: currentSessionToken });
-  if(error || !data || data.length===0){
-    box.innerHTML = '<div style="padding:20px;text-align:center;color:var(--ink-soft);">Nenhum alerta ainda. Salve uma busca (🔔 na barra de pesquisa) pra ser avisado quando surgir algo novo.</div>';
-  } else {
-    box.innerHTML = data.map(a => `
-      <div class="sellerRow" style="cursor:pointer;margin-bottom:10px;" onclick="closeSheet('alertasOverlay'); openDetail('${a.anuncio_id}')">
-        <div class="sellerAvatar" style="background:${a.anuncio_titulo?'var(--green-soft)':'#eee'};">🔔</div>
-        <div style="flex:1;min-width:0;">
-          <div class="sellerName" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escHtml(a.anuncio_titulo || 'Anúncio removido')}</div>
-          <div class="sellerLoc">${a.anuncio_preco!=null?formatPrice(a.anuncio_preco):''} · busca: "${escHtml(a.termo)}"</div>
-        </div>
-      </div>`).join('');
-  }
-  await sb.rpc('vendai_marcar_alertas_lidos', { p_token: currentSessionToken });
-  atualizarBadgeAlertas(0);
-}
-
-function atualizarBadgeAlertas(n){
-  const b = document.getElementById('alertasBadge');
-  if(!b) return;
-  if(n>0){ b.style.display='block'; b.textContent = n>9?'9+':String(n); }
-  else b.style.display='none';
-}
-
-async function checarAlertasNovos(){
-  if(!currentUser || !currentSessionToken) return;
-  const { data, error } = await sb.rpc('vendai_contar_alertas_nao_lidos', { p_token: currentSessionToken });
-  if(error) return;
-  atualizarBadgeAlertas(data || 0);
-}
 
 document.addEventListener('pointerdown', ()=>prepararSom(), { once:true });
 
@@ -4638,7 +4293,7 @@ function renderPlanosLoja(){
     else btn=lojaAtual&&currentSessionToken?`<button class="planBtn ${p.slug==='premium'?'gold':''}" onclick="assinarPlanoLoja('${p.slug}')">Assinar por ${formatPrice(preco)}</button>`:`<button class="planBtn ${p.slug==='premium'?'gold':''}" onclick="abrirCadastroLoja()">Criar loja e assinar</button>`;
     return `<div class="planCard ${current?'current ':''}${p.slug==='premium'?'recommended':''}"><span class="planBadge">${escHtml(p.selo||p.nome)}</span><div class="planName">${escHtml(p.nome)}</div><div class="planPrice">${preco?formatPrice(preco):'Grátis'}${preco?'<small> / 30 dias</small>':''}</div><div class="planDesc">${escHtml(p.descricao||'')}</div><div class="planBenefits">${formatPlanoBeneficios(p)}</div>${btn}</div>`;
   }).join('');
-  const avulso=lojaAtual?`<div class="feeBox"><strong>Destaques avulsos</strong><br>Produto: 24h ${formatPrice(precosMonetizacao.produto24)} · 3 dias ${formatPrice(precosMonetizacao.produto3d)} · 7 dias ${formatPrice(precosMonetizacao.produto7d)}<br>Loja em destaque por 7 dias: <strong>${formatPrice(precosMonetizacao.loja7d)}</strong><br><button class="storeHighlightBtn" onclick="comprarDestaqueLoja()">Destacar minha loja</button></div>`:'';
+  const avulso=lojaAtual?`<div class="feeBox"><strong>Destaques avulsos</strong><br>Produto: 24h ${formatPrice(precosMonetizacao.produto24)} · 3 dias ${formatPrice(precosMonetizacao.produto3d)} · 7 dias ${formatPrice(precosMonetizacao.produto7d)}<br>Loja em destaque por 7 dias: <strong>${formatPrice(precosMonetizacao.loja7d)}</strong><br><button class="secondary" style="margin-top:8px" onclick="comprarDestaqueLoja()">Destacar minha loja</button></div>`:'';
   c.innerHTML=`<div class="merchantKicker" style="color:var(--green-dark)">⭐ Venda mais aparecendo mais</div><div class="detailTitle">Planos para lojistas</div><div class="tinyHint">A comissão sobre as vendas continua em todos os planos. A mensalidade serve para aumentar visibilidade e liberar benefícios.</div><div class="planCards">${cards}</div>${avulso}${lojaAtual?'<button class="secondary" style="width:100%;margin-top:8px" onclick="openLojaPainel()">← Voltar ao painel da loja</button>':''}`;
 }
 async function chamarMonetizacaoPix(action,body={}){
@@ -4696,10 +4351,10 @@ function syncFloatingUi(){
 }
 setInterval(syncFloatingUi,300);
 
+inicializarRedefinicaoPinPeloLink();
 restaurarSessao();
 carregarPrecoDestaque();
 renderChips();
-renderQuickAccessCounts();
 carregarAnuncios();
 carregarMarketplaceLojas();
 try{const qp=new URLSearchParams(location.search);if(qp.get('mp')==='conectado')setTimeout(()=>showToast('Mercado Pago conectado ✓'),500);if(qp.get('pagamento')==='sucesso')setTimeout(()=>showToast('Pagamento enviado. Assim que o Mercado Pago confirmar, a loja verá como pago.'),500);if(qp.get('pagamento')==='pendente')setTimeout(()=>showToast('Pagamento pendente no Mercado Pago.'),500);}catch(e){}

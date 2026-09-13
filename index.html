@@ -767,6 +767,17 @@
   .highlightActions .cancel{background:#EEF2EE;color:var(--ink);}
   .highlightActions .pay{background:var(--yellow);color:var(--ink);}
 
+  /* Escolha obrigatória de plano ao publicar */
+  .planoCard{
+    background:var(--card); border:1.5px solid #E2E9E3; border-radius:16px;
+    padding:14px; margin:12px 0; box-shadow:var(--shadow-sm); cursor:pointer;
+    transition:border-color .15s, background .15s;
+  }
+  .planoCard.planoCardAtivo{border-color:var(--green-dark); background:#F2F9F4;}
+  .planoCardTop{display:flex; align-items:center; justify-content:space-between; font-size:14.5px;}
+  .planoCardDesc{font-size:12px; line-height:1.45; color:var(--ink-soft); margin-top:5px;}
+  .planoCheck{background:var(--green-dark); color:#fff; border-radius:999px; width:20px; height:20px; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:900;}
+
   .toast{
     position:fixed;
     max-width:var(--app-width); margin:0 auto; left:0; right:0;
@@ -2305,9 +2316,19 @@
       <div id="fotoPreview" style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;"></div>
       <div class="photoEditHelp">Se escolher a foto errada, toque no <strong>✕</strong> da miniatura para remover. Na edição, você também pode apagar fotos antigas e colocar outras.</div>
 
-      <div class="feeBox" id="postFeeBox">Publicar é grátis, pra qualquer categoria — produto ou serviço. Depois de publicado, você pode destacar o anúncio pra aparecer no topo da busca por um valor pequeno via Pix.</div>
+      <div class="feeBox" id="postFeeBox">No próximo passo você escolhe se quer publicar grátis ou já publicar destacando o anúncio.</div>
 
-      <button class="publishBtn" id="btnPublicar" onclick="publishAd()">Publicar anúncio</button>
+      <button class="publishBtn" id="btnPublicar" onclick="abrirEscolhaPlano()">Publicar anúncio</button>
+    </div>
+  </div>
+
+
+
+  <!-- Escolha obrigatória de plano antes de publicar -->
+  <div class="overlay" id="planoOverlay">
+    <div class="sheet" style="position:relative;max-height:90vh;overflow-y:auto;" onclick="event.stopPropagation()">
+      <div class="sheetHandle"></div>
+      <div id="planoContent"></div>
     </div>
   </div>
 
@@ -3403,7 +3424,7 @@ function resetPostForm(){
   document.getElementById('fFoto').value='';
   document.getElementById('btnPublicar').textContent='Publicar anúncio';
   const feeBox=document.getElementById('postFeeBox');
-  if(feeBox) feeBox.innerHTML=`Publicar é grátis, pra qualquer categoria — produto ou serviço. Depois de publicado, você pode destacar o anúncio pra aparecer no topo da busca por <strong>${formatMoneyCharge(PRECO_DESTAQUE)}</strong> via Pix.`;
+  if(feeBox) feeBox.innerHTML='No próximo passo você escolhe se quer publicar grátis ou já publicar destacando o anúncio.';
   renderFotoPreview();
 }
 
@@ -3436,6 +3457,8 @@ function editarAnuncio(id){
   document.getElementById('fCity').value=ad.cidade||'Muzambinho, MG';
   document.getElementById('fFoto').value='';
   document.getElementById('btnPublicar').textContent='Salvar alterações';
+  const feeBoxEdit=document.getElementById('postFeeBox');
+  if(feeBoxEdit) feeBoxEdit.innerHTML='As alterações são salvas direto — a escolha de destaque fica em "Meus anúncios".';
   renderFotoPreview();
   closeSheet('profileOverlay'); closeSheet('detailOverlay');
   document.getElementById('postOverlay').classList.add('show');
@@ -3450,7 +3473,55 @@ function closeOverlayBg(e, id){
   if(e.target.id===id) closeSheet(id);
 }
 
-async function publishAd(){
+let planoEscolhidoPublicar=null;
+
+function abrirEscolhaPlano(){
+  if(!currentUser || !currentSessionToken){ pendingAction='post'; openLoginSheet(); return; }
+  const titulo=document.getElementById('fTitle').value.trim();
+  const preco=parseFloat(document.getElementById('fPrice').value);
+  const cidade=document.getElementById('fCity').value.trim();
+  if(titulo.length<3 || !Number.isFinite(preco) || preco<=0){ showToast('Revise o título e o preço'); return; }
+  if(!cidade){ showToast('Informe a localização do anúncio'); return; }
+  if(editExistingFotos.length + selectedFotos.length > 4){ showToast('O limite é 4 fotos por anúncio'); return; }
+
+  if(editAdId){ publishAd(null); return; } // edição não passa pela escolha de plano de novo
+
+  planoEscolhidoPublicar=null;
+  renderEscolhaPlano();
+  document.getElementById('planoOverlay').classList.add('show');
+}
+
+function renderEscolhaPlano(){
+  const c=document.getElementById('planoContent');
+  const marcado=(id)=>planoEscolhidoPublicar===id;
+  c.innerHTML=`
+    <div class="detailTitle">Como você quer publicar?</div>
+    <div style="font-size:12.5px;color:var(--ink-soft);line-height:1.45;margin-top:2px;">Escolha uma opção pra continuar. Você pode destacar depois também, se preferir.</div>
+    <div class="planoCard ${marcado('gratis')?'planoCardAtivo':''}" onclick="selecionarPlanoPublicar('gratis')">
+      <div class="planoCardTop"><strong>Publicar grátis</strong>${marcado('gratis')?'<span class="planoCheck">✓</span>':''}</div>
+      <div class="planoCardDesc">Seu anúncio entra no feed normalmente, na ordem de publicação. Sem custo.</div>
+    </div>
+    <div class="planoCard ${marcado('destaque')?'planoCardAtivo':''}" onclick="selecionarPlanoPublicar('destaque')">
+      <div class="planoCardTop"><strong>🔥 Publicar e destacar</strong>${marcado('destaque')?'<span class="planoCheck">✓</span>':''}</div>
+      <div class="planoCardDesc">Aparece no topo da busca por 7 dias. Cobrança de <strong>${formatMoneyCharge(PRECO_DESTAQUE)}</strong> via PIX, feita logo em seguida.</div>
+    </div>
+    <button class="publishBtn" id="btnConfirmarPlano" ${planoEscolhidoPublicar?'':'disabled style="opacity:.5;pointer-events:none;"'} onclick="confirmarPlanoEPublicar()">Confirmar e publicar</button>
+    <button class="secondary" style="width:100%;margin-top:8px;" onclick="closeSheet('planoOverlay')">Voltar e revisar o anúncio</button>
+  `;
+}
+
+function selecionarPlanoPublicar(id){
+  planoEscolhidoPublicar=id;
+  renderEscolhaPlano();
+}
+
+function confirmarPlanoEPublicar(){
+  if(!planoEscolhidoPublicar) return;
+  closeSheet('planoOverlay');
+  publishAd(planoEscolhidoPublicar);
+}
+
+async function publishAd(plano){
   if(!currentUser || !currentSessionToken){ pendingAction='post'; openLoginSheet(); return; }
   const titulo=document.getElementById('fTitle').value.trim();
   const preco=parseFloat(document.getElementById('fPrice').value);
@@ -3503,7 +3574,15 @@ async function publishAd(){
     closeSheet('postOverlay'); activeCategory='todos'; activeRolinho=false; renderChips();
     await carregarAnuncios();
     if(eraEdicao && currentUser) await renderProfile();
-    showToast(eraEdicao?'Anúncio atualizado ✓':'Anúncio publicado ✓');
+    if(eraEdicao){
+      showToast('Anúncio atualizado ✓');
+    }else if(plano==='destaque'){
+      showToast('Anúncio publicado ✓');
+      const novoId=await obterIdUltimoAnuncioPublicado();
+      if(novoId) destacarAnuncio(novoId);
+    }else{
+      showToast('Anúncio publicado grátis ✓');
+    }
   }catch(error){
     console.error(error);
     const msg=String(error?.message||error||'');
@@ -3519,6 +3598,14 @@ async function publishAd(){
   }finally{
     btn.textContent=textoNormal; btn.style.opacity='1'; btn.style.pointerEvents='auto';
   }
+}
+
+async function obterIdUltimoAnuncioPublicado(){
+  try{
+    const {data,error}=await sb.rpc('vendai_meus_anuncios',{p_token:currentSessionToken});
+    if(error || !data || !data.length) return null;
+    return data.slice().sort((a,b)=>new Date(b.criado_em)-new Date(a.criado_em))[0].id;
+  }catch(e){ return null; }
 }
 
 function renderFotoPreview(){
@@ -4240,7 +4327,8 @@ async function concluirPedidoLoja(id){if(!(await vendaiConfirmacao('Confirme que
 function renderProdutosMinhaLoja(){
   const box=document.getElementById('lojaPainelLista');if(!box)return;
   const rest=Number(planoLojaAtual?.destaques_restantes||0);
-  box.innerHTML=`<div class="detailTitle" style="font-size:14px;margin-bottom:4px">Meus produtos</div><div class="tinyHint" style="margin-bottom:9px">${rest>0?`Seu plano tem ${rest} destaque(s) de 7 dias disponível(is) neste mês.`:'Você pode comprar destaque avulso a qualquer momento.'}</div>`;
+  const totalMes=Number(planoLojaAtual?.destaques_mes||0);
+  box.innerHTML=`<div class="detailTitle" style="font-size:14px;margin-bottom:4px">Meus produtos</div><div class="tinyHint" style="margin-bottom:9px">${rest>0?`Seu plano tem ${rest} de ${totalMes} destaque(s) de 7 dias disponível(is) neste mês.`:'Você pode comprar destaque avulso a qualquer momento.'}</div>`;
   if(!lojaProdutosMeus.length){box.innerHTML+='<div class="shopEmpty">Cadastre seu primeiro produto.</div>';return;}
   lojaProdutosMeus.forEach(p=>{
     const el=document.createElement('div');el.className='lojaRow';

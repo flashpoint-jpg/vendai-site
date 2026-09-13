@@ -52,6 +52,9 @@ export default async function handler(req, res) {
 
     const planos = await sb(`vendai_planos?ativo=eq.true&order=preco_mensal.asc`);
 
+    const usuarios = await sb(`vendai_usuarios?id=eq.${loja.usuario_id}&select=telefone,criado_via_lancamento`);
+    const usuario = (usuarios && usuarios[0]) || null;
+
     // marca primeiro acesso, se ainda não tiver visto
     if (!loja.boas_vindas_vista_em) {
       await sb(`vendai_lojas?id=eq.${id}`, {
@@ -60,7 +63,7 @@ export default async function handler(req, res) {
       });
     }
 
-    return res.status(200).json({ loja, produtos: produtos || [], planos: planos || [] });
+    return res.status(200).json({ loja, produtos: produtos || [], planos: planos || [], usuario });
 
   } catch (err) {
     console.error(err);

@@ -36,6 +36,9 @@ export default async function handler(req, res) {
   if (!SERVICE_KEY) {
     return res.status(500).json({ error: 'SUPABASE_SERVICE_ROLE_KEY não configurada no servidor' });
   }
+  if (!process.env.ADMIN_ACCESS_KEY || req.headers['x-admin-key'] !== process.env.ADMIN_ACCESS_KEY) {
+    return res.status(401).json({ error: 'Senha incorreta' });
+  }
 
   try {
     const {
@@ -50,16 +53,15 @@ export default async function handler(req, res) {
 
     // 1. usuário já existe?
     const existentes = await sb(`vendai_usuarios?telefone=eq.${encodeURIComponent(telefone)}&select=id`);
-    let usuarioId, usuarioNovo = false, pinGerado = null;
+    let usuarioId, usuarioNovo = false;
 
     if (existentes && existentes.length > 0) {
       usuarioId = existentes[0].id;
     } else {
-      pinGerado = telefone.slice(-4);
       const novoUsuario = await sb('vendai_usuarios', {
         method: 'POST',
         body: JSON.stringify({
-          telefone, nome: nomeLojista, criado_via_lancamento: true, pin_hash: pinGerado
+          telefone, nome: nomeLojista, criado_via_lancamento: true
         })
       });
       usuarioId = novoUsuario[0].id;
@@ -108,7 +110,7 @@ export default async function handler(req, res) {
       });
     }
 
-    return res.status(200).json({ lojaId, usuarioNovo, pinGerado, testeExpiraEm });
+    return res.status(200).json({ lojaId, usuarioNovo, testeExpiraEm });
 
   } catch (err) {
     console.error(err);

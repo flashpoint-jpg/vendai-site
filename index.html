@@ -2593,6 +2593,9 @@ function openLoginSheet(mode='cliente'){
   }else if(mode==='lojaAcesso'){
     if(title)title.textContent='Acessar sua loja';
     if(sub)sub.textContent='Entre com o telefone e PIN da conta vinculada à sua loja.';
+  }else if(mode==='chat' || pendingAction==='chat'){
+    if(title)title.textContent='Entre para falar com o vendedor';
+    if(sub)sub.textContent='Para fazer uma pergunta ou enviar mensagem sobre este anúncio, entre ou crie sua conta. Depois do acesso, o chat abre automaticamente e você continua daqui.';
   }else{
     if(title)title.textContent='Entrar ou criar conta';
     if(sub)sub.textContent='Se é sua primeira vez, a conta é criada na hora. Se já tem conta, use o mesmo telefone e PIN.';
@@ -3101,7 +3104,7 @@ function openDetail(id){
       </div>
     </div>
     <div class="btnRow">
-      <div class="btnPrimary" onclick="iniciarChatFromDetail()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4 5.8h16a1 1 0 0 1 1 1V15a1 1 0 0 1-1 1h-9.6L6 19.6V16H4a1 1 0 0 1-1-1V6.8a1 1 0 0 1 1-1Z"/></svg> Chamar no chat</div>
+      <div class="btnPrimary" onclick="iniciarChatFromDetail()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4 5.8h16a1 1 0 0 1 1 1V15a1 1 0 0 1-1 1h-9.6L6 19.6V16H4a1 1 0 0 1-1-1V6.8a1 1 0 0 1 1-1Z"/></svg> Perguntar ao vendedor</div>
       ${aceitaTroca(ad) ? '<div class="btnGhost rolinhoChatBtn" onclick="iniciarRolinhoFromDetail()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4 8h12.5"/><path d="M13.5 4.8 16.8 8l-3.3 3.2"/><path d="M20 16H7.5"/><path d="M10.5 19.2 7.2 16l3.3-3.2"/></svg> Chama pro Rolinho</div>' : '<div class="btnGhost" onclick="showToast(\'Denúncia registrada (simulação)\')">🚩 Denunciar</div>'}
     </div>
     ${aceitaTroca(ad) ? '<div style="font-size:10.5px;color:var(--ink-soft);margin-top:8px;text-align:center;">Combine a troca pelo chat. O Vendaí não recebe nem guarda o item.</div>' : ''}
@@ -3460,7 +3463,11 @@ function previewFotos(){
 
 async function iniciarChat(anuncioId, titulo, outroId, outroNome, prefill=''){
   if(!currentUser || !currentSessionToken){
-    pendingChat={anuncioId,titulo,outroId,outroNome,prefill}; pendingAction='chat'; openLoginSheet(); return;
+    pendingChat={anuncioId,titulo,outroId,outroNome,prefill};
+    pendingAction='chat';
+    showToast('Para fazer uma pergunta ao vendedor, entre ou crie sua conta.');
+    openLoginSheet('chat');
+    return;
   }
   if(!outroId){ showToast('Não consegui identificar o vendedor deste anúncio'); return; }
   if(outroId===currentUser.id){ showToast('Esse é o seu próprio anúncio <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px;"><circle cx="12" cy="8.3" r="3.4"/><path d="M4.9 19.6c1-3.6 3.9-5.5 7.1-5.5s6.1 1.9 7.1 5.5"/></svg>'); return; }

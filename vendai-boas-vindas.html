@@ -55,6 +55,16 @@
   section{padding:26px 20px 4px;}
   section h3{font-size:15px;margin:0 0 14px;color:var(--verde-900);}
 
+  .acesso-card{background:var(--verde-100);border:1px solid var(--verde-500);border-radius:16px;
+    margin:20px 16px 0;padding:20px;}
+  .acesso-card h3{margin-top:0;}
+  .passos-acesso{margin:0 0 16px;padding-left:20px;color:#3A3F38;font-size:13.5px;line-height:1.7;}
+  .passos-acesso li{margin-bottom:2px;}
+  .btn-acessar{display:block;text-align:center;background:var(--verde-700);color:#fff;text-decoration:none;
+    font-weight:700;font-size:15px;padding:14px;border-radius:12px;}
+  .btn-acessar:active{background:var(--verde-900);}
+  .aviso-pin{margin:10px 0 0;font-size:12px;color:#5B6259;text-align:center;}
+
   .produto-card{display:flex;gap:12px;background:var(--branco);border:1px solid var(--borda);
     border-radius:14px;padding:12px;margin-bottom:10px;align-items:center;}
   .produto-card img, .produto-card .semfoto{width:58px;height:58px;border-radius:10px;object-fit:cover;
@@ -104,6 +114,17 @@
       <span id="diasRestantes">—</span>
     </div>
   </div>
+
+  <section class="acesso-card">
+    <h3>Como acessar sua loja</h3>
+    <ol class="passos-acesso">
+      <li>Toque no botão abaixo pra abrir o Vendaí</li>
+      <li>Toque em <b>"Minha conta"</b></li>
+      <li>Entre com seu WhatsApp e o PIN <b id="pinInstrucao">—</b></li>
+    </ol>
+    <a class="btn-acessar" id="linkAcessar" href="https://vendai.entregaflash.app.br/">Entrar na minha conta</a>
+    <p class="aviso-pin">Esse PIN é temporário — depois de entrar, você pode trocar ele no seu perfil.</p>
+  </section>
 
   <section>
     <h3>Seus produtos</h3>
@@ -155,8 +176,15 @@ async function carregar(){
     return;
   }
 
-  const { loja, produtos, planos } = resultado;
+  const { loja, produtos, planos, usuario } = resultado;
   produtosCache = produtos || [];
+
+  const pinInstrucao = document.getElementById("pinInstrucao");
+  if (usuario && usuario.criado_via_lancamento && usuario.telefone) {
+    pinInstrucao.textContent = usuario.telefone.slice(-4);
+  } else {
+    pinInstrucao.textContent = "que você já usa";
+  }
 
   document.getElementById("carregando").style.display = "none";
   document.getElementById("painel").style.display = "block";

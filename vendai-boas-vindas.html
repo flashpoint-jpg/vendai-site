@@ -127,17 +127,14 @@
 </div>
 
 <script>
-// ⚠️ Troca pelas mesmas credenciais que você já usa no index.html / admin do Vendaí
-const SUPABASE_URL = "https://rgcclordmqjmwuzrrfbd.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_g5Tcimge2aiMX8JE3ml1dg_6zbR3uXi";
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
 const params = new URLSearchParams(window.location.search);
 const lojaId = params.get("id") || params.get("loja");
 
 function fecharOverlay(){
   document.getElementById("overlay").style.display = "none";
 }
+
+let produtosCache = [];
 
 async function carregar(){
   if (!lojaId){
@@ -146,12 +143,20 @@ async function carregar(){
     return;
   }
 
-  const { data: loja, error } = await sb.from("vendai_lojas").select("*").eq("id", lojaId).maybeSingle();
-  if (error || !loja){
+  let resultado;
+  try {
+    const resp = await fetch(`/api/loja-info?id=${encodeURIComponent(lojaId)}`);
+    resultado = await resp.json();
+    if (!resp.ok) throw new Error(resultado.error || "Erro ao carregar");
+  } catch (err) {
+    console.error(err);
     document.getElementById("carregando").style.display = "none";
     document.getElementById("semloja").style.display = "block";
     return;
   }
+
+  const { loja, produtos, planos } = resultado;
+  produtosCache = produtos || [];
 
   document.getElementById("carregando").style.display = "none";
   document.getElementById("painel").style.display = "block";
@@ -181,44 +186,39 @@ async function carregar(){
     }
   }
 
-  // overlay de primeiro acesso
+  // overlay de primeiro acesso (a função de servidor já marcou como vista)
   if (!loja.boas_vindas_vista_em){
     document.getElementById("overlayTexto").textContent =
       `Bem-vindo(a)! A loja "${loja.nome}" já está publicada no Vendaí, com um produto de exemplo já no ar pra você ver como funciona.`;
     document.getElementById("overlay").style.display = "flex";
-    await sb.from("vendai_lojas").update({ boas_vindas_vista_em: new Date().toISOString() }).eq("id", lojaId);
   }
 
-  carregarProdutos();
-  carregarPlanos(loja.teste_gratis_plano_slug);
+  renderizarProdutos();
+  renderizarPlanos(planos || [], loja.teste_gratis_plano_slug);
 }
 
-async function carregarProdutos(){
-  const { data: produtos } = await sb.from("vendai_produtos_loja")
-    .select("*").eq("loja_id", lojaId).neq("status", "removido").order("criado_em", { ascending: false });
-
+function renderizarProdutos(){
   const lista = document.getElementById("listaProdutos");
-  if (!produtos || produtos.length === 0){
+  if (!produtosCache || produtosCache.length === 0){
     lista.innerHTML = `<p style="color:#828B80;font-size:13.5px;">Nenhum produto publicado ainda.</p>`;
     return;
   }
-  lista.innerHTML = produtos.map((p, i) => `
+  lista.innerHTML = produtosCache.map((p, i) => `
     <div class="produto-card">
       ${p.fotos && p.fotos[0]
         ? `<img src="${p.fotos[0]}">`
         : `<div class="semfoto">sem foto</div>`}
       <div class="produto-info">
-        <p class="titulo">${p.titulo}${i === produtos.length - 1 ? '<span class="tagcortesia">cortesia</span>' : ''}</p>
+        <p class="titulo">${p.titulo}${i === produtosCache.length - 1 ? '<span class="tagcortesia">cortesia</span>' : ''}</p>
         <span class="preco">${p.preco ? "R$ " + Number(p.preco).toFixed(2).replace(".", ",") : ""}</span>
       </div>
     </div>
   `).join("");
 }
 
-async function carregarPlanos(planoAtualSlug){
-  const { data: planos } = await sb.from("vendai_planos").select("*").eq("ativo", true).order("preco_mensal");
+function renderizarPlanos(planos, planoAtualSlug){
   const lista = document.getElementById("listaPlanos");
-  if (!planos) return;
+  if (!planos || planos.length === 0) return;
   lista.innerHTML = planos.map(p => `
     <div class="plano ${p.slug === planoAtualSlug ? 'atual' : ''}">
       <div class="plano-top">

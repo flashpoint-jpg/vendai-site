@@ -94,7 +94,22 @@ export default async function handler(req, res) {
     });
     const lojaId = novaLoja[0].id;
 
-    // 4. produto de cortesia
+    // 4. assinatura de verdade do plano de teste (é essa tabela que o painel real consulta)
+    if (testeExpiraEm && planoTeste !== 'gratis') {
+      await sb('vendai_loja_assinaturas', {
+        method: 'POST',
+        body: JSON.stringify({
+          loja_id: lojaId,
+          plano_slug: planoTeste,
+          status: 'ativa',
+          inicio_em: new Date().toISOString(),
+          fim_em: testeExpiraEm,
+          origem: 'admin'
+        })
+      });
+    }
+
+    // 5. produto de cortesia
     if (produtoTitulo) {
       await sb('vendai_produtos_loja', {
         method: 'POST',

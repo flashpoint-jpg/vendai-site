@@ -68,11 +68,26 @@
   .links a{display:block;font-size:13.5px;color:var(--verde-700);margin-top:6px;word-break:break-all;}
   #erro{display:none;color:var(--erro);background:#FBEAE8;border:1px solid var(--erro);
     padding:10px 14px;border-radius:10px;font-size:13.5px;margin-top:14px;}
+
+  #telaSenha{max-width:340px;margin:80px auto 0;padding:0 20px;text-align:center;}
+  #telaSenha h2{font-size:18px;color:var(--verde-900);margin-bottom:6px;}
+  #telaSenha p{font-size:13.5px;color:#5B6259;margin-bottom:18px;}
+  #telaSenha input{margin-bottom:12px;text-align:center;font-size:18px;letter-spacing:2px;}
+  #erroSenha{display:none;color:var(--erro);font-size:13px;margin-top:10px;}
 </style>
 </head>
 <body>
 <div class="marca">VendA<span class="raio">í</span> <span style="font-weight:400;font-size:13px;opacity:.85;margin-left:4px;">· cadastro expresso</span></div>
-<div class="wrap">
+
+<div id="telaSenha">
+  <h2>Área restrita</h2>
+  <p>Digite a senha de administrador pra continuar.</p>
+  <input type="password" id="senhaInput" placeholder="Senha">
+  <button type="button" class="principal" id="btnEntrarSenha">Entrar</button>
+  <div id="erroSenha">Senha incorreta.</div>
+</div>
+
+<div class="wrap" id="conteudoPrincipal" style="display:none;">
   <header>
     <span class="tag">Kit de lançamento</span>
     <h1>Cadastro expresso de loja parceira</h1>
@@ -173,15 +188,28 @@
 </div>
 
 <script>
-// ⚠️ Troca pelas mesmas credenciais que você já usa no index.html / admin do Vendaí
-const SUPABASE_URL = "https://rgcclordmqjmwuzrrfbd.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_g5Tcimge2aiMX8JE3ml1dg_6zbR3uXi";
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-// ⚠️ Ajusta esses dois links pro caminho real do seu site
 const URL_BASE_LOJA = "https://vendai.entregaflash.app.br/vendai-boas-vindas.html?id=";
 
 function limparTelefone(v){ return v.replace(/\D/g, ""); }
+
+// --- tela de senha ---
+function mostrarConteudo(){
+  document.getElementById("telaSenha").style.display = "none";
+  document.getElementById("conteudoPrincipal").style.display = "block";
+}
+function getSenhaSalva(){ return sessionStorage.getItem("vendai_admin_key") || ""; }
+
+document.getElementById("btnEntrarSenha").addEventListener("click", () => {
+  const senha = document.getElementById("senhaInput").value;
+  sessionStorage.setItem("vendai_admin_key", senha);
+  mostrarConteudo();
+});
+document.getElementById("senhaInput").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") document.getElementById("btnEntrarSenha").click();
+});
+
+if (getSenhaSalva()) mostrarConteudo();
+
 
 document.getElementById("form").addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -209,7 +237,10 @@ document.getElementById("form").addEventListener("submit", async (e) => {
 
     const resp = await fetch("/api/cadastro-expresso", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "x-admin-key": getSenhaSalva()
+      },
       body: JSON.stringify({
         telefone, nomeLojista, nomeLoja, cidade, cnpj, descricaoLoja, logoUrl,
         planoTeste, diasTeste, produtoTitulo, produtoCategoria, produtoPreco,
@@ -217,16 +248,23 @@ document.getElementById("form").addEventListener("submit", async (e) => {
       })
     });
     const resultado = await resp.json();
+    if (resp.status === 401) {
+      sessionStorage.removeItem("vendai_admin_key");
+      document.getElementById("telaSenha").style.display = "block";
+      document.getElementById("conteudoPrincipal").style.display = "none";
+      document.getElementById("erroSenha").style.display = "block";
+      throw new Error("Sessão expirou, digite a senha de novo");
+    }
     if (!resp.ok) throw new Error(resultado.error || "Erro ao cadastrar");
 
-    const { lojaId, usuarioNovo, pinGerado, testeExpiraEm } = resultado;
+    const { lojaId, usuarioNovo, testeExpiraEm } = resultado;
 
     // monta mensagem pronta
     const linkLoja = URL_BASE_LOJA + lojaId;
     let msg = `Oi, ${nomeLojista}! Já deixei sua loja "${nomeLoja}" cadastrada no Vendaí 🎉\n\n`;
     msg += `Sua loja: ${linkLoja}\n\n`;
     if (usuarioNovo) {
-      msg += `Pra acessar e mexer nela, entra com seu WhatsApp e o PIN ${pinGerado} (dá pra trocar depois no seu perfil).\n\n`;
+      msg += `Pra acessar, entra com seu WhatsApp e escolhe um PIN de 4 a 6 números na hora — é só na primeira vez.\n\n`;
     } else {
       msg += `É só entrar com seu número de WhatsApp e o PIN de sempre pra mexer nela.\n\n`;
     }

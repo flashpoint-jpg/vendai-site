@@ -76,8 +76,33 @@ async function statusComissao(id,status){if(status==='paga'&&!confirm('Confirmar
 function renderAnuncios(){const box=document.getElementById('listaAnuncios');if(!anuncios.length){box.innerHTML='<div class="empty">Nenhum anúncio.</div>';return}box.innerHTML=anuncios.map(a=>`<div class="row"><div class="title">${esc(a.titulo)} · ${money(a.preco)}</div><div class="meta">${esc(a.cidade)} · ${esc(a.vendedor_nome||'')} · ${esc(a.vendedor_telefone||'')} · <span class="badge ${esc(a.status)}">${esc(a.status)}</span>${a.destaque?' · 🔥 destaque':''}</div><div class="actions"><button class="mini" onclick="destaque('${a.id}',${!a.destaque})">${a.destaque?'Remover destaque':'Destacar 7 dias'}</button>${a.status!=='ativo'?`<button class="mini" onclick="statusAnuncio('${a.id}','ativo')">Ativar</button>`:''}${a.status!=='vendido'?`<button class="mini warn" onclick="statusAnuncio('${a.id}','vendido')">Vendido</button>`:''}${a.status!=='removido'?`<button class="mini red" onclick="statusAnuncio('${a.id}','removido')">Remover</button>`:''}</div></div>`).join('')}
 async function destaque(id,v){const r=await sb.rpc('vendai_admin_destaque_anuncio',{p_token:adminToken,p_id:id,p_destaque:v});if(r.error)return alert('Erro ao atualizar destaque.');await carregarTudo()}
 async function statusAnuncio(id,status){const r=await sb.rpc('vendai_admin_status_anuncio',{p_token:adminToken,p_id:id,p_status:status});if(r.error)return alert('Erro ao atualizar anúncio.');await carregarTudo()}
-function renderUsuarios(){const box=document.getElementById('listaUsuarios');if(!usuarios.length){box.innerHTML='<div class="empty">Nenhum usuário.</div>';return}box.innerHTML=usuarios.map(u=>`<div class="row"><div class="title">👤 ${esc(u.nome)}</div><div class="meta">Telefone: ${esc(u.telefone)} · Cadastro: ${new Date(u.criado_em).toLocaleDateString('pt-BR')}</div><div class="actions"><button class="mini warn" onclick="redefinirPinUsuario('${u.id}','${esc(u.nome)}')">🔐 Redefinir PIN</button></div></div>`).join('')}
-async function redefinirPinUsuario(id,nome){const pin=prompt(`Novo PIN temporário para ${nome} (4 a 6 números):`);if(pin===null)return;const p=String(pin).replace(/\D/g,'');if(!/^\d{4,6}$/.test(p))return alert('Use de 4 a 6 números.');if(!confirm('Redefinir o PIN e encerrar as sessões antigas deste usuário?'))return;const r=await sb.rpc('vendai_admin_redefinir_pin',{p_token:adminToken,p_usuario_id:id,p_novo_pin:p});if(r.error)return alert('Não consegui redefinir o PIN.');alert('PIN redefinido. Oriente o usuário pelo atendimento de suporte.');await carregarTudo()}
+function renderUsuarios(){const box=document.getElementById('listaUsuarios');if(!usuarios.length){box.innerHTML='<div class="empty">Nenhum usuário.</div>';return}box.innerHTML=usuarios.map(u=>`<div class="row"><div class="title">👤 ${esc(u.nome)}</div><div class="meta">Telefone: ${esc(u.telefone)} · Cadastro: ${new Date(u.criado_em).toLocaleDateString('pt-BR')}</div><div class="actions"><button class="mini warn" onclick="enviarLinkPinWhatsApp('${esc(u.telefone)}','${esc(u.nome)}')">🔐 Enviar link pelo WhatsApp</button></div></div>`).join('')}
+function telefoneWhatsAppVendai(v){let d=String(v||'').replace(/\D/g,'');if(d.length===10||d.length===11)d='55'+d;return d;}
+async function enviarLinkPinWhatsApp(telefone,nome,suporteId=''){
+  const tel=String(telefone||'').replace(/\D/g,'');
+  if(!tel)return alert('Este cadastro não tem telefone válido.');
+  const r=await sb.rpc('vendai_admin_gerar_reset_pin_link',{p_token:adminToken,p_telefone:tel});
+  if(r.error){
+    const m=String(r.error.message||'');
+    if(m.includes('usuario_nao_encontrado'))return alert('Não encontrei uma conta com esse telefone. Confira o cadastro antes de enviar o link.');
+    if(m.includes('sessao_admin_invalida'))return alert('Sua sessão do painel expirou. Entre novamente.');
+    return alert('Não consegui gerar o link seguro. Verifique se a atualização de recuperação de PIN foi instalada no Supabase.');
+  }
+  const d=Array.isArray(r.data)?r.data[0]:r.data;
+  if(!d?.reset_token)return alert('O servidor não retornou o link de recuperação.');
+  const link=`${location.origin}/?redefinir-pin=${encodeURIComponent(d.reset_token)}`;
+  const primeiro=String(d.nome||nome||'').trim().split(/\s+/)[0]||'Olá';
+  const msg=`Olá, ${primeiro}! 🔐\n\nRecebemos seu pedido para redefinir o PIN do Vendaí.\n\nAbra este link seguro e escolha seu novo PIN:\n${link}\n\n⏱️ O link vale por 30 minutos e só pode ser usado uma vez.\n\nSe você não pediu essa alteração, ignore esta mensagem.`;
+  try{await navigator.clipboard.writeText(link);}catch(e){}
+  if(suporteId){
+    try{await sb.rpc('vendai_admin_suporte_responder',{p_token:adminToken,p_suporte_id:suporteId,p_mensagem:'🔐 Link seguro de redefinição de PIN gerado e encaminhado pelo WhatsApp. Ele vale por 30 minutos e é de uso único.'});}catch(e){}
+    try{await sb.rpc('vendai_admin_status_suporte',{p_token:adminToken,p_id:suporteId,p_status:'em_atendimento'});}catch(e){}
+  }
+  const numero=telefoneWhatsAppVendai(d.telefone||tel);
+  const url='https://wa.me/'+numero+'?text='+encodeURIComponent(msg);
+  window.open(url,'_blank');
+  await carregarTudo();
+}
 let suporteAdminAtualId=null;
 let suporteAdminAtual=null;
 function suporteAdminData(v){try{return new Date(v).toLocaleString('pt-BR');}catch(e){return ''}}
@@ -89,7 +114,7 @@ function renderSuporte(){
   if(!ds.length){box.innerHTML='<div class="empty">Nenhum atendimento encontrado.</div>';return}
   box.innerHTML=ds.map(s=>{
     const rec=String(s.ultima_mensagem||'').includes('RECUPERACAO_PIN');
-    return `<div class="row supportAdminRow ${s.nao_lido?'naoLido':''}"><div class="title">${rec?'🔐 Recuperação de PIN':'💬 Atendimento'} · ${esc(s.usuario_nome||'Sem nome')} <span class="badge ${esc(s.status)}">${esc(suporteAdminStatus(s.status))}</span>${s.nao_lido?'<span class="supportUnread">NOVA</span>':''}</div><div class="meta">Telefone: ${esc(s.usuario_telefone||'não informado')} · Atualizado: ${suporteAdminData(s.atualizado_em||s.criado_em)}<br>${esc(s.ultima_mensagem||'')}</div><div class="actions"><button class="mini" onclick="abrirChatSuporteAdmin('${s.id}')">💬 Abrir chat</button>${s.usuario_id?`<button class="mini warn" onclick="redefinirPinUsuario('${s.usuario_id}','${esc(s.usuario_nome||'usuário')}')">Redefinir PIN</button>`:''}${s.status!=='resolvido'?`<button class="mini" onclick="statusSuporte('${s.id}','resolvido')">✓ Resolvido</button>`:`<button class="mini" onclick="statusSuporte('${s.id}','aberto')">Reabrir</button>`}</div></div>`
+    return `<div class="row supportAdminRow ${s.nao_lido?'naoLido':''}"><div class="title">${rec?'🔐 Recuperação de PIN':'💬 Atendimento'} · ${esc(s.usuario_nome||'Sem nome')} <span class="badge ${esc(s.status)}">${esc(suporteAdminStatus(s.status))}</span>${s.nao_lido?'<span class="supportUnread">NOVA</span>':''}</div><div class="meta">Telefone: ${esc(s.usuario_telefone||'não informado')} · Atualizado: ${suporteAdminData(s.atualizado_em||s.criado_em)}<br>${esc(s.ultima_mensagem||'')}</div><div class="actions"><button class="mini" onclick="abrirChatSuporteAdmin('${s.id}')">💬 Abrir chat</button>${rec&&s.usuario_telefone?`<button class="mini warn" onclick="enviarLinkPinWhatsApp('${esc(s.usuario_telefone)}','${esc(s.usuario_nome||'usuário')}','${s.id}')">🔐 Enviar link WhatsApp</button>`:''}${s.status!=='resolvido'?`<button class="mini" onclick="statusSuporte('${s.id}','resolvido')">✓ Resolvido</button>`:`<button class="mini" onclick="statusSuporte('${s.id}','aberto')">Reabrir</button>`}</div></div>`
   }).join('')
 }
 async function abrirChatSuporteAdmin(id){

@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
 <meta name="theme-color" content="#0F6B3D">
 <meta name="description" content="Vendaí — marketplace local para vender, comprar, negociar e trocar produtos com pessoas da sua região.">
 <link rel="canonical" href="https://vendai.entregaflash.app.br/">
@@ -1869,7 +1869,48 @@
   .lojaRowActions .btnDanger{appearance:none;-webkit-appearance:none;border:1px solid #F3C8C5!important;border-radius:10px!important;background:#FDECEC!important;color:#B3261E!important;padding:8px 11px!important;font:850 11px 'Inter',sans-serif!important;cursor:pointer!important}
 
 </style>
-</head>
+<style id="vendai-responsive-professional-1409">
+:root{--app-width:1180px;--page-gutter:clamp(12px,3vw,40px);--safe-bottom:env(safe-area-inset-bottom,0px)}
+html{width:100%;min-height:100%;overflow-x:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth}
+body{width:100%;min-width:0;min-height:100dvh;overflow-x:hidden;background:linear-gradient(145deg,#e8f0eb,#f4f7f5 48%,#e5eee8);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+button,input,select,textarea{font:inherit;max-width:100%}button{touch-action:manipulation}img,svg,video,canvas{max-width:100%}
+#app{width:min(100%,var(--app-width));min-width:0;min-height:100dvh;overflow-x:hidden;isolation:isolate}
+header,main,.heroTop,.categorySection,.grid,.card,.sheet,.overlay>*{min-width:0}main,.grid{width:100%}.grid{align-items:stretch}
+.card{border:1px solid rgba(15,107,61,.07);height:100%}.cardTitle{overflow-wrap:anywhere}
+.thumb img,.detailThumb img{width:100%;height:100%;object-fit:cover;display:block}
+input,select,textarea{min-height:44px;border-radius:12px}textarea{min-height:96px;resize:vertical}
+:focus-visible{outline:3px solid rgba(30,163,90,.3);outline-offset:2px}
+table{max-width:100%;border-collapse:collapse}.tableWrap,.table-scroll,[class*="tableWrap"]{width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.overlay{width:min(100%,var(--app-width));height:100dvh;min-height:100dvh;overflow:hidden}
+.sheet{max-width:100%;max-height:min(88dvh,880px);overscroll-behavior:contain;padding-bottom:calc(28px + var(--safe-bottom))}
+#lojaOverlay .sheet{height:100dvh;min-height:100dvh;max-height:100dvh;padding-bottom:calc(28px + var(--safe-bottom))}
+nav{width:min(100%,var(--app-width));padding-bottom:var(--safe-bottom)}
+.fab{width:min(100%,var(--app-width));bottom:calc(82px + var(--safe-bottom))}
+.toast{max-width:min(calc(100vw - 24px),420px)}
+@media(max-width:759px){
+:root{--app-width:100%}body{display:block;background:var(--bg)}#app{max-width:none}
+header{padding-top:calc(12px + env(safe-area-inset-top,0px));padding-left:14px;padding-right:14px}
+.topRow{gap:10px}.logoGroup{min-width:0}.location{max-width:46%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.searchBar{width:100%;padding:10px 14px}.searchBar input{width:0;min-width:0;font-size:16px}
+.heroTop,.categorySection{margin-left:12px;margin-right:12px}.heroTop{border-radius:20px}
+main{padding-left:12px;padding-right:12px;padding-bottom:calc(104px + var(--safe-bottom))}
+.grid{gap:11px}.cardBody{padding:10px}nav button{min-width:0;min-height:58px}
+nav button span:last-child{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 3px}
+.btnRow{flex-wrap:wrap}.btnPrimary,.btnGhost{min-width:min(140px,100%)}
+}
+@media(max-width:360px){.heroInner{padding:14px;gap:8px}.heroTitle{font-size:20px}.heroText{font-size:11px}.heroPrimary,.heroSecondary{padding:0 10px;font-size:10.5px}.chipRow{grid-template-columns:repeat(4,minmax(0,1fr))}.chipIcon{width:44px;height:44px}.grid{gap:9px}.cardTitle{font-size:12.5px}}
+@media(min-width:760px){
+body{padding:22px}#app{border-radius:26px;box-shadow:0 24px 70px rgba(19,55,35,.14);overflow:hidden}
+header{padding:18px var(--page-gutter)}main{padding-left:var(--page-gutter);padding-right:var(--page-gutter);padding-bottom:112px}
+.heroTop,.categorySection{margin-left:var(--page-gutter);margin-right:var(--page-gutter)}
+.grid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))!important;gap:18px}.thumb{height:150px}
+nav{bottom:22px;border-radius:0 0 26px 26px}.fab{bottom:calc(104px + var(--safe-bottom));padding:0 var(--page-gutter)}
+.overlay{top:22px;bottom:22px;height:auto;min-height:0;border-radius:26px}.sheet{border-radius:24px 24px 0 0}
+#lojaOverlay .sheet{height:100%;min-height:0;max-height:100%;border-radius:26px}
+}
+@media(min-width:1280px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}.heroInner{grid-template-columns:1.15fr .85fr}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style></head>
 <body>
 <div id="connBanner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:99999;background:#B3261E;color:#fff;align-items:center;justify-content:center;gap:10px;padding:10px 14px;font:800 12px 'Inter',sans-serif;text-align:center;">
   <span>Sem conexão com a internet no momento.</span>
@@ -2465,6 +2506,7 @@ const ICON_SVG = {
   sofa:'<path d="M5 12V9a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3"/><path d="M3.5 12h17a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v2h-2v-2H6.5v2h-2v-2h-1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1Z"/>',
   phone:'<rect x="7" y="3.2" width="10" height="17.6" rx="2.2"/><line x1="10.4" y1="17.6" x2="13.6" y2="17.6"/>',
   moto:'<circle cx="6" cy="17" r="2.6"/><circle cx="18" cy="17" r="2.6"/><path d="M8.4 17h5.2l2-5.4h3.4"/><path d="M6 17 9 10h3.2l2 3.6"/><path d="M9 10h3.6"/>',
+  car:'<path d="M5 16.5h14a2 2 0 0 0 2-2v-2.2a2 2 0 0 0-1.5-1.94l-1.7-.43-1.45-3.12A3 3 0 0 0 13.63 5H9.42a3 3 0 0 0-2.68 1.65L5.08 9.93l-1.17.39A2.8 2.8 0 0 0 2 12.98v1.52a2 2 0 0 0 2 2h1Z"/><path d="M6.5 9.75h11"/><circle cx="6.5" cy="16.5" r="1.75" fill="currentColor"/><circle cx="17.5" cy="16.5" r="1.75" fill="currentColor"/>',
   shirt:'<path d="M8.5 3.5 12 5.3l3.5-1.8 3.3 3.3-2.3 2.3v9.9a1 1 0 0 1-1 1H9.5a1 1 0 0 1-1-1V9.1L6.2 6.8Z"/>',
   house:'<path d="M3.3 11.6 12 4.2l8.7 7.4"/><path d="M5.6 10.3V19a1 1 0 0 0 1 1H17.4a1 1 0 0 0 1-1v-8.7"/><rect x="10.2" y="13.4" width="3.6" height="6.6"/>',
   bottle:'<path d="M10 3.5h4"/><path d="M11 3.5v2.3"/><path d="M13 3.5v2.3"/><rect x="9" y="5.8" width="6" height="3" rx="1"/><path d="M9.6 8.8h4.8l.6 9.4a2 2 0 0 1-2 2.1h-2a2 2 0 0 1-2-2.1Z"/><line x1="9.4" y1="12.5" x2="14.6" y2="12.5"/><line x1="9.55" y1="15.5" x2="14.45" y2="15.5"/>',
@@ -2483,7 +2525,7 @@ const CATEGORIES = [
   {id:'todos', label:'Todos', icon:chipSvg('sparkle'), bg:'#1EA35A'},
   {id:'moveis', label:'Móveis', icon:chipSvg('sofa'), bg:'#2FA36B'},
   {id:'eletronicos', label:'Eletrônicos', icon:chipSvg('phone'), bg:'#3B82F6'},
-  {id:'veiculos', label:'Veículos', icon:chipSvg('moto'), bg:'#F0575D'},
+  {id:'veiculos', label:'Veículos', icon:chipSvg('car'), bg:'#E95454'},
   {id:'roupas', label:'Moda', icon:chipSvg('shirt'), bg:'#8B5FBF'},
   {id:'casa', label:'Casa', icon:chipSvg('house'), bg:'#F5A623'},
   {id:'bebe', label:'Bebê', icon:chipSvg('bottle'), bg:'#F072A0'},
@@ -2491,7 +2533,7 @@ const CATEGORIES = [
   {id:'outros', label:'Outros', icon:chipSvg('grid'), bg:'#6B7280'},
 ];
 
-const CATEGORY_ICON = {moveis:catBadgeSvg('sofa'), eletronicos:catBadgeSvg('phone'), veiculos:catBadgeSvg('moto'), roupas:catBadgeSvg('shirt'), casa:catBadgeSvg('house'), bebe:catBadgeSvg('bottle'), servicos:catBadgeSvg('wrench'), outros:catBadgeSvg('grid')};
+const CATEGORY_ICON = {moveis:catBadgeSvg('sofa'), eletronicos:catBadgeSvg('phone'), veiculos:catBadgeSvg('car'), roupas:catBadgeSvg('shirt'), casa:catBadgeSvg('house'), bebe:catBadgeSvg('bottle'), servicos:catBadgeSvg('wrench'), outros:catBadgeSvg('grid')};
 const CATEGORY_COLOR = {moveis:'#E7D9B8', eletronicos:'#CFE0D8', veiculos:'#EAC9B8', roupas:'#E3D2E0', casa:'#D8E2C4', bebe:'#F2DCC9', servicos:'#CFE7E5', outros:'#DCD5C8'};
 
 // Tipos de serviço (subcategoria) — usados só quando a categoria é "servicos"

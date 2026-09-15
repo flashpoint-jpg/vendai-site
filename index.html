@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
 <meta name="theme-color" content="#0F6B3D">
-<meta name="description" content="Vendaí — marketplace local para vender, comprar, negociar e trocar produtos com pessoas da sua região.">
+<meta name="description" content="Vendaí — marketplace local para comprar, vender e divulgar sua loja. Cadastre sua loja, publique produtos e alcance clientes da sua região.">
 <link rel="canonical" href="https://vendai.entregaflash.app.br/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Vendaí">
@@ -2065,7 +2065,7 @@ nav{bottom:22px;border-radius:0 0 26px 26px}.fab{bottom:calc(104px + var(--safe-
 
     <div class="merchantBottomCta">
       <div><strong>Pronto para vender mais?</strong><span>Cadastre sua loja e comece a aparecer para clientes da sua região.</span></div>
-      <div class="merchantBottomBtns"><button type="button" onclick="abrirCadastroLoja()">Cadastrar loja</button><button class="outline" type="button" onclick="abrirPlanosVenda()">Planos para lojistas</button><button class="outline" type="button" onclick="openSupportSheet()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4 5.8h16a1 1 0 0 1 1 1V15a1 1 0 0 1-1 1h-9.6L6 19.6V16H4a1 1 0 0 1-1-1V6.8a1 1 0 0 1 1-1Z"/></svg> Falar com o suporte</button></div>
+      <div class="merchantBottomBtns"><button type="button" onclick="abrirCadastroLoja()">Cadastrar loja</button><button class="outline" type="button" onclick="abrirPlanosVenda()">Planos para lojistas</button><button class="outline" type="button" onclick="convidarLojistaVendaI()">📲 Convidar um lojista</button><button class="outline" type="button" onclick="openSupportSheet()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4 5.8h16a1 1 0 0 1 1 1V15a1 1 0 0 1-1 1h-9.6L6 19.6V16H4a1 1 0 0 1-1-1V6.8a1 1 0 0 1 1-1Z"/></svg> Falar com o suporte</button></div>
     </div>
   </section>
 
@@ -2945,7 +2945,7 @@ async function renderProfile(){
     const foto=(ad.fotos&&ad.fotos[0]) ? `<img class="profileAdPhoto" src="${escHtml(ad.fotos[0])}" alt="">` : `<div style="width:42px;height:42px;border-radius:10px;background:${CATEGORY_COLOR[ad.categoria]};display:flex;align-items:center;justify-content:center;font-size:18px;flex:0 0 auto;">${CATEGORY_ICON[ad.categoria]}</div>`;
     row.innerHTML=`${foto}
       <div style="flex:1;min-width:0;"><div class="sellerName" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escHtml(ad.titulo)}</div><div class="sellerLoc">${formatPrice(ad.preco)} · ${ad.status==='vendido'?'Vendido':(ad.destaque?'🔥 Destacado':'Ativo')}</div></div>
-      <div style="display:flex;flex-direction:column;gap:6px;align-items:stretch;"><button class="adMiniBtn edit" onclick="editarAnuncio('${ad.id}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4.2 19.8 4.8 16.4 15.6 5.6a1.7 1.7 0 0 1 2.4 0l1.4 1.4a1.7 1.7 0 0 1 0 2.4L8.6 20.2Z"/><line x1="13.7" y1="7.5" x2="17.5" y2="11.3"/></svg> Editar</button>${ad.status==='vendido'?'':`<button class="adMiniBtn store" onclick="transformarAnuncioEmProdutoLoja('${ad.id}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M3.5 9 4.6 4h14.8L20.5 9"/><path d="M4.5 9v9.3a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V9"/><path d="M9.6 19.3v-5.2h4.8v5.2"/><line x1="3.5" y1="9" x2="20.5" y2="9"/></svg> Levar p/ loja</button><button class="adMiniBtn sold" onclick="marcarVendido('${ad.id}')">Vendido</button>`}<button class="adMiniBtn delete" onclick="excluirAnuncio('${ad.id}')">Excluir</button></div>`;
+      <div style="display:flex;flex-direction:column;gap:6px;align-items:stretch;"><button class="adMiniBtn edit" onclick="editarAnuncio('${ad.id}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4.2 19.8 4.8 16.4 15.6 5.6a1.7 1.7 0 0 1 2.4 0l1.4 1.4a1.7 1.7 0 0 1 0 2.4L8.6 20.2Z"/><line x1="13.7" y1="7.5" x2="17.5" y2="11.3"/></svg> Editar</button>${ad.status==='vendido'?'':`<button class="adMiniBtn store" onclick="transformarAnuncioEmProdutoLoja('${ad.id}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M3.5 9 4.6 4h14.8L20.5 9"/><path d="M4.5 9v9.3a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V9"/><path d="M9.6 19.3v-5.2h4.8v5.2"/><line x1="3.5" y1="9" x2="20.5" y2="9"/></svg> Levar p/ loja</button><button class="adMiniBtn sold" onclick="marcarVendido('${ad.id}')">Vendido</button>`}<button class="adMiniBtn store" onclick="compartilharAnuncio('${ad.id}')">📲 Compartilhar</button><button class="adMiniBtn delete" onclick="excluirAnuncio('${ad.id}')">Excluir</button></div>`;
     list.appendChild(row);
   });
 }
@@ -3014,6 +3014,7 @@ async function carregarAnuncios(){
   }
   ads = data || [];
   renderGrid();
+  processarLinkDiretoAnuncio();
 }
 
 function renderChips(){
@@ -3147,6 +3148,109 @@ function toggleLike(adId, ev){
   updateLikeUi(id);
 }
 
+function linkDiretoVendai(tipo,id){
+  const u=new URL(VENDAI_URL_OFICIAL+'/');
+  u.searchParams.set(tipo,String(id));
+  return u.toString();
+}
+async function compartilharConteudoVendai(titulo,texto,url){
+  const mensagem=(texto+'\n'+url).trim();
+  if(navigator.share){
+    try{
+      await navigator.share({title:titulo,text:texto,url:url});
+      showToast('Compartilhamento aberto ✓');
+      return true;
+    }catch(e){ if(String(e?.name||'')==='AbortError') return false; }
+  }
+  try{
+    const w=window.open('https://wa.me/?text='+encodeURIComponent(mensagem),'_blank');
+    if(w){ showToast('Abrindo WhatsApp ✓'); return true; }
+  }catch(e){}
+  try{
+    await navigator.clipboard.writeText(mensagem);
+    showToast('Link copiado ✓');
+    return true;
+  }catch(e){}
+  showToast('Não consegui compartilhar agora');
+  return false;
+}
+function compartilharAnuncio(id){
+  const ad=ads.find(a=>String(a.id)===String(id));
+  if(!ad)return showToast('Não encontrei esse anúncio');
+  return compartilharConteudoVendai(
+    ad.titulo+' • Vendaí',
+    `Olha esse anúncio no Vendaí: ${ad.titulo} por ${formatPrice(ad.preco)} em ${ad.cidade}.`,
+    linkDiretoVendai('anuncio',ad.id)
+  );
+}
+function compartilharProdutoLoja(id){
+  const p=produtosLojas.find(x=>String(x.id)===String(id))||lojaProdutosMeus.find(x=>String(x.id)===String(id));
+  if(!p)return showToast('Não encontrei esse produto');
+  const nomeLoja=p.loja_nome||lojaAtual?.nome||'uma loja';
+  const cidade=p.loja_cidade||lojaAtual?.cidade||'sua região';
+  return compartilharConteudoVendai(
+    p.titulo+' • '+nomeLoja,
+    `Olha esse produto no Vendaí: ${p.titulo} por ${formatPrice(p.preco)} na ${nomeLoja}, em ${cidade}.`,
+    linkDiretoVendai('produto',p.id)
+  );
+}
+function compartilharLojaPublica(id,nome){
+  const l=lojasPublicas.find(x=>String(x.id)===String(id));
+  const lojaNome=nome||l?.nome||lojaAtual?.nome||'Minha loja';
+  const cidade=l?.cidade||lojaAtual?.cidade||'sua região';
+  return compartilharConteudoVendai(
+    lojaNome+' • Vendaí',
+    `Conheça a ${lojaNome} no Vendaí e veja os produtos disponíveis em ${cidade}.`,
+    linkDiretoVendai('loja',id)
+  );
+}
+function compartilharMinhaLoja(){
+  if(!lojaAtual?.id)return showToast('Abra sua loja primeiro');
+  return compartilharLojaPublica(lojaAtual.id,lojaAtual.nome);
+}
+function convidarLojistaVendaI(){
+  const url=VENDAI_URL_OFICIAL+'/#vendaExplica';
+  return compartilharConteudoVendai(
+    'Vendaí para lojistas',
+    'Conheça o Vendaí: cadastre sua loja, publique seus produtos e apareça para clientes da sua região. Você pode começar no plano grátis.',
+    url
+  );
+}
+function processarLinkDiretoAnuncio(){
+  if(window._vendaiLinkAnuncioProcessado)return;
+  try{
+    const id=new URLSearchParams(location.search).get('anuncio');
+    if(!id)return;
+    const ad=ads.find(a=>String(a.id)===String(id));
+    if(!ad)return;
+    window._vendaiLinkAnuncioProcessado=true;
+    setTimeout(()=>openDetail(ad.id),120);
+  }catch(e){}
+}
+function processarLinkDiretoMarketplace(){
+  if(window._vendaiLinkMarketplaceProcessado)return;
+  try{
+    const q=new URLSearchParams(location.search);
+    const produtoId=q.get('produto');
+    const lojaId=q.get('loja');
+    if(produtoId){
+      const p=produtosLojas.find(x=>String(x.id)===String(produtoId));
+      if(p){
+        window._vendaiLinkMarketplaceProcessado=true;
+        setTimeout(()=>abrirProdutoLoja(p.id),140);
+        return;
+      }
+    }
+    if(lojaId){
+      const l=lojasPublicas.find(x=>String(x.id)===String(lojaId));
+      if(l){
+        window._vendaiLinkMarketplaceProcessado=true;
+        setTimeout(()=>filtrarLojaPublica(l.id,l.nome),140);
+      }
+    }
+  }catch(e){}
+}
+
 function partnerShareLink(anchorId){
   return `${VENDAI_URL_OFICIAL}/#${anchorId || 'parceirosHome'}`;
 }
@@ -3262,6 +3366,7 @@ function openDetail(id){
       </div>
     </div>
     <div class="btnRow">
+      <div class="btnGhost" onclick="compartilharAnuncio('${ad.id}')">📲 Compartilhar</div>
       <div class="btnPrimary" onclick="iniciarChatFromDetail()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4 5.8h16a1 1 0 0 1 1 1V15a1 1 0 0 1-1 1h-9.6L6 19.6V16H4a1 1 0 0 1-1-1V6.8a1 1 0 0 1 1-1Z"/></svg> Perguntar ao vendedor</div>
       ${aceitaTroca(ad) ? '<div class="btnGhost rolinhoChatBtn" onclick="iniciarRolinhoFromDetail()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4 8h12.5"/><path d="M13.5 4.8 16.8 8l-3.3 3.2"/><path d="M20 16H7.5"/><path d="M10.5 19.2 7.2 16l3.3-3.2"/></svg> Chama pro Rolinho</div>' : '<div class="btnGhost" onclick="denunciarAnuncioAtual()">🚩 Denunciar</div>'}
     </div>
@@ -3641,7 +3746,9 @@ async function publishAd(plano){
       const novoId=await obterIdUltimoAnuncioPublicado();
       if(novoId) destacarAnuncio(novoId);
     }else{
-      showToast('Anúncio publicado grátis ✓');
+      const novoId=await obterIdUltimoAnuncioPublicado();
+      showToast('Anúncio publicado grátis ✓ Agora compartilhe para trazer compradores.');
+      if(novoId) setTimeout(()=>openDetail(novoId),180);
     }
   }catch(error){
     console.error(error);
@@ -4184,6 +4291,7 @@ async function carregarMarketplaceLojas(){
     const m=mon.data?.[0]||{};
     precosMonetizacao={produto24:Number(m.preco_produto_24h??4.90),produto3d:Number(m.preco_produto_3d??9.90),produto7d:Number(m.preco_produto_7d??19.90),loja7d:Number(m.preco_loja_7d??29.90)};
     renderMarketplaceLojas();
+    processarLinkDiretoMarketplace();
   }catch(e){console.warn('Lojas/planos indisponíveis',e);}
 }
 function renderMarketplaceLojas(){
@@ -4296,7 +4404,7 @@ async function renderPainelLoja(){
   <div class="feeBox"><strong>Financeiro</strong><br>Vendas concluídas: <strong>${formatPrice(f.vendas_valor||0)}</strong><br>Comissão Vendaí: <strong>${taxaVendai.toFixed(0)}%</strong><br>Comissão recebida/registrada: <strong>${formatPrice(f.comissao_paga||0)}</strong><br>Líquido-base dos produtos: <strong>${formatPrice(f.liquido_total||0)}</strong><br><span style="font-size:10px">A comissão continua em todos os planos e também na retirada na loja. O valor final pode variar conforme tarifas do Mercado Pago.</span></div>
   <div class="feeBox"><strong>Entrega</strong><br>${lojaAtual.entrega_flash_ativa?'⚡ Entrega Flash ativa':'Entrega Flash desativada'} · ${lojaAtual.retirada_loja_ativa?'🏪 retirada ativa':'retirada desativada'} · ${lojaAtual.entrega_propria_ativa?'🚚 entrega própria ativa':'entrega própria desativada'}</div>
   <div class="feeBox"><strong>Mercado Pago</strong><br>${mp.conectado?`<span style="color:var(--green-dark)">✓ Conectado para pagamento online e split.</span><br><button class="vendaiPanelBtn danger" style="width:100%;margin-top:10px" onclick="desconectarMercadoPago()">Desconectar Mercado Pago</button>`:`<span style="color:#8B6500">Conecte para receber pedidos pagos online.</span><br><button class="publishBtn" style="margin-top:8px" onclick="conectarMercadoPago()">Conectar Mercado Pago</button>`}</div>
-  <div class="lojaToolbar"><button onclick="abrirNovoProdutoLoja()">＋ Novo produto</button><button onclick="renderPedidosLoja()">📦 Pedidos (${pedidos.filter(p=>['novo','aceito'].includes(p.status)).length})</button><button onclick="renderProdutosMinhaLoja()">🛍️ Produtos</button><button onclick="renderPlanosLoja()">⭐ Plano e destaques</button><button onclick="renderEditarLoja()">✏️ Dados/entrega</button><button onclick="renderComoFuncionaLoja()">❓ Como funciona</button><button onclick="renderComprasUsuario()">🧾 Minhas compras</button><button class="vendaiDeleteBtn" style="background:#FBE9E9;color:var(--danger);border:1px solid #F3C8C5" onclick="excluirMinhaLoja()">🗑️ Excluir loja</button></div><div id="lojaPainelLista"></div>`;
+  <div class="lojaToolbar"><button onclick="abrirNovoProdutoLoja()">＋ Novo produto</button><button onclick="compartilharMinhaLoja()">📲 Compartilhar loja</button><button onclick="renderPedidosLoja()">📦 Pedidos (${pedidos.filter(p=>['novo','aceito'].includes(p.status)).length})</button><button onclick="renderProdutosMinhaLoja()">🛍️ Produtos</button><button onclick="renderPlanosLoja()">⭐ Plano e destaques</button><button onclick="renderEditarLoja()">✏️ Dados/entrega</button><button onclick="renderComoFuncionaLoja()">❓ Como funciona</button><button onclick="renderComprasUsuario()">🧾 Minhas compras</button><button class="vendaiDeleteBtn" style="background:#FBE9E9;color:var(--danger);border:1px solid #F3C8C5" onclick="excluirMinhaLoja()">🗑️ Excluir loja</button></div><div id="lojaPainelLista"></div>`;
   window._pedidosLoja=pedidos;renderPedidosLoja();
 }
 function renderComoFuncionaLoja(){
@@ -4457,7 +4565,7 @@ function renderProdutosMinhaLoja(){
   lojaProdutosMeus.forEach(p=>{
     const el=document.createElement('div');el.className='lojaRow';
     const destaque=p.destaque&&p.destaque_expira_em?`<div class="productHighlightStatus">🔥 Destacado até ${new Date(p.destaque_expira_em).toLocaleDateString('pt-BR')}</div>`:'';
-    el.innerHTML=`<div class="lojaRowTitle">${escHtml(p.titulo)}</div><div class="lojaRowMeta">${formatPrice(p.preco)} · estoque ${p.estoque} · ${p.status}<br>Entrega Flash: ${nomeVeiculo(p.veiculo_entrega)}${destaque}</div><div class="lojaRowActions"><button class="btnOk" onclick="editarProdutoLoja('${p.id}')">Editar</button>${p.status==='ativo'?`<button class="btnWarn" onclick="statusProdutoLoja('${p.id}','pausado')">Pausar</button>`:`<button class="btnOk" onclick="statusProdutoLoja('${p.id}','ativo')">Ativar</button>`}${p.status==='ativo'&&rest>0?`<button class="btnOk" onclick="usarDestaquePlano('${p.id}')">⭐ Usar destaque do plano</button>`:''}${p.status==='ativo'?`<button class="btnWarn" onclick="abrirDestaqueProdutoLoja('${p.id}')">🔥 Comprar destaque</button>`:''}<button class="btnDanger" onclick="removerProdutoLoja('${p.id}')">🗑️ Remover</button></div>`;box.appendChild(el);
+    el.innerHTML=`<div class="lojaRowTitle">${escHtml(p.titulo)}</div><div class="lojaRowMeta">${formatPrice(p.preco)} · estoque ${p.estoque} · ${p.status}<br>Entrega Flash: ${nomeVeiculo(p.veiculo_entrega)}${destaque}</div><div class="lojaRowActions"><button class="btnOk" onclick="editarProdutoLoja('${p.id}')">Editar</button>${p.status==='ativo'?`<button class="btnWarn" onclick="statusProdutoLoja('${p.id}','pausado')">Pausar</button>`:`<button class="btnOk" onclick="statusProdutoLoja('${p.id}','ativo')">Ativar</button>`}${p.status==='ativo'&&rest>0?`<button class="btnOk" onclick="usarDestaquePlano('${p.id}')">⭐ Usar destaque do plano</button>`:''}${p.status==='ativo'?`<button class="btnWarn" onclick="abrirDestaqueProdutoLoja('${p.id}')">🔥 Comprar destaque</button>`:''}<button class="btnOk" onclick="compartilharProdutoLoja('${p.id}')">📲 Compartilhar</button><button class="btnDanger" onclick="removerProdutoLoja('${p.id}')">🗑️ Remover</button></div>`;box.appendChild(el);
   });
 }
 function renderFotosProdutoLojaPreview(){
@@ -4667,7 +4775,7 @@ function abrirProdutoLoja(id){
   if(p.entrega_flash_ativa)opts.push('<option value="entrega_flash">⚡ Entrega Flash</option>');
   if(p.retirada_loja_ativa)opts.push('<option value="retirada_loja">🏪 Retirar na loja</option>');
   if(p.entrega_propria_ativa)opts.push('<option value="entrega_propria">🚚 Entrega própria da loja</option>');
-  c.innerHTML=`${foto?`<img src="${escHtml(foto)}" style="width:100%;max-height:280px;object-fit:cover;border-radius:15px;margin-bottom:12px">`:''}<div class="merchantKicker" style="color:var(--green-dark)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M3.5 9 4.6 4h14.8L20.5 9"/><path d="M4.5 9v9.3a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V9"/><path d="M9.6 19.3v-5.2h4.8v5.2"/><line x1="3.5" y1="9" x2="20.5" y2="9"/></svg> ${escHtml(p.loja_nome)}</div><div class="detailTitle">${escHtml(p.titulo)}</div><div class="detailPrice">${formatPrice(p.preco)}</div><div class="detailMeta">${escHtml(p.loja_cidade)} · estoque ${p.estoque}</div><div class="detailDesc">${escHtml(p.descricao||'Sem descrição.')}</div><div class="feeBox">A comissão de ${taxaVendai.toFixed(0)}% é cobrada do lojista. Se escolher Entrega Flash, o frete aparece antes de pagar e é cobrado junto com o produto.</div><label>Quantidade</label><input id="compraQtdLoja" type="number" min="1" max="${p.estoque}" value="1" onchange="ultimaCotacaoFlash=null"><label>Como quer receber?</label><select id="compraEntregaTipo" onchange="atualizarCamposEntregaCompra()">${opts.join('')}</select><div id="compraFlashCampos" style="display:none"><label>Endereço de entrega</label><input id="compraEndereco" type="text" autocomplete="off" placeholder="Rua, número, bairro, cidade ou CEP"><div class="tinyHint">Conforme você vai preenchendo, o sistema já tenta localizar o endereço automaticamente.</div><div id="compraEnderecoSugestoes" class="addressSuggestBox" style="display:none"></div><div id="compraEnderecoStatus" class="locationStatus"></div><label class="ruralToggle"><input id="compraZonaRural" type="checkbox"><span>🚜 Entrega em zona rural / sítio / fazenda</span></label><div id="compraZonaRuralBox" class="addressAssist" style="display:none"><strong>Dica para zona rural:</strong><br>Digite estrada, km, bairro rural, nome do sítio/fazenda e cidade para melhorar a localização.</div><label>Complemento (opcional)</label><input id="compraComplemento" type="text" placeholder="Apto, bloco, galpão..."><label>Referência (opcional)</label><input id="compraReferencia" type="text" placeholder="Portaria, comércio próximo..."><button class="flashCalcBtn" onclick="calcularFreteCompra()"><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M13 2 4.4 14h5.7l-1 8L20.6 10h-5.9Z"/></svg></span><span><div>Calcular Entrega Flash</div><small>Frete, rota e disponibilidade</small></span></button></div><div id="compraCotacao" class="feeBox" style="margin-top:10px"></div><label>Observação para a loja (opcional)</label><textarea id="compraObsLoja" placeholder="Cor, tamanho, horário..."></textarea><button class="publishBtn" id="compraFinalBtn" onclick="criarPedidoProdutoLoja()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M3 4.2h2.1l2.3 10.6a2 2 0 0 0 2 1.6h7a2 2 0 0 0 2-1.6l1.4-6.6H6.2"/><circle cx="10" cy="19.6" r="1.4"/><circle cx="16.6" cy="19.6" r="1.4"/></svg> Comprar agora</button>`;
+  c.innerHTML=`${foto?`<img src="${escHtml(foto)}" style="width:100%;max-height:280px;object-fit:cover;border-radius:15px;margin-bottom:12px">`:''}<div class="merchantKicker" style="color:var(--green-dark)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M3.5 9 4.6 4h14.8L20.5 9"/><path d="M4.5 9v9.3a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V9"/><path d="M9.6 19.3v-5.2h4.8v5.2"/><line x1="3.5" y1="9" x2="20.5" y2="9"/></svg> ${escHtml(p.loja_nome)}</div><div class="detailTitle">${escHtml(p.titulo)}</div><div class="detailPrice">${formatPrice(p.preco)}</div><div class="detailMeta">${escHtml(p.loja_cidade)} · estoque ${p.estoque}</div><div class="detailDesc">${escHtml(p.descricao||'Sem descrição.')}</div><div class="feeBox">A comissão de ${taxaVendai.toFixed(0)}% é cobrada do lojista. Se escolher Entrega Flash, o frete aparece antes de pagar e é cobrado junto com o produto.</div><label>Quantidade</label><input id="compraQtdLoja" type="number" min="1" max="${p.estoque}" value="1" onchange="ultimaCotacaoFlash=null"><label>Como quer receber?</label><select id="compraEntregaTipo" onchange="atualizarCamposEntregaCompra()">${opts.join('')}</select><div id="compraFlashCampos" style="display:none"><label>Endereço de entrega</label><input id="compraEndereco" type="text" autocomplete="off" placeholder="Rua, número, bairro, cidade ou CEP"><div class="tinyHint">Conforme você vai preenchendo, o sistema já tenta localizar o endereço automaticamente.</div><div id="compraEnderecoSugestoes" class="addressSuggestBox" style="display:none"></div><div id="compraEnderecoStatus" class="locationStatus"></div><label class="ruralToggle"><input id="compraZonaRural" type="checkbox"><span>🚜 Entrega em zona rural / sítio / fazenda</span></label><div id="compraZonaRuralBox" class="addressAssist" style="display:none"><strong>Dica para zona rural:</strong><br>Digite estrada, km, bairro rural, nome do sítio/fazenda e cidade para melhorar a localização.</div><label>Complemento (opcional)</label><input id="compraComplemento" type="text" placeholder="Apto, bloco, galpão..."><label>Referência (opcional)</label><input id="compraReferencia" type="text" placeholder="Portaria, comércio próximo..."><button class="flashCalcBtn" onclick="calcularFreteCompra()"><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M13 2 4.4 14h5.7l-1 8L20.6 10h-5.9Z"/></svg></span><span><div>Calcular Entrega Flash</div><small>Frete, rota e disponibilidade</small></span></button></div><div id="compraCotacao" class="feeBox" style="margin-top:10px"></div><label>Observação para a loja (opcional)</label><textarea id="compraObsLoja" placeholder="Cor, tamanho, horário..."></textarea><button class="vendaiPanelBtn outline" style="width:100%;margin-top:10px" onclick="compartilharProdutoLoja('${p.id}')">📲 Compartilhar este produto</button><button class="publishBtn" id="compraFinalBtn" onclick="criarPedidoProdutoLoja()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M3 4.2h2.1l2.3 10.6a2 2 0 0 0 2 1.6h7a2 2 0 0 0 2-1.6l1.4-6.6H6.2"/><circle cx="10" cy="19.6" r="1.4"/><circle cx="16.6" cy="19.6" r="1.4"/></svg> Comprar agora</button>`;
   document.getElementById('lojaProdutoDetailOverlay').classList.add('show');
   atualizarCamposEntregaCompra();
   ligarAutoEnderecoCompra();

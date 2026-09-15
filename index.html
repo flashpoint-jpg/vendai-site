@@ -1934,6 +1934,21 @@ try{
   .vendaiPanelBtn.danger{background:#FDECEC;color:#B3261E;border:1px solid #F3C8C5}
   .lojaRowActions .btnDanger{appearance:none;-webkit-appearance:none;border:1px solid #F3C8C5!important;border-radius:10px!important;background:#FDECEC!important;color:#B3261E!important;padding:8px 11px!important;font:850 11px 'Inter',sans-serif!important;cursor:pointer!important}
 
+
+/* Login com Google */
+.googleLoginBtn{
+  width:100%;min-height:48px;margin:10px 0 2px;border:1px solid #D8DDE5;border-radius:12px;
+  background:#fff;color:#1F2937;font:700 14px/1.2 inherit;display:flex;align-items:center;justify-content:center;
+  gap:10px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.04);transition:.18s ease;
+}
+.googleLoginBtn:hover{background:#F8FAFC;border-color:#C7CDD6}
+.googleLoginBtn:active{transform:scale(.992)}
+.googleLoginBtn:disabled{opacity:.6;cursor:wait}
+.googleLoginBtn svg{display:block;flex:0 0 auto}
+.loginDivider{display:flex;align-items:center;gap:10px;margin:12px 0 4px;color:var(--ink-soft);font-size:11px;font-weight:700;text-align:center}
+.loginDivider::before,.loginDivider::after{content:"";height:1px;background:#E5E7EB;flex:1}
+.googleSetupHint{font-size:11.5px;color:var(--ink-soft);line-height:1.45;margin:6px 0 10px;padding:10px 12px;border-radius:10px;background:#F6F8FA}
+.googleConnectedBadge{display:flex;align-items:center;gap:8px;background:#EAF7EE;color:#17633E;border-radius:10px;padding:10px 12px;font-size:12px;font-weight:700;margin:2px 0 10px}
 </style>
 <style id="vendai-responsive-professional-1409">
 :root{--app-width:1180px;--page-gutter:clamp(12px,3vw,40px);--safe-bottom:env(safe-area-inset-bottom,0px)}
@@ -2387,6 +2402,17 @@ html.vendaiSplashSeen #vendaiSplash{display:none!important}
       <div id="loginSubtitle" style="font-size:12.5px; color:var(--ink-soft); margin-bottom:6px;">Se é sua primeira vez, a conta é criada na hora. Se já tem conta, use o mesmo telefone e PIN.</div>
       <div class="securityHint">Use o telefone completo com DDD e escolha um PIN de 4 a 6 números. Ele protege seus anúncios e conversas.</div>
 
+      <button class="googleLoginBtn" id="googleLoginBtn" type="button" onclick="entrarComGoogle()" aria-label="Continuar com Google">
+        <svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="#4285F4" d="M21.6 12.23c0-.71-.06-1.23-.2-1.77H12v3.41h5.52a4.72 4.72 0 0 1-2.05 3.09l-.02.11 2.98 2.31.21.02c1.93-1.78 2.96-4.4 2.96-7.17Z"/>
+          <path fill="#34A853" d="M12 22c2.7 0 4.97-.89 6.63-2.6l-3.17-2.44c-.85.57-1.99.97-3.46.97-2.6 0-4.8-1.76-5.59-4.19l-.11.01-3.1 2.4-.04.1C4.8 19.6 8.15 22 12 22Z"/>
+          <path fill="#FBBC05" d="M6.41 13.74A6 6 0 0 1 6.08 12c0-.6.11-1.18.31-1.73v-.12L3.25 7.71l-.1.05A10 10 0 0 0 2 12c0 1.52.34 2.96 1.15 4.24l3.26-2.5Z"/>
+          <path fill="#EA4335" d="M12 6.07c1.88 0 3.15.81 3.88 1.49l2.82-2.75C16.97 3.19 14.7 2 12 2 8.15 2 4.8 4.4 3.15 7.76l3.24 2.51C7.2 7.83 9.4 6.07 12 6.07Z"/>
+        </svg>
+        <span>Continuar com Google</span>
+      </button>
+      <div class="loginDivider"><span>ou use telefone e PIN</span></div>
+
       <label>Seu telefone</label>
       <input type="text" id="lTelefone" placeholder="Ex: 35 99999-0000 (DDD + número)">
 
@@ -2400,6 +2426,24 @@ html.vendaiSplashSeen #vendaiSplash{display:none!important}
       <button class="publishBtn" onclick="entrar()">Entrar / Criar conta</button>
       <button class="linkBtn" type="button" onclick="openForgotPin()">Esqueci meu PIN / senha</button>
       <div id="loginStatus" style="display:none;margin-top:10px;padding:10px 12px;border-radius:10px;background:#FFF7D9;color:#6C5200;font-size:11.5px;line-height:1.4;"></div>
+    </div>
+  </div>
+
+  <!-- Completar/vincular conta após autenticação Google -->
+  <div class="overlay" id="googleLinkOverlay" onclick="closeOverlayBg(event,'googleLinkOverlay')">
+    <div class="sheet" style="position:relative;" onclick="event.stopPropagation()">
+      <button class="closeBtn" type="button" onclick="cancelarLoginGoogle()">✕</button>
+      <div class="sheetHandle"></div>
+      <div class="detailTitle" style="margin-bottom:4px;">Finalize seu acesso</div>
+      <div class="googleConnectedBadge">✓ Google conectado com segurança</div>
+      <div class="googleSetupHint">No primeiro acesso, informe seu telefone uma única vez. Se esse número já tiver uma conta Vendaí, digite também o PIN dela para vincular com segurança.</div>
+      <label>Seu telefone</label>
+      <input type="text" id="gTelefone" placeholder="Ex: 35 99999-0000 (DDD + número)" autocomplete="tel">
+      <label>PIN atual <span style="font-weight:500;color:var(--ink-soft);">(somente se já tiver conta)</span></label>
+      <input type="password" inputmode="numeric" maxlength="6" id="gPin" placeholder="4 a 6 números" autocomplete="current-password">
+      <button class="publishBtn" id="gVincularBtn" type="button" onclick="concluirLoginGoogle()">Continuar</button>
+      <button class="linkBtn" type="button" onclick="cancelarLoginGoogle()">Entrar de outro jeito</button>
+      <div id="gStatus" style="display:none;margin-top:10px;padding:10px 12px;border-radius:10px;background:#FFF7D9;color:#6C5200;font-size:11.5px;line-height:1.4;"></div>
     </div>
   </div>
 
@@ -2640,7 +2684,7 @@ function vendaiSupabaseStub(){
   const semConexao = ()=>{ mostrarBannerSemConexao(); return Promise.resolve({data:null,error:{message:'Sem conexão com o servidor.'}}); };
   const alvo = { rpc:semConexao, from:()=>alvoTabela(), auth:alvoAuth(), storage:{from:()=>alvoStorage()}, channel:()=>alvoCanal(), removeChannel:()=>{} };
   function alvoTabela(){ const t={}; ['select','insert','update','delete','upsert','eq','order','limit','single','maybeSingle'].forEach(m=>{ t[m]=()=>t; }); t.then=(res)=>semConexao().then(res); return t; }
-  function alvoAuth(){ const a={}; ['getSession','getUser','signOut','onAuthStateChange'].forEach(m=>{ a[m]=()=>({data:{},error:null}); }); return a; }
+  function alvoAuth(){ const a={}; ['getSession','getUser','signOut','onAuthStateChange'].forEach(m=>{ a[m]=()=>({data:{},error:null}); }); a.signInWithOAuth=()=>semConexao(); return a; }
   function alvoStorage(){ const s={}; ['upload','remove','getPublicUrl'].forEach(m=>{ s[m]=()=>semConexao(); }); return s; }
   function alvoCanal(){ const c={}; c.on=()=>c; c.subscribe=()=>c; return c; }
   return alvo;
@@ -2821,6 +2865,8 @@ async function sairConta(){
   currentSessionToken = null;
   localStorage.removeItem('vendai_sessao');
   if(token){ try{ await sb.rpc('vendai_logout', { p_token: token }); }catch(e){} }
+  try{ await sb.auth.signOut(); }catch(e){}
+  limparPendenciaGoogle();
   if(inboxPollingInterval){ clearInterval(inboxPollingInterval); inboxPollingInterval = null; }
   inboxUltimoId = null;
   inboxPrimeiraLeitura = true;
@@ -2908,6 +2954,161 @@ async function ativarNotificacoes(){
 
 document.addEventListener('pointerdown', prepararSom, {once:true});
 
+
+
+function guardarPendenciaGoogle(){
+  try{
+    sessionStorage.setItem('vendai_google_em_fluxo','1');
+    sessionStorage.setItem('vendai_google_pending_action',pendingAction||'');
+    if(pendingChat) sessionStorage.setItem('vendai_google_pending_chat',JSON.stringify(pendingChat));
+    else sessionStorage.removeItem('vendai_google_pending_chat');
+  }catch(e){}
+}
+function restaurarPendenciaGoogle(){
+  try{
+    const a=sessionStorage.getItem('vendai_google_pending_action')||'';
+    if(a) pendingAction=a;
+    const ch=sessionStorage.getItem('vendai_google_pending_chat');
+    if(ch) pendingChat=JSON.parse(ch);
+  }catch(e){}
+}
+function limparPendenciaGoogle(){
+  try{
+    sessionStorage.removeItem('vendai_google_em_fluxo');
+    sessionStorage.removeItem('vendai_google_pending_action');
+    sessionStorage.removeItem('vendai_google_pending_chat');
+  }catch(e){}
+}
+function limparHashOAuth(){
+  try{
+    if(location.hash && /(access_token|refresh_token|error_description)=/i.test(location.hash)){
+      history.replaceState(null,'',location.pathname+location.search);
+    }
+  }catch(e){}
+}
+async function executarPendenciaAposLoginGoogle(){
+  if(pendingAction === 'post'){ pendingAction=null; openPostSheet(); }
+  else if(pendingAction === 'profile'){ pendingAction=null; openProfileSheet(); }
+  else if(pendingAction === 'conversas'){ pendingAction=null; abrirConversas(); }
+  else if(pendingAction === 'suporte'){ pendingAction=null; openSupportSheet(); }
+  else if(pendingAction === 'loja'){ pendingAction=null; openLojaPainel(); }
+  else if(pendingAction === 'buy_loja' && typeof produtoLojaAtual!=='undefined' && produtoLojaAtual){ pendingAction=null; abrirProdutoLoja(produtoLojaAtual.id); }
+  else if(pendingAction === 'chat' && pendingChat){
+    pendingAction=null; const ch=pendingChat; pendingChat=null;
+    iniciarChat(ch.anuncioId,ch.titulo,ch.outroId,ch.outroNome,ch.prefill||'');
+  }
+}
+async function finalizarLoginGoogle(u){
+  restaurarPendenciaGoogle();
+  currentUser={id:u.usuario_id,telefone:u.telefone,nome:u.nome};
+  currentSessionToken=u.sessao_token;
+  salvarSessao();
+  iniciarMonitorMensagens();
+  try{ if('Notification' in window && Notification.permission==='default') await Notification.requestPermission(); }catch(e){}
+  closeSheet('loginOverlay');
+  closeSheet('googleLinkOverlay');
+  limparHashOAuth();
+  limparPendenciaGoogle();
+  await carregarAnuncios();
+  showToast(u.primeiro_acesso ? 'Conta criada com Google ✓' : `Bem-vindo(a), ${currentUser.nome} 👋`);
+  await executarPendenciaAposLoginGoogle();
+}
+async function entrarComGoogle(){
+  prepararSom();
+  const btn=document.getElementById('googleLoginBtn');
+  if(btn){btn.disabled=true;btn.querySelector('span').textContent='Abrindo Google...';}
+  try{
+    guardarPendenciaGoogle();
+    const {error}=await sb.auth.signInWithOAuth({
+      provider:'google',
+      options:{redirectTo:'https://vendai.entregaflash.app.br/'}
+    });
+    if(error) throw error;
+  }catch(e){
+    limparPendenciaGoogle();
+    console.error('Login Google',e);
+    const m=String(e?.message||e||'');
+    showToast(/provider|google|oauth/i.test(m)?'Login com Google ainda não está disponível.':'Não consegui abrir o Google agora.');
+    if(btn){btn.disabled=false;btn.querySelector('span').textContent='Continuar com Google';}
+  }
+}
+async function processarRetornoGoogle(){
+  let emFluxo=false;
+  try{emFluxo=sessionStorage.getItem('vendai_google_em_fluxo')==='1';}catch(e){}
+  if(!emFluxo) return false;
+  try{
+    const {data,error}=await sb.auth.getSession();
+    if(error) throw error;
+    const session=data?.session;
+    if(!session) return false;
+    const provider=session.user?.app_metadata?.provider||'';
+    const providers=session.user?.app_metadata?.providers||[];
+    if(provider!=='google' && !providers.includes('google')) return false;
+    restaurarPendenciaGoogle();
+    const resp=await sb.rpc('vendai_google_login');
+    if(resp.error) throw resp.error;
+    const u=Array.isArray(resp.data)?resp.data[0]:resp.data;
+    if(u?.status==='ok' && u.sessao_token){
+      await finalizarLoginGoogle(u);
+      return true;
+    }
+    closeSheet('loginOverlay');
+    const st=document.getElementById('gStatus');if(st){st.style.display='none';st.textContent='';}
+    const tel=document.getElementById('gTelefone');if(tel)tel.value='';
+    const pin=document.getElementById('gPin');if(pin)pin.value='';
+    document.getElementById('googleLinkOverlay')?.classList.add('show');
+    setTimeout(()=>document.getElementById('gTelefone')?.focus(),180);
+    limparHashOAuth();
+    return true;
+  }catch(e){
+    console.error('Retorno Google',e);
+    limparPendenciaGoogle();
+    limparHashOAuth();
+    try{await sb.auth.signOut();}catch(_){}
+    showToast('Não consegui concluir o acesso com Google.');
+    return false;
+  }
+}
+async function concluirLoginGoogle(){
+  const telefone=normalizarTelefone(document.getElementById('gTelefone')?.value||'');
+  const pin=String(document.getElementById('gPin')?.value||'').replace(/\D/g,'');
+  const btn=document.getElementById('gVincularBtn');
+  const st=document.getElementById('gStatus');
+  if(st){st.style.display='none';st.textContent='';}
+  if(!telefoneValido(telefone)){showToast('Digite o telefone completo com DDD');return;}
+  if(pin && !/^\d{4,6}$/.test(pin)){showToast('O PIN deve ter de 4 a 6 números');return;}
+  if(btn){btn.disabled=true;btn.textContent='Vinculando...';}
+  try{
+    const resp=await sb.rpc('vendai_google_vincular',{p_telefone:telefone,p_pin:pin||null});
+    if(resp.error) throw resp.error;
+    const u=Array.isArray(resp.data)?resp.data[0]:resp.data;
+    if(!u?.sessao_token) throw new Error('sessao_google_nao_criada');
+    await finalizarLoginGoogle(u);
+  }catch(e){
+    const m=String(e?.message||e||'');
+    let aviso='Não consegui vincular sua conta agora.';
+    if(m.includes('pin_incorreto')) aviso='Esse telefone já tem uma conta. Digite o PIN correto para vinculá-la ao Google.';
+    else if(m.includes('conta_sem_pin')) aviso='Esse telefone já tem uma conta sem PIN. Entre uma vez pelo telefone para criar o PIN e depois vincule o Google.';
+    else if(m.includes('telefone_vinculado_outro_google')) aviso='Esse telefone já está vinculado a outra conta Google.';
+    else if(m.includes('telefone_invalido')) aviso='Digite o telefone completo com DDD.';
+    if(st){st.textContent=aviso;st.style.display='block';}
+    showToast(aviso);
+    console.error('Vínculo Google',e);
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent='Continuar';}
+  }
+}
+async function cancelarLoginGoogle(){
+  limparPendenciaGoogle();
+  limparHashOAuth();
+  try{await sb.auth.signOut();}catch(e){}
+  closeSheet('googleLinkOverlay');
+  openLoginSheet();
+}
+async function inicializarAuthVendai(){
+  await restaurarSessao();
+  if(!currentUser || !currentSessionToken) await processarRetornoGoogle();
+}
 
 function openLoginSheet(mode='cliente'){
   const title=document.getElementById('loginTitle');
@@ -5219,7 +5420,7 @@ setInterval(syncFloatingUi,300);
 
 inicializarRedefinicaoPinPeloLink();
 restaurarLocalizacaoVendai();
-restaurarSessao();
+inicializarAuthVendai();
 carregarPrecoDestaque();
 renderChips();
 carregarAnuncios();

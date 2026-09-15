@@ -3139,6 +3139,7 @@ function localizacaoCombina(valor){
   const alvo=normalizarLocalizacao(activeCity);
   const base=normalizarLocalizacao(valor);
   if(!alvo||!base)return false;
+  if(/^[a-z]{2}$/.test(alvo))return base.split(' ').includes(alvo);
   if(base.includes(alvo)||alvo.includes(base))return true;
   const cidade=normalizarLocalizacao(String(activeCity).split(',')[0]);
   return cidade.length>2 && base.includes(cidade);

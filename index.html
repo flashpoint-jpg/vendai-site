@@ -3016,8 +3016,17 @@ async function finalizarLoginGoogle(u){
 async function entrarComGoogle(){
   prepararSom();
   const btn=document.getElementById('googleLoginBtn');
-  if(btn){btn.disabled=true;btn.querySelector('span').textContent='Abrindo Google...';}
+  if(btn){btn.disabled=true;btn.querySelector('span').textContent='Verificando Google...';}
   try{
+    const cfgResp=await fetch(SUPABASE_URL+'/auth/v1/settings',{headers:{apikey:SUPABASE_KEY}});
+    const cfg=await cfgResp.json().catch(()=>({}));
+    const googleAtivo=!!(cfg?.external?.google);
+    if(!googleAtivo){
+      showToast('Login com Google está sendo configurado. Use telefone e PIN por enquanto.');
+      if(btn){btn.disabled=false;btn.querySelector('span').textContent='Continuar com Google';}
+      return;
+    }
+    if(btn)btn.querySelector('span').textContent='Abrindo Google...';
     guardarPendenciaGoogle();
     const {error}=await sb.auth.signInWithOAuth({
       provider:'google',

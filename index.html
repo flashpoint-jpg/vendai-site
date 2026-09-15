@@ -2436,11 +2436,11 @@ html.vendaiSplashSeen #vendaiSplash{display:none!important}
       <div class="sheetHandle"></div>
       <div class="detailTitle" style="margin-bottom:4px;">Finalize seu acesso</div>
       <div class="googleConnectedBadge">✓ Google conectado com segurança</div>
-      <div class="googleSetupHint">No primeiro acesso, informe seu telefone uma única vez. Se esse número já tiver uma conta Vendaí, digite também o PIN dela para vincular com segurança.</div>
+      <div class="googleSetupHint"><strong>Primeira vez no Vendaí?</strong> Informe somente seu telefone. <strong>Não precisa criar nem digitar PIN.</strong><br><br>Use o PIN abaixo apenas se esse telefone já tinha uma conta no Vendaí e você quer vinculá-la ao Google.</div>
       <label>Seu telefone</label>
       <input type="text" id="gTelefone" placeholder="Ex: 35 99999-0000 (DDD + número)" autocomplete="tel">
-      <label>PIN atual <span style="font-weight:500;color:var(--ink-soft);">(somente se já tiver conta)</span></label>
-      <input type="password" inputmode="numeric" maxlength="6" id="gPin" placeholder="4 a 6 números" autocomplete="current-password">
+      <label>PIN atual <span style="font-weight:500;color:var(--ink-soft);">(só se já tinha conta)</span></label>
+      <input type="password" inputmode="numeric" maxlength="6" id="gPin" placeholder="Deixe em branco se for conta nova" autocomplete="current-password">
       <button class="publishBtn" id="gVincularBtn" type="button" onclick="concluirLoginGoogle()">Continuar</button>
       <button class="linkBtn" type="button" onclick="cancelarLoginGoogle()">Entrar de outro jeito</button>
       <div id="gStatus" style="display:none;margin-top:10px;padding:10px 12px;border-radius:10px;background:#FFF7D9;color:#6C5200;font-size:11.5px;line-height:1.4;"></div>

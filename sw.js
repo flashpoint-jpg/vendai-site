@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vendai-responsive-profissional-20260914-5';
+const CACHE_NAME = 'vendai-responsive-profissional-20260914-6';
 const APP_SHELL = [
   '/',
   '/index.html',

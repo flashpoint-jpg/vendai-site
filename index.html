@@ -1948,24 +1948,6 @@ html.vendaiSplashSeen #vendaiSplash{display:none!important}
   position:relative;z-index:2;width:min(86vw,430px);display:flex;flex-direction:column;
   align-items:center;text-align:center;padding:30px 22px 24px;color:#fff;
 }
-.vendaiSplashIcon{
-  position:relative;width:92px;height:92px;border-radius:27px;display:grid;place-items:center;margin-bottom:20px;
-  background:linear-gradient(145deg,#fff 0%,#f7fff9 100%);
-  box-shadow:0 22px 52px rgba(0,0,0,.22),inset 0 0 0 1px rgba(9,101,55,.10);
-  animation:vendaiSplashIconIn .68s cubic-bezier(.2,.85,.24,1.12) both;
-}
-.vendaiSplashIcon:before{
-  content:'V';font:900 47px/1 'Inter',system-ui,sans-serif;letter-spacing:-4px;color:#0f7542;transform:translateX(-2px);
-}
-.vendaiSplashBolt{
-  position:absolute;right:13px;top:10px;width:24px;height:34px;
-  background:linear-gradient(180deg,#ffe16b,#ffc934);
-  clip-path:polygon(55% 0,100% 0,68% 42%,96% 42%,30% 100%,47% 56%,18% 56%);
-  filter:drop-shadow(0 4px 4px rgba(219,166,0,.24));
-  animation:vendaiSplashBolt .72s .26s ease both;
-}
-@keyframes vendaiSplashIconIn{0%{opacity:0;transform:translateY(18px) scale(.72) rotate(-5deg)}70%{opacity:1;transform:translateY(-2px) scale(1.035)}100%{opacity:1;transform:none}}
-@keyframes vendaiSplashBolt{0%{opacity:0;transform:scale(.55) rotate(-12deg)}65%{opacity:1;transform:scale(1.14) rotate(4deg)}100%{opacity:1;transform:none}}
 .vendaiSplashBrand{
   font:900 clamp(38px,11vw,52px)/.95 'Inter',system-ui,sans-serif;letter-spacing:-3px;color:#fff;
   text-shadow:0 8px 26px rgba(0,0,0,.18);animation:vendaiSplashText .64s .18s ease both;
@@ -1978,7 +1960,7 @@ html.vendaiSplashSeen #vendaiSplash{display:none!important}
 @keyframes vendaiSplashText{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 @keyframes vendaiSplashPulse{0%{opacity:0;transform:scale(.72)}45%{opacity:1}100%{opacity:.55;transform:scale(1.08)}}
 @keyframes vendaiSplashLoad{from{transform:scaleX(.04)}to{transform:scaleX(1)}}
-@media(max-width:420px){.vendaiSplashIcon{width:82px;height:82px;border-radius:24px}.vendaiSplashIcon:before{font-size:42px}.vendaiSplashBrand{letter-spacing:-2.5px}}
+@media(max-width:420px){.vendaiSplashBrand{letter-spacing:-2.5px}}
 @media(prefers-reduced-motion:reduce){#vendaiSplash *{animation:none!important}.vendaiSplashLoader span{transform:none}}
 
 </style></head>
@@ -1990,7 +1972,6 @@ html.vendaiSplashSeen #vendaiSplash{display:none!important}
 <div id="vendaiSplash" role="presentation" aria-hidden="true">
   <div class="vendaiSplashGlow"></div>
   <div class="vendaiSplashContent">
-    <div class="vendaiSplashIcon"><span class="vendaiSplashBolt"></span></div>
     <div class="vendaiSplashBrand">Venda<em>í</em></div>
     <div class="vendaiSplashTag">Compre e venda perto de você</div>
     <div class="vendaiSplashFlash">uma plataforma Entrega Flash</div>

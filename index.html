@@ -36,6 +36,29 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" onerror="window.__vendaiLibFalhou=true"></script>
 <script>const VENDAI_URL_OFICIAL='https://vendai.entregaflash.app.br';</script>
 <script>
+window.vendaiTrackEvento=function(nome,detalhes={}){
+  try{
+    window.dataLayer=window.dataLayer||[];
+    window.dataLayer.push({event:nome,...detalhes});
+  }catch(e){}
+  try{
+    window.dispatchEvent(new CustomEvent('vendai:event',{detail:{nome,...detalhes}}));
+  }catch(e){}
+  try{
+    if(typeof window.fbq==='function'){
+      if(nome==='vendai_loja_criada'){
+        window.fbq('track','CompleteRegistration',{
+          content_name:'Loja Vendaí',
+          content_category:'Lojista'
+        });
+      }else{
+        window.fbq('trackCustom',nome,detalhes);
+      }
+    }
+  }catch(e){}
+};
+</script>
+<script>
 try{
   const vendaiStandalone=
     (window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches) ||
@@ -3139,6 +3162,14 @@ function openLoginSheet(mode='cliente'){
 }
 
 function abrirCadastroLoja(){
+  try{
+    const qp=new URLSearchParams(location.search);
+    window.vendaiTrackEvento?.('vendai_cadastro_loja_iniciado',{
+      utm_source:qp.get('utm_source')||'',
+      utm_campaign:qp.get('utm_campaign')||'',
+      utm_content:qp.get('utm_content')||''
+    });
+  }catch(e){}
   if(currentUser&&currentSessionToken){ openLojaPainel(); return; }
   pendingAction='loja';
   openLoginSheet('lojaCadastro');
@@ -4841,7 +4872,7 @@ async function salvarLoja(){
   const nome=document.getElementById('lojaNome').value.trim(),cidade=document.getElementById('lojaCidade').value.trim(),whatsapp=document.getElementById('lojaWhats').value.trim(),cnpj=document.getElementById('lojaCnpj').value.replace(/\D/g,''),endereco=document.getElementById('lojaEndereco').value.trim(),complemento=document.getElementById('lojaComplemento').value.trim(),referencia=document.getElementById('lojaReferencia').value.trim(),descricao=document.getElementById('lojaDesc').value.trim(),file=document.getElementById('lojaLogo').files?.[0],flash=document.getElementById('lojaFlash').checked,retirada=document.getElementById('lojaRetirada').checked,propria=document.getElementById('lojaPropria').checked;
   if(nome.length<2||cidade.length<2){showToast('Informe nome e cidade da loja');return;}if(!flash&&!retirada&&!propria){showToast('Escolha pelo menos uma forma de entrega');return;}if(cnpj.length!==14){showToast('Informe um CNPJ válido (14 números)');return;}
   const btn=document.getElementById('lojaSalvarBtn');btn.disabled=true;btn.textContent=flash?'Localizando endereço...':'Criando loja...';
-  try{const geo=await geocodificarLojaSeNecessario(endereco,flash);btn.textContent='Criando loja...';const logo=file?await uploadVendai(file):null;const r=await sb.rpc('vendai_salvar_loja_v2',{p_token:currentSessionToken,p_nome:nome,p_cidade:cidade,p_whatsapp:whatsapp,p_descricao:descricao,p_logo_url:logo,p_endereco_retirada:endereco,p_endereco_complemento:complemento,p_endereco_referencia:referencia,p_endereco_lat:geo.lat??null,p_endereco_lng:geo.lng??null,p_entrega_flash_ativa:flash,p_retirada_loja_ativa:retirada,p_entrega_propria_ativa:propria,p_cnpj:cnpj});if(r.error)throw r.error;showToast('Sua loja foi criada ✓ Agora publique seu primeiro produto.');await carregarMarketplaceLojas();await openLojaPainel();abrirNovoProdutoLoja();}catch(e){console.error(e);const m=String(e.message||'');showToast(m.includes('endereco')?'Não consegui localizar o endereço de retirada':m.includes('cnpj')?'CNPJ inválido — confira os números':'Não consegui criar a loja agora');btn.disabled=false;btn.textContent='Criar minha loja';}
+  try{const geo=await geocodificarLojaSeNecessario(endereco,flash);btn.textContent='Criando loja...';const logo=file?await uploadVendai(file):null;const r=await sb.rpc('vendai_salvar_loja_v2',{p_token:currentSessionToken,p_nome:nome,p_cidade:cidade,p_whatsapp:whatsapp,p_descricao:descricao,p_logo_url:logo,p_endereco_retirada:endereco,p_endereco_complemento:complemento,p_endereco_referencia:referencia,p_endereco_lat:geo.lat??null,p_endereco_lng:geo.lng??null,p_entrega_flash_ativa:flash,p_retirada_loja_ativa:retirada,p_entrega_propria_ativa:propria,p_cnpj:cnpj});if(r.error)throw r.error;try{const qp=new URLSearchParams(location.search);window.vendaiTrackEvento?.('vendai_loja_criada',{tipo:'lojista',cidade,utm_source:qp.get('utm_source')||'',utm_campaign:qp.get('utm_campaign')||'',utm_content:qp.get('utm_content')||''});}catch(e){}showToast('Sua loja foi criada ✓ Agora publique seu primeiro produto.');await carregarMarketplaceLojas();await openLojaPainel();abrirNovoProdutoLoja();}catch(e){console.error(e);const m=String(e.message||'');showToast(m.includes('endereco')?'Não consegui localizar o endereço de retirada':m.includes('cnpj')?'CNPJ inválido — confira os números':'Não consegui criar a loja agora');btn.disabled=false;btn.textContent='Criar minha loja';}
 }
 async function renderPainelLoja(){
   const c=document.getElementById('lojaContent');

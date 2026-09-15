@@ -64,6 +64,14 @@
     font-weight:700;font-size:15px;padding:14px;border-radius:12px;}
   .btn-acessar:active{background:var(--verde-900);}
   .aviso-pin{margin:10px 0 0;font-size:12px;color:#5B6259;text-align:center;}
+  .ativacao-card{margin:14px 16px 0;padding:18px;border-radius:16px;background:#FFF9E8;border:1px solid #EAD88D;}
+  .ativacao-card h3{margin:0 0 6px;color:var(--verde-900);font-size:15px;}
+  .ativacao-card p{margin:0 0 12px;color:#5B6259;font-size:13px;line-height:1.45;}
+  .ativacao-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .ativacao-actions button,.ativacao-actions a{border:0;border-radius:11px;padding:11px 10px;font-weight:700;font-size:13px;text-align:center;text-decoration:none;cursor:pointer;}
+  .ativacao-actions .publicar{background:var(--verde-700);color:#fff;}
+  .ativacao-actions .compartilhar{background:#fff;color:var(--verde-900);border:1px solid var(--verde-500);}
+  @media(max-width:420px){.ativacao-actions{grid-template-columns:1fr;}}
 
   .produto-card{display:flex;gap:12px;background:var(--branco);border:1px solid var(--borda);
     border-radius:14px;padding:12px;margin-bottom:10px;align-items:center;}
@@ -127,6 +135,15 @@
     <p class="aviso-pin">É rapidinho — leva menos de 1 minuto pra criar seu acesso.</p>
   </section>
 
+  <div class="ativacao-card">
+    <h3>Agora faça sua loja ganhar movimento</h3>
+    <p>Publique pelo menos 5 produtos para montar sua primeira vitrine. Depois compartilhe sua loja no WhatsApp para trazer os primeiros visitantes.</p>
+    <div class="ativacao-actions">
+      <a class="publicar" href="https://vendai.entregaflash.app.br/">Publicar mais produtos</a>
+      <button class="compartilhar" type="button" onclick="compartilharMinhaLoja()">📲 Compartilhar loja</button>
+    </div>
+  </div>
+
   <section>
     <h3>Seus produtos</h3>
     <div id="listaProdutos"></div>
@@ -154,6 +171,17 @@ const lojaId = params.get("id") || params.get("loja");
 
 function fecharOverlay(){
   document.getElementById("overlay").style.display = "none";
+}
+async function compartilharMinhaLoja(){
+  if(!lojaId)return;
+  const nome=document.getElementById("nomeLoja")?.textContent||"Minha loja";
+  const link="https://vendai.entregaflash.app.br/?loja="+encodeURIComponent(lojaId);
+  const texto="Conheça a "+nome+" no Vendaí e veja nossos produtos.";
+  if(navigator.share){
+    try{await navigator.share({title:nome+" • Vendaí",text:texto,url:link});return;}catch(e){if(String(e?.name||"")==="AbortError")return;}
+  }
+  try{const w=window.open("https://wa.me/?text="+encodeURIComponent(texto+"\n"+link),"_blank");if(w)return;}catch(e){}
+  try{await navigator.clipboard.writeText(texto+"\n"+link);alert("Link da loja copiado!");}catch(e){}
 }
 
 let produtosCache = [];
@@ -229,7 +257,7 @@ async function carregar(){
 function renderizarProdutos(){
   const lista = document.getElementById("listaProdutos");
   if (!produtosCache || produtosCache.length === 0){
-    lista.innerHTML = `<p style="color:#828B80;font-size:13.5px;">Nenhum produto publicado ainda.</p>`;
+    lista.innerHTML = `<div style="border:1px dashed #C9D8CD;border-radius:12px;padding:14px;color:#5B6259;font-size:13px;line-height:1.45;">Sua loja ainda está sem produtos. Entre no Vendaí e publique o primeiro produto para começar sua vitrine.<br><a href="https://vendai.entregaflash.app.br/" style="display:inline-block;margin-top:9px;color:#1C8A4C;font-weight:700;">Publicar primeiro produto →</a></div>`;
     return;
   }
   lista.innerHTML = produtosCache.map((p, i) => `

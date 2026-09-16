@@ -1,8 +1,10 @@
-const CACHE_NAME = 'vendai-responsive-profissional-20260914-11';
+const CACHE_NAME = 'vendai-responsive-profissional-20260915-12';
 const APP_SHELL = [
   '/',
   '/index.html',
   '/manifest.webmanifest',
+  '/orcamentos.js?v=20260915-orc1',
+  '/orcamentos.css?v=20260915-orc1',
   '/offline.html',
   '/admin/admin.html',
   '/icon-192.png',

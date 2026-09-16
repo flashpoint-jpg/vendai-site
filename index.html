@@ -46,14 +46,28 @@ window.vendaiTrackEvento=function(nome,detalhes={}){
   }catch(e){}
   try{
     if(typeof window.fbq==='function'){
-      if(nome==='vendai_loja_criada'){
+      if(['vendai_loja_criada','vendai_servico_publicado','vendai_usado_publicado'].includes(nome)){
         window.fbq('track','CompleteRegistration',{
-          content_name:'Loja Vendaí',
-          content_category:'Lojista'
+          content_name:nome==='vendai_loja_criada'?'Loja Vendaí':(nome==='vendai_servico_publicado'?'Serviço Vendaí':'Anúncio Vendaí'),
+          content_category:nome==='vendai_loja_criada'?'Lojista':(nome==='vendai_servico_publicado'?'Prestador':'Usado')
         });
       }else{
         window.fbq('trackCustom',nome,detalhes);
       }
+    }
+  }catch(e){}
+  try{
+    const permitidos=['vendai_visita_campanha','vendai_cadastro_loja_iniciado','vendai_loja_criada','vendai_servico_iniciado','vendai_servico_publicado','vendai_usado_iniciado','vendai_usado_publicado'];
+    if(permitidos.includes(nome) && typeof sb!=='undefined' && sb?.rpc){
+      const qp=new URLSearchParams(location.search);
+      sb.rpc('vendai_registrar_evento',{
+        p_evento:nome,
+        p_token:(typeof currentSessionToken!=='undefined'&&currentSessionToken)?currentSessionToken:null,
+        p_utm_source:detalhes.utm_source||qp.get('utm_source')||'',
+        p_utm_campaign:detalhes.utm_campaign||qp.get('utm_campaign')||'',
+        p_utm_content:detalhes.utm_content||qp.get('utm_content')||'',
+        p_detalhes:detalhes||{}
+      }).then(()=>{}).catch(()=>{});
     }
   }catch(e){}
 };
@@ -4197,6 +4211,7 @@ function openServicePostSheet(){
     return;
   }
   resetPostForm();
+  try{const qp=new URLSearchParams(location.search);window.vendaiTrackEvento?.('vendai_servico_iniciado',{utm_source:qp.get('utm_source')||'',utm_campaign:qp.get('utm_campaign')||'',utm_content:qp.get('utm_content')||''});}catch(e){}
   document.getElementById('fCategory').value='servicos';
   atualizarCampoServico();
   document.getElementById('postFormTitle').textContent='Cadastrar serviço';
@@ -4211,6 +4226,7 @@ function openUsedPostSheet(){
     return;
   }
   resetPostForm();
+  try{const qp=new URLSearchParams(location.search);window.vendaiTrackEvento?.('vendai_usado_iniciado',{utm_source:qp.get('utm_source')||'',utm_campaign:qp.get('utm_campaign')||'',utm_content:qp.get('utm_content')||''});}catch(e){}
   document.getElementById('postFormTitle').textContent='Vender algo usado';
   document.getElementById('postFormSub').textContent='Publique um item seu que você quer vender.';
   document.getElementById('postOverlay').classList.add('show');
@@ -4348,6 +4364,18 @@ async function publishAd(plano){
     if(result.error) throw result.error;
 
     const eraEdicao=!!editAdId;
+    if(!eraEdicao){
+      try{
+        const qp=new URLSearchParams(location.search);
+        window.vendaiTrackEvento?.(ehServico?'vendai_servico_publicado':'vendai_usado_publicado',{
+          categoria,
+          cidade,
+          utm_source:qp.get('utm_source')||'',
+          utm_campaign:qp.get('utm_campaign')||'',
+          utm_content:qp.get('utm_content')||''
+        });
+      }catch(e){}
+    }
     resetPostForm();
     closeSheet('postOverlay'); activeCategory='todos'; activeRolinho=false; renderChips();
     await carregarAnuncios();
@@ -5567,8 +5595,19 @@ try{const qp=new URLSearchParams(location.search);if(qp.get('mp')==='conectado')
 
 // Atalhos do ícone instalado.
 try{
-  const acao = new URLSearchParams(location.search).get('action');
+  const qpCampanha=new URLSearchParams(location.search);
+  const acao = qpCampanha.get('action');
+  if(qpCampanha.get('utm_source')){
+    setTimeout(()=>window.vendaiTrackEvento?.('vendai_visita_campanha',{
+      action:acao||'home',
+      utm_source:qpCampanha.get('utm_source')||'',
+      utm_campaign:qpCampanha.get('utm_campaign')||'',
+      utm_content:qpCampanha.get('utm_content')||''
+    }),250);
+  }
   if(acao==='anunciar') setTimeout(()=>openPostSheet(), 350);
+  if(acao==='usado') setTimeout(()=>openUsedPostSheet(), 420);
+  if(acao==='servico') setTimeout(()=>openServicePostSheet(), 420);
   if(acao==='conversas') setTimeout(()=>abrirConversas(), 350);
   if(acao==='loja') setTimeout(()=>abrirCadastroLoja(), 500);
 }catch(e){}

@@ -3062,7 +3062,6 @@ async function executarPendenciaAposLoginGoogle(){
   else if(pendingAction === 'suporte'){ pendingAction=null; openSupportSheet(); }
   else if(pendingAction === 'loja'){ pendingAction=null; openLojaPainel(); }
   else if(pendingAction === 'service_post'){ pendingAction=null; setTimeout(openServicePostSheet,80); }
-  else if(pendingAction === 'service_post'){ pendingAction=null; setTimeout(openServicePostSheet,80); }
   else if(pendingAction === 'buy_loja' && typeof produtoLojaAtual!=='undefined' && produtoLojaAtual){ pendingAction=null; abrirProdutoLoja(produtoLojaAtual.id); }
   else if(pendingAction === 'chat' && pendingChat){
     pendingAction=null; const ch=pendingChat; pendingChat=null;
@@ -3356,6 +3355,7 @@ async function entrar(){
   else if(pendingAction === 'conversas'){ pendingAction=null; abrirConversas(); }
   else if(pendingAction === 'suporte'){ pendingAction=null; openSupportSheet(); }
   else if(pendingAction === 'loja'){ pendingAction=null; openLojaPainel(); }
+  else if(pendingAction === 'service_post'){ pendingAction=null; setTimeout(openServicePostSheet,80); }
   else if(pendingAction === 'buy_loja' && produtoLojaAtual){ pendingAction=null; abrirProdutoLoja(produtoLojaAtual.id); }
   else if(pendingAction === 'chat' && pendingChat){
     pendingAction=null; const c=pendingChat; pendingChat=null;

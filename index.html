@@ -468,7 +468,7 @@ try{
   /* Explicação curta: serviços e lojistas */
   .homeBusinessGuide{
     margin:10px 18px 12px;
-    display:grid;grid-template-columns:1fr 1fr;gap:9px;
+    display:grid;grid-template-columns:repeat(3,1fr);gap:9px;
   }
   .homeBusinessCard{
     background:#fff;border:1px solid #DDE8E1;border-radius:15px;
@@ -2180,14 +2180,19 @@ html.vendaiSplashSeen #vendaiSplash{display:none!important}
     </div>
   </section>
 
-  <section class="homeBusinessGuide" aria-label="Vendaí para prestadores e lojistas">
+  <section class="homeBusinessGuide" aria-label="Escolha como usar o Vendaí">
     <div class="homeBusinessCard">
-      <strong>🔧 Para quem presta serviço</strong>
+      <strong>🛍️ Vender algo usado</strong>
+      <span>Anuncie o que você não usa mais. Simples e grátis.</span>
+      <button type="button" onclick="openUsedPostSheet()">Anunciar usado</button>
+    </div>
+    <div class="homeBusinessCard">
+      <strong>🔧 Prestar serviço</strong>
       <span>Cadastre seu serviço. Receba clientes. Gere orçamento.</span>
       <button type="button" onclick="openServicePostSheet()">Cadastrar serviço</button>
     </div>
     <div class="homeBusinessCard">
-      <strong>🏪 Para quem tem loja</strong>
+      <strong>🏪 Tenho uma loja</strong>
       <span>Cadastre sua loja. Publique produtos. Gere orçamento.</span>
       <button type="button" onclick="abrirCadastroLoja()">Cadastrar loja</button>
     </div>
@@ -3062,6 +3067,7 @@ async function executarPendenciaAposLoginGoogle(){
   else if(pendingAction === 'suporte'){ pendingAction=null; openSupportSheet(); }
   else if(pendingAction === 'loja'){ pendingAction=null; openLojaPainel(); }
   else if(pendingAction === 'service_post'){ pendingAction=null; setTimeout(openServicePostSheet,80); }
+  else if(pendingAction === 'used_post'){ pendingAction=null; setTimeout(openUsedPostSheet,80); }
   else if(pendingAction === 'buy_loja' && typeof produtoLojaAtual!=='undefined' && produtoLojaAtual){ pendingAction=null; abrirProdutoLoja(produtoLojaAtual.id); }
   else if(pendingAction === 'chat' && pendingChat){
     pendingAction=null; const ch=pendingChat; pendingChat=null;
@@ -3356,6 +3362,7 @@ async function entrar(){
   else if(pendingAction === 'suporte'){ pendingAction=null; openSupportSheet(); }
   else if(pendingAction === 'loja'){ pendingAction=null; openLojaPainel(); }
   else if(pendingAction === 'service_post'){ pendingAction=null; setTimeout(openServicePostSheet,80); }
+  else if(pendingAction === 'used_post'){ pendingAction=null; setTimeout(openUsedPostSheet,80); }
   else if(pendingAction === 'buy_loja' && produtoLojaAtual){ pendingAction=null; abrirProdutoLoja(produtoLojaAtual.id); }
   else if(pendingAction === 'chat' && pendingChat){
     pendingAction=null; const c=pendingChat; pendingChat=null;
@@ -3384,28 +3391,45 @@ async function renderProfile(){
       <button onclick="ativarNotificacoes()" style="border:none;border-radius:999px;background:var(--green-soft);color:var(--green-dark);padding:8px 12px;font-weight:700;cursor:pointer;">🔔 Ativar alertas</button>
       <button onclick="openSupportSheet()" style="border:none;border-radius:999px;background:#FFF7D9;color:#8A6500;padding:8px 12px;font-weight:700;cursor:pointer;">🧪 Suporte</button>
       <button onclick="closeSheet('profileOverlay');openChangePin()" style="border:none;border-radius:999px;background:#EEF1FF;color:#374A92;padding:8px 12px;font-weight:700;cursor:pointer;">🔐 Trocar PIN</button>
+      <button onclick="closeSheet('profileOverlay');openUsedPostSheet()" style="border:none;border-radius:999px;background:#EEF6FF;color:#315E9E;padding:8px 12px;font-weight:700;cursor:pointer;">🛍️ Vender usado</button>
+      <button onclick="closeSheet('profileOverlay');openServicePostSheet()" style="border:none;border-radius:999px;background:#E4F5F3;color:#0B7A76;padding:8px 12px;font-weight:700;cursor:pointer;">🔧 Meu serviço</button>
       <button onclick="closeSheet('profileOverlay');openLojaPainel()" style="border:none;border-radius:999px;background:#E8F1EB;color:var(--green-dark);padding:8px 12px;font-weight:700;cursor:pointer;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M3.5 9 4.6 4h14.8L20.5 9"/><path d="M4.5 9v9.3a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V9"/><path d="M9.6 19.3v-5.2h4.8v5.2"/><line x1="3.5" y1="9" x2="20.5" y2="9"/></svg> Minha loja</button>
       <button onclick="sairConta()" style="border:none;border-radius:999px;background:#FBE9E9;color:var(--danger);padding:8px 12px;font-weight:700;cursor:pointer;">Sair</button>
     </div>
-    <div class="detailTitle" style="font-size:15px;margin-bottom:8px;">Meus anúncios particulares</div>
-    <div class="profileSectionHint">Estes anúncios são suas vendas pessoais. Produtos profissionais ficam em <strong>Minha loja</strong>. Você pode copiar qualquer anúncio para a loja sem cadastrar tudo de novo.</div>
+    <div class="detailTitle" style="font-size:15px;margin-bottom:8px;">🔧 Meus serviços</div>
+    <div class="profileSectionHint">Serviços que você oferece como profissional. Não é necessário criar loja.</div>
+    <div id="meusServicosList" style="font-size:13px;color:var(--ink-soft);margin-bottom:18px;">Carregando...</div>
+    <div class="detailTitle" style="font-size:15px;margin-bottom:8px;">🛍️ Meus anúncios usados</div>
+    <div class="profileSectionHint">Suas vendas pessoais de itens usados. Produtos da sua empresa ficam em <strong>Minha loja</strong>.</div>
     <div id="meusAnunciosList" style="font-size:13px;color:var(--ink-soft);">Carregando...</div>`;
 
   const { data: dataBruta, error } = await sb.rpc('vendai_meus_anuncios', { p_token: currentSessionToken });
   const data = (dataBruta||[]).filter(ad=>ad.status!=='removido');
   const list = document.getElementById('meusAnunciosList');
-  if(error){ list.textContent='Não consegui carregar seus anúncios.'; return; }
-  if(!data || data.length===0){ meusAnunciosCache=[]; list.innerHTML='<div style="padding:14px;border:1px solid #DDE8E1;border-radius:13px;background:#F8FBF9"><strong style="display:block;color:#173B2B;margin-bottom:4px">Você ainda não publicou nenhum anúncio.</strong><span style="display:block;margin-bottom:10px">Tem algo parado em casa ou um serviço para oferecer? Publique agora.</span><button class="adMiniBtn store" style="width:100%;padding:10px" onclick="closeSheet(\'profileOverlay\');openPostSheet()">Publicar meu primeiro anúncio</button></div>'; return; }
+  const servList = document.getElementById('meusServicosList');
+  if(error){ list.textContent='Não consegui carregar seus anúncios.'; if(servList)servList.textContent='Não consegui carregar seus serviços.'; return; }
   meusAnunciosCache=data||[];
-  list.innerHTML='';
-  data.forEach(ad=>{
+  const servicos=data.filter(ad=>ad.categoria==='servicos');
+  const usados=data.filter(ad=>ad.categoria!=='servicos');
+
+  function renderLinhaPerfil(ad,tipo){
     const row=document.createElement('div'); row.className='sellerRow'; row.style.marginBottom='10px'; row.style.alignItems='flex-start';
     const foto=(ad.fotos&&ad.fotos[0]) ? `<img class="profileAdPhoto" src="${escHtml(ad.fotos[0])}" alt="">` : `<div style="width:42px;height:42px;border-radius:10px;background:${CATEGORY_COLOR[ad.categoria]};display:flex;align-items:center;justify-content:center;font-size:18px;flex:0 0 auto;">${CATEGORY_ICON[ad.categoria]}</div>`;
-    row.innerHTML=`${foto}
-      <div style="flex:1;min-width:0;"><div class="sellerName" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escHtml(ad.titulo)}</div><div class="sellerLoc">${formatPrice(ad.preco)} · ${ad.status==='vendido'?'Vendido':(ad.destaque?'🔥 Destacado':'Ativo')}</div></div>
-      <div style="display:flex;flex-direction:column;gap:6px;align-items:stretch;"><button class="adMiniBtn edit" onclick="editarAnuncio('${ad.id}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M4.2 19.8 4.8 16.4 15.6 5.6a1.7 1.7 0 0 1 2.4 0l1.4 1.4a1.7 1.7 0 0 1 0 2.4L8.6 20.2Z"/><line x1="13.7" y1="7.5" x2="17.5" y2="11.3"/></svg> Editar</button>${ad.status==='vendido'?'':`<button class="adMiniBtn store" onclick="transformarAnuncioEmProdutoLoja('${ad.id}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M3.5 9 4.6 4h14.8L20.5 9"/><path d="M4.5 9v9.3a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V9"/><path d="M9.6 19.3v-5.2h4.8v5.2"/><line x1="3.5" y1="9" x2="20.5" y2="9"/></svg> Levar p/ loja</button><button class="adMiniBtn sold" onclick="marcarVendido('${ad.id}')">Vendido</button>`}<button class="adMiniBtn store" onclick="compartilharAnuncio('${ad.id}')">📲 Compartilhar</button><button class="adMiniBtn delete" onclick="excluirAnuncio('${ad.id}')">Excluir</button></div>`;
-    list.appendChild(row);
-  });
+    const acoesServico=`<button class="adMiniBtn edit" onclick="editarAnuncio('${ad.id}')">✏️ Editar</button><button class="adMiniBtn store" onclick="compartilharAnuncio('${ad.id}')">📲 Compartilhar</button><button class="adMiniBtn delete" onclick="excluirAnuncio('${ad.id}')">Excluir</button>`;
+    const acoesUsado=`<button class="adMiniBtn edit" onclick="editarAnuncio('${ad.id}')">✏️ Editar</button>${ad.status==='vendido'?'':`<button class="adMiniBtn store" onclick="transformarAnuncioEmProdutoLoja('${ad.id}')">🏪 Levar p/ loja</button><button class="adMiniBtn sold" onclick="marcarVendido('${ad.id}')">Vendido</button>`}<button class="adMiniBtn store" onclick="compartilharAnuncio('${ad.id}')">📲 Compartilhar</button><button class="adMiniBtn delete" onclick="excluirAnuncio('${ad.id}')">Excluir</button>`;
+    row.innerHTML=`${foto}<div style="flex:1;min-width:0;"><div class="sellerName" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escHtml(ad.titulo)}</div><div class="sellerLoc">${formatPrice(ad.preco)} · ${tipo==='servico'?'Serviço':(ad.status==='vendido'?'Vendido':(ad.destaque?'🔥 Destacado':'Ativo'))}</div></div><div style="display:flex;flex-direction:column;gap:6px;align-items:stretch;">${tipo==='servico'?acoesServico:acoesUsado}</div>`;
+    return row;
+  }
+
+  if(servList){
+    servList.innerHTML='';
+    if(!servicos.length) servList.innerHTML='<div style="padding:12px;border:1px dashed #CFE7E5;border-radius:12px">Você ainda não cadastrou serviço. <button class="adMiniBtn store" onclick="closeSheet(\'profileOverlay\');openServicePostSheet()">Cadastrar serviço</button></div>';
+    else servicos.forEach(ad=>servList.appendChild(renderLinhaPerfil(ad,'servico')));
+  }
+
+  list.innerHTML='';
+  if(!usados.length) list.innerHTML='<div style="padding:12px;border:1px dashed #DDE8E1;border-radius:12px">Nenhum item usado anunciado. <button class="adMiniBtn store" onclick="closeSheet(\'profileOverlay\');openUsedPostSheet()">Vender algo usado</button></div>';
+  else usados.forEach(ad=>list.appendChild(renderLinhaPerfil(ad,'usado')));
 }
 
 async function marcarVendido(id){
@@ -4177,6 +4201,18 @@ function openServicePostSheet(){
   atualizarCampoServico();
   document.getElementById('postFormTitle').textContent='Cadastrar serviço';
   document.getElementById('postFormSub').textContent='Mostre o que você faz e onde atende.';
+  document.getElementById('postOverlay').classList.add('show');
+}
+
+function openUsedPostSheet(){
+  if(!currentUser || !currentSessionToken){
+    pendingAction = 'used_post';
+    openLoginSheet();
+    return;
+  }
+  resetPostForm();
+  document.getElementById('postFormTitle').textContent='Vender algo usado';
+  document.getElementById('postFormSub').textContent='Publique um item seu que você quer vender.';
   document.getElementById('postOverlay').classList.add('show');
 }
 

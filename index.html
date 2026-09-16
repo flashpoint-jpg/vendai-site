@@ -465,6 +465,25 @@ try{
     .chip{font-size:11px;}
   }
 
+  /* Explicação curta: serviços e lojistas */
+  .homeBusinessGuide{
+    margin:10px 18px 12px;
+    display:grid;grid-template-columns:1fr 1fr;gap:9px;
+  }
+  .homeBusinessCard{
+    background:#fff;border:1px solid #DDE8E1;border-radius:15px;
+    padding:12px 13px;box-shadow:0 4px 12px rgba(18,40,28,.05);
+  }
+  .homeBusinessCard strong{display:block;font-size:12.5px;color:#173B2B;margin-bottom:4px}
+  .homeBusinessCard span{display:block;font-size:10.5px;line-height:1.38;color:var(--ink-soft)}
+  .homeBusinessCard button{
+    margin-top:9px;width:100%;border:0;border-radius:10px;padding:9px 10px;
+    background:var(--green-dark);color:#fff;font:850 10.5px 'Inter',sans-serif;cursor:pointer;
+  }
+  @media(max-width:520px){
+    .homeBusinessGuide{margin-left:12px;margin-right:12px;grid-template-columns:1fr;}
+  }
+
   /* Feed */
   main{ flex:1; padding: 16px 18px 96px; }
   .feedTitle{
@@ -2161,6 +2180,19 @@ html.vendaiSplashSeen #vendaiSplash{display:none!important}
     </div>
   </section>
 
+  <section class="homeBusinessGuide" aria-label="Vendaí para prestadores e lojistas">
+    <div class="homeBusinessCard">
+      <strong>🔧 Para quem presta serviço</strong>
+      <span>Cadastre seu serviço. Receba clientes. Gere orçamento.</span>
+      <button type="button" onclick="openServicePostSheet()">Cadastrar serviço</button>
+    </div>
+    <div class="homeBusinessCard">
+      <strong>🏪 Para quem tem loja</strong>
+      <span>Cadastre sua loja. Publique produtos. Gere orçamento.</span>
+      <button type="button" onclick="abrirCadastroLoja()">Cadastrar loja</button>
+    </div>
+  </section>
+
 <section class="installHero" id="installHero" aria-label="Instalar aplicativo Vendaí">
     <div class="installAppIcon"><img src="/icon-192.png?v=20260911-newbrand" alt="Ícone do Vendaí Entrega Flash" width="46" height="46"></div>
     <div class="installCopy">
@@ -3029,6 +3061,8 @@ async function executarPendenciaAposLoginGoogle(){
   else if(pendingAction === 'conversas'){ pendingAction=null; abrirConversas(); }
   else if(pendingAction === 'suporte'){ pendingAction=null; openSupportSheet(); }
   else if(pendingAction === 'loja'){ pendingAction=null; openLojaPainel(); }
+  else if(pendingAction === 'service_post'){ pendingAction=null; setTimeout(openServicePostSheet,80); }
+  else if(pendingAction === 'service_post'){ pendingAction=null; setTimeout(openServicePostSheet,80); }
   else if(pendingAction === 'buy_loja' && typeof produtoLojaAtual!=='undefined' && produtoLojaAtual){ pendingAction=null; abrirProdutoLoja(produtoLojaAtual.id); }
   else if(pendingAction === 'chat' && pendingChat){
     pendingAction=null; const ch=pendingChat; pendingChat=null;
@@ -4129,6 +4163,20 @@ function openPostSheet(){
     return;
   }
   resetPostForm();
+  document.getElementById('postOverlay').classList.add('show');
+}
+
+function openServicePostSheet(){
+  if(!currentUser || !currentSessionToken){
+    pendingAction = 'service_post';
+    openLoginSheet();
+    return;
+  }
+  resetPostForm();
+  document.getElementById('fCategory').value='servicos';
+  atualizarCampoServico();
+  document.getElementById('postFormTitle').textContent='Cadastrar serviço';
+  document.getElementById('postFormSub').textContent='Mostre o que você faz e onde atende.';
   document.getElementById('postOverlay').classList.add('show');
 }
 
